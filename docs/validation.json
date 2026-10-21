@@ -1,0 +1,163 @@
+{
+  "date": "2026-10-21",
+  "scope": "OpenAS packaging and portable scripts; no native Claude session executed",
+  "plugin": {
+    "name": "openas",
+    "version": "0.1.0",
+    "skills": [
+      "brainstorming",
+      "bug-fix",
+      "executing-plans",
+      "finish-development-branch",
+      "git-worktrees",
+      "grilling",
+      "project-memory",
+      "requesting-code-review",
+      "reverse-engineer-anything",
+      "subagent-driven-development",
+      "technical-diagrams",
+      "test-driven-development",
+      "verification-before-completion",
+      "writing-plans"
+    ],
+    "agents": [
+      "cto",
+      "developer",
+      "red-team",
+      "tech-writer",
+      "verifier"
+    ],
+    "files": 51,
+    "sha256": "3d86c2c5b8f835b705136c9ff5d2fb3777b64192de5b5062360f7d4d01c165e1"
+  },
+  "checks": [
+    {
+      "command": [
+        "/root/miniconda3/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "test_catalog_points_to_self_contained_plugin (test_plugin.PluginTests.test_catalog_points_to_self_contained_plugin) ... ok\ntest_memory_is_scoped_to_consumer_and_survives_plugin_removal (test_plugin.PluginTests.test_memory_is_scoped_to_consumer_and_survives_plugin_removal) ... ok\ntest_moved_harness_resolves_resources_and_consumer_memory (test_plugin.PluginTests.test_moved_harness_resolves_resources_and_consumer_memory) ... ok\ntest_moved_memory_cli_requires_project_root (test_plugin.PluginTests.test_moved_memory_cli_requires_project_root) ... ok\ntest_no_plugin_resource_paths_point_to_host_claude_folder (test_plugin.PluginTests.test_no_plugin_resource_paths_point_to_host_claude_folder) ... ok\ntest_packaged_resources_validate (test_plugin.PluginTests.test_packaged_resources_validate) ... ok\ntest_plugin_cache_cannot_be_used_as_memory_target (test_plugin.PluginTests.test_plugin_cache_cannot_be_used_as_memory_target) ... ok\ntest_validator_rejects_bad_skill_without_modifying_package (test_plugin.PluginTests.test_validator_rejects_bad_skill_without_modifying_package) ... ok\ntest_validator_rejects_escaping_symlink (test_plugin.PluginTests.test_validator_rejects_escaping_symlink) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 4.240s\n\nOK\n"
+    },
+    {
+      "command": [
+        "/root/miniconda3/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "plugins/openas/workflows/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stdout": "[1] design: cto\n[1] design: cto\n[1] review: red-team\n",
+      "stderr": "test_checks_must_not_mutate (test_codex_team.RunnerTests.test_checks_must_not_mutate) ... ok\ntest_design_review_checks_plan_not_unimplemented_files (test_codex_team.RunnerTests.test_design_review_checks_plan_not_unimplemented_files) ... ok\ntest_failed_checks_never_verify (test_codex_team.RunnerTests.test_failed_checks_never_verify) ... ok\ntest_memory_retrieval_reaches_real_call_prompt (test_codex_team.RunnerTests.test_memory_retrieval_reaches_real_call_prompt) ... ok\ntest_nonzero_client_persisted (test_codex_team.RunnerTests.test_nonzero_client_persisted) ... ok\ntest_out_of_scope_stops (test_codex_team.RunnerTests.test_out_of_scope_stops) ... ok\ntest_readonly_role_change_rejected_even_inside_scope (test_codex_team.RunnerTests.test_readonly_role_change_rejected_even_inside_scope) ... ok\ntest_result_fail_closed (test_codex_team.RunnerTests.test_result_fail_closed) ... ok\ntest_state_outside_workspace (test_codex_team.RunnerTests.test_state_outside_workspace) ... ok\ntest_successful_runner_harvests_memory (test_codex_team.RunnerTests.test_successful_runner_harvests_memory) ... ok\ntest_task_validation (test_codex_team.RunnerTests.test_task_validation) ... ok\ntest_timeout (test_codex_team.RunnerTests.test_timeout) ... ok\ntest_verifier_receives_host_baseline_and_fingerprints (test_codex_team.RunnerTests.test_verifier_receives_host_baseline_and_fingerprints) ... ok\ntest_budget (test_project_memory.MemoryTests.test_budget) ... ok\ntest_candidate_not_retrieved (test_project_memory.MemoryTests.test_candidate_not_retrieved) ... ok\ntest_conflict_not_overwrite (test_project_memory.MemoryTests.test_conflict_not_overwrite) ... ok\ntest_corrupt_store_not_overwritten (test_project_memory.MemoryTests.test_corrupt_store_not_overwritten) ... ok\ntest_failed_run_not_harvested (test_project_memory.MemoryTests.test_failed_run_not_harvested) ... ok\ntest_missing_or_mismatch_rejected (test_project_memory.MemoryTests.test_missing_or_mismatch_rejected) ... ok\ntest_no_duplicate (test_project_memory.MemoryTests.test_no_duplicate) ... ok\ntest_retired_not_retrieved (test_project_memory.MemoryTests.test_retired_not_retrieved) ... ok\ntest_review_then_retrieve (test_project_memory.MemoryTests.test_review_then_retrieve) ... ok\ntest_short_term_separate (test_project_memory.MemoryTests.test_short_term_separate) ... ok\ntest_stale_evidence_excluded (test_project_memory.MemoryTests.test_stale_evidence_excluded) ... ok\ntest_success_harvest_is_idempotent (test_project_memory.MemoryTests.test_success_harvest_is_idempotent) ... ok\n\n----------------------------------------------------------------------\nRan 25 tests in 0.456s\n\nOK\n"
+    }
+  ],
+  "skill_frontmatter_validation": [
+    {
+      "skill": "brainstorming",
+      "exit_code": 0,
+      "output": "Skill is valid!"
+    },
+    {
+      "skill": "bug-fix",
+      "exit_code": 0,
+      "output": "Skill is valid!"
+    },
+    {
+      "skill": "executing-plans",
+      "exit_code": 0,
+      "output": "Skill is valid!"
+    },
+    {
+      "skill": "finish-development-branch",
+      "exit_code": 0,
+      "output": "Skill is valid!"
+    },
+    {
+      "skill": "git-worktrees",
+      "exit_code": 0,
+      "output": "Skill is valid!"
+    },
+    {
+      "skill": "grilling",
+      "exit_code": 0,
+      "output": "Skill is valid!"
+    },
+    {
+      "skill": "project-memory",
+      "exit_code": 0,
+      "output": "Skill is valid!"
+    },
+    {
+      "skill": "requesting-code-review",
+      "exit_code": 0,
+      "output": "Skill is valid!"
+    },
+    {
+      "skill": "reverse-engineer-anything",
+      "exit_code": 0,
+      "output": "Skill is valid!"
+    },
+    {
+      "skill": "subagent-driven-development",
+      "exit_code": 0,
+      "output": "Skill is valid!"
+    },
+    {
+      "skill": "technical-diagrams",
+      "exit_code": 0,
+      "output": "Skill is valid!"
+    },
+    {
+      "skill": "test-driven-development",
+      "exit_code": 0,
+      "output": "Skill is valid!"
+    },
+    {
+      "skill": "verification-before-completion",
+      "exit_code": 0,
+      "output": "Skill is valid!"
+    },
+    {
+      "skill": "writing-plans",
+      "exit_code": 0,
+      "output": "Skill is valid!"
+    }
+  ],
+  "vendor_files_hash_verified": [
+    "plugins/openas/skills/reverse-engineer-anything/SKILL.md",
+    "plugins/openas/skills/reverse-engineer-anything/references/android-applications.md",
+    "plugins/openas/skills/reverse-engineer-anything/references/connection-and-recovery.md",
+    "plugins/openas/skills/reverse-engineer-anything/references/evidence-workflows.md",
+    "plugins/openas/skills/reverse-engineer-anything/references/javascript-applications.md",
+    "plugins/openas/skills/reverse-engineer-anything/references/native-and-artifacts.md",
+    "plugins/openas/skills/reverse-engineer-anything/references/runtime-observation.md",
+    "plugins/openas/integrations/rea/LICENSE"
+  ],
+  "javascript_mock_host": {
+    "passed": 8,
+    "runtime": "functions.exec V8",
+    "scope": "same runTests(source); mocked agents, not Node CLI or real models"
+  },
+  "not_run": [
+    {
+      "check": "native Claude plugin validation, loading and hot reload",
+      "reason": "Claude CLI absent on PATH",
+      "claude_path": null
+    },
+    {
+      "check": "OpenAS Codex real six-phase model run",
+      "reason": "adapter regression only; prior gem5 evidence retained separately"
+    }
+  ]
+}

@@ -1,0 +1,259 @@
+{
+  "source_repository": "https://github.com/xiangguangxin/gem5",
+  "source_commit": "30c556528d5bc44aaa2ef20f4fce55807b04f8de",
+  "date": "2026-10-21",
+  "files": [
+    {
+      "source": ".claude/agents/cto.md",
+      "sha256": "3c1bc1c0a87a14bc8920e5fad9998deb0c88139b2d55a96f408509c38dde4e75",
+      "destination": "plugins/openas/agents/cto.md"
+    },
+    {
+      "source": ".claude/agents/developer.md",
+      "sha256": "198c81e002fa343548752d772f188a689d8d4d2cf78f6169ae0c62192becf5c8",
+      "destination": "plugins/openas/agents/developer.md"
+    },
+    {
+      "source": ".claude/agents/red-team.md",
+      "sha256": "4d5137fb8ee14313016bf01da520d81d6993273dbeb7b252f33ed2fb54885867",
+      "destination": "plugins/openas/agents/red-team.md"
+    },
+    {
+      "source": ".claude/agents/tech-writer.md",
+      "sha256": "b617e64c7316b461054702f6eb8d6edb71f016c32d554aebd019e9c499c32bf2",
+      "destination": "plugins/openas/agents/tech-writer.md"
+    },
+    {
+      "source": ".claude/agents/verifier.md",
+      "sha256": "aa302f77d15b16484ffa2cbac7be74899a7bbda64201f8d06634f819d40f1987",
+      "destination": "plugins/openas/agents/verifier.md"
+    },
+    {
+      "source": ".claude/skills/brainstorming/SKILL.md",
+      "sha256": "b685804bacd92dd8fbd5a9b8b8ea5e1ae8df16ff0e7d70a19678ae22217e5bf6",
+      "destination": "plugins/openas/skills/brainstorming/SKILL.md"
+    },
+    {
+      "source": ".claude/skills/bug-fix/SKILL.md",
+      "sha256": "90bac25bb38d85ea1be34b7d9273c87141c9a85a5fa38c6e64c1e44c7917772a",
+      "destination": "plugins/openas/skills/bug-fix/SKILL.md"
+    },
+    {
+      "source": ".claude/skills/bug-fix/references/logs-gdb.md",
+      "sha256": "999817dbba9eeeb4abd38c2fa021682c887880e7e84de656763445b8774131a0",
+      "destination": "plugins/openas/skills/bug-fix/references/logs-gdb.md"
+    },
+    {
+      "source": ".claude/skills/bug-fix/references/root-cause.md",
+      "sha256": "d07e85b7aad550387cfc7c64f1fe9c6da60b6ce1f8a2413bc6b41323f1e18b72",
+      "destination": "plugins/openas/skills/bug-fix/references/root-cause.md"
+    },
+    {
+      "source": ".claude/skills/executing-plans/SKILL.md",
+      "sha256": "4563a5a61bd46bde65247f0cf2cb4a23be75108c1931038981c0c946aeb7fbb8",
+      "destination": "plugins/openas/skills/executing-plans/SKILL.md"
+    },
+    {
+      "source": ".claude/skills/finish-development-branch/SKILL.md",
+      "sha256": "f72327b312eaca1a9e6323fe41dc2eb5bfb5c545aee97ece8f939b408cf35a92",
+      "destination": "plugins/openas/skills/finish-development-branch/SKILL.md"
+    },
+    {
+      "source": ".claude/skills/git-worktrees/SKILL.md",
+      "sha256": "bc89c9958a7966f43c5f0ba342b16fd3b9098320ad5549256ce39166a9904e4a",
+      "destination": "plugins/openas/skills/git-worktrees/SKILL.md"
+    },
+    {
+      "source": ".claude/skills/grilling/SKILL.md",
+      "sha256": "9d0c7270b17716135747240447d1366877b8d39716873ecdea65c5a29fdb8fc1",
+      "destination": "plugins/openas/skills/grilling/SKILL.md"
+    },
+    {
+      "source": ".claude/skills/project-memory/SKILL.md",
+      "sha256": "53042e4407fcdc45bb821f9c2b9bda5be2be8d8e46cb4705954949d7ffb5f5ca",
+      "destination": "plugins/openas/skills/project-memory/SKILL.md"
+    },
+    {
+      "source": ".claude/skills/project-memory/scripts/project_memory.py",
+      "sha256": "928cbcf98edcc1116ffae7dc4435a2c0306643f5365bbcfd9c56b399001d0497",
+      "destination": "plugins/openas/skills/project-memory/scripts/project_memory.py"
+    },
+    {
+      "source": ".claude/skills/requesting-code-review/SKILL.md",
+      "sha256": "2605bd44ad631694b210d2927e02d00736c338a9e0b6f284b900d2b91c03ca91",
+      "destination": "plugins/openas/skills/requesting-code-review/SKILL.md"
+    },
+    {
+      "source": ".claude/skills/reverse-engineer-anything/SKILL.md",
+      "sha256": "3360eb9a491d4d0451d111f877300eddb8935c7cbd667078b643934eba691b06",
+      "destination": "plugins/openas/skills/reverse-engineer-anything/SKILL.md"
+    },
+    {
+      "source": ".claude/skills/reverse-engineer-anything/references/android-applications.md",
+      "sha256": "67a9237d76a5b736640c6404f5e1fe01d83369848142feb7e11d78f4a5e62732",
+      "destination": "plugins/openas/skills/reverse-engineer-anything/references/android-applications.md"
+    },
+    {
+      "source": ".claude/skills/reverse-engineer-anything/references/connection-and-recovery.md",
+      "sha256": "cf25b8774810cc24dc188a7a351d2d948c5d07027dab7c34868522225d240ee0",
+      "destination": "plugins/openas/skills/reverse-engineer-anything/references/connection-and-recovery.md"
+    },
+    {
+      "source": ".claude/skills/reverse-engineer-anything/references/evidence-workflows.md",
+      "sha256": "e67a4d96efa266977d8959b15d3e95d468bfccffb8754e8108d809d2275328fe",
+      "destination": "plugins/openas/skills/reverse-engineer-anything/references/evidence-workflows.md"
+    },
+    {
+      "source": ".claude/skills/reverse-engineer-anything/references/javascript-applications.md",
+      "sha256": "b78af72ffac3471f8ccbd060556c9eb268d78dbfc04ca9604ad15190369464a8",
+      "destination": "plugins/openas/skills/reverse-engineer-anything/references/javascript-applications.md"
+    },
+    {
+      "source": ".claude/skills/reverse-engineer-anything/references/native-and-artifacts.md",
+      "sha256": "01b8f740f8aa4ae95aa3241b2fd2164a78f4a7e374de5fb4ea52cb699367fdb8",
+      "destination": "plugins/openas/skills/reverse-engineer-anything/references/native-and-artifacts.md"
+    },
+    {
+      "source": ".claude/skills/reverse-engineer-anything/references/runtime-observation.md",
+      "sha256": "da6728e31648a47444d3282fdb3fd17eaab38c0715ac987b6d410c0473ec8036",
+      "destination": "plugins/openas/skills/reverse-engineer-anything/references/runtime-observation.md"
+    },
+    {
+      "source": ".claude/skills/subagent-driven-development/SKILL.md",
+      "sha256": "c0d00b03007aa2446ae24f4f62ccc8294095a8ed4a5f32bf149f141c55a59e16",
+      "destination": "plugins/openas/skills/subagent-driven-development/SKILL.md"
+    },
+    {
+      "source": ".claude/skills/technical-diagrams/SKILL.md",
+      "sha256": "c0fb8308b606e9df3430f7286ed28247b940bbfd51e517b2dea6e4f9f782acf7",
+      "destination": "plugins/openas/skills/technical-diagrams/SKILL.md"
+    },
+    {
+      "source": ".claude/skills/technical-diagrams/assets/diagram-template.svg",
+      "sha256": "173d21eee53fbe499a8dbfb795b35539732e412c6a072e6f6d952ab3e01bfe67",
+      "destination": "plugins/openas/skills/technical-diagrams/assets/diagram-template.svg"
+    },
+    {
+      "source": ".claude/skills/technical-diagrams/references/tools.md",
+      "sha256": "2bda28b7773408a512034730928c0b1de06386777be09839b54f7f584e833ea1",
+      "destination": "plugins/openas/skills/technical-diagrams/references/tools.md"
+    },
+    {
+      "source": ".claude/skills/technical-diagrams/scripts/check_svg.py",
+      "sha256": "0d26559c4c1794d35311b5a69f5296538ccc4fd7afcc151f73c497efd31ded8f",
+      "destination": "plugins/openas/skills/technical-diagrams/scripts/check_svg.py"
+    },
+    {
+      "source": ".claude/skills/test-driven-development/SKILL.md",
+      "sha256": "e014b64d4dd95d0fc8003f35b7ea7e57f29160bc5968f087ad5781230f414b4a",
+      "destination": "plugins/openas/skills/test-driven-development/SKILL.md"
+    },
+    {
+      "source": ".claude/skills/verification-before-completion/SKILL.md",
+      "sha256": "93281ae62e4b059d2786a11a6c29f057cd4cfe6d0487676455f6c728a9165bdf",
+      "destination": "plugins/openas/skills/verification-before-completion/SKILL.md"
+    },
+    {
+      "source": ".claude/skills/writing-plans/SKILL.md",
+      "sha256": "82f7b938eade370b189b56060960fdcd86c07b78acd489595700eddf748392f3",
+      "destination": "plugins/openas/skills/writing-plans/SKILL.md"
+    },
+    {
+      "source": ".claude/integrations/rea/LICENSE",
+      "sha256": "798f9e4d18e49b30bf2f12696c8ced73dc4e1413da375a333d01281543a1ea8b",
+      "destination": "plugins/openas/integrations/rea/LICENSE"
+    },
+    {
+      "source": ".claude/integrations/rea/README.md",
+      "sha256": "7c0a2132ec8573becca2e10c56d83c2a2708805eb65ee6972ddc10f9ff8b7777",
+      "destination": "plugins/openas/integrations/rea/README.md"
+    },
+    {
+      "source": ".claude/integrations/rea/check_environment.py",
+      "sha256": "6f6ae0ae0f4d08110462c4b81e85064ec70feaaff352e98e34875afd2938d17f",
+      "destination": "plugins/openas/integrations/rea/check_environment.py"
+    },
+    {
+      "source": ".claude/references/team-contract.md",
+      "sha256": "e5e5c03e469c1d3c218aa8e8a0f522c4fc302c5c17376c0c5de8c8e1e332cb60",
+      "destination": "plugins/openas/references/team-contract.md"
+    },
+    {
+      "source": ".claude/workflows/README.md",
+      "sha256": "8f59c8d420b190e3fdab4ed86de78a79dba5ae3118dd6a13010c0be0d00f8021",
+      "destination": "plugins/openas/workflows/README.md"
+    },
+    {
+      "source": ".claude/workflows/agent-team.js",
+      "sha256": "018035b8dea8de689e6df7ec6bfa6a2de0dd24788d48dfc46ba9940c0d8f7e8b",
+      "destination": "plugins/openas/workflows/agent-team.js"
+    },
+    {
+      "source": ".claude/workflows/codex-team.py",
+      "sha256": "f6332f2448a7979d66398eb4a557d1dee5e19928d555278fa6566d163e9f5ea5",
+      "destination": "plugins/openas/workflows/codex-team.py"
+    },
+    {
+      "source": ".claude/workflows/evidence/2026-10-21-codex/README.md",
+      "sha256": "12fdf982ba2483cf302dfecd5565b8638c137b7b26bc4854d1cb2fa3a0d2c342",
+      "destination": "plugins/openas/workflows/evidence/2026-10-21-codex/README.md"
+    },
+    {
+      "source": ".claude/workflows/evidence/2026-10-21-codex/fixture-repair.patch",
+      "sha256": "fbfec16f4709c9d64f532099a67be589f46a659ee9ef6c40b0f133230ebe93aa",
+      "destination": "plugins/openas/workflows/evidence/2026-10-21-codex/fixture-repair.patch"
+    },
+    {
+      "source": ".claude/workflows/evidence/2026-10-21-codex/result.json",
+      "sha256": "fa065409ac9aa0f6a6af4f7660bcfbc3354c1a301447110ae90000d16dde8692",
+      "destination": "plugins/openas/workflows/evidence/2026-10-21-codex/result.json"
+    },
+    {
+      "source": ".claude/workflows/evidence/2026-10-21-codex/unit-tests.txt",
+      "sha256": "654fd241eb0c7c3e510d023ec55b79da9d3f62dd4d1aad39f1654f384426155f",
+      "destination": "plugins/openas/workflows/evidence/2026-10-21-codex/unit-tests.txt"
+    },
+    {
+      "source": ".claude/workflows/examples/cache-address-fixture/cache_address.py",
+      "sha256": "3293cc7fd51db04638082a1eb0d700dd3b4c2c83757d9651cb06b1243b9eb8e7",
+      "destination": "plugins/openas/workflows/examples/cache-address-fixture/cache_address.py"
+    },
+    {
+      "source": ".claude/workflows/examples/cache-address-fixture/test_cache_address.py",
+      "sha256": "48c4b081ed56563ef5c464b325edb017d328e41094e5525f8fb18451128a1c8f",
+      "destination": "plugins/openas/workflows/examples/cache-address-fixture/test_cache_address.py"
+    },
+    {
+      "source": ".claude/workflows/examples/cache-address-task.json",
+      "sha256": "a37811c6197472947c6136f704f6c7ff12116be8f8295b5adc39b417a032d43b",
+      "destination": "plugins/openas/workflows/examples/cache-address-task.json"
+    },
+    {
+      "source": ".claude/workflows/tests/agent-team.test.mjs",
+      "sha256": "6ad5e6ebbded35e01dbd94df33ff8226a4e27c00c64f503c1809c2c6e1a98004",
+      "destination": "plugins/openas/workflows/tests/agent-team.test.mjs"
+    },
+    {
+      "source": ".claude/workflows/tests/test_codex_team.py",
+      "sha256": "cac1fa7e20bbd0c5eaeacfefe003c270c7fa33fb99c7e3310b6d1e6115b46d9e",
+      "destination": "plugins/openas/workflows/tests/test_codex_team.py"
+    },
+    {
+      "source": ".claude/workflows/tests/test_project_memory.py",
+      "sha256": "58022930e504c55e8c4881816f08b7f33326bd395d38f772cf35cc41be35d90b",
+      "destination": "plugins/openas/workflows/tests/test_project_memory.py"
+    }
+  ],
+  "excluded": [
+    ".claude/README.md (replaced by plugin documentation)",
+    ".claude/memory/records.json (project-specific knowledge)",
+    ".claude/memory/evidence/ (project-specific knowledge)",
+    ".claude/memory/current-task.json",
+    ".claude/memory/.lock"
+  ],
+  "adaptations": [
+    "Resource paths resolve within plugin root.",
+    "Runtime memory is in consumer project .openas/memory, never plugin cache.",
+    "Historical workflow evidence is retained as gem5 history only, not preloaded as knowledge."
+  ]
+}

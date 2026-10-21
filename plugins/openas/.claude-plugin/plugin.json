@@ -1,0 +1,16 @@
+{
+  "name": "openas",
+  "version": "0.1.0",
+  "description": "Open Agents & Skills: engineering roles, evidence-backed debugging, technical diagrams and project memory.",
+  "author": {
+    "name": "xiangguangxin"
+  },
+  "repository": "https://github.com/xiangguangxin/OpenAS",
+  "keywords": [
+    "agents",
+    "skills",
+    "debugging",
+    "memory",
+    "harness"
+  ]
+}

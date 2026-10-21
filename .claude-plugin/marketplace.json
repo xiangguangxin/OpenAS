@@ -1,0 +1,13 @@
+{
+  "name": "openas-marketplace",
+  "owner": {
+    "name": "xiangguangxin"
+  },
+  "plugins": [
+    {
+      "name": "openas",
+      "source": "./plugins/openas",
+      "description": "Pluggable engineering agents and skills."
+    }
+  ]
+}
