@@ -83,6 +83,8 @@ claude plugin validate ./plugins/openas
 claude plugin validate .
 ```
 
+真实客户端热加载已固定为可选 unittest 集成测试，运行方式、额度上限与断言见 [热加载测试](docs/hot-reload-testing.md)。默认跳过，显式启用后缺少客户端会失败。
+
 当前移植的验证范围见 [验收记录](docs/validation.md)。结构校验与模拟客户端测试不能证明 Claude 已在会话中真实加载；本项目没有用后台进程伪造热加载结果。
 
 ## 目录与来源

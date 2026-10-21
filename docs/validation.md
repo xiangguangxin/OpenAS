@@ -15,6 +15,10 @@
 
 机器可读结果、命令及插件内容指纹见 [validation.json](validation.json)。单元测试中的假客户端仅验证适配器行为，不证明独立 Agent 已实际工作。
 
+## 可重复执行的客户端热加载测试
+
+已新增 [原生热加载集成测试](hot-reload-testing.md)：同一 CLI 进程和 session 内验证旧版 → 编辑 → 原生 reload → 新版。默认显式 skip；需要现有 Claude 客户端及登录后启用。配套管道/误判防护测试使用假协议端点，不能据此把原生验收标为通过。
+
 ## 尚未执行的客户端验收
 
 当前 PATH 没有 Claude CLI，因此没有声称已在 Claude Code 会话中验证热加载。具备客户端后：
