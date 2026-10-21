@@ -31,8 +31,10 @@ Commit应该描述真实变化。
 
 例如：
 
-Add Eth Tx buffer management
+Handle duplicate records during import
 
 而不是：
 
 fix bug
+
+测试和评审沿用目标项目的验收方式；提交、推送和合并只在用户已有授权范围执行，不因使用本技能自动获得发布权限。

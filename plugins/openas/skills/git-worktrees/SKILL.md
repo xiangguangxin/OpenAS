@@ -13,12 +13,12 @@ description: 使用 Git worktree 让多个任务并行、每个任务独立环�
 
 project/
 
-feature_eth/
+feature-import/
 
-feature_i2c/
+fix-validation/
 
-feature_stm/
+docs-api/
 
-每个任务拥有独立环境。
+每个任务拥有独立文件工作区；数据库、端口、外部服务和构建缓存仍可能共享，按项目实际情况隔离。
 
 适合AI Agent并行开发。

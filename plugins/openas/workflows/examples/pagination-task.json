@@ -1,0 +1,11 @@
+{
+  "requirement": "Fix paginate(items, page, page_size) in pagination.py. items is a list. Use one-based page numbers and return a new list for the requested page without mutating items. Return an empty list for empty input or a page beyond the end. Reject page and page_size unless they are positive integers, excluding bool, with ValueError. Preserve the supplied tests. Write DESIGN.md explaining the slicing and input validation. Demonstrate failure before repair and success afterward with the same tests.",
+  "scope": ["pagination.py", "DESIGN.md"],
+  "acceptance": [
+    "All supplied unittest cases pass",
+    "Only pagination.py and DESIGN.md change",
+    "DESIGN.md explains one-based pages, boundaries and validation"
+  ],
+  "constraints": ["Use the Python standard library; do not install dependencies"],
+  "checks": [["python3", "-B", "-m", "unittest", "-v", "test_pagination.py"]]
+}

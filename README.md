@@ -1,24 +1,30 @@
 # OpenAS — Open Agents & Skills
 
-将工程协作方法打包为可插拔的 Claude Code 插件。包含 5 个工程角色、需求/计划/TDD/评审、四象限 Debug、技术文档绘图、有证据的项目记忆，以及可选 Codex CLI 任务闭环。源自 gem5 项目的 `.claude`，已将资源路径与项目状态解耦。
+适用于不同代码仓库的可插拔 Agent 与 Skill 工具集。包含 5 个协作角色、需求/计划/TDD/评审、四象限 Debug、技术文档绘图、有证据的项目记忆，以及可选 Codex CLI 任务闭环。先识别目标项目的技术栈、约束和验收方式，再选择工作方法，不预设业务领域或构建系统。
 
 ## 快速加载
 
 在**要工作的项目目录**启动 Claude Code，路径换成你的 OpenAS 位置：
 
 ```bash
-claude --plugin-dir /mnt/c/Users/xgx/Desktop/github/xgx_gem5/OpenAS/plugins/openas
+claude --plugin-dir /path/to/OpenAS/plugins/openas
 ```
 
 会话中可直接使用：
 
 ```text
-/openas:bug-fix 排查这个问题，先区分需求、设计、实现、配置/环境四象限，再用日志或 GDB 验证根因
+/openas:bug-fix 排查这个问题，先区分需求、设计、实现、配置/环境四象限，再用适合当前项目的证据验证根因
 /openas:technical-diagrams 为当前文档画架构图
 /openas:project-memory 提炼这次任务中有证据的可复用经验
 ```
 
 技能和角色使用 `openas:` 命名空间。独立任务不必启动完整团队；Agent 调用、工具和权限依赖真实宿主能力。
+
+## 适配不同项目
+
+Web 应用、后端服务、库和命令行工具、原生程序、数据处理或文档仓库都可以使用同一组角色和技能。按 [项目适配约定](plugins/openas/references/project-context.md)，从目标仓库读取适用规则、入口、依赖与 CI 命令；无需为接入 OpenAS 新增配置文件，也不要求更换现有工具链。
+
+例如：为服务补充输入校验时沿用现有 API 测试；为前端修复交互时验证用户操作与页面状态；整理文档时只做来源、链接和必要的图表检查。特定领域的单位、协议、设备或数据约束由使用项目提供，不作为插件默认假设。
 
 ## 热加载与插拔
 
@@ -35,7 +41,7 @@ claude --plugin-dir /mnt/c/Users/xgx/Desktop/github/xgx_gem5/OpenAS/plugins/open
 需要持久安装时，先从 shell 添加本地 marketplace，再安装到当前项目：
 
 ```bash
-claude plugin marketplace add /mnt/c/Users/xgx/Desktop/github/xgx_gem5/OpenAS
+claude plugin marketplace add /path/to/OpenAS
 claude plugin install openas@openas-marketplace --scope project
 ```
 
@@ -51,7 +57,7 @@ claude plugin uninstall openas@openas-marketplace --scope project
 
 ## 记忆属于使用插件的项目
 
-可复用规则和脚本位于插件；运行产生的记录写入**使用插件的项目**的 `.openas/memory/`。卸载/更新插件不会删除或覆盖项目记忆，不共享 gem5 的历史知识，也不修改项目 `CLAUDE.md`。
+可复用规则和脚本位于插件；运行产生的记录写入**使用插件的项目**的 `.openas/memory/`。卸载/更新插件不会删除或覆盖项目记忆，不混用其他项目的历史知识，也不修改项目 `CLAUDE.md`。
 
 记忆 CLI 必须明确项目根目录，避免写入插件安装/缓存目录：
 
@@ -88,7 +94,7 @@ claude plugin validate .
 
 真实客户端热加载已固定为可选 unittest 集成测试，运行方式、额度上限与断言见 [热加载测试](docs/hot-reload-testing.md)。默认跳过，显式启用后缺少客户端会失败。
 
-当前移植的验证范围见 [验收记录](docs/validation.md)。结构校验与模拟客户端测试不能证明 Claude 已在会话中真实加载；本项目没有用后台进程伪造热加载结果。
+初始移植的验证范围见 [验收记录](docs/validation.md)，当前回归结果见 GitHub Actions。结构校验与模拟客户端测试不能证明 Claude 已在会话中真实加载；本项目没有用后台进程伪造热加载结果。
 
 ## 目录与来源
 
@@ -105,6 +111,6 @@ plugins/openas/
 scripts/check_plugin.py         本地只读校验
 ```
 
-[迁移记录](docs/migration.json) 保存源提交和源文件指纹。REA 上游 Skill 及参考原样保留并附 [MIT 许可](plugins/openas/integrations/rea/LICENSE)；其工具/MCP 仍为可选依赖，加载本插件不自动安装或连接它们。gem5 专属内容保留为有标注的例子，不作为其他项目的必选技术栈。
+[迁移记录](docs/migration.json) 保存来自 gem5 项目的原始提交和源文件指纹，仅用于追溯。历史工作流报告与旧示例不作为角色默认上下文或其他项目的验收证据。REA 上游 Skill 及参考原样保留并附 [MIT 许可](plugins/openas/integrations/rea/LICENSE)；其工具/MCP 仍为可选依赖，加载本插件不自动安装或连接它们。
 
 官方依据：[插件格式](https://code.claude.com/docs/en/plugins-reference)、[创建与迁移](https://code.claude.com/docs/en/plugins/create)、[热加载和管理命令](https://code.claude.com/docs/en/plugins/cli-reference)。

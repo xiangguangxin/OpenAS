@@ -4,10 +4,10 @@
 
 | 需求 | 首选 | 可维护源 | 独立产物 |
 |---|---|---|---|
-| GetS/Data/InvAck 交互 | Mermaid sequenceDiagram | .md 代码块或 .mmd | 按需 SVG |
+| API 调用、任务交接 | Mermaid sequenceDiagram | .md 代码块或 .mmd | 按需 SVG |
 | 状态转移 | Mermaid stateDiagram-v2 | .md 或 .mmd | 按需 SVG |
-| nextBin/nextInBin、地址字段 | 原生 SVG | .svg | SVG 本身 |
-| Ruby 系统架构、多节点关系 | Mermaid；有 D2 时可选 D2 | .mmd/.d2 | SVG |
+| 指针、记录或报文字段 | 原生 SVG | .svg | SVG 本身 |
+| 系统架构、多节点关系 | Mermaid；有 D2 时可选 D2 | .mmd/.d2 | SVG |
 | 手动拖动布局 | tldraw / FigJam 等画布 | 工具的原生文件 | 依据实际工具能力导出 |
 
 ## 先检查依赖

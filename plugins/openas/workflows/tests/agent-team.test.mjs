@@ -16,7 +16,8 @@ export async function runTests(source) {
   }
   const approve = {verdict:'approve', findings:[]};
   const pass = {verdict:'pass', evidence:'mock only: fixture check exited 0', issues:[]};
-  const base = {requirement:'Update fixture', scope:['fixture.txt'], acceptance:['fixture matches requested content']};
+  const base = {requirement:'Update fixture', scope:['fixture.txt'], acceptance:['fixture matches requested content'],
+    constraints:['Use the consumer repository test command; preserve its public API']};
   const defaults = role => role === 'red-team' ? approve : role === 'verifier' ? pass : 'artifact: fixture.txt';
   await scenario('empty review cannot approve', base,
     role => role === 'red-team' ? null : defaults(role),
@@ -31,15 +32,16 @@ export async function runTests(source) {
   await scenario('contradictory review cannot approve', base,
     role => role === 'red-team' ? {verdict:'approve',findings:[{severity:'P1',issue:'blocking defect'}]} : defaults(role),
     (r,c) => !r.done && !c.some(x => x.agentType === 'developer'));
-  await scenario('success consumes original requirements', base, defaults,
-    (r,c) => r.done && c.every(x => x.prompt.includes(base.requirement)));
+  await scenario('success preserves consumer requirements and constraints', base, defaults,
+    (r,c) => r.done && c.every(x => [base.requirement, ...base.scope, ...base.acceptance, ...base.constraints]
+      .every(value => x.prompt.includes(value))));
   await scenario('failed verification returns feedback', base,
     (role,c) => role === 'verifier' && c.filter(x => x.agentType === 'verifier').length === 1
       ? {verdict:'fail',evidence:'mock: mismatch',issues:['FIXTURE_MISMATCH']} : defaults(role),
     (r,c) => r.done && c.filter(x => x.agentType === 'developer')[1]?.prompt.includes('FIXTURE_MISMATCH'));
   await scenario('missing requirement does not dispatch', {}, defaults,
     (r,c) => !r.done && c.length === 0);
-  return {passed, note:'Mocked orchestration only; no real agent or gem5 execution'};
+  return {passed, note:'Mocked orchestration only; no real agent or target-project execution'};
 }
 
 if (typeof process !== 'undefined' && process.argv?.[1]?.endsWith('agent-team.test.mjs')) {

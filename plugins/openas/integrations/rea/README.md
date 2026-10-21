@@ -1,30 +1,30 @@
 # REA 与本仓库的集成
 
-REA（Reverse Engineer Anything）用于分析交付二进制、软件包和应用行为，不是绘图引擎。本目录把其官方分析 Skill 融入现有 .claude 工作流，没有把整套 TypeScript 工程复制进 gem5，也没有修改 gem5 构建。
+REA（Reverse Engineer Anything）用于分析交付二进制、软件包和应用行为，不是绘图引擎。本目录提供上游分析 Skill 的来源说明与可选环境检查，不修改使用项目的构建，也不将上游工程或运行时自动安装到使用项目中。
 
 ## 已整合与尚未启用
 
 | 项目 | 状态 |
 |---|---|
-| 官方 reverse-engineer-anything Skill 及六份按需参考 | 已纳入 .claude/skills |
-| gem5 场景分流与证据记录约定 | 已提供，见下方 |
+| 官方 reverse-engineer-anything Skill 及六份按需参考 | 已纳入插件 skills/ |
+| 按目标类型分流与证据记录约定 | 已提供，见下方 |
 | 环境检查脚本 | 已提供；检查不会下载软件或执行目标 |
 | Node/npm、REA CLI、原生分析引擎 | 未由本次整合安装 |
 | MCP 运行时连接 | 未注册；Skill 文件存在不代表工具已连接 |
 
-截至本次核对，当前 shell PATH 中未发现 node、npm 或 claude，不能声称 REA 已可运行。其他终端可能使用不同 PATH，应重新检查。
+工具是否可用以使用项目的实际终端和会话为准；Skill 文件存在不能证明 REA 已可运行。
 
 ## 适用场景：什么时候用 REA
 
 | 任务 | 优先方案 |
 |---|---|
-| 阅读 gem5 C++、Python、SLICC，解释状态机 | rg、源码及现有技术文档流程；不启动 REA |
-| 分析无源码的 guest ELF、交付库，比较二进制版本 | REA 的二进制工作流；按任务需要配置 Ghidra/Hopper/IDA 等引擎 |
+| 阅读已有源码、解释接口或状态机 | rg、源码及现有技术文档流程；不启动 REA |
+| 分析无源码的可执行文件、交付库，比较二进制版本 | REA 的二进制工作流；按任务需要配置 Ghidra/Hopper/IDA 等引擎 |
 | 分析 JS/Electron 交付包 | REA 的 JavaScript 工作流，不要求原生反编译引擎 |
 | 绘制架构图、状态图 | technical-diagrams；REA 只提供分析证据，不负责绘图 |
-| 跟踪 gem5 仿真时间与协议行为 | gem5 debug flag、ProtocolTrace、stats；REA 不能替代仿真器 |
+| 跟踪源码程序的运行行为 | 当前项目的日志、调试器或性能工具；不默认启用反编译引擎 |
 
-`tests/test-progs/...` 下的 guest 程序可能是 x86/ARM 等目标架构，不等于宿主机可直接运行。先做静态分析；执行目标、调试附加和外部服务访问应限于用户明确的任务范围。
+交付程序可能面向不同架构、操作系统或设备，不能假设宿主机可直接运行。先核对目标格式与平台；执行目标、调试附加和外部服务访问应限于用户明确的任务范围。
 
 ## 使用流程
 
@@ -36,11 +36,11 @@ REA（Reverse Engineer Anything）用于分析交付二进制、软件包和应�
 
 调用示例：
 
-> 使用 skills/reverse-engineer-anything/SKILL.md，静态分析这个 guest ELF 的函数与依赖，给出证据和限制；不要运行它。
+> 使用 skills/reverse-engineer-anything/SKILL.md，静态分析这个交付程序的函数与依赖，给出证据和限制；不要运行它。
 
 ## 本地检查：不改变环境
 
-在仓库根目录执行：
+在 OpenAS 插件根目录执行：
 
 ```bash
 python3 integrations/rea/check_environment.py
@@ -52,7 +52,7 @@ python3 integrations/rea/check_environment.py
 
 以下命令是接入说明，**本次未执行**。先具备 Node 和 npm，以及 Claude Code；核对上游固定版本 package.json 的 engines。同步时上游版本为 6.7.0，要求 Node ^22.19.0、^24.11.0 或 >=26.0.0，不能只看 Node 主版本。
 
-在希望启用的 gem5 仓库目录运行上游文档提供的 local-scope 注册命令：
+在希望启用的目标项目目录运行上游文档提供的 local-scope 注册命令：
 
 ```bash
 claude mcp add --scope local rea -- npx -y rea-agents@6.7.0 mcp
