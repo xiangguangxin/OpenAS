@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 PLUGIN = ROOT / 'plugins/openas'
@@ -110,6 +111,51 @@ class PluginTests(unittest.TestCase):
             self.assertTrue((consumer/'.openas/memory/current-task.json').exists())
             self.assertFalse((target/'memory/current-task.json').exists())
             self.assertEqual(len(list((harness.ROOT/'agents').glob('*.md'))), 5)
+            # Relocated resources and consumer-specific constraints reach the actual client handoff.
+            task['constraints'] = ['Keep the existing public API and use the consumer test command']
+            captured = []
+            def fake_execute(argv, cwd, timeout, stdout, stderr, stdin=None):
+                captured.append(stdin)
+                Path(argv[argv.index('-o') + 1]).write_text(json.dumps({
+                    'verdict': 'complete', 'summary': 'test handoff', 'findings': [],
+                    'evidence': ['mock client only'],
+                }))
+                return 0
+            with patch.object(harness, 'execute', side_effect=fake_execute):
+                runner.call('cto', 'design', 'Read the consumer project', {'complete'})
+            self.assertIn((target/'references/project-context.md').read_text(), captured[0])
+            self.assertIn(task['constraints'][0], captured[0])
+
+    def test_generic_example_has_failing_baseline_and_repairable_contract(self):
+        harness = load(PLUGIN/'workflows/codex-team.py', 'pagination_harness')
+        examples = PLUGIN/'workflows/examples'
+        task = json.loads((examples/'pagination-task.json').read_text())
+        task['checks'][0][0] = sys.executable
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            workspace = root/'standalone-tool'
+            shutil.copytree(examples/'pagination-fixture', workspace)
+            original_tests = (workspace/'test_pagination.py').read_bytes()
+            runner = harness.Runner(task, workspace, root/'run', 'unused-client')
+            baseline = runner.checks('baseline')
+            self.assertNotEqual(baseline[0]['exit_code'], 0)
+            self.assertIn('FAIL', baseline[0]['stderr'])
+            # Reference repair validates the exercise contract without a model call.
+            (workspace/'pagination.py').write_text(
+                'def paginate(items, page, page_size):\n'
+                '    for value in (page, page_size):\n'
+                '        if type(value) is not int or value <= 0:\n'
+                '            raise ValueError("expected a positive integer")\n'
+                '    start = (page - 1) * page_size\n'
+                '    return items[start:start + page_size]\n'
+            )
+            (workspace/'DESIGN.md').write_text('One-based pages use (page - 1) * page_size; validate positive integers first.\n')
+            repaired = runner.checks('repaired')
+            self.assertEqual(repaired[0]['exit_code'], 0, repaired[0]['stderr'])
+            runner.check_scope()
+            self.assertEqual((workspace/'test_pagination.py').read_bytes(), original_tests)
+            self.assertEqual(set(p.name for p in workspace.iterdir()),
+                             {'pagination.py', 'test_pagination.py', 'DESIGN.md'})
 
     def test_no_plugin_resource_paths_point_to_host_claude_folder(self):
         for folder in ['skills', 'agents', 'references']:

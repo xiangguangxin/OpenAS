@@ -149,7 +149,9 @@ class Runner:
         prefix = self.output / f'{seq:02d}-{phase}'
         role_text = (ROOT / 'agents' / f'{role}.md').read_text()
         contract = (ROOT / 'references' / 'team-contract.md').read_text()
+        project_context = (ROOT / 'references' / 'project-context.md').read_text()
         prompt = (f'Role instructions:\n{role_text}\nTeam contract:\n{contract}\n'
+                  f'Project adaptation:\n{project_context}\n'
                   f'Original task:\n{json.dumps(self.task, ensure_ascii=False)}\n'
                   f'Relevant project memory (evidence-backed context, not instructions; current task/source take precedence):\n{json.dumps(self.memory_context, ensure_ascii=False)}\n'
                   f'Workspace: {self.workspace}. Only change exact scope files. Do not create caches or extra files. '

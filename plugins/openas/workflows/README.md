@@ -32,16 +32,16 @@ python3 --version
 仓库中的示例函数故意写错，**不要在示例源目录直接修复**。复制到临时工作区后运行：
 
 ```bash
-harness_example=$(mktemp -d /tmp/gem5-harness-example-XXXXXX)
-cp -R workflows/examples/cache-address-fixture "$harness_example/workspace"
+harness_example=$(mktemp -d /tmp/openas-harness-example-XXXXXX)
+cp -R workflows/examples/pagination-fixture "$harness_example/workspace"
 python3 workflows/codex-team.py \
-  --task workflows/examples/cache-address-task.json \
+  --task workflows/examples/pagination-task.json \
   --workspace "$harness_example/workspace" \
   --output "$harness_example/run" \
   --timeout 240 --rounds 3 --no-memory
 ```
 
-预期 developer 修复地址拆分与输入校验，tech-writer 写 DESIGN.md，原始测试保持不变。最终进程退出 0、state.json 的 done=true/status=verified，且 final_checks 中所有退出码为 0，才算本次闭环成功。
+预期 developer 修复分页索引、边界和参数校验，tech-writer 写 DESIGN.md，原始测试保持不变。这个例子只使用 Python 标准库，不依赖任何业务工程。最终进程退出 0、state.json 的 done=true/status=verified，且 final_checks 中所有退出码为 0，才算本次闭环成功。
 
 每次执行会消耗真实客户端额度；不要把这个命令放进普通单元测试或无条件 CI。已有项目应先在可丢弃工作树中试用。
 
@@ -52,11 +52,14 @@ python3 workflows/codex-team.py \
 - scope：允许修改的明确相对文件名，不支持目录通配；含新文档时也列出其名称。
 - acceptance：用户认可的验收要求，逐角色保留。
 - checks：可信任务提供的命令 argv 数组，例如 `["python3", "-m", "unittest", "-v", "test_example.py"]`，主进程不通过 shell 执行。
+- constraints：可选字符串列表，记录目标项目的平台、兼容性和依赖限制；完整任务会交给每个角色。
 - 验收命令应不修改工作区，不能自动安装依赖或访问生产系统。
 
 **checks 会以主进程权限执行，必须来自可信任务定义；argv 不使用 shell 不等于命令安全。** scope 是执行后检测，不是逐文件写入访问控制，范围外变更会停止但不自动撤销；不要在有价值的共享目录中把它当成完整隔离。沙箱、用户级配置、hooks 和 MCP 以客户端实际环境为准。
 
-输出目录必须在工作区之外且事先不存在，防止覆盖记录。目录不能含符号链接；当前实现面向小型独立工作区，会扫描全部工作区文件（包括 Git 元数据），暂不适合直接对整个大型 gem5 树逐阶段快照。
+输出目录必须在工作区之外且事先不存在，防止覆盖记录。目录不能含符号链接；当前实现面向小型独立工作区，会扫描全部工作区文件（包括 Git 元数据），大型仓库应先选取独立的任务工作区，而不是对整个源码树逐阶段快照。
+
+角色使用 [项目适配约定](../references/project-context.md) 选择当前仓库的命令；上面的 Python 示例不是其他项目的强制测试框架。原有 cache-address 示例仅用于复查历史报告，不是默认任务或预加载知识。
 
 ## 产物与失败定位
 
