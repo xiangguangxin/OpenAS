@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+      OPENAS_RUN_CLAUDE_TESTS: "0"
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          package-manager-cache: false
+      - name: Validate plugin
+        run: python3 scripts/check_plugin.py
+      - name: Python tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Python workflow tests
+        run: python3 -m unittest discover -s plugins/openas/workflows/tests -p 'test_*.py' -v
+      - name: JavaScript workflow tests
+        run: node plugins/openas/workflows/tests/agent-team.test.mjs

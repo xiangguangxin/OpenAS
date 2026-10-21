@@ -68,12 +68,15 @@ Claude 插件与 Codex CLI 是两个入口；Codex 不会因 plugin.json 自动�
 
 ## 开发与验证
 
+GitHub Actions 会在 PR 更新和合并到 `main` 后运行检查，配置见 [CI 工作流](.github/workflows/ci.yml)，使用及合并检查设置见 [CI 说明](docs/ci.md)。
+
 Python 3.10+；项目记忆使用 POSIX 文件锁，当前支持 Linux/WSL。校验器只读，不安装依赖、不启动模型：
 
 ```bash
 python3 scripts/check_plugin.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s plugins/openas/workflows/tests -p 'test_*.py' -v
+node plugins/openas/workflows/tests/agent-team.test.mjs
 ```
 
 有 Claude CLI 时补做原生验证和会话内加载验收：
