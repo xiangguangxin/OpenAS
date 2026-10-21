@@ -1,51 +1,88 @@
 # OpenAS — Open Agents & Skills
 
-适用于不同代码仓库的可插拔 Agent 与 Skill 工具集。包含 5 个协作角色、需求/计划/TDD/评审、四象限 Debug、技术文档绘图、有证据的项目记忆，以及可选 Codex CLI 任务闭环。先识别目标项目的技术栈、约束和验收方式，再选择工作方法，不预设业务领域或构建系统。
+**可插拔的角色协作、证据驱动的调试、可复用的项目记忆。**
 
-## 快速加载
+OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法，以 Claude Code 插件形式提供 **5 个协作角色、14 个技能**，并配备可选的 Codex CLI 工作流适配器。
 
-在**要工作的项目目录**启动 Claude Code，路径换成你的 OpenAS 位置：
+适用于 Web 应用、后端服务、库、命令行工具、原生程序、数据处理和文档项目。接入后沿用目标仓库的技术栈、规则和验收命令。
+
+## 功能特性
+
+### 按需组合的角色与技能
+
+架构师、开发者、对抗评审、技术文档工程师和独立验证者各有明确职责，共用任务范围、交接和证据约定。简单任务直接调用单个技能；复杂任务按需要组合设计、实现、评审与验证，评审问题通过稳定 ID 跟踪和逐项回应。
+
+14 个技能覆盖需求探索、实施计划、TDD、系统化调试、代码评审、技术绘图、项目记忆和分支收尾等环节，可独立使用，也可用于团队协作。
+
+### 证据驱动的故障定位
+
+从**需求、设计、实现、配置与环境**四个角度调查候选原因，再用日志、适合当前运行时的调试工具和可区分实验建立因果链。修复验证保留命令、退出码与关键输出，区分已确认结论、待验证假设和未覆盖范围。
+
+### 可审查、可追溯的项目记忆
+
+将项目事实、设计决定和可复用经验保存到目标项目的 `.openas/memory/`，供后续任务检索与交接。记录先进入候选状态，经过审查后才参与复用；来源内容变化后，检索会排除失效证据对应的记录。各项目独立存储，插件更新或卸载后记忆仍然保留。
+
+### 可插拔与会话内热加载
+
+通过 `--plugin-dir` 临时加载，或通过 marketplace 持久安装到项目。修改插件资源后，可在当前 Claude Code 会话中用 `/reload-plugins` 更新后续调用使用的组件，便于迭代角色与技能，无需逐项目复制文件。
+
+### 沿用现有项目工具链
+
+从目标仓库读取技术栈、目录、依赖、领域约束和验证方式。服务端使用现有 API 测试，前端检查交互与页面状态，文档任务核对来源和链接；接入时无需额外创建 OpenAS 专用配置文件。
+
+### 技术图表与可追溯的任务编排
+
+- **技术绘图**：按表达需求选择 Mermaid、SVG 或 D2，绘制架构、数据流、状态机和交互时序，并核对图与源码、文档的一致性。
+- **可选 Codex CLI 工作流**：顺序执行设计、评审、文档、实现与验证，保留阶段输出、文件指纹和验收记录；评审或验证未通过时，在限定轮数内回交修订，仍未通过则停止并保留现场。
+
+Agent 调用、热加载和工具执行以实际客户端能力及会话授权为准；具体使用方式与验证边界见下文。
+
+## 快速开始
+
+在**目标项目目录**中启动 Claude Code，将路径替换为你的 OpenAS 所在位置：
 
 ```bash
 claude --plugin-dir /path/to/OpenAS/plugins/openas
 ```
 
-会话中可直接使用：
+随后可在会话中调用技能：
 
 ```text
-/openas:bug-fix 排查这个问题，先区分需求、设计、实现、配置/环境四象限，再用适合当前项目的证据验证根因
-/openas:technical-diagrams 为当前文档画架构图
-/openas:project-memory 提炼这次任务中有证据的可复用经验
+/openas:bug-fix 排查这个问题，先分析可能的原因，再用当前项目的日志和测试验证根因
+/openas:technical-diagrams 为当前文档绘制架构图
+/openas:project-memory 提炼本次任务中有证据、可复用的项目经验
 ```
 
-技能和角色使用 `openas:` 命名空间。独立任务不必启动完整团队；Agent 调用、工具和权限依赖真实宿主能力。
+技能和角色统一使用 `openas:` 命名空间。`--plugin-dir` 只对本次启动生效，下次启动时省略该参数即可不加载。
 
-## 适配不同项目
+### 适配现有项目
 
-Web 应用、后端服务、库和命令行工具、原生程序、数据处理或文档仓库都可以使用同一组角色和技能。按 [项目适配约定](plugins/openas/references/project-context.md)，从目标仓库读取适用规则、入口、依赖与 CI 命令；无需为接入 OpenAS 新增配置文件，也不要求更换现有工具链。
+OpenAS 从目标仓库的规则文件、文档、源码和 CI 配置中确认工作方式，沿用已有目录、依赖管理和验证命令。接入时无需额外创建 OpenAS 专用配置文件。
 
-例如：为服务补充输入校验时沿用现有 API 测试；为前端修复交互时验证用户操作与页面状态；整理文档时只做来源、链接和必要的图表检查。特定领域的单位、协议、设备或数据约束由使用项目提供，不作为插件默认假设。
+例如，服务端变更使用现有 API 测试，前端交互修复检查用户操作与页面状态，文档调整核对来源、链接和图表。领域相关的单位、协议、设备和数据约束以目标项目为准。具体约定见 [项目适配说明](plugins/openas/references/project-context.md)。
 
-## 热加载与插拔
+## 安装与更新
 
-开发模式直接编辑 `plugins/openas` 下的文件，然后在已启动的 Claude Code 会话运行：
+### 本地开发与热加载
+
+开发插件时，建议使用 `--plugin-dir` 直接加载本地目录。修改 `plugins/openas` 下的文件后，在已启动的 Claude Code 会话中运行：
 
 ```text
 /reload-plugins
 ```
 
-这是同一会话中重新加载插件组件，不需要复制到每个项目的 `.claude`。如客户端提示缓存失效，阅读提示后按需使用 `/reload-plugins --force`；不由脚本强制执行。热加载不意味着替换已在执行的任务或重启外部进程。
+热加载会重新读取插件组件，供后续调用使用，无需将文件复制到各个项目的 `.claude` 目录。如客户端提示缓存问题，按提示决定是否使用 `/reload-plugins --force`。正在执行的任务和外部进程不保证同步切换到新版本。
 
-`--plugin-dir` 仅本次启动加载。下次启动不传该参数即可不加载。不要同时通过本地目录与 marketplace 重复加载同一插件。
+### 持久安装到项目
 
-需要持久安装时，先从 shell 添加本地 marketplace，再安装到当前项目：
+在目标项目目录的终端中添加本地 marketplace，并安装插件：
 
 ```bash
 claude plugin marketplace add /path/to/OpenAS
 claude plugin install openas@openas-marketplace --scope project
 ```
 
-在会话中运行 `/reload-plugins` 应用；管理持久安装：
+安装后，在会话中运行 `/reload-plugins` 应用。后续可按需启用、禁用或卸载：
 
 ```bash
 claude plugin disable openas@openas-marketplace --scope project
@@ -53,30 +90,43 @@ claude plugin enable openas@openas-marketplace --scope project
 claude plugin uninstall openas@openas-marketplace --scope project
 ```
 
-再次运行 `/reload-plugins` 应用启停/卸载。marketplace 安装可能使用缓存副本；发布更新需增加插件 version，再执行 `claude plugin marketplace update openas-marketplace`、`claude plugin update openas@openas-marketplace --scope project` 和会话内 reload。日常开发优先 `--plugin-dir`，具体命令以本地 CLI help 为准。
+操作后再次运行 `/reload-plugins`。同一插件请选择本地目录或 marketplace 中的一种加载方式，避免重复加载。
 
-## 记忆属于使用插件的项目
+### 更新已安装版本
 
-可复用规则和脚本位于插件；运行产生的记录写入**使用插件的项目**的 `.openas/memory/`。卸载/更新插件不会删除或覆盖项目记忆，不混用其他项目的历史知识，也不修改项目 `CLAUDE.md`。
+marketplace 安装可能使用缓存副本。维护者发布更新时需递增插件版本号；使用者随后在终端执行：
 
-记忆 CLI 必须明确项目根目录，避免写入插件安装/缓存目录：
+```bash
+claude plugin marketplace update openas-marketplace
+claude plugin update openas@openas-marketplace --scope project
+```
+
+最后在会话中运行 `/reload-plugins`。具体命令及可用参数以本地 Claude CLI 的帮助信息为准。
+
+## 项目记忆
+
+技能、角色和脚本随插件分发，任务产生的记忆则保存在**目标项目**的 `.openas/memory/` 中。插件更新或卸载后，项目记忆仍然保留。各项目的记录独立管理，记忆功能不会改写项目的 `CLAUDE.md`。
+
+使用记忆 CLI 时，必须显式指定目标项目根目录：
 
 ```bash
 python3 /path/to/OpenAS/plugins/openas/skills/project-memory/scripts/project_memory.py \
-  --root /path/to/your-project query 'debug gdb 根因'
+  --root /path/to/your-project query '输入校验 根因'
 ```
 
-详情见 [记忆说明](plugins/openas/memory/README.md)。目录可按项目政策加入忽略规则；不要直接共享原始日志或 core。
+可复用结论先进入候选状态，经审查后才能用于后续任务；来源发生变化时，旧证据会被标记为失效。存储格式、检索与维护方式见 [项目记忆说明](plugins/openas/memory/README.md)。是否纳入版本管理应遵循项目约定，原始日志、core dump 和敏感信息不应直接共享。
 
-## 可选 Codex 适配器
+## Codex CLI 工作流
 
-Claude 插件与 Codex CLI 是两个入口；Codex 不会因 plugin.json 自动加载 Claude 插件。使用已登录的 Codex CLI 可显式运行 [工作流适配器](plugins/openas/workflows/README.md)，无需自动安装 SDK，也不修改全局客户端配置。
+除 Claude Code 插件外，OpenAS 还提供基于 Python 标准库的 [Codex CLI 工作流适配器](plugins/openas/workflows/README.md)。它使用已安装、已登录的 Codex CLI，顺序调用角色并执行验收命令，记录阶段结果、文件变化和验证证据。
+
+这两个入口分别使用：Claude Code 通过插件发现角色与技能；Codex 适配器显式读取相关资源并调用 CLI，`plugin.json` 本身不会让 Codex 自动加载插件。适配器不自动安装 SDK，也不修改客户端全局配置。
 
 ## 开发与验证
 
-GitHub Actions 会在 PR 更新和合并到 `main` 后运行检查，配置见 [CI 工作流](.github/workflows/ci.yml)，使用及合并检查设置见 [CI 说明](docs/ci.md)。
+以下命令在 OpenAS 仓库根目录运行。Python 工具要求 Python 3.10+，JavaScript 工作流测试使用 Node.js 22；项目记忆依赖 POSIX 文件锁，当前支持 Linux / WSL。
 
-Python 3.10+；项目记忆使用 POSIX 文件锁，当前支持 Linux/WSL。校验器只读，不安装依赖、不启动模型：
+### 本地检查
 
 ```bash
 python3 scripts/check_plugin.py
@@ -85,32 +135,40 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s plugins/openas/workflo
 node plugins/openas/workflows/tests/agent-team.test.mjs
 ```
 
-有 Claude CLI 时补做原生验证和会话内加载验收：
+这些检查覆盖插件结构、资源链接和工作流回归，不安装依赖、不调用模型。
+
+已有 Claude CLI 时，可进一步验证插件清单：
 
 ```bash
 claude plugin validate ./plugins/openas
 claude plugin validate .
 ```
 
-真实客户端热加载已固定为可选 unittest 集成测试，运行方式、额度上限与断言见 [热加载测试](docs/hot-reload-testing.md)。默认跳过，显式启用后缺少客户端会失败。
+真实客户端的热加载验收由可选集成测试完成，默认跳过。运行条件、额度上限和断言见 [热加载测试说明](docs/hot-reload-testing.md)。结构检查和模拟客户端测试的结果应与真实客户端验收分别看待。
 
-初始移植的验证范围见 [验收记录](docs/validation.md)，当前回归结果见 GitHub Actions。结构校验与模拟客户端测试不能证明 Claude 已在会话中真实加载；本项目没有用后台进程伪造热加载结果。
+### 持续集成
 
-## 目录与来源
+GitHub Actions 在 PR 创建或更新，以及代码推送或合并到 `main` 后执行检查。配置见 [CI 工作流](.github/workflows/ci.yml)，运行方式与合并检查设置见 [CI 说明](docs/ci.md)。初始移植的验收范围保存在 [验收记录](docs/validation.md) 中，最新回归结果以 GitHub Actions 为准。
+
+## 目录结构
 
 ```text
-.claude-plugin/marketplace.json   本地/仓库分发入口
+.claude-plugin/marketplace.json   本地 marketplace 入口
 plugins/openas/
-  .claude-plugin/plugin.json     插件清单
-  agents/                       五角色
-  skills/                       可按需调用的技能及资源
-  references/                   协作契约
-  workflows/                    可选执行适配器、测试和历史样例
-  integrations/rea/              REA 来源、MIT 许可及可选环境检查
-  memory/README.md              状态存储约定（不附带知识库）
-scripts/check_plugin.py         本地只读校验
+  .claude-plugin/plugin.json     插件清单与版本
+  agents/                       5 个协作角色
+  skills/                       14 个技能及配套资源
+  references/                   协作契约与项目适配约定
+  workflows/                    可选适配器、示例、测试与历史证据
+  integrations/rea/             REA 集成说明、许可与环境检查
+  memory/README.md              项目记忆存储约定
+scripts/check_plugin.py         只读结构校验器
 ```
 
-[迁移记录](docs/migration.json) 保存来自 gem5 项目的原始提交和源文件指纹，仅用于追溯。历史工作流报告与旧示例不作为角色默认上下文或其他项目的验收证据。REA 上游 Skill 及参考原样保留并附 [MIT 许可](plugins/openas/integrations/rea/LICENSE)；其工具/MCP 仍为可选依赖，加载本插件不自动安装或连接它们。
+## 来源与参考
 
-官方依据：[插件格式](https://code.claude.com/docs/en/plugins-reference)、[创建与迁移](https://code.claude.com/docs/en/plugins/create)、[热加载和管理命令](https://code.claude.com/docs/en/plugins/cli-reference)。
+OpenAS 最初从 gem5 项目的协作配置中提取，现已将角色、技能与具体工程解耦。[迁移记录](docs/migration.json) 保留原始提交和文件指纹，供来源追溯；历史工作流报告与旧示例不作为新项目的默认上下文或验收证据。
+
+REA 上游 Skill 及参考文件保留原文，并附 [MIT 许可](plugins/openas/integrations/rea/LICENSE)。相关 MCP 服务和分析工具为可选依赖，加载 OpenAS 不会自动安装或连接它们，详见 [REA 集成说明](plugins/openas/integrations/rea/README.md)。
+
+Claude Code 官方文档：[插件格式](https://code.claude.com/docs/en/plugins-reference)、[插件创建与迁移](https://code.claude.com/docs/en/plugins/create)、[热加载与管理命令](https://code.claude.com/docs/en/plugins/cli-reference)。
