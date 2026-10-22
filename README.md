@@ -2,7 +2,7 @@
 
 **可插拔的角色协作、证据驱动的调试、可复用的项目记忆。**
 
-OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法，以 Claude Code 插件形式提供 **5 个协作角色、21 个技能**，并配备可选的 Codex CLI 工作流适配器。
+OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法，以 Claude Code 插件形式提供 **5 个协作角色、31 个技能**，并配备可选的 Codex CLI 工作流适配器。
 
 适用于 Web 应用、后端服务、库、命令行工具、原生程序、数据处理和文档项目。接入后沿用目标仓库的技术栈、规则和验收命令。
 
@@ -12,7 +12,26 @@ OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为�
 
 架构师、开发者、对抗评审、技术文档工程师和独立验证者各有明确职责，共用任务范围、交接和证据约定。简单任务直接调用单个技能；复杂任务按需要组合设计、实现、评审与验证，评审问题通过稳定 ID 跟踪和逐项回应。
 
-21 个技能覆盖需求探索、实施计划、TDD、系统化调试、代码评审、技术绘图、项目记忆和分支收尾等环节，可独立使用，也可用于团队协作。
+31 个技能覆盖技术调研、方案选型、竞品分析、路线图、项目文档、需求探索、实施计划、TDD、系统化调试、代码评审、技术绘图、项目记忆和分支收尾等环节，可独立使用，也可用于团队协作。
+
+### 从调研到项目文档
+
+| 技能 | 主要产物 |
+| --- | --- |
+| [technical-research](plugins/openas/skills/technical-research/SKILL.md) | 有来源、版本和调查边界的技术调研报告 |
+| [market-research](plugins/openas/skills/market-research/SKILL.md) | 用户问题、市场机会、需求证据与验证假设 |
+| [product-requirements](plugins/openas/skills/product-requirements/SKILL.md) | 产品简报、PRD、稳定需求 ID 与验收 |
+| [technology-selection](plugins/openas/skills/technology-selection/SKILL.md) | 技术路线矩阵、PoC 条件、ADR |
+| [architecture-design](plugins/openas/skills/architecture-design/SKILL.md) | 模块、接口、数据、部署与需求映射 |
+| [design-review](plugins/openas/skills/design-review/SKILL.md) | 跨文档问题、回交与实施就绪结论 |
+| [solution-design](plugins/openas/skills/solution-design/SKILL.md) | 候选方案对比、推荐路线与设计决策记录 |
+| [project-documentation](plugins/openas/skills/project-documentation/SKILL.md) | README、入门、架构、接口、运维与排障文档 |
+| [competitive-analysis](plugins/openas/skills/competitive-analysis/SKILL.md) | 同场景竞品矩阵、差距与待验证机会 |
+| [roadmap-planning](plugins/openas/skills/roadmap-planning/SKILL.md) | MVP、阶段目标、优先级、依赖和验收指标 |
+
+支持 [市场与竞品调研 → 方案设计 → 技术路线选择 → 架构设计 → 设计文档](plugins/openas/skills/solution-design/references/research-to-design.md) 的完整流程，按阶段保留输入、产物和验收关联。
+
+按任务需要组合，保留来源并区分事实、推断和未知；路线图中的可实施阶段交给 `writing-plans` 拆解。联网检索、试用与实验使用宿主实际可用的工具，没有执行的验证会明确标注。
 
 ### 证据驱动的故障定位
 
@@ -57,6 +76,11 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 /openas:bug-fix 排查这个问题，先分析可能的原因，再用当前项目的日志和测试验证根因
 /openas:technical-diagrams 为当前文档绘制架构图
 /openas:project-memory 提炼本次任务中有证据、可复用的项目经验
+/openas:technical-research 调研当前项目的数据存储方案，保留来源和关键未知项
+/openas:solution-design 从市场竞品调研开始，完成方案、技术选型、架构设计和设计文档，保留来源及待验证项
+/openas:project-documentation 根据源码完善 README 和入门指南，核对示例
+/openas:competitive-analysis 对比同类工具在目标使用场景中的能力与限制
+/openas:roadmap-planning 将需求和调研结论整理为 MVP 与阶段验收目标
 ```
 
 技能和角色统一使用 `openas:` 命名空间。`--plugin-dir` 只对本次启动生效，下次启动时省略该参数即可不加载。
@@ -163,7 +187,7 @@ GitHub Actions 在 PR 创建或更新，以及代码推送或合并到 `main` �
 plugins/openas/
   .claude-plugin/plugin.json     插件清单与版本
   agents/                       5 个协作角色
-  skills/                       21 个技能及配套资源
+  skills/                       31 个技能及配套资源
   references/                   协作契约与项目适配约定
   workflows/                    可选适配器、示例、测试与历史证据
   integrations/rea/             REA 集成说明、许可与环境检查
