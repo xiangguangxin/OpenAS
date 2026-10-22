@@ -20,6 +20,12 @@ CASES = {
                           'grilling', False, True),
     'repair': ('修复 average.py 的空输入异常，遵循 README 约定并运行现有测试。只允许修改 average.py，不修改测试，不安装依赖。',
                'bug-fix', True, False),
+    'workflow-routing': ('先不要实现。请为这个小项目选择最小足够的工作流路线并说明阶段：修复 average 的空输入，接口和测试要求已经明确。',
+                         'workflow-routing', False, False),
+    'context-handoff': ('仅整理当前任务交接，不实现、不修复。目标是让下一会话修复 README 约定的空输入行为；目前尚未修改源码。请核对实际文件，区分已知事实、未验证项与下一步。',
+                        'context-handoff', False, False),
+    'acceptance-tracking': ('仅做逐项验收追踪，不修改文件。把 README 的每条接口约定关联到实际现有测试，区分已验证、失败与未覆盖；不能把模型判断写成宿主测试已通过。',
+                            'acceptance-tracking', False, False),
 }
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
     'selected_skill': {'type': 'string'}, 'summary': {'type': 'string'},

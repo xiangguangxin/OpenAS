@@ -71,3 +71,9 @@ workflows/agent-team.js 需要宿主注入 args、agent 和 log，顶层 return/
 ## 收尾
 
 明确已改文件、行为、验证结果和限制。提交、推送、合并、发布只在对应授权范围执行，流程本身不自动授予权限。保留用户修改；不因失败清空工作区或回滚无关文件。
+
+## 编排与现场交接
+
+需要选择流程时用 [workflow-routing](../skills/workflow-routing/SKILL.md)，多节点依赖用 [task-orchestration](../skills/task-orchestration/SKILL.md)。任务现场通过 [context-handoff](../skills/context-handoff/SKILL.md) 交接，恢复前按 [checkpoint-and-resume](../skills/checkpoint-and-resume/SKILL.md) 核对。失败分类和逐项覆盖分别使用 [failure-recovery](../skills/failure-recovery/SKILL.md) 与 [acceptance-tracking](../skills/acceptance-tracking/SKILL.md)。
+
+运行器、宿主模板和技能能力分别报告：Python 提供显式路线、顺序图和检查点恢复；JS 模板保持原固定流程；并行成果整合技能不提供调度器，也不授予启动更多 Agent 或发布的权限。

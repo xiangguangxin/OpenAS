@@ -38,3 +38,11 @@ OpenAS/.claude-plugin/marketplace.json
 Claude Code 原生消费 plugin.json 和 `openas:` 名称。Codex 不消费该 manifest；其可选 Python 适配器显式读取同一组资源，再调用已安装的 Codex CLI。JS 编排脚本仍需要能注入 agent/args/log 的宿主。
 
 同一团队原则不等于相同执行器：结构测试、模拟宿主测试、真实模型调用及原生 Claude 加载结果分开报告。REA 所需 MCP/分析工具为可选接入，不作为本插件的自动安装步骤。
+
+## 编排与持久状态
+
+Python 单任务执行器根据任务的 workflow 字段选择路线，并将成功阶段写入版本化步骤记录。恢复同时核对任务、执行选项、源码快照、规则指纹和阶段结果文件；源码或规则变化不能静默沿用旧评审。宿主检查与 verifier 会重新运行，修订预算保留。
+
+handoff.json 用于当前任务交接，acceptance.json 区分机器检查与模型评审；它们与长期项目记忆分开。reviewed 表示只读评审已交付，不能自动作为实现 verified 的事实采集。
+
+graph-runner.py 在启动客户端前校验依赖图，顺序执行节点并交接实际上游结果。失败阻断依赖节点，独立节点可继续；人工中断停止后续启动。当前不提供并发调度或整个图的自动恢复，七个编排技能的入口见 [技能目录](../plugins/openas/skills)，操作示例见 [运行指南](../plugins/openas/workflows/README.md)。
