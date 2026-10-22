@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "nodes": [
+    {
+      "id": "repair",
+      "workspace": "workspace",
+      "task": "pagination-task.json"
+    },
+    {
+      "id": "review",
+      "depends_on": [
+        "repair"
+      ],
+      "workspace": "workspace",
+      "task": {
+        "workflow": "review",
+        "requirement": "Review the repaired pagination implementation and DESIGN.md against the original tests. Do not modify any files.",
+        "scope": [
+          "pagination.py",
+          "DESIGN.md"
+        ],
+        "acceptance": [
+          "Report actual defects or approve with evidence; preserve all files"
+        ],
+        "checks": [
+          [
+            "python3",
+            "-B",
+            "-m",
+            "unittest",
+            "-v",
+            "test_pagination.py"
+          ]
+        ]
+      }
+    }
+  ]
+}

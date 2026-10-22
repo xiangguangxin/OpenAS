@@ -4,7 +4,7 @@
 
 本页命令默认在插件根目录运行：先 `cd /path/to/OpenAS/plugins/openas`。资源由脚本自身位置解析，与使用项目的目录无关；记忆归属用 `--project-root /path/to/consumer-project` 显式指定。
 
-## 运行链路
+## 默认开发链路
 
 ```text
 任务 JSON → 主进程采集基线与初始指纹 → cto → red-team 设计评审 → tech-writer
@@ -53,6 +53,8 @@ python3 workflows/codex-team.py \
 - acceptance：用户认可的验收要求，逐角色保留。
 - checks：可信任务提供的命令 argv 数组，例如 `["python3", "-m", "unittest", "-v", "test_example.py"]`，主进程不通过 shell 执行。
 - constraints：可选字符串列表，记录目标项目的平台、兼容性和依赖限制；完整任务会交给每个角色。
+- workflow：`development`（默认）、`repair`、`direct`、`review` 或 `documentation`，由任务显式选择，不通过关键词推断授权。
+- acceptance_checks：可选，与 acceptance 等长的检查索引列表，例如 `[[0], []]`；空列表表示该项没有机器检查映射。
 - artifacts：可选的新建产物目录列表，例如 `["build", ".pytest_cache"]`。可在这些目录生成编译输出、缓存或报告；默认不允许额外产物。
 - 验收命令不能修改源码，只能向明确声明的 artifacts 输出；不能自动安装依赖或访问生产系统。
 
@@ -70,13 +72,16 @@ artifacts 目录在任务开始时必须不存在，不能包含或覆盖 scope 
 
 | 文件 | 含义 |
 |---|---|
-| state.json | 当前状态、初始/最终文件 SHA-256、修复前基线、阶段历史与最终验收 |
+| state.json | 版本化状态、初始/检查点快照、阶段缓存、失败类别与最终验收 |
+| task.json | 本次完整任务快照，图节点包含实际上游结果 |
+| handoff.json | 当前现场、已完成阶段、失败、下一阶段和证据位置 |
+| acceptance.json | 每项原始验收的检查映射、宿主结果、模型验证与人工核对提示 |
 | NN-phase.prompt.txt | 该角色收到的任务包及交接 |
 | NN-phase.result.json | 客户端最终结构化响应 |
 | NN-phase.stdout/stderr.log | 客户端运行日志 |
-| baseline-checks.json / round-N-checks.json / final-checks.json | 主进程真实验收命令、退出码与关键输出 |
+| baseline-checks.json / round-N-checks.json / final-checks.json | 每类检查的最新摘要；带尝试编号的日志和 JSON 保留旧记录 |
 
-日志可能含源码或环境相关信息，发布前人工审查。客户端错误或超时时不会当作通过；超时/中断会终止本次进程组，保留工作区供检查。state 记录用于审计，当前**没有断点自动恢复**；不要直接用同一 output 重跑，也不要误称可续跑。
+日志可能含源码或环境相关信息，发布前人工审查。客户端错误或超时时不会当作通过；超时/中断会终止本次进程组，保留工作区供检查。0.4.0 的版本化 state 支持显式 `--resume`，见下方恢复说明；不带该参数不能覆盖已有 output，旧版本状态仅用于审计。
 
 0.3.0 起快照为每个文件保存 `sha256`、`type` 和 POSIX `mode`，因此 chmod 变化也会触发范围或验收修改检查；旧记录格式及迁移见 OpenAS 仓库的 docs/compatibility.md。
 
@@ -117,3 +122,54 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
 - [使用 Codex 构建修复循环](https://developers.openai.com/cookbook/examples/codex/build_iterative_repair_loops_with_codex)
 
 下列真实验收是源 gem5 工程的历史记录，不代表本移植版本重新完成过六阶段模型运行： [2026-10-21 Codex 闭环报告](evidence/2026-10-21-codex/README.md)。
+
+## 选择路线
+
+| workflow | 执行方式 | 成功状态 |
+| --- | --- | --- |
+| development / repair | 默认六阶段闭环；repair 明确要求故障假设和失败基线 | verified |
+| direct | developer → 宿主检查 → verifier → 最终检查 | verified |
+| documentation | tech-writer → red-team → 文档检查 → verifier → 最终检查 | verified |
+| review | 当前宿主检查 → 只读 red-team，不修复实现 | reviewed |
+
+`reviewed` 表示评审任务已交付，允许含 needs_fix，不能据此认定目标实现正确；图中的通过依赖只接受 approve。所有路线都保留原始目标和范围；direct 不能替代用户明确要求的设计评审。JS 宿主模板仍使用原固定流程，没有自动获得 Python 运行器的新能力。
+
+## 检查点恢复
+
+恢复沿用原任务、工作区、客户端路径、轮数、记忆选项和 project-root。使用运行目录的 task.json 可保留图节点注入的上游结果：
+
+```bash
+python3 workflows/codex-team.py \
+  --task /path/to/run/task.json --workspace /path/to/task-workspace \
+  --output /path/to/run --resume --no-memory --rounds 3
+```
+
+新运行记录 `state_version=2`。恢复前核对任务、源码内容与权限、角色/技能/运行器指纹和检索到的记忆；同一运行目录不能并发恢复。完成阶段按输入摘要和实际结果文件指纹复用，缺失或失效阶段及其后继重新执行；宿主检查和 verifier 重新运行。原始失败基线与已有尝试日志保留，不重置原有修订轮数。
+
+源文件、规则或记忆变化时默认拒绝。确认变化仍属于原始授权后，可附加 `--restart-stages` 使旧角色结果全部失效，再按本路线重新验证。此选项不允许任务变更、范围外变化或无输入变化时重置轮数。旧版本记录、已完成运行或任务定义变化应使用新的 output。
+
+恢复读取的是可信本地记录，不是签名证明；不对不可信任务或 state 自动执行命令。进程异常退出时可从最后成功检查点检查；部分写入未形成检查点时需要人工核对。未声明的外部服务状态不在源码快照内，当前不提供跨服务事务恢复或自动回滚。
+
+## 顺序任务图
+
+`graph-runner.py` 支持 version=1 的 nodes，每个节点包含唯一 id、depends_on、workspace 和 task（完整对象或相对 JSON 路径）。路径相对于图文件；节点工作区事先准备，运行产物必须在所有工作区之外。
+
+```bash
+graph_example=$(mktemp -d /tmp/openas-graph-example-XXXXXX)
+cp workflows/examples/workflow-graph.json workflows/examples/pagination-task.json "$graph_example/"
+cp -R workflows/examples/pagination-fixture "$graph_example/workspace"
+python3 workflows/graph-runner.py --graph "$graph_example/workflow-graph.json" --plan
+# 以下命令才会启动真实客户端并消耗额度
+python3 workflows/graph-runner.py --graph "$graph_example/workflow-graph.json" \
+  --run --output "$graph_example/run"
+```
+
+先验证依赖缺失、环、工作区与共享写入范围，再按拓扑顺序执行。共享写入需要显式依赖或独立工作区；失败节点阻断下游，独立节点可继续，用户中断则不再启动后续节点。下游完整任务通过 upstream_results 收到上游状态、验收和可用交接文件位置，这些数据不增加写入权限。
+
+图运行保存 graph.json 及逐节点目录。当前只顺序执行，不自动并行、不自动重试或恢复整个图、不启用项目记忆；单节点可使用上面的恢复流程，但恢复节点不会自动重写原图摘要或推进已阻断下游。后续执行应核对实际节点证据后准备新的图任务。技能 parallel-integration 仅指导已授权并行成果的整合。
+
+## 验收与失败交接
+
+acceptance.json 对显式映射且宿主检查成功、verifier 通过的条目标为 passed；没有映射的条目最多为 reviewed，仍需人工核对。review 路线为 reported。退出码不替代语义验收，不能为填满映射而引用无关检查。
+
+state.failure 包含 kind、message 和 phase。类型区分 environment、timeout、interrupted、client_failure、invalid_result、scope_violation、review_limit、acceptance_limit 与输入 validation。没有后台自动重试，失败后先检查日志、部分产物和是否存在外部副作用，再选择恢复、修复或交回所缺条件。
