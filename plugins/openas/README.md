@@ -5,7 +5,7 @@
 资源以本目录为根，与使用项目的 `.claude` 无关：
 
 - [agents](agents)：cto、red-team、tech-writer、developer、verifier；Claude 原生角色使用 `openas:` 命名空间。
-- [skills](skills)：21 个可按需使用的技能，含四象限 Debug、绘图和项目记忆。
+- [skills](skills)：31 个可按需使用的技能，含技术调研、方案选型、文档、竞品、路线图、四象限 Debug、绘图和项目记忆。
 - [团队契约](references/team-contract.md)：需求、范围、角色交接、证据和失败回环。
 - [项目适配](references/project-context.md)：按目标仓库选择技术栈、运行命令、领域约束和验收。
 - [工作流](workflows/README.md)：可选 Codex 执行入口；JS 模板需要宿主。

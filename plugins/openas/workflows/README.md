@@ -53,7 +53,7 @@ python3 workflows/codex-team.py \
 - acceptance：用户认可的验收要求，逐角色保留。
 - checks：可信任务提供的命令 argv 数组，例如 `["python3", "-m", "unittest", "-v", "test_example.py"]`，主进程不通过 shell 执行。
 - constraints：可选字符串列表，记录目标项目的平台、兼容性和依赖限制；完整任务会交给每个角色。
-- workflow：`development`（默认）、`repair`、`direct`、`review` 或 `documentation`，由任务显式选择，不通过关键词推断授权。
+- workflow：`development`（默认）、`repair`、`direct`、`review`、`documentation` 或 `research-design`，由任务显式选择，不通过关键词推断授权。
 - acceptance_checks：可选，与 acceptance 等长的检查索引列表，例如 `[[0], []]`；空列表表示该项没有机器检查映射。
 - artifacts：可选的新建产物目录列表，例如 `["build", ".pytest_cache"]`。可在这些目录生成编译输出、缓存或报告；默认不允许额外产物。
 - 验收命令不能修改源码，只能向明确声明的 artifacts 输出；不能自动安装依赖或访问生产系统。
@@ -130,6 +130,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
 | development / repair | 默认六阶段闭环；repair 明确要求故障假设和失败基线 | verified |
 | direct | developer → 宿主检查 → verifier → 最终检查 | verified |
 | documentation | tech-writer → red-team → 文档检查 → verifier → 最终检查 | verified |
+| research-design | 六阶段设计产出 → 独立设计评审/回交 → 宿主检查 → verifier → 最终检查 | verified（设计文档） |
 | review | 当前宿主检查 → 只读 red-team，不修复实现 | reviewed |
 
 `reviewed` 表示评审任务已交付，允许含 needs_fix，不能据此认定目标实现正确；图中的通过依赖只接受 approve。所有路线都保留原始目标和范围；direct 不能替代用户明确要求的设计评审。JS 宿主模板仍使用原固定流程，没有自动获得 Python 运行器的新能力。
@@ -173,3 +174,37 @@ python3 workflows/graph-runner.py --graph "$graph_example/workflow-graph.json" \
 acceptance.json 对显式映射且宿主检查成功、verifier 通过的条目标为 passed；没有映射的条目最多为 reviewed，仍需人工核对。review 路线为 reported。退出码不替代语义验收，不能为填满映射而引用无关检查。
 
 state.failure 包含 kind、message 和 phase。类型区分 environment、timeout、interrupted、client_failure、invalid_result、scope_violation、review_limit、acceptance_limit 与输入 validation。没有后台自动重试，失败后先检查日志、部分产物和是否存在外部副作用，再选择恢复、修复或交回所缺条件。
+
+## 专用调研与设计路线
+
+在任务 JSON 设置 `workflow: research-design`，可自动执行：
+
+```text
+市场/竞品调研 → 产品需求 → 方案设计 → 技术选型 → 架构设计 → 设计文档
+    → 独立设计评审 → 宿主检查 → 独立 verifier → 最终宿主检查
+```
+
+六个写作阶段由独立的 tech-writer 会话承担实质领域工作，提示中嵌入对应技能；red-team 评审、verifier 验证只读。不会调用 developer，不修改产品代码。每阶段只能修改自己的一个 Markdown 文件；图用内联 Mermaid。阶段产物缺失或为空时不能进入下游。
+
+- `research_mode` 必填：`live` 使用当前公开信息，`provided` 只分析已有本地材料，保留新鲜度与需求证据限制。
+- live 向客户端传入 `-c web_search="live" --json`，市场阶段必须有原生 `item.completed`/`web_search` 事件才可交付；仅“声称搜索过”无效。搜索失败停止，不能静默降为已有资料模式。搜索事件证明调用发生，不自动证明每个结论正确，引用与证据强弱仍由评审核对。
+- provided 设置 `web_search="disabled"` 并提示禁止联网；这不构成对宿主其他网络工具的安全隔离。不要以已有材料模式声称完成最新市场调研。搜索配置依据 [Codex 官方配置说明](https://developers.openai.com/codex/config-reference)，使用本机已支持的参数，不修改全局配置。
+- 默认六个输出为 `design/01-market.md`、`02-requirements.md`、`03-solution.md`、`04-technology.md`、`05-architecture.md` 和 `DESIGN.md`（均在 design/ 下）。可用 `design_outputs` 以阶段名映射六个不同的 `.md` 路径，scope 必须恰好包含它们；此路线不允许 artifacts。
+- 基线检查在文档尚未生成时允许失败，最终 checks 必须全部通过。用目标项目可信的、不会修改工作区的检查命令，示例仅做文档存在/非空检查，语义验收由评审与 verifier 核对。
+
+完整示例在 [live 任务](examples/research-design-task.json)、[已有资料任务](examples/research-design-provided-task.json) 和 [设计输入](examples/research-design-fixture/brief.md)。先复制到独立目录：
+
+```bash
+design_trial=$(mktemp -d /tmp/openas-design-XXXXXX)
+cp -R workflows/examples/research-design-fixture "$design_trial/workspace"
+python3 workflows/codex-team.py \
+  --task workflows/examples/research-design-task.json \
+  --workspace "$design_trial/workspace" --output "$design_trial/run" \
+  --timeout 300 --rounds 3 --no-memory
+```
+
+这会调用真实客户端并使用模型额度。只验证本地材料流程时换用 provided 任务。中断后用相同参数及 `--resume`；源码/规则变化需先检查，再按既有恢复规则使用 `--resume --restart-stages`，不会重置每阶段预算。
+
+设计评审额外返回 `revision_from`：approve 时为 `none`；needs_fix 时为六个写作阶段之一，表示最早受影响阶段。运行器重做该阶段及全部下游，保留不受影响上游的结果与评审反馈。宿主检查或 verifier 失败时保守重做六阶段，最多 rounds 轮，仍未通过则停止。每阶段独立计费修订预算并跨 resume 保留；补跑丢失证据也会消耗预算。
+
+输出目录额外包含 `design-artifacts.json`（阶段、文件及结果）与 `design-review.json`（最新结构化评审）。真实完整日志与每次评审保留在普通阶段记录。done=true/status=verified 且 `verification_subject=design-artifacts` 只表示本次设计文档交付成功；不表示产品已经实现、市场需求得到真实用户验证或性能目标已经达到。无机器检查映射的验收仍显示 reviewed。

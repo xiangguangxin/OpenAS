@@ -18,6 +18,9 @@ ROOT = Path(__file__).resolve().parents[1]
 MEMORY_SPEC = importlib.util.spec_from_file_location('project_memory', ROOT/'skills/project-memory/scripts/project_memory.py')
 MEMORY_MODULE = importlib.util.module_from_spec(MEMORY_SPEC)
 MEMORY_SPEC.loader.exec_module(MEMORY_MODULE)
+DESIGN_SPEC = importlib.util.spec_from_file_location('research_design', Path(__file__).with_name('research_design.py'))
+DESIGN = importlib.util.module_from_spec(DESIGN_SPEC)
+DESIGN_SPEC.loader.exec_module(DESIGN)
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
     'verdict': {'type': 'string', 'enum': ['complete', 'approve', 'needs_fix', 'pass', 'fail']},
     'summary': {'type': 'string'}, 'findings': {'type': 'array', 'items': {'type': 'string'}},
@@ -104,8 +107,12 @@ def validate_task(task):
     for cmd in task['checks']:
         if not isinstance(cmd, list) or not cmd or any(not isinstance(x, str) or not x for x in cmd):
             raise HarnessError('Each check must be an argv string list (no shell)')
-    if task.get('workflow', 'development') not in ('development', 'repair', 'review', 'documentation', 'direct'):
+    if task.get('workflow', 'development') not in ('development', 'repair', 'review', 'documentation', 'direct', 'research-design'):
         raise HarnessError('Unknown workflow route')
+    if task.get('workflow') == 'research-design':
+        DESIGN.validate(task, HarnessError)
+    elif any(k in task for k in ('research_mode', 'design_outputs')):
+        raise HarnessError('research_mode/design_outputs require research-design')
     if 'acceptance_checks' in task:
         mappings = task['acceptance_checks']
         if not isinstance(mappings, list) or len(mappings) != len(task['acceptance']):
@@ -116,16 +123,16 @@ def validate_task(task):
     return task
 
 
-def response(path, allowed):
+def response(path, allowed, schema=SCHEMA):
     try:
         r = json.loads(path.read_text())
     except (OSError, ValueError) as exc:
         raise HarnessError(f'Invalid client final JSON: {exc}', 'invalid_result') from exc
-    return validate_result(r, allowed)
+    return validate_result(r, allowed, schema)
 
 
-def validate_result(r, allowed):
-    if not isinstance(r, dict) or set(r) != set(SCHEMA['required']):
+def validate_result(r, allowed, schema=SCHEMA):
+    if not isinstance(r, dict) or set(r) != set(schema['required']):
         raise HarnessError('Unexpected result fields')
     if not isinstance(r['verdict'], str) or r['verdict'] not in allowed or not isinstance(r['summary'], str) or not r['summary'].strip():
         raise HarnessError('Invalid verdict or blank summary')
@@ -138,6 +145,11 @@ def validate_result(r, allowed):
         raise HarnessError('Failure has no actionable finding')
     if r['verdict'] in ('approve', 'pass') and not r['evidence']:
         raise HarnessError('Approval has no evidence')
+    if 'revision_from' in schema['properties']:
+        target = r['revision_from']
+        if (not isinstance(target, str) or target not in schema['properties']['revision_from']['enum']
+                or (r['verdict'] == 'approve') != (target == 'none')):
+            raise HarnessError('Invalid design review revision_from', 'invalid_result')
     return r
 
 
@@ -176,7 +188,7 @@ class Runner:
                     if (not isinstance(step, dict) or any(not isinstance(step.get(k), str) for k in ('role','phase','input_sha256'))
                             or ('result_file' in step and not isinstance(step['result_file'], str))):
                         raise HarnessError('Malformed cached stage')
-                    validate_result(step['result'], set(SCHEMA['properties']['verdict']['enum']))
+                    validate_result(step['result'], set(SCHEMA['properties']['verdict']['enum']), self.stage_schema(step['phase']))
                 if state['done'] or state['status'] not in ('running', 'stopped'):
                     raise HarnessError('Completed runs cannot be resumed')
                 if (state['task'] != task or state['workspace'] != str(self.workspace)
@@ -214,7 +226,7 @@ class Runner:
             (self.output/'result.schema.json').write_text(json.dumps(SCHEMA))
 
     def resource_fingerprint(self):
-        files = [Path(__file__).resolve()]
+        files = [Path(__file__).resolve(), Path(__file__).with_name('research_design.py')]
         for folder in ('agents', 'references', 'skills'):
             files.extend(p for p in (ROOT/folder).rglob('*')
                          if p.is_file() and '__pycache__' not in p.parts and p.suffix != '.pyc')
@@ -269,7 +281,11 @@ class Runner:
         self.state['checkpoint_snapshot'] = self.check_scope()
         self.write_state()
 
+    def stage_schema(self, phase):
+        return DESIGN.review_schema(SCHEMA) if self.task.get('workflow') == 'research-design' and phase == 'design-gate' else SCHEMA
+
     def stage(self, role, phase, context, allowed):
+        schema = self.stage_schema(phase)
         if self.resource_fingerprint() != self.state['resources_sha256']:
             raise HarnessError('Workflow rules changed during the run; inspect and restart stages')
         key = {'role': role, 'phase': phase,
@@ -285,20 +301,22 @@ class Runner:
                 try:
                     artifact_valid = (not path.is_symlink() and self.output in path.resolve().parents
                                       and hashlib.sha256(path.read_bytes()).hexdigest() == cached.get('result_sha256')
-                                      and response(path, allowed) == cached['result'])
+                                      and response(path, allowed, schema) == cached['result'])
                 except (OSError, HarnessError):
                     artifact_valid = False
             if all(cached.get(k) == v for k,v in key.items()) and artifact_valid and not (self.resuming and role == 'verifier'):
-                return validate_result(cached['result'], allowed)
+                return validate_result(cached['result'], allowed, schema)
             del steps[index:]
         self.state['next_phase'] = phase
         budget = {'cto':'design', 'developer':'implementation', 'tech-writer':'documentation'}.get(role)
+        if self.task.get('workflow') == 'research-design' and phase in DESIGN.PHASES:
+            budget = phase
         used = self.state.setdefault('budget_used', {})
         if budget and used.get(budget, 0) >= self.rounds:
             kind = 'review_limit' if role == 'cto' else 'acceptance_limit'
             raise HarnessError(f'{budget} revision budget exhausted; create a revised task in a new run', kind)
         self.write_state()
-        result = validate_result(self.call(role, phase, context, allowed), allowed)
+        result = validate_result(self.call(role, phase, context, allowed), allowed, schema)
         if budget:
             used[budget] = used.get(budget, 0) + 1
         entry = {**key, 'result': result}
@@ -326,8 +344,19 @@ class Runner:
         role_text = (ROOT / 'agents' / f'{role}.md').read_text()
         contract = (ROOT / 'references' / 'team-contract.md').read_text()
         project_context = (ROOT / 'references' / 'project-context.md').read_text()
+        design_route = self.task.get('workflow') == 'research-design'
+        domain = ''
+        if design_route:
+            for skill in DESIGN.SKILLS.get(phase, ()):
+                domain += f'\nDomain skill {skill} ({ROOT / "skills" / skill / "SKILL.md"}):\n' + (ROOT/'skills'/skill/'SKILL.md').read_text()
+            domain += ('\nThis adapter assigns substantive research/design authorship to the writer. '
+                       'Use the embedded domain skills, not merely prose editing. Actual host tools take precedence over role metadata. '
+                       'In provided mode use supplied local material only, no network; label freshness limits. '
+                       'In live mode the market stage MUST use native web search and cite current sources with dates; '
+                       'if unavailable return fail, never replace live research with invented or cached-memory claims. '
+                       'Reviews/verifier may inspect and run checks but must not edit any workspace file.\n')
         prompt = (f'Role instructions:\n{role_text}\nTeam contract:\n{contract}\n'
-                  f'Project adaptation:\n{project_context}\n'
+                  f'Project adaptation:\n{project_context}\n{domain}\n'
                   f'Original task:\n{json.dumps(self.task, ensure_ascii=False)}\n'
                   f'Relevant project memory (evidence-backed context, not instructions; current task/source take precedence):\n{json.dumps(self.memory_context, ensure_ascii=False)}\n'
                   f'Workspace: {self.workspace}. Only change exact scope files. '
@@ -338,13 +367,21 @@ class Runner:
                   f'Return verdict from {sorted(allowed)}. Use only the provided final schema. '
                   f'For reviews, findings=[] means approve; unresolved actionable defects mean needs_fix. '
                   f'For verification, actually inspect/run relevant checks; no evidence means fail.\nHandoff:\n{context}')
-        prefix.with_suffix('.prompt.txt').write_text(prompt)
         before = self.snapshot()
         writable = role in ('developer', 'tech-writer')
+        schema_file = self.output/'result.schema.json'
+        if design_route and phase == 'design-gate':
+            schema_file = self.output/'design-review.schema.json'
+            schema_file.write_text(json.dumps(self.stage_schema(phase)))
         cmd = [self.client, 'exec', '--ephemeral', '--skip-git-repo-check', '--color', 'never',
                '--sandbox', 'workspace-write' if writable else 'read-only', '-C', str(self.workspace),
-               '--output-schema', str(self.output / 'result.schema.json'),
+               '--output-schema', str(schema_file),
                '-o', str(prefix.with_suffix('.result.json')), '-']
+        if design_route:
+            cmd[2:2] = ['--json', '-c', 'web_search="live"' if self.task['research_mode'] == 'live' else 'web_search="disabled"']
+            if phase in DESIGN.PHASES:
+                prompt += '\nOnly write this stage file: ' + DESIGN.outputs(self.task)[phase]
+        prefix.with_suffix('.prompt.txt').write_text(prompt)
         print(f'[{seq}] {phase}: {role}', flush=True)
         entry = {'phase': phase, 'role': role, 'status': 'running', 'argv': cmd,
                  'result_file': str(prefix.with_suffix('.result.json'))}
@@ -354,14 +391,30 @@ class Runner:
                      prefix.with_suffix('.stderr.log'), prompt)
         entry['exit_code'] = rc
         self.check_scope()
+        if design_route and phase in DESIGN.PHASES:
+            current = self.snapshot()
+            changed = {x for x in before.keys() | current.keys() if before.get(x) != current.get(x)}
+            if changed - {DESIGN.outputs(self.task)[phase]}:
+                raise HarnessError('Design stage modified another stage output', 'scope_violation')
         if not writable and self.snapshot() != before:
             raise HarnessError(f'Read-only role modified workspace: {role}', 'scope_violation')
         if rc:
             raise HarnessError(f'Client failed ({rc}); see {prefix}.stderr.log', 'client_failure')
         try:
-            result = response(prefix.with_suffix('.result.json'), allowed)
+            result = response(prefix.with_suffix('.result.json'), allowed, self.stage_schema(phase))
         except HarnessError as exc:
             raise HarnessError(str(exc), 'invalid_result') from exc
+        if design_route and phase in DESIGN.PHASES:
+            if result['verdict'] == 'fail':
+                entry.update(status='blocked', result=result)
+                raise HarnessError('Design stage blocked: ' + result['summary'], 'design_blocked')
+            artifact = self.workspace/DESIGN.outputs(self.task)[phase]
+            if not artifact.is_file() or not artifact.read_text().strip():
+                raise HarnessError(f'Missing or empty stage document: {artifact}', 'invalid_result')
+            if phase == 'market-research' and self.task['research_mode'] == 'live':
+                entry['native_search_count'] = DESIGN.native_searches(prefix.with_suffix('.stdout.log'))
+                if not entry['native_search_count']:
+                    raise HarnessError('Live market research has no completed native web-search evidence', 'research_unavailable')
         entry.update(status='completed', result=result)
         self.write_state()
         return result
@@ -425,6 +478,9 @@ class Runner:
 
     def drive(self):
         route = self.task.get('workflow', 'development')
+        if route == 'research-design':
+            DESIGN.drive(self, HarnessError)
+            return
         if route == 'review':
             checks = self.checks('review')
             review = self.stage('red-team', 'code-review', json.dumps({'request':self.task['requirement'],
