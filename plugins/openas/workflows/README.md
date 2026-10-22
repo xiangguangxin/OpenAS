@@ -53,7 +53,10 @@ python3 workflows/codex-team.py \
 - acceptance：用户认可的验收要求，逐角色保留。
 - checks：可信任务提供的命令 argv 数组，例如 `["python3", "-m", "unittest", "-v", "test_example.py"]`，主进程不通过 shell 执行。
 - constraints：可选字符串列表，记录目标项目的平台、兼容性和依赖限制；完整任务会交给每个角色。
-- 验收命令应不修改工作区，不能自动安装依赖或访问生产系统。
+- artifacts：可选的新建产物目录列表，例如 `["build", ".pytest_cache"]`。可在这些目录生成编译输出、缓存或报告；默认不允许额外产物。
+- 验收命令不能修改源码，只能向明确声明的 artifacts 输出；不能自动安装依赖或访问生产系统。
+
+artifacts 目录在任务开始时必须不存在，不能包含或覆盖 scope 文件、既有源码或根目录 Git 元数据，不接受目录通配。校验失败不会自动删除目录。产物不参与源码快照，所有其他文件继续比较内容与权限；任务工作区仍拒绝符号链接。存在构建产物时应为下一次运行使用新的干净工作区。
 
 **checks 会以主进程权限执行，必须来自可信任务定义；argv 不使用 shell 不等于命令安全。** scope 是执行后检测，不是逐文件写入访问控制，范围外变更会停止但不自动撤销；不要在有价值的共享目录中把它当成完整隔离。沙箱、用户级配置、hooks 和 MCP 以客户端实际环境为准。
 
@@ -74,6 +77,18 @@ python3 workflows/codex-team.py \
 | baseline-checks.json / round-N-checks.json / final-checks.json | 主进程真实验收命令、退出码与关键输出 |
 
 日志可能含源码或环境相关信息，发布前人工审查。客户端错误或超时时不会当作通过；超时/中断会终止本次进程组，保留工作区供检查。state 记录用于审计，当前**没有断点自动恢复**；不要直接用同一 output 重跑，也不要误称可续跑。
+
+0.3.0 起快照为每个文件保存 `sha256`、`type` 和 POSIX `mode`，因此 chmod 变化也会触发范围或验收修改检查；旧记录格式及迁移见 OpenAS 仓库的 docs/compatibility.md。
+
+## 更多独立任务示例
+
+| 任务 | 文件 | 复现命令 | 覆盖范围 |
+| --- | --- | --- | --- |
+| 分页工具 | examples/pagination-task.json / pagination-fixture | `python3 -B -m unittest -v test_pagination.py` | 纯 Python 函数与输入校验 |
+| 命令行报告 | examples/cli-task.json / cli-fixture | `python3 -B -m unittest -v test_report.py` | stdin/stdout、JSON、错误码和诊断 |
+| 前端选择状态 | examples/selection-task.json / selection-fixture | `node test-selection.mjs` | 不可变状态更新，不代表浏览器或 UI 验收 |
+
+均为故意失败的训练样例。沿用上面的临时复制流程，替换 task 和 fixture 路径后运行，不能直接改随包示例。普通 CI 在临时副本中验证失败基线和参考修复，不调用模型。真实技能选择与行为检查可在 OpenAS 仓库运行 scripts/evaluate_skills.py，说明位于 docs/skill-evaluation.md。
 
 ## 有证据的项目记忆
 

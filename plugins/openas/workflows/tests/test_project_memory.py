@@ -30,6 +30,30 @@ class MemoryTests(unittest.TestCase):
         self.assertEqual(self.memory.query('harness'),[])
         self.assertFalse(self.memory.inspect()[0]['evidence_valid'])
 
+    def test_original_source_change_invalidates_receipt(self):
+        source = self.root/'implementation.py'
+        source.write_text('old implementation')
+        evidence = self.memory.evidence('proof.json', '/count', sources=['implementation.py'])
+        r = self.memory.propose('source', 'lesson', 'Observed source behavior', ['source'], [evidence])
+        self.memory.review(r['id'], 'approve', 'reviewer', 'source checked')
+        self.assertEqual(len(self.memory.query('source')), 1)
+        source.write_text('new implementation')
+        self.assertEqual(self.memory.query('source'), [])
+        self.assertFalse(self.memory.inspect()[0]['evidence_valid'])
+
+    def test_missing_source_invalidates_receipt(self):
+        source = self.root/'input.bin'
+        source.write_bytes(b'input')
+        evidence = self.memory.evidence('proof.json', '/count', sources=['input.bin'])
+        r = self.memory.propose('source', 'fact', 'Observed input', ['source'], [evidence])
+        source.unlink()
+        with self.assertRaises(ValueError):
+            self.memory.review(r['id'], 'approve', 'reviewer', 'missing source')
+
+    def test_source_dependencies_must_stay_in_project(self):
+        with self.assertRaises(ValueError):
+            self.memory.evidence('proof.json', '/count', sources=['../outside'])
+
     def test_no_duplicate(self):
         self.assertEqual(self.candidate()['id'],self.candidate()['id'])
         self.assertEqual(len(self.memory.read()['records']),1)

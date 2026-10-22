@@ -27,6 +27,17 @@ GitHub Actions 配置位于 [`.github/workflows/ci.yml`](../.github/workflows/ci
 在 `main` 的保护规则中启用必需状态检查并选择 `checks`，要求分支更新到最新 `main` 后再合并。
 单人维护不需要额外要求其他人审批。状态检查必须成功运行过，才会出现在候选列表中。
 
+仓库提供可审阅的配置脚本：
+
+```bash
+python3 scripts/configure_ci_gate.py
+# 在已登录且具有目标仓库 Administration 权限的 gh 环境中应用
+python3 scripts/configure_ci_gate.py --apply
+```
+
+默认只输出计划。应用时要求 PR、必需 `checks`、分支更新到最新基线，并对管理员生效，不额外要求他人审批；随后读回设置核验。若分支已有保护或规则集，脚本拒绝覆盖，需先检查现有规则。当前环境的实际执行状态见 [修复与验收记录](review-remediation.md)，不能将脚本单元测试当作远端门禁已生效。
+API 权限依据见 [GitHub 分支保护文档](https://docs.github.com/en/rest/branches/branch-protection#update-branch-protection)。
+
 ## 本地复现
 
 在 Linux / WSL，准备 Python 3.10+ 与 Node.js 22 后执行：

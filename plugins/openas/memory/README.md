@@ -41,7 +41,15 @@ python3 /path/to/OpenAS/plugins/openas/skills/project-memory/scripts/project_mem
 }
 ```
 
-非 JSON 来源应先核对并保存含原始位置和指纹的证据收据。指纹只能证明文件内容一致，不能证明经验正确或评审者身份。
+非 JSON 来源应先核对并保存证据收据，然后显式关联原始文件：
+
+```python
+evidence = memory.evidence('debug-proof.json', '/result', sources=['src/example.py', 'README.md'])
+```
+
+该方法会在 evidence 中增加 `sources`，每项包含项目内相对路径和真实 SHA-256。提议、审查和查询时同时核对收据及所有原始文件；任一内容改变、文件缺失或路径越界都会拒绝或排除记录。
+旧证据没有 `sources` 时只校验直接 JSON 文件，不能自动追踪收据正文中任意命名的来源字段。需要此能力的旧经验应重新构造证据、提议和审查。
+指纹只能证明文件内容一致，不能证明经验正确或评审者身份。
 
 ## 提议、审查与采集
 
