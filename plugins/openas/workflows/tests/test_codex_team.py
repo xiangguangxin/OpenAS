@@ -45,6 +45,54 @@ class RunnerTests(unittest.TestCase):
             r=self.runner(tmp);(r.workspace/'b.txt').write_text('bad')
             with self.assertRaises(h.HarnessError):r.check_scope()
 
+    def test_out_of_scope_permission_change_stops(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            r = self.runner(tmp)
+            other = r.workspace/'other.sh'
+            other.write_text('#!/bin/sh\nexit 0\n')
+            other.chmod(0o644)
+            r.initial = h.snapshot(r.workspace)
+            other.chmod(0o755)
+            with self.assertRaises(h.HarnessError):
+                r.check_scope()
+
+    def test_acceptance_permission_change_stops(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            task = {**TASK, 'checks': [[sys.executable, '-c',
+                    "from pathlib import Path; Path('a.txt').chmod(0o755)"]]}
+            r = self.runner(tmp, task)
+            (r.workspace/'a.txt').chmod(0o644)
+            with self.assertRaises(h.HarnessError):
+                r.checks('chmod')
+
+    def test_declared_artifacts_allow_build_without_hiding_source_changes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            task = {**TASK, 'artifacts': ['build', '.test-cache'], 'checks': [[sys.executable, '-c',
+                    "from pathlib import Path; Path('build').mkdir(exist_ok=True); Path('build/result').write_text('ok')"]]}
+            r = self.runner(tmp, task)
+            self.assertEqual(r.checks('build')[0]['exit_code'], 0)
+            r.check_scope()
+            (r.workspace/'outside.txt').write_text('not an artifact')
+            with self.assertRaises(h.HarnessError):
+                r.check_scope()
+
+    def test_artifact_declarations_cannot_hide_existing_files_or_scope(self):
+        for artifacts in [['.'], ['../out'], ['/tmp/out'], ['.git'], ['a.txt'], ['a.txt/sub'], ['cache/../src'], 'build']:
+            with self.subTest(artifacts=artifacts), self.assertRaises(h.HarnessError):
+                h.validate_task({**TASK, 'artifacts': artifacts})
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); w = root/'w'; w.mkdir(); (w/'build').mkdir()
+            (w/'build/source.py').write_text('existing source')
+            with self.assertRaises(h.HarnessError):
+                h.Runner({**TASK, 'artifacts': ['build']}, w, root/'run', 'codex')
+
+    def test_artifact_checks_still_reject_source_mutations(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            r = self.runner(tmp, {**TASK, 'artifacts': ['build'], 'checks': [[sys.executable, '-c',
+                    "from pathlib import Path; Path('a.txt').write_text('changed')"]]})
+            with self.assertRaises(h.HarnessError):
+                r.checks('source-mutation')
+
     def test_state_outside_workspace(self):
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp)

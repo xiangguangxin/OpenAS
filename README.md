@@ -20,7 +20,7 @@ OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为�
 
 ### 可审查、可追溯的项目记忆
 
-将项目事实、设计决定和可复用经验保存到目标项目的 `.openas/memory/`，供后续任务检索与交接。记录先进入候选状态，经过审查后才参与复用；来源内容变化后，检索会排除失效证据对应的记录。各项目独立存储，插件更新或卸载后记忆仍然保留。
+将项目事实、设计决定和可复用经验保存到目标项目的 `.openas/memory/`，供后续任务检索与交接。记录先进入候选状态，经过审查后才参与复用；直接证据或显式关联的原始来源变化后，检索会排除对应的旧记录。各项目独立存储，插件更新或卸载后记忆仍然保留。
 
 ### 可插拔与会话内热加载
 
@@ -114,7 +114,7 @@ python3 /path/to/OpenAS/plugins/openas/skills/project-memory/scripts/project_mem
   --root /path/to/your-project query '输入校验 根因'
 ```
 
-可复用结论先进入候选状态，经审查后才能用于后续任务；来源发生变化时，旧证据会被标记为失效。存储格式、检索与维护方式见 [项目记忆说明](plugins/openas/memory/README.md)。是否纳入版本管理应遵循项目约定，原始日志、core dump 和敏感信息不应直接共享。
+可复用结论先进入候选状态，经审查后才能用于后续任务；直接证据或显式关联的原始来源发生变化时，旧记录会被检索排除。存储格式、检索与维护方式见 [项目记忆说明](plugins/openas/memory/README.md)。是否纳入版本管理应遵循项目约定，原始日志、core dump 和敏感信息不应直接共享。
 
 ## Codex CLI 工作流
 
@@ -172,3 +172,9 @@ OpenAS 最初从 gem5 项目的协作配置中提取，现已将角色、技能�
 REA 上游 Skill 及参考文件保留原文，并附 [MIT 许可](plugins/openas/integrations/rea/LICENSE)。相关 MCP 服务和分析工具为可选依赖，加载 OpenAS 不会自动安装或连接它们，详见 [REA 集成说明](plugins/openas/integrations/rea/README.md)。
 
 Claude Code 官方文档：[插件格式](https://code.claude.com/docs/en/plugins-reference)、[插件创建与迁移](https://code.claude.com/docs/en/plugins/create)、[热加载与管理命令](https://code.claude.com/docs/en/plugins/cli-reference)。
+
+## 维护与验收
+
+项目自有内容采用 [MIT License](LICENSE)，第三方内容保留各自许可。版本变化见 [CHANGELOG](CHANGELOG.md)，开发与发布流程见 [贡献指南](CONTRIBUTING.md)，运行环境和记录格式见 [兼容说明](docs/compatibility.md)。
+
+真实技能行为评测、修复验证及尚缺外部条件的项目分别记录在 [行为评测说明](docs/skill-evaluation.md) 和 [本次修复验收](docs/review-remediation.md) 中。

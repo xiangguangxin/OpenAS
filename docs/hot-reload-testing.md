@@ -59,3 +59,15 @@ PYTHONDONTWRITEBYTECODE=1 \
 CLI 流式协议和命令结果字段可能随版本变化。无法识别时应失败并核对本地版本，而不是删除原生命令或会话连续性断言。`scripts/claude_stream.py` 是小范围测试驱动，不是通用 SDK。
 
 官方依据：[无终端会话的 reload](https://code.claude.com/docs/en/plugins/cli-reference)、[程序化 CLI](https://code.claude.com/docs/en/headless)、[CLI 参数](https://code.claude.com/docs/en/cli-reference)、[SDK 控制协议实现](https://github.com/anthropics/claude-agent-sdk-python/blob/main/src/claude_agent_sdk/_internal/query.py)。
+
+## 独立的原生安装生命周期测试
+
+`test_claude_lifecycle.py` 在临时项目和独立 `CLAUDE_CONFIG_DIR` / 插件缓存中验证本地 marketplace 安装、禁用、启用和卸载，并检查目标项目记忆未被删除。它只执行插件管理命令，不调用模型，不需要复用用户的认证配置，也不代表会话内热加载通过。
+
+```bash
+OPENAS_RUN_CLAUDE_LIFECYCLE=1 \
+  python3 -m unittest discover -s tests -p 'test_claude_lifecycle.py' -v
+```
+
+可用 `OPENAS_CLAUDE_BIN` 指定客户端，`OPENAS_CLAUDE_LIFECYCLE_REPORT` 保存独立收据（目标文件不能已存在）。当前环境没有 Claude CLI，测试仍未获得真实通过记录；默认 CI 跳过。
+命令与 JSON 列表格式依据 [Claude 插件命令参考](https://code.claude.com/docs/en/plugins/cli-reference)，配置隔离依据 [环境变量说明](https://code.claude.com/docs/en/env-vars)。

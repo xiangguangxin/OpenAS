@@ -77,15 +77,22 @@ class Memory:
             raise ValueError('Evidence must be a project-relative file')
         return p
 
-    def evidence(self, relative, at):
+    def evidence(self, relative, at, sources=None):
         p = self.source(relative)
         raw=p.read_bytes()
-        return {'path':relative,'sha256':digest(raw),'pointer':at,'value':pointer(json.loads(raw),at)}
+        result = {'path':relative,'sha256':digest(raw),'pointer':at,'value':pointer(json.loads(raw),at)}
+        if sources is not None:
+            if not isinstance(sources, list) or not sources or any(not isinstance(s, str) or not s for s in sources):
+                raise ValueError('sources must be a nonempty list of project-relative files')
+            result['sources'] = [{'path': s, 'sha256': digest(self.source(s).read_bytes())} for s in sources]
+        return result
 
     def valid(self, record):
         try:
             return bool(record['evidence']) and all(
-                self.evidence(e['path'],e['pointer']) == e for e in record['evidence'])
+                self.evidence(e['path'], e['pointer'],
+                              sources=[s['path'] for s in e['sources']] if 'sources' in e else None) == e
+                for e in record['evidence'])
         except (OSError,ValueError,KeyError,TypeError,IndexError):
             return False
 

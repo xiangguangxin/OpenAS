@@ -1,0 +1,7 @@
+{
+  "requirement": "Fix report.py: read a JSON list of finite numbers from stdin and print JSON with count and total to stdout. Integers and floats are accepted, booleans are not. Empty lists are valid. Invalid JSON, non-list input, nonnumeric items and non-finite numbers must produce a short diagnostic on stderr, no stdout or traceback, and exit 2. Successful input exits 0. Preserve supplied tests.",
+  "scope": ["report.py"],
+  "acceptance": ["All supplied tests pass", "Successful stdout is machine-readable JSON", "Invalid inputs exit 2 without a traceback", "Only report.py changes"],
+  "constraints": ["Python standard library only; preserve the stdin/stdout interface"],
+  "checks": [["python3", "-B", "-m", "unittest", "-v", "test_report.py"]]
+}

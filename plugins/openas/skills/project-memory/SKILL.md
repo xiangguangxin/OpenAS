@@ -14,7 +14,7 @@ description: 从项目任务和验证记录中提炼有证据的事实、设计�
 ## 任务结束或出现可复用经验
 
 1. 提取最小、具体结论，标明适用范围：fact（观察到的项目事实）、decision（已经作出的设计决定及取舍）、lesson（失败/成功案例的经验）。不要从实现代码反推用户从未批准的产品决策。
-2. 给出可读 key、scope、tags 和真实 evidence。证据为项目内 JSON 文件、SHA-256、JSON pointer 和对应值。来源是 Markdown/源码时先建立带引用与指纹的证据收据并核对，不能杜撰 JSON 来源。
+2. 给出可读 key、scope、tags 和真实 evidence。证据为项目内 JSON 文件、SHA-256、JSON pointer 和对应值。来源是 Markdown/源码时先建立证据收据，并通过 `Memory.evidence('receipt.json', '/result', sources=['src/example.py'])` 显式关联原始文件；查询会同时校验收据和来源。没有 sources 的旧记录只校验其直接 JSON 证据，不会递归解释收据中的任意字段；重要旧结论应补充来源后重新提议。不能杜撰 JSON 来源。
 3. propose 后停在 candidate，不用于其他任务。评审应核对结论是否由证据支持，是否范围过大、过期、重复或包含敏感内容；可用独立 Agent 或明确的人工评审。
 4. review approve 才进入 accepted；reject 保留理由。同 key/scope 已有有效条目时进入 conflict，不覆盖旧知识。解决冲突需核对来源、退役旧条目并重新评审冲突项。
 5. 只沉淀必要字段，不保存认证信息、全量聊天、原始客户端日志或执行目标。记忆目录中的知识可入 Git，运行检查点和锁文件不入库。

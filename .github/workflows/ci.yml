@@ -21,6 +21,7 @@ jobs:
     env:
       PYTHONDONTWRITEBYTECODE: "1"
       OPENAS_RUN_CLAUDE_TESTS: "0"
+      OPENAS_RUN_CLAUDE_LIFECYCLE: "0"
     steps:
       - uses: actions/checkout@v6
         with:

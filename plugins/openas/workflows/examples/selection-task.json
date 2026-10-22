@@ -1,0 +1,7 @@
+{
+  "requirement": "Fix toggleSelection(selectedIds, id) in selection.mjs. Input is an array of unique string IDs and a string ID. Return a new array: remove id if selected, otherwise append it. Preserve remaining order and never mutate the input. Preserve the supplied test. This is a frontend state-function example, not browser/UI validation.",
+  "scope": ["selection.mjs"],
+  "acceptance": ["The supplied Node assertions pass", "The input array is unchanged", "Only selection.mjs changes"],
+  "constraints": ["Use Node standard modules; no package installation or framework migration"],
+  "checks": [["node", "test-selection.mjs"]]
+}
