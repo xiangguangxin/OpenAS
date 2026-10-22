@@ -30,7 +30,8 @@ class PluginTests(unittest.TestCase):
     def test_packaged_resources_validate(self):
         checker = load(ROOT / 'scripts/check_plugin.py', 'plugin_check')
         inventory = checker.check(PLUGIN)
-        self.assertEqual(len(inventory['agents']), 5)
+        self.assertTrue({'cto', 'developer', 'it', 'product-manager', 'red-team',
+                         'security-reviewer', 'tech-writer', 'verifier'}.issubset(inventory['agents']))
         self.assertGreaterEqual(len(inventory['skills']), 14)
         self.assertIn('bug-fix', inventory['skills'])
         self.assertIn('project-memory', inventory['skills'])
@@ -110,7 +111,8 @@ class PluginTests(unittest.TestCase):
             self.assertEqual(runner.memory.root, consumer)
             self.assertTrue((consumer/'.openas/memory/current-task.json').exists())
             self.assertFalse((target/'memory/current-task.json').exists())
-            self.assertEqual(len(list((harness.ROOT/'agents').glob('*.md'))), 5)
+            self.assertEqual({p.name for p in (harness.ROOT/'agents').glob('*.md')},
+                             {p.name for p in (PLUGIN/'agents').glob('*.md')})
             # Relocated resources and consumer-specific constraints reach the actual client handoff.
             task['constraints'] = ['Keep the existing public API and use the consumer test command']
             captured = []
