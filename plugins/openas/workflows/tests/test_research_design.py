@@ -64,6 +64,8 @@ class ResearchDesignTests(unittest.TestCase):
         with patch.object(h,'execute',side_effect=self.client):
             r=self.runner();self.assertTrue(r.run())
         self.assertEqual(self.calls,[*FILES,'design-gate','verification'])
+        self.assertEqual([x['role'] for x in r.state['history'][:2]],['product-manager','product-manager'])
+        self.assertEqual(r.state['history'][2]['role'],'tech-writer')
         self.assertEqual(r.state['verification_subject'],'design-artifacts')
         self.assertEqual(r.state['final_checks'][0]['exit_code'],0)
         self.assertEqual(r.state['baseline_checks'][0]['exit_code'],1)

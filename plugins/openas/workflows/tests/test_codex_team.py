@@ -203,6 +203,48 @@ class RunnerTests(unittest.TestCase):
             self.assertIn('memory_record_id',r.state)
             self.assertEqual(memory.read()['records'][0]['status'],'accepted')
 
+    def test_operations_routes_through_it_review_and_verification(self):
+        class Fake(h.Runner):
+            def call(self,role,phase,context,allowed):
+                self.state['history'].append({'role':role,'phase':phase})
+                if role=='it':(self.workspace/'a.txt').write_text('configured')
+                return result('approve' if role=='red-team' else 'pass' if role=='verifier' else 'complete')
+        with tempfile.TemporaryDirectory() as tmp:
+            w=Path(tmp)/'w';w.mkdir();(w/'a.txt').write_text('old')
+            task={**TASK,'workflow':'operations','checks':[[sys.executable,'-c',
+                "from pathlib import Path;assert Path('a.txt').read_text()=='configured'"]]}
+            r=Fake(task,w,Path(tmp)/'run','codex',rounds=1)
+            self.assertTrue(r.run())
+            self.assertEqual([(x['role'],x['phase']) for x in r.state['history'] if 'role' in x],
+                [('it','operations'),('red-team','operations-review'),('verifier','verification')])
+
+    def test_security_review_is_read_only_and_reports_reviewed(self):
+        class Fake(h.Runner):
+            def call(self,role,phase,context,allowed):
+                self.state['history'].append({'role':role,'phase':phase})
+                return result('needs_fix',['S1 exposed credential'])
+        with tempfile.TemporaryDirectory() as tmp:
+            w=Path(tmp)/'w';w.mkdir();(w/'a.txt').write_text('old')
+            r=Fake({**TASK,'workflow':'security-review'},w,Path(tmp)/'run','codex',rounds=1)
+            self.assertTrue(r.run())
+            self.assertEqual(r.state['status'],'reviewed')
+            self.assertEqual(r.state['history'][0]['role'],'security-reviewer')
+            self.assertEqual((w/'a.txt').read_text(),'old')
+
+    def test_new_roles_use_expected_sandbox(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            r=self.runner(tmp)
+            observed=[]
+            def fake_exec(argv,cwd,timeout,stdout,stderr,stdin=None):
+                observed.append((argv[argv.index('--sandbox')+1],stdin))
+                Path(argv[argv.index('-o')+1]).write_text(json.dumps(result('complete')))
+                return 0
+            with patch.object(h,'execute',side_effect=fake_exec):
+                r.call('product-manager','product-requirements','fixture',{'complete'})
+                r.call('it','operations','fixture',{'complete'})
+                r.call('security-reviewer','security-review','fixture',{'complete'})
+            self.assertEqual([x[0] for x in observed],['workspace-write','workspace-write','read-only'])
+
     def test_timeout(self):
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp)

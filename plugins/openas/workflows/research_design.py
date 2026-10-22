@@ -73,7 +73,8 @@ def drive(r, error):
                            'Read actual upstream files. Preserve stable evidence, requirement and decision IDs. '
                            'Mark assumptions and blockers; do not fabricate sources, interviews, tests or approvals. '
                            'No product implementation. Use inline diagrams only.'}
-            result = r.stage('tech-writer', phase, json.dumps(context, ensure_ascii=False), {'complete', 'fail'})
+            role = 'product-manager' if phase in ('market-research', 'product-requirements') else 'tech-writer'
+            result = r.stage(role, phase, json.dumps(context, ensure_ascii=False), {'complete', 'fail'})
             upstream[phase] = {'file': files[phase], 'result': result}
         review = r.stage('red-team', 'design-gate', json.dumps({'artifacts':upstream,
             'instruction':'Review all six actual files and their cross-document consistency. '

@@ -13,7 +13,7 @@
     → 主进程再次验收与文件范围检查 → verified
 ```
 
-各角色是独立、顺序启动的 `codex exec --ephemeral` 会话，沿用当前客户端模型配置；不硬编码模型。角色提示读取 `agents/*.md` 和协作契约，不意味着 Codex 原生解析 Claude 的角色工具白名单。只读角色使用 read-only，文档/开发角色使用 workspace-write；没有使用跳过审批和沙箱的参数。
+各角色是独立、顺序启动的 `codex exec --ephemeral` 会话，沿用当前客户端模型配置；不硬编码模型。角色提示读取 `agents/*.md` 和协作契约，不意味着 Codex 原生解析 Claude 的角色工具白名单。评审角色使用 read-only，文档、产品、IT 配置和开发角色使用 workspace-write；没有使用跳过审批和沙箱的参数。
 
 评审、输出格式、退出码或超时异常会停止；架构或实现需要修订时在最多三轮内回交，仍失败则停止并保留现场。不会自动安装依赖、提交、推送或合并，也不自动启动嵌套 Agent。
 
@@ -53,7 +53,7 @@ python3 workflows/codex-team.py \
 - acceptance：用户认可的验收要求，逐角色保留。
 - checks：可信任务提供的命令 argv 数组，例如 `["python3", "-m", "unittest", "-v", "test_example.py"]`，主进程不通过 shell 执行。
 - constraints：可选字符串列表，记录目标项目的平台、兼容性和依赖限制；完整任务会交给每个角色。
-- workflow：`development`（默认）、`repair`、`direct`、`review`、`documentation` 或 `research-design`，由任务显式选择，不通过关键词推断授权。
+- workflow：`development`（默认）、`repair`、`direct`、`review`、`security-review`、`operations`、`documentation` 或 `research-design`，由任务显式选择，不通过关键词推断授权。`security-review` 由 security-reviewer 只读评审；`operations` 由 it 修改声明的工作区配置文件，再经 red-team 评审、检查和 verifier 验证，不负责登录或操作在线系统。
 - acceptance_checks：可选，与 acceptance 等长的检查索引列表，例如 `[[0], []]`；空列表表示该项没有机器检查映射。
 - artifacts：可选的新建产物目录列表，例如 `["build", ".pytest_cache"]`。可在这些目录生成编译输出、缓存或报告；默认不允许额外产物。
 - 验收命令不能修改源码，只能向明确声明的 artifacts 输出；不能自动安装依赖或访问生产系统。
@@ -129,9 +129,11 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
 | --- | --- | --- |
 | development / repair | 默认六阶段闭环；repair 明确要求故障假设和失败基线 | verified |
 | direct | developer → 宿主检查 → verifier → 最终检查 | verified |
+| operations | it 修改任务范围内配置 → red-team → 宿主检查 → verifier → 最终检查 | verified（工作区配置） |
 | documentation | tech-writer → red-team → 文档检查 → verifier → 最终检查 | verified |
-| research-design | 六阶段设计产出 → 独立设计评审/回交 → 宿主检查 → verifier → 最终检查 | verified（设计文档） |
+| research-design | product-manager 调研与需求 → tech-writer 后续设计 → 独立评审/回交 → 检查与验证 | verified（设计文档） |
 | review | 当前宿主检查 → 只读 red-team，不修复实现 | reviewed |
+| security-review | 当前宿主检查 → 只读 security-reviewer，不修复实现 | reviewed |
 
 `reviewed` 表示评审任务已交付，允许含 needs_fix，不能据此认定目标实现正确；图中的通过依赖只接受 approve。所有路线都保留原始目标和范围；direct 不能替代用户明确要求的设计评审。JS 宿主模板仍使用原固定流程，没有自动获得 Python 运行器的新能力。
 
@@ -184,7 +186,7 @@ state.failure 包含 kind、message 和 phase。类型区分 environment、timeo
     → 独立设计评审 → 宿主检查 → 独立 verifier → 最终宿主检查
 ```
 
-六个写作阶段由独立的 tech-writer 会话承担实质领域工作，提示中嵌入对应技能；red-team 评审、verifier 验证只读。不会调用 developer，不修改产品代码。每阶段只能修改自己的一个 Markdown 文件；图用内联 Mermaid。阶段产物缺失或为空时不能进入下游。
+市场调研与产品需求阶段由 product-manager 承担，后续四个设计写作阶段由 tech-writer 承担；各阶段提示嵌入对应技能。red-team 评审、verifier 验证只读。不会调用 developer，不修改产品代码。每阶段只能修改自己的一个 Markdown 文件；图用内联 Mermaid。阶段产物缺失或为空时不能进入下游。
 
 - `research_mode` 必填：`live` 使用当前公开信息，`provided` 只分析已有本地材料，保留新鲜度与需求证据限制。
 - live 向客户端传入 `-c web_search="live" --json`，市场阶段必须有原生 `item.completed`/`web_search` 事件才可交付；仅“声称搜索过”无效。搜索失败停止，不能静默降为已有资料模式。搜索事件证明调用发生，不自动证明每个结论正确，引用与证据强弱仍由评审核对。

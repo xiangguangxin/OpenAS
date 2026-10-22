@@ -107,7 +107,7 @@ def validate_task(task):
     for cmd in task['checks']:
         if not isinstance(cmd, list) or not cmd or any(not isinstance(x, str) or not x for x in cmd):
             raise HarnessError('Each check must be an argv string list (no shell)')
-    if task.get('workflow', 'development') not in ('development', 'repair', 'review', 'documentation', 'direct', 'research-design'):
+    if task.get('workflow', 'development') not in ('development', 'repair', 'review', 'security-review', 'documentation', 'direct', 'operations', 'research-design'):
         raise HarnessError('Unknown workflow route')
     if task.get('workflow') == 'research-design':
         DESIGN.validate(task, HarnessError)
@@ -308,7 +308,8 @@ class Runner:
                 return validate_result(cached['result'], allowed, schema)
             del steps[index:]
         self.state['next_phase'] = phase
-        budget = {'cto':'design', 'developer':'implementation', 'tech-writer':'documentation'}.get(role)
+        budget = {'cto':'design', 'developer':'implementation', 'it':'operations',
+                  'product-manager':'product', 'tech-writer':'documentation'}.get(role)
         if self.task.get('workflow') == 'research-design' and phase in DESIGN.PHASES:
             budget = phase
         used = self.state.setdefault('budget_used', {})
@@ -368,7 +369,7 @@ class Runner:
                   f'For reviews, findings=[] means approve; unresolved actionable defects mean needs_fix. '
                   f'For verification, actually inspect/run relevant checks; no evidence means fail.\nHandoff:\n{context}')
         before = self.snapshot()
-        writable = role in ('developer', 'tech-writer')
+        writable = role in ('developer', 'it', 'product-manager', 'tech-writer')
         schema_file = self.output/'result.schema.json'
         if design_route and phase == 'design-gate':
             schema_file = self.output/'design-review.schema.json'
@@ -455,13 +456,14 @@ class Runner:
         self.state.update(status='verified', done=True, next_phase='complete',
                           final_snapshot=self.check_scope(), final_checks=final_checks)
 
-    def implement(self, design, with_review=True):
+    def implement(self, design, with_review=True, role='developer', phase='implementation'):
         feedback = None
         for i in range(self.rounds):
-            implementation = self.stage('developer', 'implementation', json.dumps({'design': design, 'feedback': feedback}), {'complete'})
+            implementation = self.stage(role, phase, json.dumps({'design': design, 'feedback': feedback}), {'complete'})
             review = None
             if with_review:
-                review = self.stage('red-team', 'code-review', json.dumps({'design':design,'implementation':implementation}), {'approve','needs_fix'})
+                review_phase = 'operations-review' if role == 'it' else 'code-review'
+                review = self.stage('red-team', review_phase, json.dumps({'design':design,'implementation':implementation}), {'approve','needs_fix'})
                 if review['verdict'] != 'approve':
                     feedback = review
                     continue
@@ -481,9 +483,11 @@ class Runner:
         if route == 'research-design':
             DESIGN.drive(self, HarnessError)
             return
-        if route == 'review':
+        if route in ('review', 'security-review'):
             checks = self.checks('review')
-            review = self.stage('red-team', 'code-review', json.dumps({'request':self.task['requirement'],
+            reviewer = 'security-reviewer' if route == 'security-review' else 'red-team'
+            phase = 'security-review' if route == 'security-review' else 'code-review'
+            review = self.stage(reviewer, phase, json.dumps({'request':self.task['requirement'],
                 'baseline_checks':self.state['baseline_checks'], 'current_checks':checks,
                 'mode':'Review only; do not repair.'}), {'approve','needs_fix'})
             self.state.update(status='reviewed', done=True, review=review,
@@ -491,6 +495,11 @@ class Runner:
             return
         if route == 'direct':
             self.implement({'summary':self.task['requirement']}, with_review=False)
+            return
+        if route == 'operations':
+            self.implement({'summary':self.task['requirement'],
+                'boundary':'Diagnose or change only declared workspace files. Do not access live services, install dependencies or deploy.'},
+                role='it', phase='operations')
             return
         if route == 'documentation':
             feedback = None

@@ -9,8 +9,11 @@ description: 对适合分工的跨模块开发、架构或协议变更组织角�
 
 ## 选择角色
 
+- 市场机会、竞品和产品范围未定：product-manager 形成证据与需求，cto 在此基础上设计技术方案。
 - 设计不清或跨组件：cto 分析，red-team 检验关键假设，再实施。
 - 实现已明确：developer 实现，red-team 检查高风险路径，verifier 验证实际产物。
+- 环境、CI、部署配置或运行故障：it 负责定位与配置，必要时由 security-reviewer 检查权限和敏感数据风险。
+- 认证、授权、敏感数据或网络暴露风险较高：security-reviewer 独立评审，再交 developer 或 it 修复。
 - 文档任务：tech-writer 整理，主执行者或 verifier 检查来源、链接和图；通常不需要代码实现阶段。
 - 并发、生命周期、协议、公共接口变更重点评审；按风险选流程，不单凭 diff 行数。
 
