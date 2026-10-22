@@ -22,3 +22,5 @@ description: 形成解决问题的候选方案与取舍，或串联市场调研�
 - 实施前核对与整理：[design-review](../design-review/SKILL.md) 与 [project-documentation](../project-documentation/SKILL.md)。
 
 方案产物沿用项目 RFC/设计说明位置，保留状态、候选、理由、取舍、风险和下一步。没有代码的新项目以需求和拟议设计为来源。只需某一阶段时不加载整套方法；完整设计默认交付到文档，不自动实现。需要排期用 [roadmap-planning](../roadmap-planning/SKILL.md)，已授权实施时才交给 [writing-plans](../writing-plans/SKILL.md)。
+
+需要专用自动执行时使用 Codex 适配器 `workflow: research-design`，任务示例和命令见 [运行指南](../../workflows/README.md)。普通 `/openas:solution-design` 调用仍是技能入口，不会自行启动外部进程；任务具备目标工作区、输入、范围和检查命令后才执行可信任务 JSON。

@@ -29,7 +29,7 @@ OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为�
 | [competitive-analysis](plugins/openas/skills/competitive-analysis/SKILL.md) | 同场景竞品矩阵、差距与待验证机会 |
 | [roadmap-planning](plugins/openas/skills/roadmap-planning/SKILL.md) | MVP、阶段目标、优先级、依赖和验收指标 |
 
-支持 [市场与竞品调研 → 方案设计 → 技术路线选择 → 架构设计 → 设计文档](plugins/openas/skills/solution-design/references/research-to-design.md) 的完整流程，按阶段保留输入、产物和验收关联。
+支持 [市场与竞品调研 → 方案设计 → 技术路线选择 → 架构设计 → 设计文档](plugins/openas/skills/solution-design/references/research-to-design.md) 的完整流程，按阶段保留输入、产物和验收关联。专用 `research-design` 路线可自动执行，评审指出最早受影响阶段后重跑该阶段及下游，最后执行宿主检查与独立验证。支持显式联网和已有资料两种模式；联网模式缺少原生搜索证据时停止。运行方式见 [工作流指南](plugins/openas/workflows/README.md)，真实执行边界见 [验收记录](docs/research-design-acceptance.md)。
 
 按任务需要组合，保留来源并区分事实、推断和未知；路线图中的可实施阶段交给 `writing-plans` 拆解。联网检索、试用与实验使用宿主实际可用的工具，没有执行的验证会明确标注。
 
@@ -51,7 +51,7 @@ OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为�
 
 ### 工作流编排与检查点恢复
 
-新增七个编排技能，覆盖路线选择、任务依赖、检查点恢复、失败处理、上下文交接、并行成果集成和验收追踪。运行器支持完整开发、故障修复、直接修改、只读评审和文档五种路线；多任务可先校验依赖图，再顺序执行。
+新增七个编排技能，覆盖路线选择、任务依赖、检查点恢复、失败处理、上下文交接、并行成果集成和验收追踪。运行器支持完整开发、故障修复、直接修改、只读评审、文档及调研设计六种路线；多任务可先校验依赖图，再顺序执行。
 
 中断后通过显式 `--resume` 核对任务、规则与源码，复用有效阶段；证据缺失时重跑对应阶段，源码或规则变化时需显式重新验证。运行目录提供 `handoff.json` 和逐项 `acceptance.json`。依赖图目前顺序调度，并行集成技能不等于自动并行执行。详见 [工作流指南](plugins/openas/workflows/README.md) 和 [编排验收记录](docs/orchestration-acceptance.md)。
 

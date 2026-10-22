@@ -1,0 +1,39 @@
+{
+  "workflow": "research-design",
+  "research_mode": "provided",
+  "requirement": "Read brief.md and complete market/competitor research, product requirements, solution design, technology selection, architecture, a consolidated design document and design review for the offline handoff CLI. Design only; no implementation. Respect the brief scope and length budget. Distinguish market hypotheses from verified facts.",
+  "scope": [
+    "design/01-market.md",
+    "design/02-requirements.md",
+    "design/03-solution.md",
+    "design/04-technology.md",
+    "design/05-architecture.md",
+    "design/DESIGN.md"
+  ],
+  "acceptance": [
+    "Six nonempty stage documents exist",
+    "The design traces requirements to decisions, architecture and verification methods",
+    "Market claims have sources and freshness limits; no fabricated tests or user research",
+    "Only declared Markdown output files change"
+  ],
+  "constraints": [
+    "No dependency installation, product code, external account changes or uploads",
+    "Use local Python standard library checks; inline diagrams only"
+  ],
+  "checks": [
+    [
+      "python3",
+      "-B",
+      "-c",
+      "from pathlib import Path; files=['design/01-market.md', 'design/02-requirements.md', 'design/03-solution.md', 'design/04-technology.md', 'design/05-architecture.md', 'design/DESIGN.md']; assert all(Path(p).is_file() and Path(p).read_text().strip() for p in files)"
+    ]
+  ],
+  "acceptance_checks": [
+    [
+      0
+    ],
+    [],
+    [],
+    []
+  ]
+}
