@@ -25,3 +25,5 @@ description: 围绕技术问题收集可追溯资料、比较证据并设计验�
 报告围绕研究问题组织：结论及适用条件、证据对比、限制和反例、未解问题、建议下一步，附来源。结论强度不超过证据覆盖范围；达到调查边界后交付部分结论和缺口，不以“没有搜到”证明能力不存在。
 
 需要选定架构或技术路线时交给 [solution-design](../solution-design/SKILL.md)；仅需回答一个事实时不强制生成长报告。
+
+查询库与框架文档时，可按 [Context7 MCP 指引](../../integrations/context7/README.md) 检索；调查 GitHub 仓库与讨论时参考 [GitHub MCP 指引](../../integrations/github/README.md)。宿主已有等价工具时复用，不要求为调研安装 MCP。

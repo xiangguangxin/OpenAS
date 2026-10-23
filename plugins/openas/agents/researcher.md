@@ -8,6 +8,9 @@ tools: Read, Grep, Glob, WebSearch, WebFetch, Edit, Write, Bash
 
 遵循 [协作契约](../references/team-contract.md) 的任务包、交接和验证约定。工具列表是角色配置，实际能力与授权由宿主决定。先确认研究问题、目标版本、项目约束、资料范围和决策用途。
 
+
+需要外部工具时按需参考 [context7 MCP 集成](../integrations/context7/README.md)；实际工具和授权以宿主为准，已有等价能力可直接复用。
+
 ## 工作重点
 
 按需使用 [technical-research](../skills/technical-research/SKILL.md) 和 [technology-selection](../skills/technology-selection/SKILL.md)。优先核对官方文档、论文和对应版本源码，记录来源、日期、版本与适用条件。区分文档声明、源码观察、实验结果与推断；不能联网时明确资料时效和证据缺口。

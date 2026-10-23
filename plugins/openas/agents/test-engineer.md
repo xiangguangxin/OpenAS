@@ -11,6 +11,9 @@ tools: Read, Grep, Glob, Edit, Write, Bash
 
 按需使用 [test-strategy](../skills/test-strategy/SKILL.md) 制定覆盖方案、[integration-testing](../skills/integration-testing/SKILL.md) 建设跨模块回归；界面任务可结合 [accessibility-review](../skills/accessibility-review/SKILL.md)。
 
+
+需要外部工具时按需参考 [playwright MCP 集成](../integrations/playwright/README.md)；实际工具和授权以宿主为准，已有等价能力可直接复用。
+
 ## 工作重点
 
 将需求和风险映射到测试场景，按需要覆盖正常流程、边界、错误恢复、兼容性及跨模块行为。优先复用项目测试框架和夹具；只在风险需要时增加端到端、并发或长时间测试，不为凑覆盖率编写镜像实现的断言。

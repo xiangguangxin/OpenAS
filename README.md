@@ -257,6 +257,18 @@ claude plugin update openas@openas-marketplace --scope project
 
 最后在会话中运行 `/reload-plugins`。具体命令及可用参数以本地 Claude CLI 的帮助信息为准。
 
+## 可选 MCP 集成
+
+按需为角色接入开源 MCP，方法技能保持工具中立，宿主已有等价能力时直接复用。
+
+| 集成 | 用途 | 使用指引 |
+| --- | --- | --- |
+| Playwright | 页面操作、结构快照与交互检查 | [配置与验收](plugins/openas/integrations/playwright/README.md) |
+| GitHub MCP Server | 仓库、Issue、PR 与 CI 上下文，示例默认只读 | [配置与验收](plugins/openas/integrations/github/README.md) |
+| Context7 | 库与框架文档检索、版本核对 | [配置与验收](plugins/openas/integrations/context7/README.md) |
+
+配置模板需在目标客户端显式启用；插件不自动安装服务、修改客户端配置或分发凭据。当前提供配置与操作指引，真实连接和任务验收需在目标环境完成。详见 [MCP 集成说明](plugins/openas/integrations/README.md)。
+
 ## 项目记忆
 
 技能、角色和脚本随插件分发，任务产生的记忆则保存在**目标项目**的 `.openas/memory/` 中。插件更新或卸载后，项目记忆仍然保留。各项目的记录独立管理，记忆功能不会改写项目的 `CLAUDE.md`。
@@ -314,7 +326,7 @@ plugins/openas/
   skills/                       38 个技能及配套资源
   references/                   协作契约与项目适配约定
   workflows/                    可选适配器、示例、测试与历史证据
-  integrations/rea/             REA 集成说明、许可与环境检查
+  integrations/                 可选 MCP 配置、使用指引与 REA 集成
   memory/README.md              项目记忆存储约定
 scripts/check_plugin.py         只读结构校验器
 ```

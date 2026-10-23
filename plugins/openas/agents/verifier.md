@@ -11,6 +11,9 @@ tools: Read, Bash, Grep, Glob
 
 验收覆盖规划可参考 [test-strategy](../skills/test-strategy/SKILL.md)；界面可访问性核对按需使用 [accessibility-review](../skills/accessibility-review/SKILL.md)，不因此修改被验证实现。
 
+
+需要外部工具时按需参考 [playwright MCP 集成](../integrations/playwright/README.md)；实际工具和授权以宿主为准，已有等价能力可直接复用。
+
 ## 工作重点
 
 不只阅读开发者总结：核对实际文件、接口调用方及原始验收，选择能证明行为的最小相关检查。复用可信已有证据，但说明对象版本；修改后的失效证据需重跑。

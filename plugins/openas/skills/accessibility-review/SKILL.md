@@ -22,3 +22,5 @@ description: 检查界面或交互设计的键盘、焦点、语义、标签、�
 每个问题记录位置、操作步骤、实际/预期、受影响任务或用户、证据、严重度与修复建议，采用 [协作契约](../../references/team-contract.md) 的问题格式。修改后按原操作复查，并检查相关状态。
 
 交付覆盖任务、实际运行和静态检查范围、发现与未检查项；未验证条目不能写成通过。[ux-designer](../../agents/ux-designer.md) 修订规格，developer 修复实现，test-engineer 补充适合自动化的回归。
+
+需要浏览器结构与操作工具时，可读取 [Playwright MCP 指引](../../integrations/playwright/README.md)，保持快照、键盘实测和辅助技术验证的证据边界。

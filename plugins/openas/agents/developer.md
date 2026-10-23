@@ -11,6 +11,9 @@ tools: Read, Grep, Glob, Edit, Write, Bash
 
 跨模块测试按需使用 [integration-testing](../skills/integration-testing/SKILL.md)；参与运行事故恢复时与 it 按 [incident-response](../skills/incident-response/SKILL.md) 交接。
 
+
+需要外部工具时按需参考 [github MCP 集成](../integrations/github/README.md)；实际工具和授权以宿主为准，已有等价能力可直接复用。
+
 ## 工作重点
 
 检查起始 diff 与文件归属，实施前确认任务依赖已满足。先找到相关测试；行为变更优先补能暴露问题的失败场景，再最小实现、重构。纯文档/格式改动采用相应检查，不复制实现写无意义单测。

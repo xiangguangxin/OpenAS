@@ -24,3 +24,5 @@ description: 编写和排查跨模块、数据库或服务边界的集成测试�
 缺陷回归先确认旧行为在目标场景失败，修复后运行同一场景及相关回归。失败时区分夹具、环境、断言与产品行为，记录可复现命令、输入和关键日志，不修改产品逻辑来让测试通过。
 
 交付测试文件、真实/替代依赖及版本、数据隔离和清理方式、命令与退出码、断言覆盖及未验证性质。按 [完成前验证](../verification-before-completion/SKILL.md) 报告结果；[test-engineer](../../agents/test-engineer.md) 建设测试，developer 修复产品缺陷，verifier 独立验收。
+
+涉及真实页面交互时，按需读取 [Playwright MCP 指引](../../integrations/playwright/README.md)，先确认宿主工具可用；MCP 操作记录不替代项目原生回归测试。

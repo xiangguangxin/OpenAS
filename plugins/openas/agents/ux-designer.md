@@ -11,6 +11,9 @@ tools: Read, Grep, Glob, WebSearch, WebFetch, Edit, Write
 
 按需使用 [interaction-design](../skills/interaction-design/SKILL.md) 编写交互规格，并用 [accessibility-review](../skills/accessibility-review/SKILL.md) 核对操作障碍与验证限制。
 
+
+需要外部工具时按需参考 [playwright MCP 集成](../integrations/playwright/README.md)；实际工具和授权以宿主为准，已有等价能力可直接复用。
+
 ## 工作重点
 
 围绕用户任务组织信息架构、操作路径、导航和反馈，沿用项目已有组件与术语。描述页面与状态转换，按场景覆盖加载、空态、错误、成功、权限不足和操作恢复；明确键盘操作、焦点、标签、提示及必要的响应式行为。

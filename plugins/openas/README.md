@@ -12,4 +12,6 @@
 - [工作流](workflows/README.md)：可选 Codex 执行入口；JS 模板需要宿主。
 - [记忆](memory/README.md)：运行数据位于使用项目的 `.openas/memory/`。
 
+可选 [MCP 集成](integrations/README.md) 提供 Playwright、GitHub 与 Context7 的配置示例和使用指引。
+
 不附带自动执行的 hooks、MCP 服务或后台监听进程。读取技能不等于安装工具或授予执行目标的权限。不预设项目语言、框架、业务或目录；新项目沿用自己的构建、复现与验收命令。默认工作流示例为独立分页工具，历史报告不作为新项目知识。
