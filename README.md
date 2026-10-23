@@ -13,7 +13,7 @@
 
 可插拔的角色协作 · 证据驱动的调试 · 可追溯的项目记忆
 
-[快速开始](#快速开始) · [角色团队](#角色团队) · [技能地图](#技能地图) · [整体架构](#整体架构) · [工作流程](#工作流程) · [安装与更新](#安装与更新) · [开发与验证](#开发与验证)
+[快速开始](#快速开始) · [角色团队](#角色团队) · [技能地图](#技能地图) · [整体架构](#整体架构) · [工作流程](#工作流程) · [安装与更新](#安装与更新) · [MCP 集成](#可选-mcp-集成) · [开发与验证](#开发与验证)
 
 </div>
 
@@ -259,15 +259,29 @@ claude plugin update openas@openas-marketplace --scope project
 
 ## 可选 MCP 集成
 
-按需为角色接入开源 MCP，方法技能保持工具中立，宿主已有等价能力时直接复用。
+MCP（Model Context Protocol）让 AI 客户端连接外部工具和数据源。在 OpenAS 中，**agent 承担职责，skill 提供工作方法，MCP 提供可调用的工具**。例如，test-engineer 按测试技能设计场景，再通过 Playwright MCP 操作页面、观察结果并记录证据。
 
-| 集成 | 用途 | 使用指引 |
-| --- | --- | --- |
-| Playwright | 页面操作、结构快照与交互检查 | [配置与验收](plugins/openas/integrations/playwright/README.md) |
-| GitHub MCP Server | 仓库、Issue、PR 与 CI 上下文，示例默认只读 | [配置与验收](plugins/openas/integrations/github/README.md) |
-| Context7 | 库与框架文档检索、版本核对 | [配置与验收](plugins/openas/integrations/context7/README.md) |
+核心角色和技能可独立使用；需要浏览器、远程仓库或文档检索能力时，再选择相应集成。客户端已有等价工具时可直接复用，同一个技能也可以使用不同工具。
 
-配置模板需在目标客户端显式启用；插件不自动安装服务、修改客户端配置或分发凭据。当前提供配置与操作指引，真实连接和任务验收需在目标环境完成。详见 [MCP 集成说明](plugins/openas/integrations/README.md)。
+### 已提供的集成
+
+| 集成 | 适用任务 | 常用角色 | 配置与使用 |
+| --- | --- | --- | --- |
+| **Playwright** | 操作页面、读取结构快照、检查用户流程 | test-engineer、verifier、ux-designer | [配置、操作与验收](plugins/openas/integrations/playwright/README.md) |
+| **GitHub MCP Server** | 读取仓库、Issue、PR 和 CI 记录；配置示例默认只读 | product-manager、developer、red-team、it | [配置、操作与验收](plugins/openas/integrations/github/README.md) |
+| **Context7** | 检索库与框架文档，核对 API 的版本与适用条件 | researcher、cto、developer | [配置、操作与验收](plugins/openas/integrations/context7/README.md) |
+
+每项集成都包含配置模板、角色与技能使用指引、最小验收步骤，以及工具不可用时的替代方式。浏览器操作记录可作为本次检查证据，需长期回归的行为仍应写入项目测试；文档检索结果也需与项目实际版本核对。
+
+### 如何启用
+
+1. 打开所需集成的说明，准备运行环境及相应凭据。
+2. 将其 `claude.mcp.example.json` 中需要的服务条目合并到**目标项目**的 `.mcp.json`，保留已有配置；凭据通过环境变量提供。
+3. 重连 Claude Code 会话，在 `/mcp` 检查服务连接和实际可用工具，再按该集成的最小验收步骤执行一次任务。
+
+这些模板面向 Claude Code。其他客户端需按各自格式注册；现有 Codex CLI 工作流适配器不会自动读取这些模板。角色若有工具白名单，还需在实际客户端中允许相应工具。
+
+**当前支持范围：配置模板与使用指引已提供，真实连接和任务验收需在目标环境完成。** 加载 OpenAS 不会自动安装或注册 MCP 服务，也不会分发凭据。完整说明见 [MCP 集成指南](plugins/openas/integrations/README.md)。
 
 ## 项目记忆
 
