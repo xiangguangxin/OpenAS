@@ -1,78 +1,27 @@
-# OpenAS — Open Agents & Skills
+<div align="center">
 
-**可插拔的角色协作、证据驱动的调试、可复用的项目记忆。**
+# OpenAS
 
-OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法，以 Claude Code 插件形式提供 **12 个协作角色、38 个技能**，并配备可选的 Codex CLI 工作流适配器。
+**Open Agents & Skills**
 
-适用于 Web 应用、后端服务、库、命令行工具、原生程序、数据处理和文档项目。接入后沿用目标仓库的技术栈、规则和验收命令。
+让 AI 开发从明确的需求出发，以可验证的结果交付。
 
-## 功能特性
+[![CI](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml/badge.svg)](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml)
+[![Agents](https://img.shields.io/badge/Agents-12-2563eb)](plugins/openas/agents)
+[![Skills](https://img.shields.io/badge/Skills-38-7c3aed)](plugins/openas/skills)
+[![License: MIT](https://img.shields.io/badge/License-MIT-059669)](LICENSE)
 
-### 按需组合的角色与技能
+可插拔的角色协作 · 证据驱动的调试 · 可追溯的项目记忆
 
-12 个角色覆盖产品需求、技术研究、架构、交互设计、开发、测试工程、性能分析、IT 运维、安全评审、对抗评审、技术文档和独立验证，共用任务范围、交接和证据约定。角色定义见 [agents](plugins/openas/agents)。简单任务直接调用单个技能；复杂任务按需要组合设计、实现、评审与验证，评审问题通过稳定 ID 跟踪和逐项回应。
+[快速开始](#快速开始) · [角色团队](#角色团队) · [技能地图](#技能地图) · [整体架构](#整体架构) · [工作流程](#工作流程) · [安装与更新](#安装与更新) · [开发与验证](#开发与验证)
 
-38 个技能覆盖技术调研、方案选型、竞品分析、路线图、项目文档、需求探索、实施计划、TDD、系统化调试、代码评审、技术绘图、项目记忆和分支收尾等环节，可独立使用，也可用于团队协作。
+</div>
 
-### 测试、交互、性能、安全与事故响应
+---
 
-| 技能 | 主要产物 |
-| --- | --- |
-| [test-strategy](plugins/openas/skills/test-strategy/SKILL.md) | 风险与需求对应的测试矩阵、环境和覆盖缺口 |
-| [integration-testing](plugins/openas/skills/integration-testing/SKILL.md) | 跨模块测试、隔离夹具、回归与依赖边界证据 |
-| [interaction-design](plugins/openas/skills/interaction-design/SKILL.md) | 用户流程、页面状态、交互规格和验收条件 |
-| [accessibility-review](plugins/openas/skills/accessibility-review/SKILL.md) | 可复现的操作障碍、修复建议与验证限制 |
-| [performance-analysis](plugins/openas/skills/performance-analysis/SKILL.md) | 基准、剖析证据、对照实验与收益限制 |
-| [security-review](plugins/openas/skills/security-review/SKILL.md) | 信任边界、攻击前提、缺陷与修复验证方法 |
-| [incident-response](plugins/openas/skills/incident-response/SKILL.md) | 影响和时间线、恢复证据、当前状态与后续行动 |
+OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 **Claude Code 插件**使用 12 个协作角色与 38 个技能，也可使用独立的 **Codex CLI 工作流适配器**执行阶段任务与验收。
 
-### 从调研到项目文档
-
-| 技能 | 主要产物 |
-| --- | --- |
-| [technical-research](plugins/openas/skills/technical-research/SKILL.md) | 有来源、版本和调查边界的技术调研报告 |
-| [market-research](plugins/openas/skills/market-research/SKILL.md) | 用户问题、市场机会、需求证据与验证假设 |
-| [product-requirements](plugins/openas/skills/product-requirements/SKILL.md) | 产品简报、PRD、稳定需求 ID 与验收 |
-| [technology-selection](plugins/openas/skills/technology-selection/SKILL.md) | 技术路线矩阵、PoC 条件、ADR |
-| [architecture-design](plugins/openas/skills/architecture-design/SKILL.md) | 模块、接口、数据、部署与需求映射 |
-| [design-review](plugins/openas/skills/design-review/SKILL.md) | 跨文档问题、回交与实施就绪结论 |
-| [solution-design](plugins/openas/skills/solution-design/SKILL.md) | 候选方案对比、推荐路线与设计决策记录 |
-| [project-documentation](plugins/openas/skills/project-documentation/SKILL.md) | README、入门、架构、接口、运维与排障文档 |
-| [competitive-analysis](plugins/openas/skills/competitive-analysis/SKILL.md) | 同场景竞品矩阵、差距与待验证机会 |
-| [roadmap-planning](plugins/openas/skills/roadmap-planning/SKILL.md) | MVP、阶段目标、优先级、依赖和验收指标 |
-
-支持 [市场与竞品调研 → 方案设计 → 技术路线选择 → 架构设计 → 设计文档](plugins/openas/skills/solution-design/references/research-to-design.md) 的完整流程，按阶段保留输入、产物和验收关联。专用 `research-design` 路线可自动执行，评审指出最早受影响阶段后重跑该阶段及下游，最后执行宿主检查与独立验证。支持显式联网和已有资料两种模式；联网模式缺少原生搜索证据时停止。运行方式见 [工作流指南](plugins/openas/workflows/README.md)，真实执行边界见 [验收记录](docs/research-design-acceptance.md)。
-
-按任务需要组合，保留来源并区分事实、推断和未知；路线图中的可实施阶段交给 `writing-plans` 拆解。联网检索、试用与实验使用宿主实际可用的工具，没有执行的验证会明确标注。
-
-### 证据驱动的故障定位
-
-从**需求、设计、实现、配置与环境**四个角度调查候选原因，再用日志、适合当前运行时的调试工具和可区分实验建立因果链。修复验证保留命令、退出码与关键输出，区分已确认结论、待验证假设和未覆盖范围。
-
-### 可审查、可追溯的项目记忆
-
-将项目事实、设计决定和可复用经验保存到目标项目的 `.openas/memory/`，供后续任务检索与交接。记录先进入候选状态，经过审查后才参与复用；直接证据或显式关联的原始来源变化后，检索会排除对应的旧记录。各项目独立存储，插件更新或卸载后记忆仍然保留。
-
-### 可插拔与会话内热加载
-
-通过 `--plugin-dir` 临时加载，或通过 marketplace 持久安装到项目。修改插件资源后，可在当前 Claude Code 会话中用 `/reload-plugins` 更新后续调用使用的组件，便于迭代角色与技能，无需逐项目复制文件。
-
-### 沿用现有项目工具链
-
-从目标仓库读取技术栈、目录、依赖、领域约束和验证方式。服务端使用现有 API 测试，前端检查交互与页面状态，文档任务核对来源和链接；接入时无需额外创建 OpenAS 专用配置文件。
-
-### 工作流编排与检查点恢复
-
-新增七个编排技能，覆盖路线选择、任务依赖、检查点恢复、失败处理、上下文交接、并行成果集成和验收追踪。运行器支持完整开发、故障修复、直接修改、只读评审、文档及调研设计六种路线；多任务可先校验依赖图，再顺序执行。
-
-中断后通过显式 `--resume` 核对任务、规则与源码，复用有效阶段；证据缺失时重跑对应阶段，源码或规则变化时需显式重新验证。运行目录提供 `handoff.json` 和逐项 `acceptance.json`。依赖图目前顺序调度，并行集成技能不等于自动并行执行。详见 [工作流指南](plugins/openas/workflows/README.md) 和 [编排验收记录](docs/orchestration-acceptance.md)。
-
-### 技术图表与可追溯的任务编排
-
-- **技术绘图**：按表达需求选择 Mermaid、SVG 或 D2，绘制架构、数据流、状态机和交互时序，并核对图与源码、文档的一致性。
-- **可选 Codex CLI 工作流**：按所选路线顺序执行角色阶段，保留阶段输出、文件指纹和验收记录；评审或验证未通过时，在限定轮数内回交修订，仍未通过则停止并保留现场。
-
-Agent 调用、热加载和工具执行以实际客户端能力及会话授权为准；具体使用方式与验证边界见下文。
+适用于 Web 应用、后端服务、库、命令行工具、原生程序、数据处理和文档项目。接入后沿用目标仓库的技术栈、目录与验证命令，无需额外创建 OpenAS 专用配置文件。
 
 ## 快速开始
 
@@ -82,26 +31,189 @@ Agent 调用、热加载和工具执行以实际客户端能力及会话授权�
 claude --plugin-dir /path/to/OpenAS/plugins/openas
 ```
 
-随后可在会话中调用技能：
+在会话中按任务调用技能：
 
 ```text
-/openas:bug-fix 排查这个问题，先分析可能的原因，再用当前项目的日志和测试验证根因
-/openas:technical-diagrams 为当前文档绘制架构图
+/openas:solution-design 根据当前需求形成方案，明确接口、失败行为和实施就绪条件
+/openas:bug-fix 排查这个问题，用当前项目的日志和测试验证根因
+/openas:test-strategy 根据需求和风险制定测试场景与覆盖计划
 /openas:project-memory 提炼本次任务中有证据、可复用的项目经验
+```
+
+技能和角色统一使用 `openas:` 命名空间。`--plugin-dir` 只对本次启动生效；修改本地插件后，可在当前会话运行 `/reload-plugins`，更新后续调用使用的组件。
+
+<details>
+<summary>更多调用示例</summary>
+
+```text
 /openas:technical-research 调研当前项目的数据存储方案，保留来源和关键未知项
-/openas:solution-design 从市场竞品调研开始，完成方案、技术选型、架构设计和设计文档，保留来源及待验证项
+/openas:technical-diagrams 为当前文档绘制架构图
 /openas:project-documentation 根据源码完善 README 和入门指南，核对示例
 /openas:competitive-analysis 对比同类工具在目标使用场景中的能力与限制
 /openas:roadmap-planning 将需求和调研结论整理为 MVP 与阶段验收目标
+/openas:interaction-design 将已确认需求整理为用户流程、界面状态和交互规格
+/openas:performance-analysis 建立可复现基线，用剖析与对照实验定位瓶颈
 ```
 
-技能和角色统一使用 `openas:` 命名空间。`--plugin-dir` 只对本次启动生效，下次启动时省略该参数即可不加载。
+</details>
 
-### 适配现有项目
+## 为什么使用 OpenAS
 
-OpenAS 从目标仓库的规则文件、文档、源码和 CI 配置中确认工作方式，沿用已有目录、依赖管理和验证命令。接入时无需额外创建 OpenAS 专用配置文件。
+| 能力 | 工作方式 |
+| --- | --- |
+| **按需协作** | 简单任务调用单个技能；复杂任务按需要组合角色，统一范围、交接与问题追踪 |
+| **设计可实施** | 按风险确定设计深度，明确边界与失败行为，用可验证行为拆分任务 |
+| **调试有证据** | 从需求、设计、实现、配置与环境调查原因，用日志和可区分实验建立因果链 |
+| **交付可核验** | 保留命令、退出码、关键输出与覆盖限制，区分事实、假设和未运行项 |
+| **记忆可追溯** | 项目经验经审查后复用，直接证据或显式关联来源变化时排除旧记录 |
+| **适配已有工程** | 读取目标仓库的规则、源码与 CI，沿用已有工具链和领域约束 |
 
-例如，服务端变更使用现有 API 测试，前端交互修复检查用户操作与页面状态，文档调整核对来源、链接和图表。领域相关的单位、协议、设备和数据约束以目标项目为准。具体约定见 [项目适配说明](plugins/openas/references/project-context.md)。
+设计与任务拆分的具体标准见 [设计粒度与实施就绪](plugins/openas/references/implementation-readiness.md)，项目接入约定见 [项目适配说明](plugins/openas/references/project-context.md)。
+
+## 角色团队
+
+每个角色都有明确输入、交付物和职责边界，共用 [团队协作契约](plugins/openas/references/team-contract.md)。角色按任务需要选用。
+
+| 阶段 | Agent | 职责 |
+| --- | --- | --- |
+| 需求 | [product-manager](plugins/openas/agents/product-manager.md) | 用户与市场证据、产品范围、优先级与验收 |
+| 研究 | [researcher](plugins/openas/agents/researcher.md) | 技术取证、候选比较与 PoC |
+| 架构 | [cto](plugins/openas/agents/cto.md) | 设计取舍、接口契约与可执行任务 |
+| 交互 | [ux-designer](plugins/openas/agents/ux-designer.md) | 用户流程、信息架构与界面状态 |
+| 实现 | [developer](plugins/openas/agents/developer.md) | 授权范围内的实现、修复与相关测试 |
+| 测试 | [test-engineer](plugins/openas/agents/test-engineer.md) | 测试策略、自动化测试与跨模块回归 |
+| 性能 | [performance-engineer](plugins/openas/agents/performance-engineer.md) | 基准、剖析与优化对照实验 |
+| 运维 | [it](plugins/openas/agents/it.md) | 开发环境、CI、部署配置与恢复 |
+| 安全 | [security-reviewer](plugins/openas/agents/security-reviewer.md) | 信任边界、安全问题与修复建议 |
+| 评审 | [red-team](plugins/openas/agents/red-team.md) | 有证据的反例、失败条件与缺陷 |
+| 文档 | [tech-writer](plugins/openas/agents/tech-writer.md) | 基于源码和证据的说明与图表 |
+| 验收 | [verifier](plugins/openas/agents/verifier.md) | 对照原始验收独立核查实际产物 |
+
+## 技能地图
+
+38 个技能可独立使用，也可组合到角色任务中。下表列出常用入口，完整定义见 [skills](plugins/openas/skills)。
+
+| 任务 | 技能入口 | 主要产物 |
+| --- | --- | --- |
+| 市场与需求 | [market-research](plugins/openas/skills/market-research/SKILL.md) · [competitive-analysis](plugins/openas/skills/competitive-analysis/SKILL.md) · [product-requirements](plugins/openas/skills/product-requirements/SKILL.md) | 用户与竞品证据、PRD、需求 ID 与验收 |
+| 技术研究 | [technical-research](plugins/openas/skills/technical-research/SKILL.md) · [technology-selection](plugins/openas/skills/technology-selection/SKILL.md) | 来源索引、候选矩阵、PoC 与 ADR |
+| 方案与架构 | [solution-design](plugins/openas/skills/solution-design/SKILL.md) · [architecture-design](plugins/openas/skills/architecture-design/SKILL.md) · [design-review](plugins/openas/skills/design-review/SKILL.md) | 方案取舍、模块契约与实施就绪结论 |
+| 规划与实施 | [roadmap-planning](plugins/openas/skills/roadmap-planning/SKILL.md) · [writing-plans](plugins/openas/skills/writing-plans/SKILL.md) · [test-driven-development](plugins/openas/skills/test-driven-development/SKILL.md) | 阶段目标、可执行任务与行为测试 |
+| 测试工程 | [test-strategy](plugins/openas/skills/test-strategy/SKILL.md) · [integration-testing](plugins/openas/skills/integration-testing/SKILL.md) | 测试矩阵、隔离夹具与回归证据 |
+| 交互与可访问性 | [interaction-design](plugins/openas/skills/interaction-design/SKILL.md) · [accessibility-review](plugins/openas/skills/accessibility-review/SKILL.md) | 交互规格、状态与操作障碍评审 |
+| 性能与安全 | [performance-analysis](plugins/openas/skills/performance-analysis/SKILL.md) · [security-review](plugins/openas/skills/security-review/SKILL.md) | 对照实验、瓶颈证据与安全缺陷 |
+| 故障与恢复 | [bug-fix](plugins/openas/skills/bug-fix/SKILL.md) · [incident-response](plugins/openas/skills/incident-response/SKILL.md) | 根因证据、恢复时间线与核验结果 |
+| 文档与图表 | [project-documentation](plugins/openas/skills/project-documentation/SKILL.md) · [technical-diagrams](plugins/openas/skills/technical-diagrams/SKILL.md) | 项目说明、接口文档与 Mermaid / SVG / D2 图表 |
+| 记忆与交付 | [project-memory](plugins/openas/skills/project-memory/SKILL.md) · [verification-before-completion](plugins/openas/skills/verification-before-completion/SKILL.md) | 可审查经验与真实验收记录 |
+
+## 整体架构
+
+OpenAS 提供两条独立入口，共用仓库中的角色、技能与协作约定。下图展示组件关系，连线标注加载、调用与数据读写的含义。
+
+```mermaid
+flowchart TB
+    user["用户目标、范围与验收"]
+
+    subgraph entry["执行入口 · 由宿主提供实际工具与权限"]
+        direction LR
+        claude["Claude Code<br/>插件加载与按需调用"]
+        adapter["Codex CLI 适配器<br/>路线调度、检查与恢复"]
+        sessions["Codex CLI 独立会话<br/>执行既定角色阶段"]
+        adapter -->|调用| sessions
+    end
+
+    subgraph bundle["OpenAS 插件资源"]
+        direction LR
+        agents["agents/<br/>12 个角色定义"]
+        skills["skills/<br/>38 个工作方法"]
+        contracts["references/<br/>协作契约、项目适配与实施就绪"]
+    end
+
+    subgraph target["目标项目"]
+        direction LR
+        repo["规则、源码、文档与测试"]
+        memory[".openas/memory/<br/>经审查的事实、决定与经验"]
+    end
+
+    evidence["运行目录<br/>阶段结果、检查证据与检查点"]
+
+    user -->|会话指令| claude
+    user -->|显式任务配置| adapter
+    claude -->|发现与加载| bundle
+    adapter -->|读取并注入阶段提示| bundle
+    claude -->|按授权读取或修改、运行检查| repo
+    sessions -->|按任务范围读取或修改、运行检查| repo
+    claude -->|通过记忆技能检索与维护| memory
+    adapter -->|读取相关记忆作为上下文| memory
+    adapter -->|记录与恢复| evidence
+
+    classDef entryStyle fill:#eff6ff,stroke:#2563eb,color:#172554
+    classDef resourceStyle fill:#f5f3ff,stroke:#7c3aed,color:#2e1065
+    classDef dataStyle fill:#ecfdf5,stroke:#059669,color:#064e3b
+    class claude,adapter,sessions entryStyle
+    class agents,skills,contracts resourceStyle
+    class repo,memory,evidence dataStyle
+```
+
+角色和技能是供宿主读取的资源；实际执行由 Claude Code 或 Codex CLI 会话完成。Codex 适配器按既定路线选择角色，新增角色不会自动加入所有工作流；记忆审查与复用规则见 [项目记忆说明](plugins/openas/memory/README.md)。
+
+## 工作流程
+
+下图展示完整开发任务的协作逻辑。已有有效需求和设计时可复用对应阶段；修复、只读评审、文档等路线按各自范围执行，具体阶段以 [运行指南](plugins/openas/workflows/README.md) 为准。
+
+```mermaid
+flowchart TB
+    request["明确目标、范围与原始验收"]
+    research["按需研究与需求整理<br/>product-manager / researcher"]
+    design["方案、架构与任务划分<br/>cto"]
+    ready{"设计评审<br/>当前范围是否实施就绪？"}
+    revise["回交需求、研究或设计<br/>关闭阻断未知"]
+    docs["整理设计与交接<br/>tech-writer"]
+    auth{"当前任务是否包含实施授权？"}
+    designOnly["交付设计文档<br/>列出待决策与未验证项"]
+    implement["按任务实施并补充测试<br/>developer · 按需使用领域角色"]
+    review{"实现评审<br/>red-team"}
+    checks{"相关检查与独立验收<br/>检查命令 / verifier"}
+    delivery["交付变更与真实证据<br/>按需提炼候选项目记忆"]
+    stop["停止自动回环<br/>保留问题、证据与交接信息"]
+
+    request --> research
+    research --> design
+    design --> ready
+    ready -->|未就绪且仍可修订| revise
+    revise --> design
+    ready -->|当前范围就绪| docs
+    docs --> auth
+    auth -->|仅设计| designOnly
+    auth -->|已授权实施| implement
+    implement --> review
+    review -->|通过| checks
+    review -->|需修复且仍可修订| implement
+    checks -->|失败且仍可修订| implement
+    checks -->|通过| delivery
+    ready -->|达到修订上限| stop
+    review -->|达到修订上限| stop
+    checks -->|达到修订上限| stop
+
+    classDef work fill:#eff6ff,stroke:#2563eb,color:#172554
+    classDef gate fill:#fffbeb,stroke:#d97706,color:#78350f
+    classDef done fill:#ecfdf5,stroke:#059669,color:#064e3b
+    classDef blocked fill:#fff1f2,stroke:#e11d48,color:#881337
+    class request,research,design,revise,docs,implement work
+    class ready,auth,review,checks gate
+    class designOnly,delivery done
+    class stop blocked
+```
+
+“实施就绪”针对明确范围判断：关键契约和失败行为已确定，验收有对应模块及验证方法。领域角色按需参与，图中研究与计划节点表示协作职责，不代表每条运行器路线都会单独派发这些角色。达到宿主配置的修订上限时保留现场，不跳过门禁。
+
+- **完整设计**：支持 [市场与竞品调研到设计文档](plugins/openas/skills/solution-design/references/research-to-design.md)，保留来源、需求与验收关联。设计默认交付到文档；已授权实施时再拆任务。
+- **编排与恢复**：七个编排技能覆盖路线选择、任务依赖、检查点恢复、失败处理、上下文交接、并行成果集成与验收追踪。运行器支持开发、修复、直接修改、评审、安全评审、运维、文档及调研设计路线。
+- **阶段证据**：Codex CLI 适配器保留输出、文件指纹、`handoff.json` 与逐项 `acceptance.json`。中断后显式使用 `--resume` 核对任务、规则和源码，复用有效阶段，按需重跑失效证据。
+
+依赖图目前顺序调度，并行集成技能不等于自动并行执行。Agent 调用、热加载、联网检索和工具执行以客户端能力及会话授权为准。`research-design` 路线支持显式联网与已有资料两种模式，联网模式缺少原生搜索证据时停止。
+
+详见 [工作流指南](plugins/openas/workflows/README.md)、[调研设计验收](docs/research-design-acceptance.md) 与 [编排验收记录](docs/orchestration-acceptance.md)。
 
 ## 安装与更新
 
