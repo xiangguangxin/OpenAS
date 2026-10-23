@@ -2,7 +2,7 @@
 
 **可插拔的角色协作、证据驱动的调试、可复用的项目记忆。**
 
-OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法，以 Claude Code 插件形式提供 **5 个协作角色、31 个技能**，并配备可选的 Codex CLI 工作流适配器。
+OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法，以 Claude Code 插件形式提供 **12 个协作角色、38 个技能**，并配备可选的 Codex CLI 工作流适配器。
 
 适用于 Web 应用、后端服务、库、命令行工具、原生程序、数据处理和文档项目。接入后沿用目标仓库的技术栈、规则和验收命令。
 
@@ -10,9 +10,21 @@ OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为�
 
 ### 按需组合的角色与技能
 
-架构师、开发者、对抗评审、技术文档工程师和独立验证者各有明确职责，共用任务范围、交接和证据约定。简单任务直接调用单个技能；复杂任务按需要组合设计、实现、评审与验证，评审问题通过稳定 ID 跟踪和逐项回应。
+12 个角色覆盖产品需求、技术研究、架构、交互设计、开发、测试工程、性能分析、IT 运维、安全评审、对抗评审、技术文档和独立验证，共用任务范围、交接和证据约定。角色定义见 [agents](plugins/openas/agents)。简单任务直接调用单个技能；复杂任务按需要组合设计、实现、评审与验证，评审问题通过稳定 ID 跟踪和逐项回应。
 
-31 个技能覆盖技术调研、方案选型、竞品分析、路线图、项目文档、需求探索、实施计划、TDD、系统化调试、代码评审、技术绘图、项目记忆和分支收尾等环节，可独立使用，也可用于团队协作。
+38 个技能覆盖技术调研、方案选型、竞品分析、路线图、项目文档、需求探索、实施计划、TDD、系统化调试、代码评审、技术绘图、项目记忆和分支收尾等环节，可独立使用，也可用于团队协作。
+
+### 测试、交互、性能、安全与事故响应
+
+| 技能 | 主要产物 |
+| --- | --- |
+| [test-strategy](plugins/openas/skills/test-strategy/SKILL.md) | 风险与需求对应的测试矩阵、环境和覆盖缺口 |
+| [integration-testing](plugins/openas/skills/integration-testing/SKILL.md) | 跨模块测试、隔离夹具、回归与依赖边界证据 |
+| [interaction-design](plugins/openas/skills/interaction-design/SKILL.md) | 用户流程、页面状态、交互规格和验收条件 |
+| [accessibility-review](plugins/openas/skills/accessibility-review/SKILL.md) | 可复现的操作障碍、修复建议与验证限制 |
+| [performance-analysis](plugins/openas/skills/performance-analysis/SKILL.md) | 基准、剖析证据、对照实验与收益限制 |
+| [security-review](plugins/openas/skills/security-review/SKILL.md) | 信任边界、攻击前提、缺陷与修复验证方法 |
+| [incident-response](plugins/openas/skills/incident-response/SKILL.md) | 影响和时间线、恢复证据、当前状态与后续行动 |
 
 ### 从调研到项目文档
 
@@ -186,8 +198,8 @@ GitHub Actions 在 PR 创建或更新，以及代码推送或合并到 `main` �
 .claude-plugin/marketplace.json   本地 marketplace 入口
 plugins/openas/
   .claude-plugin/plugin.json     插件清单与版本
-  agents/                       5 个协作角色
-  skills/                       31 个技能及配套资源
+  agents/                       12 个协作角色
+  skills/                       38 个技能及配套资源
   references/                   协作契约与项目适配约定
   workflows/                    可选适配器、示例、测试与历史证据
   integrations/rea/             REA 集成说明、许可与环境检查

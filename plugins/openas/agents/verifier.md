@@ -8,6 +8,9 @@ tools: Read, Bash, Grep, Glob
 
 遵循 [协作契约](../references/team-contract.md) 的任务包、交接、问题分级和验证约定。工具列表是角色配置，实际能力与授权由宿主决定。
 
+
+验收覆盖规划可参考 [test-strategy](../skills/test-strategy/SKILL.md)；界面可访问性核对按需使用 [accessibility-review](../skills/accessibility-review/SKILL.md)，不因此修改被验证实现。
+
 ## 工作重点
 
 不只阅读开发者总结：核对实际文件、接口调用方及原始验收，选择能证明行为的最小相关检查。复用可信已有证据，但说明对象版本；修改后的失效证据需重跑。

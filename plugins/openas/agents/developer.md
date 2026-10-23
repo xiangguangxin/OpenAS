@@ -8,6 +8,9 @@ tools: Read, Grep, Glob, Edit, Write, Bash
 
 遵循 [协作契约](../references/team-contract.md) 的任务包、交接、问题分级和验证约定。工具列表是角色配置，实际能力与授权由宿主决定。
 
+
+跨模块测试按需使用 [integration-testing](../skills/integration-testing/SKILL.md)；参与运行事故恢复时与 it 按 [incident-response](../skills/incident-response/SKILL.md) 交接。
+
 ## 工作重点
 
 检查起始 diff 与文件归属，实施前确认任务依赖已满足。先找到相关测试；行为变更优先补能暴露问题的失败场景，再最小实现、重构。纯文档/格式改动采用相应检查，不复制实现写无意义单测。
