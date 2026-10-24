@@ -8,7 +8,7 @@
 
 [![CI](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml/badge.svg)](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml)
 [![Agents](https://img.shields.io/badge/Agents-12-2563eb)](plugins/openas/agents)
-[![Skills](https://img.shields.io/badge/Skills-39-7c3aed)](plugins/openas/skills)
+[![Skills](https://img.shields.io/badge/Skills-40-7c3aed)](plugins/openas/skills)
 [![License: MIT](https://img.shields.io/badge/License-MIT-059669)](LICENSE)
 
 可插拔的角色协作 · 证据驱动的调试 · 可追溯的项目记忆
@@ -19,7 +19,7 @@
 
 ---
 
-OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 **Claude Code 插件**使用 12 个协作角色与 39 个技能，也可使用独立的 **Codex CLI 工作流适配器**执行阶段任务与验收。
+OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 **Claude Code 插件**使用 12 个协作角色与 40 个技能，也可使用独立的 **Codex CLI 工作流适配器**执行阶段任务与验收。
 
 适用于 Web 应用、后端服务、库、命令行工具、原生程序、数据处理和文档项目。接入后沿用目标仓库的技术栈、目录与验证命令，无需额外创建 OpenAS 专用配置文件。
 
@@ -50,6 +50,7 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 /openas:github-skill-discovery 按当前需求从 GitHub 查找制作 PPT 的技能，核对内容、依赖与许可证，先交付候选比较
 /openas:technical-diagrams 为当前文档绘制架构图
 /openas:project-documentation 根据源码完善 README 和入门指南，核对示例
+/openas:presentation-creation 根据当前材料制作 10 分钟项目汇报，交付可编辑 PPTX、源稿和预览，保留数据来源
 /openas:competitive-analysis 对比同类工具在目标使用场景中的能力与限制
 /openas:roadmap-planning 将需求和调研结论整理为 MVP 与阶段验收目标
 /openas:interaction-design 将已确认需求整理为用户流程、界面状态和交互规格
@@ -92,7 +93,7 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 
 ## 技能地图
 
-39 个技能可独立使用，也可组合到角色任务中。下表列出常用入口，完整定义见 [skills](plugins/openas/skills)。
+40 个技能可独立使用，也可组合到角色任务中。下表列出常用入口，完整定义见 [skills](plugins/openas/skills)。
 
 | 任务 | 技能入口 | 主要产物 |
 | --- | --- | --- |
@@ -106,6 +107,7 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 | 性能与安全 | [performance-analysis](plugins/openas/skills/performance-analysis/SKILL.md) · [security-review](plugins/openas/skills/security-review/SKILL.md) | 对照实验、瓶颈证据与安全缺陷 |
 | 故障与恢复 | [bug-fix](plugins/openas/skills/bug-fix/SKILL.md) · [incident-response](plugins/openas/skills/incident-response/SKILL.md) | 根因证据、恢复时间线与核验结果 |
 | 文档与图表 | [project-documentation](plugins/openas/skills/project-documentation/SKILL.md) · [technical-diagrams](plugins/openas/skills/technical-diagrams/SKILL.md) | 项目说明、接口文档与 Mermaid / SVG / D2 图表 |
+| 演示文稿 | [presentation-creation](plugins/openas/skills/presentation-creation/SKILL.md) | 内容与叙事、原生可编辑 PPTX、讲稿备注、JSON 源稿与渲染预览 |
 | 记忆与交付 | [project-memory](plugins/openas/skills/project-memory/SKILL.md) · [verification-before-completion](plugins/openas/skills/verification-before-completion/SKILL.md) | 可审查经验与真实验收记录 |
 
 ## 整体架构
@@ -127,7 +129,7 @@ flowchart TB
     subgraph bundle["OpenAS 插件资源"]
         direction LR
         agents["agents/<br/>12 个角色定义"]
-        skills["skills/<br/>39 个工作方法"]
+        skills["skills/<br/>40 个工作方法"]
         contracts["references/<br/>协作契约、项目适配与实施就绪"]
     end
 
@@ -323,6 +325,8 @@ node plugins/openas/workflows/tests/agent-team.test.mjs
 
 这些检查覆盖插件结构、资源链接和工作流回归，不安装依赖、不调用模型。
 
+演示文稿的原生对象测试需要先在隔离环境安装 [固定依赖](plugins/openas/skills/presentation-creation/requirements.txt)，未安装时对应测试会跳过；CI 已安装这些依赖。真实 Office 渲染和原生客户端验收另行执行。
+
 已有 Claude CLI 时，可进一步验证插件清单：
 
 ```bash
@@ -343,7 +347,7 @@ GitHub Actions 在 PR 创建或更新，以及代码推送或合并到 `main` �
 plugins/openas/
   .claude-plugin/plugin.json     插件清单与版本
   agents/                       12 个协作角色
-  skills/                       39 个技能及配套资源
+  skills/                       40 个技能及配套资源
   references/                   协作契约与项目适配约定
   workflows/                    可选适配器、示例、测试与历史证据
   integrations/                 可选 MCP 配置、使用指引与 REA 集成
@@ -357,10 +361,12 @@ OpenAS 最初从 gem5 项目的协作配置中提取，现已将角色、技能�
 
 REA 上游 Skill 及参考文件保留原文，并附 [MIT 许可](plugins/openas/integrations/rea/LICENSE)。相关 MCP 服务和分析工具为可选依赖，加载 OpenAS 不会自动安装或连接它们，详见 [REA 集成说明](plugins/openas/integrations/rea/README.md)。
 
+演示文稿技能融合了已固定提交并核对许可的 MiniMax、K-Dense 与 OpenAI 历史 slides 方法，保留来源及适用条款，运行代码独立实现；详见 [融合与许可说明](plugins/openas/skills/presentation-creation/NOTICE.md)。该技能目录采用 Apache-2.0，附带来源 MIT 条款，不由仓库根 MIT 取代。
+
 Claude Code 官方文档：[插件格式](https://code.claude.com/docs/en/plugins-reference)、[插件创建与迁移](https://code.claude.com/docs/en/plugins/create)、[热加载与管理命令](https://code.claude.com/docs/en/plugins/cli-reference)。
 
 ## 维护与验收
 
-项目自有内容采用 [MIT License](LICENSE)，第三方内容保留各自许可。版本变化见 [CHANGELOG](CHANGELOG.md)，开发与发布流程见 [贡献指南](CONTRIBUTING.md)，运行环境和记录格式见 [兼容说明](docs/compatibility.md)。
+除明确标注的技能目录外，项目自有内容采用 [MIT License](LICENSE)；另行声明的目录与第三方内容遵循各自许可。版本变化见 [CHANGELOG](CHANGELOG.md)，开发与发布流程见 [贡献指南](CONTRIBUTING.md)，运行环境和记录格式见 [兼容说明](docs/compatibility.md)。
 
 真实技能行为评测、修复验证及尚缺外部条件的项目分别记录在 [行为评测说明](docs/skill-evaluation.md) 和 [本次修复验收](docs/review-remediation.md) 中。

@@ -30,3 +30,9 @@ python3 scripts/evaluate_skills.py --case ordinary-review --output /tmp/openas-r
 github-skill-discovery 另有一次 [真实客户端候选比较验收](../plugins/openas/workflows/evidence/2026-10-24-skill-discovery/README.md)：从完整目录选择该技能，比较两个已提供的合成快照，核对内容、依赖、许可证和适用性，并保持只推荐、不安装的任务范围。它未加入上述六项默认评测，不代表实时 GitHub 搜索或原生客户端安装验收。
 
 配套 import_skill.py 的本地 Git 测试覆盖固定提交、许可证保留、审查指纹绑定、适配、已有目录保护、来源记录及验证状态；这些机械检查不能替代实际候选的语义和许可证审查。
+
+## 演示文稿制作
+
+presentation-creation 的 [融合与验收记录](../plugins/openas/workflows/evidence/2026-10-24-presentation/README.md) 包含可打开的 8 页 PPTX、真实 LibreOffice/Poppler 渲染、总览和源稿。另有真实客户端按材料生成 4 页原生图表文稿、仅提纲时保持不创建文件的正反场景；固定值门禁对中文状态的误判与语义更正也保留在收据中。
+
+这些试用未加入上述六项默认模型评测。普通测试在安装固定依赖后验证实际 PPTX 对象和机械边界，不调用模型；不以其结果替代目标 PowerPoint 客户端或无障碍验收。

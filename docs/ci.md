@@ -8,7 +8,7 @@ GitHub Actions 配置位于 [`.github/workflows/ci.yml`](../.github/workflows/ci
 3. 工作流 Python 单元测试。
 4. JavaScript 工作流的模拟宿主测试。
 
-运行时为 Python 3.10 和 Node.js 22。不安装项目依赖，不需要自建 Runner、GitLab、模型凭证或自定义镜像。
+运行时为 Python 3.10 和 Node.js 22。CI 安装 presentation-creation/requirements.txt 中固定的 Python 依赖，以实际验证可编辑 PPTX 生成；不安装系统 Office，不需要自建 Runner、GitLab、模型凭证或自定义镜像。
 真实 Claude 热加载测试显式关闭；CI 通过不能证明真实客户端加载成功。
 
 ## 触发与结果

@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "reviewed_on": "2026-10-24",
+  "method": "Reviewed pinned sources; synthesized and translated workflow guidance. Renderer and checks independently authored; no upstream runtime scripts/assets copied.",
+  "sources": [
+    {
+      "repository": "MiniMax-AI/skills",
+      "commit": "60aaae52bb2af8162732751a4332f62a5fef518b",
+      "skill_path": "skills/pptx-generator",
+      "license": "MIT",
+      "license_file": "licenses/MiniMax-MIT.txt",
+      "adopted": [
+        "Shared theme and consistent geometry",
+        "Slide purpose and layout variation",
+        "Content checks followed by rendered visual review"
+      ],
+      "omitted": [
+        "Mandatory fixed badge coordinates",
+        "Mandatory global npm installs",
+        "Subagent requirement",
+        "Compulsory defect/fix cycle even when no defect exists"
+      ],
+      "files": [
+        {
+          "url": "https://raw.githubusercontent.com/MiniMax-AI/skills/60aaae52bb2af8162732751a4332f62a5fef518b/skills/pptx-generator/SKILL.md",
+          "sha256_normalized_utf8": "6eeb36239fdef35ab133ca462e1ec4674cb96dd9c5cd63da39c29151899bda10"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MiniMax-AI/skills/60aaae52bb2af8162732751a4332f62a5fef518b/skills/pptx-generator/references/design-system.md",
+          "sha256_normalized_utf8": "8a225af2ebd3bfa979616da74b7ec34395712fe1a8195e5613214aa291211996"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MiniMax-AI/skills/60aaae52bb2af8162732751a4332f62a5fef518b/skills/pptx-generator/references/pitfalls.md",
+          "sha256_normalized_utf8": "247a8eb1860524fdd0d8a3365a791490c162d4a58677eb3f329d4dd682ce0257"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MiniMax-AI/skills/60aaae52bb2af8162732751a4332f62a5fef518b/LICENSE",
+          "sha256_normalized_utf8": "eed4ccce37c2d24822da3bd9d5bee7bc12d494741de56ada513d0b97f537fcd0"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/MiniMax-AI/skills/60aaae52bb2af8162732751a4332f62a5fef518b/CREDITS.md",
+          "sha256_normalized_utf8": "536cfa5cf8171d6c9418a7520d732ce5a382fa68947654bd5f037bdfc6368897"
+        }
+      ]
+    },
+    {
+      "repository": "K-Dense-AI/scientific-agent-skills",
+      "commit": "593377bb048752abb0152deab9fbb1083a6087df",
+      "skill_path": "skills/scientific-slides",
+      "license": "MIT",
+      "license_file": "licenses/K-Dense-MIT.txt",
+      "adopted": [
+        "Audience and time budget before slide authoring",
+        "Claims tied to sources and original quantitative figures",
+        "Speaker notes, limitations and rehearsal timing"
+      ],
+      "omitted": [
+        "Paid image generation and required external API keys",
+        "Full-slide image generation as the default",
+        "Mandatory literature count and companion skills",
+        "Beamer implementation"
+      ],
+      "files": [
+        {
+          "url": "https://raw.githubusercontent.com/K-Dense-AI/scientific-agent-skills/593377bb048752abb0152deab9fbb1083a6087df/skills/scientific-slides/SKILL.md",
+          "sha256_normalized_utf8": "b1d34b81d30789f561bd4ee3ddb373c9fb84bed25086794bebd842af46afbad6"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/K-Dense-AI/scientific-agent-skills/593377bb048752abb0152deab9fbb1083a6087df/skills/scientific-slides/references/presentation_structure.md",
+          "sha256_normalized_utf8": "8e79965dd65ca56a7e239920867b36be1b2f626cee9e65e99e4d6efaaa883004"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/K-Dense-AI/scientific-agent-skills/593377bb048752abb0152deab9fbb1083a6087df/skills/scientific-slides/references/presentation_workflow.md",
+          "sha256_normalized_utf8": "5e52ebfcf4b0a423dc82451fd62ec5468e8c4b66599f14d5e57ec6ece9c00700"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/K-Dense-AI/scientific-agent-skills/593377bb048752abb0152deab9fbb1083a6087df/LICENSE.md",
+          "sha256_normalized_utf8": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1"
+        }
+      ]
+    },
+    {
+      "repository": "openai/skills",
+      "commit": "e6afb0d74cc75d220df2faf3dd6c635c2dc6a108",
+      "skill_path": "skills/.curated/slides",
+      "license": "Apache-2.0",
+      "license_file": "licenses/OpenAI-slides-Apache-2.0.txt",
+      "adopted": [
+        "Keep native text, tables and basic charts editable",
+        "Deliver rebuildable authoring source",
+        "Inspect rendered slides and distinguish geometry from font/visual checks"
+      ],
+      "omitted": [
+        "PptxGenJS-only authoring constraint",
+        "Environment-specific helper paths",
+        "Bundled helper code and graphics"
+      ],
+      "files": [
+        {
+          "url": "https://raw.githubusercontent.com/openai/skills/e6afb0d74cc75d220df2faf3dd6c635c2dc6a108/skills/.curated/slides/SKILL.md",
+          "sha256_normalized_utf8": "57ee0941f872546029bc45b5b0bd58d4a02d88b84d4e8e4275c466da5451efa6"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/openai/skills/e6afb0d74cc75d220df2faf3dd6c635c2dc6a108/skills/.curated/slides/LICENSE.txt",
+          "sha256_normalized_utf8": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        }
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "repository": "anthropics/skills",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "path": "skills/pptx",
+      "reason": "Directory-specific proprietary restrictions; not used in fusion",
+      "license_url": "https://raw.githubusercontent.com/anthropics/skills/dbd4588f9e1033efb41dad4bef2f7947c8993d44/skills/pptx/LICENSE.txt"
+    },
+    {
+      "repository": "openai/skills",
+      "commit": "49f948faa9258a0c61caceaf225e179651397431",
+      "path": "skills/.curated/slides",
+      "reason": "Not present at current main snapshot; use the independently checked historical commit listed below, without claiming current support"
+    },
+    {
+      "repository": "JetBrains/skills",
+      "commit": "3f53782dec7b5424bf6e8efbb90a46ee26f31798",
+      "path": "skills/slides",
+      "reason": "Search index path was absent at inspected commit; not used"
+    }
+  ]
+}

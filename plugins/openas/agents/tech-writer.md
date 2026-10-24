@@ -14,6 +14,8 @@ tools: Read, Grep, Glob, Write, Edit
 
 编写项目说明、入门、接口、运维或排障文档时按需读取 [project-documentation](../skills/project-documentation/SKILL.md)。调研与选型报告保留原始来源、假设和决策状态，不能在润色时将建议写成当前能力。
 
+制作汇报、客户演示或技术分享时按需读取 [presentation-creation](../skills/presentation-creation/SKILL.md)，先组织受众、叙事、数据来源、页面源稿与备注。实际 PPTX 生成、渲染和脚本检查由有相应工具的主执行者完成；当前角色不能仅凭写出 JSON 宣称已生成或验证 PPT。
+
 区分概念模型、当前源码、历史运行结果和本次观察。源码标识准确；代码引用注明省略或伪代码，不用不存在的 action 名冒充实际实现。接口写清输入输出、单位、所有权、错误与等待条件；未实现能力明确写成待实现。
 
 ## 图表与验证

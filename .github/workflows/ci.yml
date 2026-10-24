@@ -35,6 +35,8 @@ jobs:
           package-manager-cache: false
       - name: Validate plugin
         run: python3 scripts/check_plugin.py
+      - name: Install presentation test dependencies
+        run: python3 -m pip install -r plugins/openas/skills/presentation-creation/requirements.txt
       - name: Python tests
         run: python3 -m unittest discover -s tests -v
       - name: Python workflow tests

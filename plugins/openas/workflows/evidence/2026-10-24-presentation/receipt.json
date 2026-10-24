@@ -1,0 +1,154 @@
+{
+  "date": "2026-10-24",
+  "version": "0.9.0",
+  "python": "3.13.11",
+  "dependencies": {
+    "python-pptx": "1.0.2",
+    "Pillow": "11.3.0",
+    "lxml": "6.1.3",
+    "XlsxWriter": "3.3.0",
+    "typing_extensions": "4.16.0"
+  },
+  "source_sha256": {
+    "assets/example-deck.json": "8ab8917e02781cf8f6ead5f16cfa4aca833b8f84fae49761f1aecf72b1307065",
+    "scripts/build_deck.py": "6857684ba5ebcee2d19c2e0040441482c30984d67d2095dc8a87f230e12a3cd1",
+    "scripts/deck_model.py": "f927e1535a786018863edd8a8593d2e193712347c013ab0f7ab01fa1a019bfe1",
+    "scripts/inspect_deck.py": "4a302049d8d7197fcfb7fc9e8cba31024496c5f9d2130f83914ff8d0195f88dc",
+    "scripts/render_deck.py": "03dc46b164df9573a4ff3f870c09fb154605853f1453d1dc8f1978e5af11ae28",
+    "requirements.txt": "00986d66e3cf6d4cbdccd41a59b88afc7d395640dd783f44f4010cd055332f86",
+    "FUSION_SOURCES.json": "d6fd5923b6774c7fd16b20df9f8c2ab446887c92bbaec03267f48654e68e98f0"
+  },
+  "artifacts": {
+    "example.pptx": "b41da1b4c7f075766c225d96a1d52c13bc7481e8bf679e2a5852c5c66d2a7078",
+    "preview.pdf": "1479627908039fc97c77b3d90527cfe68e2dfc357898b161d818599d47776e49",
+    "montage.png": "c371f88e86ed1eee590f4bf069d95b09646d805ef422fe2ef08cf2d2f28a83c9"
+  },
+  "structure": {
+    "passed": true,
+    "slide_count": 8,
+    "errors": [],
+    "warnings": [],
+    "native_charts": 1,
+    "native_tables": 1
+  },
+  "render": {
+    "completed": true,
+    "expected_pages": 8,
+    "actual_pages": 8,
+    "office": "LibreOffice 7.3.7.2",
+    "poppler": "22.02.0",
+    "environment": "Task-local extracted runtime; no system Office installation or uploaded document"
+  },
+  "assistant_visual_review": {
+    "reviewer": "OpenAS implementation assistant",
+    "viewed_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "result": "No visible overlap, missing Chinese glyphs or obvious text clipping found in this sample",
+    "fixes": [
+      "Unified native chart CJK font and single-series accent color",
+      "Removed duplicate in-chart title and enlarged value labels",
+      "Removed inherited template editor and creation-time metadata"
+    ],
+    "verification": "All final PNG pages have the same SHA-256 as the corresponding individually reviewed post-layout-fix renders; metadata-only regeneration did not change pixels"
+  },
+  "live_client": {
+    "client": "codex-cli 0.162.0-alpha.17.2",
+    "report": {
+      "cases": [
+        {
+          "case": "create",
+          "gates": {
+            "client_success": true,
+            "brief_unchanged": true,
+            "selected_skill": true,
+            "exact_outputs": true,
+            "four_slides": true,
+            "structure_passed": true,
+            "editable_data": true,
+            "notes_present": true,
+            "no_false_visual_claim": true
+          },
+          "passed": true,
+          "result": {
+            "selected_skill": "presentation-creation",
+            "summary": "已按 BRIEF.md 制作4页中文客户演示，仅新增 deck.json 和 deck.pptx。",
+            "outputs": [
+              "deck.json",
+              "deck.pptx"
+            ],
+            "rendered_review": "未执行渲染及视觉检查，留待外部宿主执行。",
+            "evidence": [
+              "实际生成成功，最终结构检查通过。",
+              "包含封面、方法流程、原生柱状图和总结，4页均保留演讲备注，总预算240秒。",
+              "已核对图表数据为3、5、4，并包含嵌入工作簿；页面明确标注人为构造的演示数据。",
+              "结论与行动遵循材料，未声称成本节约或性能提升；BRIEF.md 未修改。"
+            ]
+          },
+          "changed_files": [
+            "deck.json",
+            "deck.pptx"
+          ],
+          "initial_gates": {
+            "client_success": true,
+            "brief_unchanged": true,
+            "selected_skill": true,
+            "exact_outputs": true,
+            "four_slides": true,
+            "structure_passed": true,
+            "editable_data": true,
+            "notes_present": true,
+            "no_false_visual_claim": false
+          },
+          "checker_review": {
+            "method": "Manual semantic review of unchanged model response",
+            "original_gate": false,
+            "reason": "The schema allowed free text, but the checker required the exact token not_run. The actual Chinese response explicitly says rendering and visual inspection were not performed; it makes no false visual claim."
+          }
+        },
+        {
+          "case": "outline-only",
+          "gates": {
+            "client_success": true,
+            "brief_unchanged": true,
+            "no_files_created": true,
+            "no_pptx": true
+          },
+          "passed": true,
+          "result": {
+            "selected_skill": "presentation-creation",
+            "summary": "面向客户技术团队的 4 分钟演示提纲：可追溯的内容生产方法。",
+            "outputs": [
+              "第 1 页｜从目标到交付，让内容有据可查（30 秒）\n核心观点：通过明确目标、整理证据、生成内容、检查交付，建立可追溯的生产流程。\n视觉：四步流程图。\n讲述提示：介绍方法及本次演示范围。",
+              "第 2 页｜先明确目标，再整理证据（50 秒）\n核心观点：目标决定内容取舍，证据支撑关键表述。\n内容：明确受众、用途与交付要求；整理材料来源、适用条件和信息缺口。\n视觉：目标—材料—观点的对应关系。\n讲述提示：区分材料支持的事实与尚待确认的信息。",
+              "第 3 页｜生成内容时保留证据关联（50 秒）\n核心观点：每个主要观点都应能追溯到支持材料。\n内容：按目标组织叙事，为结论与数据保留来源说明；缺失信息明确标注。\n视觉：材料→观点→页面的关联示意。\n讲述提示：说明客户如何核对内容依据。",
+              "第 4 页｜用示例数据演示检查方法（50 秒）\n核心观点：图表必须同时说明数值、单位与数据性质。\n内容：方案甲 3、方案乙 5、方案丙 4；单位：示例单位。\n视觉：柱状图，显著标注“人为构造的演示数据，不代表任何真实业务表现”。\n讲述提示：仅演示表达与核对方式，不据此判断真实方案优劣或业务收益。",
+              "第 5 页｜检查交付，并以实际材料启动试用（60 秒）\n核心观点：交付前核对内容依据，实际效果需要项目试用验证。\n内容：检查目标覆盖、证据关联、数值单位、示例标识与信息缺口；客户提供实际材料后再开展项目试用。\n视觉：检查清单→客户提供材料→开展试用。\n讲述提示：不声称已节约成本或提高性能；含收尾与简短问答。"
+            ],
+            "rendered_review": "提纲时间合计 240 秒，包含过渡、收尾与简短问答。",
+            "evidence": [
+              "BRIEF.md：受众、目标、时长、四步流程、示例数据及最终行动。",
+              "presentation-creation/SKILL.md：每页明确主要观点、支持证据、视觉表达和讲述提示；示例数据明确标注。"
+            ]
+          },
+          "changed_files": []
+        }
+      ],
+      "passed": true
+    },
+    "scope": "Actual task-local PPTX generation and outline-only behavior; provided fixture data, no production documents or third-party service mutations"
+  },
+  "limits": [
+    "One 8-page sample rendered with LibreOffice; not a benchmark of all deck types or source materials",
+    "PowerPoint native editing/playback and accessibility not executed",
+    "Client-level generation case checked four slides, exact data, notes and source file scope; final sample visual review performed by assistant, not a human reviewer",
+    "Original English-token-only visual-status gate was corrected through explicit semantic review of the unchanged Chinese no-render statement; original gates and rationale retained"
+  ]
+}
