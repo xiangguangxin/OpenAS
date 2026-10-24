@@ -1,0 +1,142 @@
+{
+  "date": "2026-10-24",
+  "client": "codex-cli 0.162.0-alpha.17.2",
+  "environment": "Linux/WSL; existing ChatGPT login; inherited model configuration",
+  "fixture": {
+    "README.md": {
+      "content": "This average library returns zero (0) for empty input and the arithmetic mean otherwise. Diagnose inputs from this contract and verify using the tests. This contract applies only to this project.\n",
+      "sha256": "c325cc26968ca7743723d3674338fe3471994d0a93c0c66e4ba6a8b1bd0fc18d"
+    },
+    "average.py": {
+      "content": "def average(items):\n    return sum(items) / len(items) if items else 0\n",
+      "sha256": "c6049130dabf852e11c7e67e982744cb44e360aca903ed18629015be0a5b1c7f"
+    },
+    "test_average.py": {
+      "content": "import unittest\nfrom average import average\nclass AverageTests(unittest.TestCase):\n    def test_empty(self): self.assertEqual(average([]), 0)\n    def test_nonempty(self): self.assertEqual(average([2,4]), 3)\n",
+      "sha256": "1eed1e3a2f1a56ee741b3db495eab072e16b6ffd5a713a0e0ccc1040b5928d82"
+    },
+    "proof.json": {
+      "content": "{\"exit_code\": 0, \"passed\": true}",
+      "sha256": "a55891cb64c0e20241dc867d35040dd0875b96e3215ba7d0bc9022f8cc8ecc65"
+    }
+  },
+  "host_checks": {
+    "argv": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "-v"
+    ],
+    "exit_code": 0
+  },
+  "reflection": {
+    "lessons": [
+      {
+        "key": "average-empty-input-contract",
+        "scope": "This project's average function",
+        "statement": "Preserve the documented empty-input result of 0 when diagnosing average behavior.",
+        "trigger": "Investigating or modifying average([]).",
+        "cause": "The implementation explicitly returns 0 for empty input, matching both the README contract and the empty-input test.",
+        "limitations": "This contract is project-specific. The observation does not establish a prior defect or explain why any change was needed; tests were inspected but not executed.",
+        "procedure": [
+          "Check the documented contract before treating empty-input behavior as a defect.",
+          "Preserve the empty-input result while maintaining arithmetic-mean behavior for nonempty input."
+        ],
+        "validation": [
+          "test_empty asserts average([]) == 0.",
+          "test_nonempty asserts average([2,4]) == 3."
+        ],
+        "tags": [
+          "contract",
+          "edge-cases",
+          "average"
+        ],
+        "evidence_paths": [
+          "average.py",
+          "test_average.py",
+          "README.md"
+        ]
+      }
+    ]
+  },
+  "lesson_review": {
+    "verdict": "approve",
+    "reason": "average.py explicitly returns 0 for empty input, consistent with README.md and test_empty; test_nonempty checks the stated mean example. The lesson is useful and project-scoped, without unsupported defect or causal claims. No secrets, duplicate accepted lessons, or conflicts were found. Tests were inspected, not executed.",
+    "checks": {
+      "supported": true,
+      "scoped": true,
+      "reusable": true,
+      "no_secrets": true,
+      "conflicts_resolved": true
+    }
+  },
+  "skill": {
+    "id": "31d7fc574607bf23585ba949",
+    "sha256": "b1e07d0f94701eea2f106b15976f962c0a0631b8dbb206cf0e96c52062012553",
+    "content": "---\nname: learned-average-empty-input-contract-008b928f\ndescription: \"Investigating or modifying average([]).\"\n---\n\n# learned-average-empty-input-contract-008b928f\n\n仅在以下项目条件成立时使用；当前用户任务、源码和授权优先。\n\n## average-empty-input-contract\n\n触发条件：Investigating or modifying average([]).\n\n已审查经验：Preserve the documented empty-input result of 0 when diagnosing average behavior.\n\n原因及前提：The implementation explicitly returns 0 for empty input, matching both the README contract and the empty-input test.\n\n1. Check the documented contract before treating empty-input behavior as a defect.\n2. Preserve the empty-input result while maintaining arithmetic-mean behavior for nonempty input.\n\n验证：\n\n- test_empty asserts average([]) == 0.\n- test_nonempty asserts average([2,4]) == 3.\n\n适用边界：This contract is project-specific. The observation does not establish a prior defect or explain why any change was needed; tests were inspected but not executed.\n\n"
+  },
+  "trial": {
+    "cases": [
+      {
+        "expected_applicable": true,
+        "actual_applicable": true,
+        "checks": [
+          0
+        ],
+        "passed": true
+      },
+      {
+        "expected_applicable": false,
+        "actual_applicable": false,
+        "checks": [
+          0
+        ],
+        "passed": true
+      }
+    ],
+    "responses": [
+      {
+        "applicable": true,
+        "summary": "The candidate skill applies to diagnosing average([]). The expected result is 0 under the local contract; this behavior is not a defect.",
+        "evidence": [
+          "README.md:3 explicitly states: “The public average function returns zero (0) for an empty input list.”",
+          "README.md:4 specifies the arithmetic mean for nonempty lists.",
+          "The fixture contains no average implementation or tests to corroborate the skill’s test claims. No files were edited or tests executed."
+        ]
+      },
+      {
+        "applicable": false,
+        "summary": "Declined the candidate skill: its average([]) trigger does not match the CSS color task. The CSS change cannot be assessed from the supplied workspace.",
+        "evidence": [
+          "The task explicitly says not to apply average-input guidance.",
+          "The workspace contains README.md and validate_response.py; no CSS files or patch were found.",
+          "README.md describes an average-input contract fixture for read-only trials.",
+          "The directory is not a Git repository, so no Git diff is available. No files were edited."
+        ]
+      }
+    ]
+  },
+  "skill_review": {
+    "verdict": "approve",
+    "reason": "All referenced hashes match. The implementation, README, and tests support the project-specific contract. The positive trial correctly diagnoses empty input as 0 and cites its fixture contract; the negative trial declines unrelated CSS guidance. Checks inspect actual response content and applicability, though keyword/evidence validation is limited; manual inspection confirms correctness. No secrets or authorization changes found. Tests and validators were inspected, not executed.",
+    "checks": {
+      "supported": true,
+      "scoped": true,
+      "no_secrets": true,
+      "positive_case": true,
+      "negative_case": true,
+      "behavior_checked": true
+    }
+  },
+  "activation": {
+    "registered": true,
+    "eligible": true
+  },
+  "limits": [
+    "One minimal local fixture; not a model-wide quality benchmark",
+    "No production or remote service mutations",
+    "Task outcome, suspension and rollback are covered by automated fixture tests, not by this live run",
+    "Private model logs remain outside the repository"
+  ]
+}

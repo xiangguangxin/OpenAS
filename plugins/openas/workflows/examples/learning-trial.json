@@ -1,0 +1,16 @@
+{
+  "cases": [
+    {
+      "fixture": "learning-fixture",
+      "task": "Diagnose the average empty-input behavior from the local contract. Explain the expected result and cite the contract.",
+      "expected_applicable": true,
+      "checks": [["python3", "-B", "validate_response.py", "yes"]]
+    },
+    {
+      "fixture": "learning-fixture",
+      "task": "Assess an unrelated CSS color change. Do not apply average-input guidance.",
+      "expected_applicable": false,
+      "checks": [["python3", "-B", "validate_response.py", "no"]]
+    }
+  ]
+}

@@ -298,6 +298,8 @@ python3 /path/to/OpenAS/plugins/openas/skills/project-memory/scripts/project_mem
 
 可复用结论先进入候选状态，经审查后才能用于后续任务；直接证据或显式关联的原始来源发生变化时，旧记录会被检索排除。存储格式、检索与维护方式见 [项目记忆说明](plugins/openas/memory/README.md)。是否纳入版本管理应遵循项目约定，原始日志、core dump 和敏感信息不应直接共享。
 
+项目学习支持四阶段闭环：**自动复盘采集 → 经验提炼与独立审查 → 候选技能生成、试用与启用 → 使用反馈、停用及版本回滚**。单任务运行器启用记忆时自动采集观察；加 `--learn` 后额外调用模型提炼、评审并生成草稿。技能经正反例试用与独立评审后才复用，不修改插件自带技能或权限。命令和验证范围见 [项目学习与技能演进](plugins/openas/memory/learning.md)。
+
 ## Codex CLI 工作流
 
 除 Claude Code 插件外，OpenAS 还提供基于 Python 标准库的 [Codex CLI 工作流适配器](plugins/openas/workflows/README.md)。它使用已安装、已登录的 Codex CLI，顺序调用角色并执行验收命令，记录阶段结果、文件变化和验证证据。
