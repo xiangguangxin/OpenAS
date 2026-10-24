@@ -2,6 +2,8 @@
 
 用于按仓库、Issue、PR 和 CI 记录获取研发上下文。product-manager 提取需求证据，red-team 核对 PR 与 diff，developer 和 it 调查变更与运行结果。已连接 GitHub 工具或 `gh` 能完成任务时直接复用。
 
+需要按需求查找外部 Agent Skill 时，使用 [github-skill-discovery](../../skills/github-skill-discovery/SKILL.md) 组织搜索、内容/依赖/许可证审查及可追溯引入。MCP 提供实际可用的检索与读取工具，不会自动安装搜索到的技能。
+
 ## 基础概念
 
 GitHub MCP Server 是 GitHub 官方提供的 MCP 服务，将 GitHub 的能力转换为 AI 客户端可调用的工具。例如，用户要求“分析某个 PR 为什么 CI 失败”，AI 可以读取 PR 改动、检查运行结果和可访问的日志，再给出带来源的分析。

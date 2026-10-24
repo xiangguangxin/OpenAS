@@ -24,3 +24,9 @@ python3 scripts/evaluate_skills.py --case ordinary-review --output /tmp/openas-r
 报告包含客户端结构化答复、宿主检查结果和文件变更。只有相关门禁全部满足才返回 0；最终仍需人工核对评审问题的语义与证据。`selected_skill` 和文字答复属于客户端声明，文件范围与修复测试由宿主独立核对；有限场景通过不等于所有技能或所有模型均已验证。
 
 真实 Claude 插件加载和热加载属于另一种验收，见 [原生集成测试](hot-reload-testing.md)，不能由本评测替代。
+
+## 外部技能发现
+
+github-skill-discovery 另有一次 [真实客户端候选比较验收](../plugins/openas/workflows/evidence/2026-10-24-skill-discovery/README.md)：从完整目录选择该技能，比较两个已提供的合成快照，核对内容、依赖、许可证和适用性，并保持只推荐、不安装的任务范围。它未加入上述六项默认评测，不代表实时 GitHub 搜索或原生客户端安装验收。
+
+配套 import_skill.py 的本地 Git 测试覆盖固定提交、许可证保留、审查指纹绑定、适配、已有目录保护、来源记录及验证状态；这些机械检查不能替代实际候选的语义和许可证审查。

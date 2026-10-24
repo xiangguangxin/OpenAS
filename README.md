@@ -8,7 +8,7 @@
 
 [![CI](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml/badge.svg)](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml)
 [![Agents](https://img.shields.io/badge/Agents-12-2563eb)](plugins/openas/agents)
-[![Skills](https://img.shields.io/badge/Skills-38-7c3aed)](plugins/openas/skills)
+[![Skills](https://img.shields.io/badge/Skills-39-7c3aed)](plugins/openas/skills)
 [![License: MIT](https://img.shields.io/badge/License-MIT-059669)](LICENSE)
 
 可插拔的角色协作 · 证据驱动的调试 · 可追溯的项目记忆
@@ -19,7 +19,7 @@
 
 ---
 
-OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 **Claude Code 插件**使用 12 个协作角色与 38 个技能，也可使用独立的 **Codex CLI 工作流适配器**执行阶段任务与验收。
+OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 **Claude Code 插件**使用 12 个协作角色与 39 个技能，也可使用独立的 **Codex CLI 工作流适配器**执行阶段任务与验收。
 
 适用于 Web 应用、后端服务、库、命令行工具、原生程序、数据处理和文档项目。接入后沿用目标仓库的技术栈、目录与验证命令，无需额外创建 OpenAS 专用配置文件。
 
@@ -47,6 +47,7 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 
 ```text
 /openas:technical-research 调研当前项目的数据存储方案，保留来源和关键未知项
+/openas:github-skill-discovery 按当前需求从 GitHub 查找制作 PPT 的技能，核对内容、依赖与许可证，先交付候选比较
 /openas:technical-diagrams 为当前文档绘制架构图
 /openas:project-documentation 根据源码完善 README 和入门指南，核对示例
 /openas:competitive-analysis 对比同类工具在目标使用场景中的能力与限制
@@ -91,12 +92,13 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 
 ## 技能地图
 
-38 个技能可独立使用，也可组合到角色任务中。下表列出常用入口，完整定义见 [skills](plugins/openas/skills)。
+39 个技能可独立使用，也可组合到角色任务中。下表列出常用入口，完整定义见 [skills](plugins/openas/skills)。
 
 | 任务 | 技能入口 | 主要产物 |
 | --- | --- | --- |
 | 市场与需求 | [market-research](plugins/openas/skills/market-research/SKILL.md) · [competitive-analysis](plugins/openas/skills/competitive-analysis/SKILL.md) · [product-requirements](plugins/openas/skills/product-requirements/SKILL.md) | 用户与竞品证据、PRD、需求 ID 与验收 |
 | 技术研究 | [technical-research](plugins/openas/skills/technical-research/SKILL.md) · [technology-selection](plugins/openas/skills/technology-selection/SKILL.md) | 来源索引、候选矩阵、PoC 与 ADR |
+| 外部技能引入 | [github-skill-discovery](plugins/openas/skills/github-skill-discovery/SKILL.md) | 按需搜索、内容/依赖/许可证审查、安装或适配、验证与来源版本记录 |
 | 方案与架构 | [solution-design](plugins/openas/skills/solution-design/SKILL.md) · [architecture-design](plugins/openas/skills/architecture-design/SKILL.md) · [design-review](plugins/openas/skills/design-review/SKILL.md) | 方案取舍、模块契约与实施就绪结论 |
 | 规划与实施 | [roadmap-planning](plugins/openas/skills/roadmap-planning/SKILL.md) · [writing-plans](plugins/openas/skills/writing-plans/SKILL.md) · [test-driven-development](plugins/openas/skills/test-driven-development/SKILL.md) | 阶段目标、可执行任务与行为测试 |
 | 测试工程 | [test-strategy](plugins/openas/skills/test-strategy/SKILL.md) · [integration-testing](plugins/openas/skills/integration-testing/SKILL.md) | 测试矩阵、隔离夹具与回归证据 |
@@ -125,7 +127,7 @@ flowchart TB
     subgraph bundle["OpenAS 插件资源"]
         direction LR
         agents["agents/<br/>12 个角色定义"]
-        skills["skills/<br/>38 个工作方法"]
+        skills["skills/<br/>39 个工作方法"]
         contracts["references/<br/>协作契约、项目适配与实施就绪"]
     end
 
@@ -341,7 +343,7 @@ GitHub Actions 在 PR 创建或更新，以及代码推送或合并到 `main` �
 plugins/openas/
   .claude-plugin/plugin.json     插件清单与版本
   agents/                       12 个协作角色
-  skills/                       38 个技能及配套资源
+  skills/                       39 个技能及配套资源
   references/                   协作契约与项目适配约定
   workflows/                    可选适配器、示例、测试与历史证据
   integrations/                 可选 MCP 配置、使用指引与 REA 集成

@@ -1,0 +1,45 @@
+{
+  "gates": {
+    "selected_correct_skill": true,
+    "no_install_reported": true,
+    "workspace_unchanged": true,
+    "evidence_recorded": true,
+    "issues_recorded": true,
+    "avoided_incompatible_candidate": true
+  },
+  "result": {
+    "selected_skill": "github-skill-discovery",
+    "recommendation": "plain-outline",
+    "summary": "推荐 plain-outline：快照内容明确支持离线、无需密钥的 Markdown 演示提纲，且附完整 MIT 许可证。cloud-deck 依赖远程服务和密钥，输出 PPTX，不满足硬约束。本次仅完成只读比较，未安装、修改文件、执行候选脚本或联网。",
+    "issues": [
+      "cloud-deck 要求 CLOUD_DECK_API_KEY，并上传源笔记到远程服务，不符合离线、无密钥要求。",
+      "cloud-deck 输出 PPTX，未提供 Markdown 提纲能力的证据。",
+      "cloud-deck 缺少 LICENSE；README 对主代码 MIT 的描述不能替代完整条款，字体另限个人非商业用途。快照未提供所述字体资产，无法核对其具体授权。",
+      "两个 repository 均为测试标识；origin.json 中的提交值仅为快照声明，未核实上游真实性、提交对应关系或当前维护状态。",
+      "推荐依据为静态内容审查；未验证实际生成质量、宿主发现与调用兼容性。技能声明不需要外部服务，不等于已证明宿主模型可离线运行。"
+    ],
+    "evidence": [
+      "已读取 github-skill-discovery/SKILL.md 及 references/review-and-install.md，按内容、依赖、许可证、适用性逐项比较；遵循只推荐时交付比较结果的方法。",
+      "plain-outline/SKILL.md：要求从主题生成 Markdown，包含标题、要点和演讲者备注；明确声明无需运行时包、账号、外部服务或网络。",
+      "plain-outline/LICENSE：完整 MIT 条款，版权为 2026 OpenAS contributors；复制或分发时须保留版权及许可声明，并包含免责条款。",
+      "cloud-deck/SKILL.md：描述为通过托管服务生成 PPTX，明确要求 CLOUD_DECK_API_KEY、上传源笔记，并提示字体有附加限制。",
+      "cloud-deck/README.md：仅描述主代码为 MIT，字体限个人非商业用途，明确快照未附 LICENSE。",
+      "文件枚举显示 plain-outline 仅含 SKILL.md、LICENSE、origin.json；cloud-deck 仅含 SKILL.md、README.md、origin.json，未见脚本、依赖清单或字体资产。",
+      "两个 origin.json 均注明为本地测试快照，非已验证的公开 GitHub 仓库；查阅日期为 2026-10-24。"
+    ],
+    "installed": false
+  },
+  "passed": true,
+  "limits": "One real-client search-only comparison of supplied synthetic local snapshots; no live GitHub search, install or license clearance of an actual external skill.",
+  "date": "2026-10-24",
+  "client": "codex-cli 0.162.0-alpha.17.2",
+  "request": "从已有本地候选快照中比较离线、无需密钥、输出 Markdown 演示提纲的技能；不联网、不安装、不执行候选脚本。",
+  "fixtures": {
+    "cloud-deck/README.md": "The main code is described as MIT. The font assets are restricted to personal, noncommercial use. No LICENSE file is included in this snapshot.\n",
+    "cloud-deck/SKILL.md": "---\nname: cloud-deck\ndescription: Generate PPTX slides using a hosted service.\n---\n\nRequires CLOUD_DECK_API_KEY and uploads the source notes to a remote service. Fonts in assets have additional restrictions.\n",
+    "cloud-deck/origin.json": "{\"repository\": \"fixture/cloud-deck\", \"commit\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\", \"note\": \"Provided local test snapshot, not a verified public GitHub repository\"}",
+    "plain-outline/LICENSE": "MIT License\n\nCopyright (c) 2026 OpenAS contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n",
+    "plain-outline/SKILL.md": "---\nname: plain-outline\ndescription: Draft a Markdown presentation outline from a topic, offline, using local text files.\n---\n\nRead the input topic and produce a Markdown outline with a title, key points and speaker notes. No runtime packages, accounts, external services, or network are required.\n",
+    "plain-outline/origin.json": "{\"repository\": \"fixture/plain-outline\", \"commit\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"note\": \"Provided local test snapshot, not a verified public GitHub repository\"}"
+  }
+}

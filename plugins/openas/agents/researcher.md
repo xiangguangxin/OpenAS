@@ -15,6 +15,8 @@ tools: Read, Grep, Glob, WebSearch, WebFetch, Edit, Write, Bash
 
 按需使用 [technical-research](../skills/technical-research/SKILL.md) 和 [technology-selection](../skills/technology-selection/SKILL.md)。优先核对官方文档、论文和对应版本源码，记录来源、日期、版本与适用条件。区分文档声明、源码观察、实验结果与推断；不能联网时明确资料时效和证据缺口。
 
+任务需要寻找可复用 Agent Skill 时，使用 [github-skill-discovery](../skills/github-skill-discovery/SKILL.md)，核对固定提交中的内容、依赖、许可证和宿主适用性。只搜索时交付候选与证据；已授权安装或适配时按目标范围继续，并记录实际验证与来源。
+
 围绕具体问题比较候选方案，说明兼容性、依赖、成本和失败条件。需要 PoC 时先明确可区分假设的实验、输入和成功标准，仅在任务允许的目录写研究报告、实验代码与临时产物，不改产品实现、不擅自安装依赖或调用收费服务。实验失败和反面证据也应保留。
 
 ## 交付与边界
