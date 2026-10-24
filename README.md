@@ -50,6 +50,8 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 /openas:github-skill-discovery 按当前需求从 GitHub 查找制作 PPT 的技能，核对内容、依赖与许可证，先交付候选比较
 /openas:technical-diagrams 为当前文档绘制架构图
 /openas:project-documentation 根据源码完善 README 和入门指南，核对示例
+/openas:github-skill-discovery 按需求搜索并融合多个技能，生成适合当前项目的新技能，保留来源版本、许可与验证记录
+
 /openas:presentation-creation 根据当前材料制作 10 分钟项目汇报，交付可编辑 PPTX、源稿和预览，保留数据来源
 /openas:competitive-analysis 对比同类工具在目标使用场景中的能力与限制
 /openas:roadmap-planning 将需求和调研结论整理为 MVP 与阶段验收目标
@@ -99,7 +101,7 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 | --- | --- | --- |
 | 市场与需求 | [market-research](plugins/openas/skills/market-research/SKILL.md) · [competitive-analysis](plugins/openas/skills/competitive-analysis/SKILL.md) · [product-requirements](plugins/openas/skills/product-requirements/SKILL.md) | 用户与竞品证据、PRD、需求 ID 与验收 |
 | 技术研究 | [technical-research](plugins/openas/skills/technical-research/SKILL.md) · [technology-selection](plugins/openas/skills/technology-selection/SKILL.md) | 来源索引、候选矩阵、PoC 与 ADR |
-| 外部技能引入 | [github-skill-discovery](plugins/openas/skills/github-skill-discovery/SKILL.md) | 按需搜索、内容/依赖/许可证审查、安装或适配、验证与来源版本记录 |
+| 外部技能引入 | [github-skill-discovery](plugins/openas/skills/github-skill-discovery/SKILL.md) | 按需搜索、内容/依赖/许可证审查、安装或适配、多技能融合生成与来源版本记录 |
 | 方案与架构 | [solution-design](plugins/openas/skills/solution-design/SKILL.md) · [architecture-design](plugins/openas/skills/architecture-design/SKILL.md) · [design-review](plugins/openas/skills/design-review/SKILL.md) | 方案取舍、模块契约与实施就绪结论 |
 | 规划与实施 | [roadmap-planning](plugins/openas/skills/roadmap-planning/SKILL.md) · [writing-plans](plugins/openas/skills/writing-plans/SKILL.md) · [test-driven-development](plugins/openas/skills/test-driven-development/SKILL.md) | 阶段目标、可执行任务与行为测试 |
 | 测试工程 | [test-strategy](plugins/openas/skills/test-strategy/SKILL.md) · [integration-testing](plugins/openas/skills/integration-testing/SKILL.md) | 测试矩阵、隔离夹具与回归证据 |
