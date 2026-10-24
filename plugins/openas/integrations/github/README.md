@@ -2,6 +2,52 @@
 
 用于按仓库、Issue、PR 和 CI 记录获取研发上下文。product-manager 提取需求证据，red-team 核对 PR 与 diff，developer 和 it 调查变更与运行结果。已连接 GitHub 工具或 `gh` 能完成任务时直接复用。
 
+## 基础概念
+
+GitHub MCP Server 是 GitHub 官方提供的 MCP 服务，将 GitHub 的能力转换为 AI 客户端可调用的工具。例如，用户要求“分析某个 PR 为什么 CI 失败”，AI 可以读取 PR 改动、检查运行结果和可访问的日志，再给出带来源的分析。
+
+基本调用关系是：用户提出任务 → AI 客户端选择工具 → MCP Server 调用 GitHub API → 返回数据供 AI 分析。是否能完成某项操作，取决于服务版本、启用的工具组、账号权限和客户端实际暴露的工具。
+
+| 概念 | 含义 |
+| --- | --- |
+| Repository（仓库） | 项目的代码、提交记录和协作内容所在位置，使用 `owner/repo` 明确标识 |
+| Issue | 用于记录需求、缺陷或任务，包含描述、讨论、标签与状态 |
+| Pull Request（PR） | 提议将一个分支的变更合并到另一个分支，包含 diff、评审和相关检查 |
+| GitHub Actions / CI | 自动执行构建、测试等工作流；结果必须对应具体提交与运行记录 |
+| Toolset（工具组） | 按用途组织的 MCP 工具集合；本项目示例仅启用 repos、issues、pull_requests、actions |
+| Token / OAuth | 访问 GitHub 的身份认证方式；能访问哪些仓库、执行哪些操作由实际权限决定 |
+
+## 主要功能与适用场景
+
+| 功能 | 典型任务 | 本项目默认配置 |
+| --- | --- | --- |
+| 仓库与代码读取 | 查阅指定版本的文件、提交和项目结构，补充研发上下文 | 启用 repos 中的只读工具 |
+| Issue 查询 | 理解需求背景、缺陷复现步骤和讨论结论 | 启用 issues 中的只读工具 |
+| PR 分析 | 阅读变更、评审意见和检查状态，辅助代码审查 | 启用 pull_requests 中的只读工具 |
+| CI 调查 | 查看 Actions 运行与可访问的失败日志，定位构建或测试问题 | 启用 actions 中的只读工具 |
+| 远程协作写入 | 创建或更新 Issue、发布评论、创建或合并 PR 等 | 默认禁用；需相应工具、权限与任务授权 |
+
+上游还提供其他工具组，实际范围以部署版本与连接后的工具列表为准。本项目启用的工具组不代表整个服务的全部功能。功能来源：[GitHub 官方 MCP Server](https://github.com/github/github-mcp-server)。
+
+### 与本地 git、GitHub CLI 的区别
+
+- **本地 git**：管理工作区、暂存、提交、分支，以及通过 fetch、pull、push 同步代码；最适合检查本地是否有未提交或未推送的改动。
+- **GitHub CLI（`gh`）**：通过终端访问 GitHub 的 Issue、PR、Actions 等功能，适合命令行操作与脚本。
+- **GitHub MCP Server**：向 AI 提供结构化的 GitHub 工具，方便在任务中读取远程上下文或执行已授权操作。
+
+连接 MCP 不会自动提交或推送本地代码。远程读取到的文件也不一定包含当前工作区的改动，分析时应明确分支或提交。已有 git、`gh` 或宿主工具能够完成任务时，可直接使用。
+
+### 在 OpenAS 中如何使用
+
+例如“检查某个 PR 是否满足 Issue 的要求”：
+
+1. product-manager 从 Issue 描述与讨论中提取验收条件。
+2. developer 或 red-team 读取 PR diff 与相关源码，检查实现及潜在问题。
+3. it 或 verifier 核对该 PR 当前提交对应的 CI 结果与失败日志。
+4. 输出验收条件、实现证据、检查结果和未覆盖项，并附 Issue、PR、提交或运行链接。
+
+这是按职责组织任务的示例，不会因连接服务自动触发。读取与分析可在当前只读模板下进行；发布评论、修改 Issue 或合并 PR 需要单独具备写能力及任务授权。
+
 ## 配置
 
 [Claude Code 示例](claude.mcp.example.json) 使用官方本地二进制 `github-mcp-server`，以 stdio 启动，默认 `--read-only`，只启用 repos、issues、pull_requests、actions 工具组。依据 [官方发布页](https://github.com/github/github-mcp-server/releases) 安装适合宿主的平台版本并记录版本与校验信息；本包不下载二进制，也不假定 PATH 已配置。

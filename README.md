@@ -267,13 +267,15 @@ MCP（Model Context Protocol）让 AI 客户端连接外部工具和数据源。
 
 | 集成 | 适用任务 | 常用角色 | 配置与使用 |
 | --- | --- | --- | --- |
-| **Playwright** | 操作页面、读取结构快照、检查用户流程 | test-engineer、verifier、ux-designer | [配置、操作与验收](plugins/openas/integrations/playwright/README.md) |
-| **GitHub MCP Server** | 读取仓库、Issue、PR 和 CI 记录；配置示例默认只读 | product-manager、developer、red-team、it | [配置、操作与验收](plugins/openas/integrations/github/README.md) |
+| **Playwright** | 自动操作页面、读取结构快照、检查用户流程与页面状态 | test-engineer、verifier、ux-designer | [基础概念、主要功能、配置与验收](plugins/openas/integrations/playwright/README.md) |
+| **GitHub MCP Server** | 读取仓库、Issue、PR 和 CI 记录；配置示例默认只读 | product-manager、developer、red-team、it | [基础概念、主要功能、配置与验收](plugins/openas/integrations/github/README.md) |
 | **Context7** | 检索库与框架文档，核对 API 的版本与适用条件 | researcher、cto、developer | [配置、操作与验收](plugins/openas/integrations/context7/README.md) |
 
 每项集成都包含配置模板、角色与技能使用指引、最小验收步骤，以及工具不可用时的替代方式。浏览器操作记录可作为本次检查证据，需长期回归的行为仍应写入项目测试；文档检索结果也需与项目实际版本核对。
 
 ### 如何启用
+
+首次交付客户时，按 [统一接入指南](plugins/openas/integrations/QUICKSTART.md) 使用配置工具合并所选服务、提供客户自己的凭据并执行本地预检，再在客户端完成真实连接与逐项验收。也可按下列步骤手工配置。
 
 1. 打开所需集成的说明，准备运行环境及相应凭据。
 2. 将其 `claude.mcp.example.json` 中需要的服务条目合并到**目标项目**的 `.mcp.json`，保留已有配置；凭据通过环境变量提供。
