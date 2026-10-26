@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.13.0
+
+- 新增 codebase-analysis 和 change-impact-analysis，覆盖源码现状、核心调用链、消费者影响、必要联动和验证范围，技能总数为 47。
+- 为 cto 和 developer 接入相应方法，更新技能地图与路由；默认只读分析，不新增角色或执行器路线。
+
 ## 0.12.0
 
 - 新增 ci-cd 和 dependency-upgrade，覆盖流水线配置与诊断、缓存和制品、版本差异、锁文件及兼容验证，技能总数为 45。
