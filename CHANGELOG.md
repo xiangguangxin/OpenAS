@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.0
+
+- 新增 document-review，独立核对文档事实、读者任务、图文一致性和示例证据，技能总数为 43。
+- red-team 明确区分文档、代码和设计评审，补充文档编写交接、技能地图与路由；不新增角色或执行器路线。
+
 ## 0.10.0
 
 - 新增 architecture-conformance 和 architecture-evolution，覆盖实现后的架构约束检查及已有系统的分阶段改造，技能总数为 42。

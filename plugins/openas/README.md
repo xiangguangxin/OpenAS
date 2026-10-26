@@ -6,7 +6,7 @@
 
 - [agents](agents)：cto、product-manager、researcher、ux-designer、red-team、security-reviewer、tech-writer、developer、test-engineer、performance-engineer、it、verifier；Claude 原生角色使用 `openas:` 命名空间。
   新增角色可由 Claude Code 按需调用；现有 Codex CLI 工作流仍按各自既定路线执行，不会自动加入这些角色。
-- [skills](skills)：42 个可按需使用的技能，含可编辑 PPT 制作、GitHub 外部技能发现、引入与融合生成、技术调研、方案选型、架构符合性检查与演进、文档、竞品、路线图、测试策略与集成测试、交互与可访问性、性能分析、安全评审、事故响应、四象限 Debug、绘图和项目记忆。
+- [skills](skills)：43 个可按需使用的技能，含可编辑 PPT 制作、GitHub 外部技能发现、引入与融合生成、技术调研、方案选型、架构符合性检查与演进、文档编写与独立评审、竞品、路线图、测试策略与集成测试、交互与可访问性、性能分析、安全评审、事故响应、四象限 Debug、绘图和项目记忆。
 - [团队契约](references/team-contract.md)：需求、范围、角色交接、证据和失败回环。
 - [项目适配](references/project-context.md)：按目标仓库选择技术栈、运行命令、领域约束和验收。
 - [工作流](workflows/README.md)：可选 Codex 执行入口；JS 模板需要宿主。

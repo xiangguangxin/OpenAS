@@ -18,6 +18,8 @@ description: 根据任务目标、风险和依赖选择直接实现、调试、�
 | 市场调研至完整设计交付 | research-design | 调研 → 需求 → 方案 → 选型 → 架构 → 文档 → 评审回交 → 检查与验证 |
 | 仅整理或修改文档 | documentation | 文档 → 评审 → 对应检查与验证 |
 
+仅评审文档时使用 [document-review](../document-review/SKILL.md)，保持 review 路线的只读边界；documentation 路线中的 document-review 阶段由 red-team 使用该技能核对实际文档。它是阶段工作方法，不新增执行器路线。
+
 Codex 适配器通过任务 JSON 的 `workflow` 显式选择路线，省略时保持 development。不靠关键词猜测授权；direct 也必须有实际验收，不能用来绕开已要求的评审。只有明确需要采访时使用 grilling。
 
 输出选择、理由、所需产物、实际检查和缺少的条件。简单任务无需生成图或启动团队。多任务依赖交给 [task-orchestration](../task-orchestration/SKILL.md)；路线与执行器边界见 [运行指南](../../workflows/README.md)。
