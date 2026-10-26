@@ -26,3 +26,5 @@ description: 依据需求和技术决策设计系统边界、模块、接口、�
 保留稳定架构决策 ID、备选、取舍和适用条件，引用 [technology-selection](../technology-selection/SKILL.md) 的决定，避免重复维护。迁移设计说明兼容、切换、回退及不可逆数据风险；新限制回交选型而非隐瞒。
 
 交付架构说明、必要图、接口/数据契约、需求到设计及验证的映射、风险与待定项。交给 [design-review](../design-review/SKILL.md) 核对，最后由 [project-documentation](../project-documentation/SKILL.md) 整理成设计文档；设计任务不自动继续实现。
+
+已有系统的分阶段改造、兼容窗口与退役安排使用 [architecture-evolution](../architecture-evolution/SKILL.md)；实现后的架构偏差核对使用 [architecture-conformance](../architecture-conformance/SKILL.md)，不与实施前设计评审混同。

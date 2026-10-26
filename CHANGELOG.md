@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.10.0
+
+- 新增 architecture-conformance 和 architecture-evolution，覆盖实现后的架构约束检查及已有系统的分阶段改造，技能总数为 42。
+- 补充 cto 的架构偏差跟踪、演进规划和决策重新评估职责，更新技能地图与路由；默认保持只读检查或方案交付，不增加执行器路线。
+
 ## 0.9.1
 
 - 为 github-skill-discovery 增加多技能融合生成流程：能力比较、方法提炼、冲突取舍、独立编写、验证和注册。

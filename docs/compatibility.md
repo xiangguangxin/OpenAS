@@ -11,6 +11,10 @@
 
 上述客户端观察只对应所记录版本，不代表全部旧版或未来版本均受支持。测试脚本不会自动登录、升级客户端或扩大沙箱权限。
 
+## 升级到 0.10.0
+
+新增 architecture-conformance 和 architecture-evolution，技能总数为 42。沿用插件技能发现机制，无新增依赖、执行器路线或记录格式迁移。cto 增加架构偏差跟踪与演进规划职责，仍默认只读；Codex 适配器不因新增技能自动执行迁移或架构检查。
+
 ## 升级到 0.9.0
 
 新增 presentation-creation，技能总数为 40。生成需要 Python 3.10+ 和技能内固定的 requirements.txt；结构检查只需标准库，真实渲染另需本地 LibreOffice 和 Poppler，不随插件自动安装。CI 安装生成依赖以实际测试原生 PPTX 对象，不在普通测试中调用模型或安装系统 Office。
