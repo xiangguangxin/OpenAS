@@ -33,3 +33,5 @@ Codex 适配器通过任务 JSON 的 `workflow` 显式选择路线，省略时�
 实施后检查架构边界、依赖和契约偏差使用 [architecture-conformance](../architecture-conformance/SKILL.md)，只读任务沿用 review 路线；已有系统分阶段改造规划使用 [architecture-evolution](../architecture-evolution/SKILL.md)，只写方案时沿用 documentation，实施需按已有授权选择对应路线。两者不新增执行器路线。
 
 CI/CD 配置与诊断使用 [ci-cd](../ci-cd/SKILL.md)，配置修改沿用 operations；依赖升级使用 [dependency-upgrade](../dependency-upgrade/SKILL.md)，仅环境或构建配置修改可走 operations，涉及调用适配及行为变更时按风险选择 direct 或 development。只评估或评审时保持只读，两者均不新增执行器路线，也不自动授权远程发布。
+
+解释代码库现状使用 [codebase-analysis](../codebase-analysis/SKILL.md)，判断拟议修改或 diff 的影响使用 [change-impact-analysis](../change-impact-analysis/SKILL.md)。纯分析直接交付报告，不默认进入实现或套用缺陷评审结论；需保存说明文档时可沿用 documentation，两者不新增执行器路线。

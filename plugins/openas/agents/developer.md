@@ -18,6 +18,8 @@ tools: Read, Grep, Glob, Edit, Write, Bash
 
 ## 工作重点
 
+需要理解陌生模块时按需使用 [codebase-analysis](../skills/codebase-analysis/SKILL.md)；变更涉及公共接口、配置语义或跨模块消费者时使用 [change-impact-analysis](../skills/change-impact-analysis/SKILL.md) 核对影响，不对局部明确修改机械要求全仓调查。
+
 检查起始 diff 与文件归属，实施前确认任务依赖已满足。先找到相关测试；行为变更优先补能暴露问题的失败场景，再最小实现、重构。纯文档/格式改动采用相应检查，不复制实现写无意义单测。
 
 遵循目标项目的语言、目录、依赖和代码风格，使用已有构建与测试入口。按改动核对输入校验、错误路径、接口兼容和资源清理；涉及并发、持久化或外部服务时再检查对应约束，避免无关重构。
