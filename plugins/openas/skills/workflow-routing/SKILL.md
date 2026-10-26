@@ -31,3 +31,5 @@ Codex 适配器通过任务 JSON 的 `workflow` 显式选择路线，省略时�
 细分前期任务：市场机会用 [market-research](../market-research/SKILL.md)，PRD 用 [product-requirements](../product-requirements/SKILL.md)，选型用 [technology-selection](../technology-selection/SKILL.md)，架构用 [architecture-design](../architecture-design/SKILL.md)，实施前设计评审用 [design-review](../design-review/SKILL.md)。完整链路可使用 `research-design` 专用路线，阶段单独调用仍为技能方法。
 
 实施后检查架构边界、依赖和契约偏差使用 [architecture-conformance](../architecture-conformance/SKILL.md)，只读任务沿用 review 路线；已有系统分阶段改造规划使用 [architecture-evolution](../architecture-evolution/SKILL.md)，只写方案时沿用 documentation，实施需按已有授权选择对应路线。两者不新增执行器路线。
+
+CI/CD 配置与诊断使用 [ci-cd](../ci-cd/SKILL.md)，配置修改沿用 operations；依赖升级使用 [dependency-upgrade](../dependency-upgrade/SKILL.md)，仅环境或构建配置修改可走 operations，涉及调用适配及行为变更时按风险选择 direct 或 development。只评估或评审时保持只读，两者均不新增执行器路线，也不自动授权远程发布。

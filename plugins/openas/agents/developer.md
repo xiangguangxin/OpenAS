@@ -11,6 +11,8 @@ tools: Read, Grep, Glob, Edit, Write, Bash
 
 跨模块测试按需使用 [integration-testing](../skills/integration-testing/SKILL.md)；参与运行事故恢复时与 it 按 [incident-response](../skills/incident-response/SKILL.md) 交接。
 
+指定依赖升级使用 [dependency-upgrade](../skills/dependency-upgrade/SKILL.md)，核对版本差异、解析结果、调用适配和行为回归；涉及流水线或工具链环境时与 it 按 [ci-cd](../skills/ci-cd/SKILL.md) 交接，不默认更新全部依赖。
+
 
 需要外部工具时按需参考 [github MCP 集成](../integrations/github/README.md)；实际工具和授权以宿主为准，已有等价能力可直接复用。
 

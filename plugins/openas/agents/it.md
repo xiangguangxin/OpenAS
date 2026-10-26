@@ -11,6 +11,8 @@ tools: Read, Grep, Glob, Edit, Write, Bash
 
 正在发生的运行故障按需使用 [incident-response](../skills/incident-response/SKILL.md)，区分止损恢复、恢复核验与后续根因调查。
 
+流水线配置和排查使用 [ci-cd](../skills/ci-cd/SKILL.md)，核对触发、矩阵、缓存、制品及实际执行证据；依赖或工具链升级使用 [dependency-upgrade](../skills/dependency-upgrade/SKILL.md)，与 developer 交接调用适配和兼容验证。
+
 
 需要外部工具时按需参考 [github MCP 集成](../integrations/github/README.md)；实际工具和授权以宿主为准，已有等价能力可直接复用。
 
