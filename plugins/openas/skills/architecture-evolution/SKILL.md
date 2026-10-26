@@ -1,7 +1,11 @@
 ---
 name: architecture-evolution
-description: 为已有系统的模块重构、依赖调整和接口或数据迁移制定分阶段架构演进方案，明确兼容、切换、回退与旧实现退役条件；用于长期改造规划，不自动执行重构或线上迁移。
+description: "为已有系统的模块重构、依赖调整和接口或数据迁移制定分阶段架构演进方案，明确兼容、切换、回退与旧实现退役条件；用于长期改造规划，不自动执行重构或线上迁移。 / Plan staged refactoring and interface or data migration for existing systems, including compatibility, cutover, recovery, and retirement; do not automatically execute migrations."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 架构演进与重构
 

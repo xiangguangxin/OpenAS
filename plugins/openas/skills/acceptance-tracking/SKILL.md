@@ -1,7 +1,11 @@
 ---
 name: acceptance-tracking
-description: 将每条原始验收关联到实现和真实检查证据，区分已验证、模型评审与待人工核对；用于交付前确认需求覆盖。
+description: "将每条原始验收关联到实现和真实检查证据，区分已验证、模型评审与待人工核对；用于交付前确认需求覆盖。 / Map each original acceptance criterion to implementation and real check evidence; distinguish verified, reviewed, and pending items."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 逐项验收追踪
 

@@ -1,7 +1,11 @@
 ---
 name: context-handoff
-description: 为下一角色或新会话交接当前任务的目标、现场、决定、产物、证据和剩余项；用于任务连续性，不代替长期项目记忆。
+description: "为下一角色或新会话交接当前任务的目标、现场、决定、产物、证据和剩余项；用于任务连续性，不代替长期项目记忆。 / Transfer current task goals, authorization, state, decisions, artifacts, evidence, and remaining work to another role or session; keep it separate from long-term memory."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 任务现场交接
 

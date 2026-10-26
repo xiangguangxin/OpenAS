@@ -1,7 +1,11 @@
 ---
 name: performance-analysis
-description: 建立可复现基准、采集剖析数据并用对照实验验证性能瓶颈和收益；用于性能调查与优化验证，不从单次耗时推导结论。
+description: "建立可复现基准、采集剖析数据并用对照实验验证性能瓶颈和收益；用于性能调查与优化验证，不从单次耗时推导结论。 / Establish reproducible benchmarks, profile execution, and test bottleneck and optimization hypotheses with controlled comparisons rather than single-run timings."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 性能分析
 

@@ -19,3 +19,7 @@ PR 描述包含问题、变化、实际验证命令和未覆盖项。CI 通过�
 4. PR 通过并合并后确认主分支 CI。仅在明确发布授权下创建对应 Git tag / Release，再由使用者更新 marketplace 缓存。
 
 项目自有内容使用 [MIT License](LICENSE)。第三方 REA 的原始许可和来源说明保留在 [集成目录](plugins/openas/integrations/rea/README.md)。
+
+## 双语维护
+
+角色与自有技能保持中英文配套，遵循 [双语维护说明](docs/bilingual.md)。修改共享行为时同步审查译本，更新 translations.json 指纹前核对语义；结构检查不替代翻译质量或真实客户端评测。

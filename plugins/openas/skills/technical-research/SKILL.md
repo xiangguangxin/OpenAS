@@ -1,7 +1,11 @@
 ---
 name: technical-research
-description: 围绕技术问题收集可追溯资料、比较证据并设计验证实验，产出技术调研报告；适用于可行性调查和技术现状研究，不代替实施计划。
+description: "围绕技术问题收集可追溯资料、比较证据并设计验证实验，产出技术调研报告；适用于可行性调查和技术现状研究，不代替实施计划。 / Gather traceable technical evidence, compare applicability, and design feasibility experiments; deliver research rather than an implementation plan."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 技术调研
 

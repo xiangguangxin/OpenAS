@@ -1,7 +1,11 @@
 ---
 name: product-requirements
-description: 将用户问题、调研与业务约束转成产品简报或 PRD，定义范围、用户流程、可检验需求与成功指标；用于需求定稿，不代替技术选型或架构设计。
+description: "将用户问题、调研与业务约束转成产品简报或 PRD，定义范围、用户流程、可检验需求与成功指标；用于需求定稿，不代替技术选型或架构设计。 / Turn user problems, research, and constraints into a brief or PRD with scope, user flows, testable requirements, and success metrics; keep technology decisions separate."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 产品简报与需求规格
 

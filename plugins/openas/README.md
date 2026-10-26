@@ -1,3 +1,5 @@
+简体中文 | [English](README.en.md)
+
 # OpenAS 插件资源
 
 入口清单位于 [.claude-plugin/plugin.json](.claude-plugin/plugin.json)。从任意项目用 `claude --plugin-dir /absolute/path/to/this-directory` 加载本目录；开发时保存后在会话内 `/reload-plugins`。安装、卸载和验证命令见仓库 README。

@@ -24,6 +24,50 @@ def metadata(path):
     return fields
 
 
+def check_translations(root):
+    """Check coverage and reviewed file pairs, not linguistic equivalence."""
+    root = Path(root).resolve()
+    manifest = root/'references/translations.json'
+    if not manifest.exists():
+        if any((root/'skills').glob('*/SKILL.en.md')):
+            raise ValueError('Missing translation manifest for bilingual skills')
+        return 0
+    data = json.loads(manifest.read_text(encoding='utf-8'))
+    if not isinstance(data, dict) or data.get('version') != 1 or not isinstance(data.get('entries'), list):
+        raise ValueError('Invalid translation manifest')
+    expected = {
+        p.relative_to(root).as_posix(): p.with_name('SKILL.en.md').relative_to(root).as_posix()
+        for p in (root/'skills').glob('*/SKILL.md')
+        if p.parent.name != 'reverse-engineer-anything'  # Retain vendored upstream English.
+    }
+    expected.update({p.relative_to(root).as_posix(): f'references/en/agents/{p.name}'
+                     for p in (root/'agents').glob('*.md')})
+    expected.update({f'references/{name}.md': f'references/{name}.en.md'
+                     for name in ('team-contract', 'project-context', 'implementation-readiness')})
+    expected.update({'README.md': 'README.en.md', 'workflows/README.md': 'workflows/README.en.md'})
+    seen = set()
+    for entry in data['entries']:
+        if not isinstance(entry, dict):
+            raise ValueError('Invalid translation entry')
+        source, target = entry.get('source'), entry.get('target')
+        if not isinstance(source, str) or source in seen or expected.get(source) != target:
+            raise ValueError(f'Unexpected or duplicate translation pair: {source}')
+        seen.add(source)
+        for field, rel in (('source_sha256', source), ('target_sha256', target)):
+            path = root/rel
+            if not path.is_file():
+                raise ValueError(f'Missing translation file: {rel}')
+            digest = hashlib.sha256(path.read_bytes()).hexdigest()
+            if digest != entry.get(field):
+                raise ValueError(f'Translation needs review after file changes: {rel}')
+        if source.startswith('skills/'):
+            if metadata(root/source)['name'] != metadata(root/target)['name']:
+                raise ValueError(f'Translated skill ID mismatch: {target}')
+    if seen != set(expected):
+        raise ValueError(f'Missing translation pairs: {sorted(set(expected) - seen)}')
+    return len(seen)
+
+
 def check(root):
     root = Path(root).resolve()
     manifest = json.loads((root/'.claude-plugin/plugin.json').read_text())
@@ -53,6 +97,7 @@ def check(root):
         agents.append(info['name'])
     if not skills or not agents:
         raise ValueError('No skills or agents')
+    translations = check_translations(root)
     for p in files:
         if p.suffix != '.md':
             continue
@@ -66,7 +111,7 @@ def check(root):
     for p in sorted(files):
         rel = p.relative_to(root).as_posix()
         content.update(rel.encode()); content.update(b'\0'); content.update(p.read_bytes()); content.update(b'\0')
-    return {'name':manifest['name'], 'version':manifest['version'], 'skills':skills,
+    return {'name':manifest['name'], 'version':manifest['version'], 'skills':skills, 'translations':translations,
             'agents':agents, 'files':len(files), 'sha256':content.hexdigest()}
 
 

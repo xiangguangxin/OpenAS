@@ -1,7 +1,11 @@
 ---
 name: executing-plans
-description: 按已有计划分步实施并验证，处理依赖和反馈；用于设计足够明确、需要持续落地的任务。
+description: "按已有计划分步实施并验证，处理依赖和反馈；用于设计足够明确、需要持续落地的任务。 / Implement and verify an existing sufficiently clear plan step by step, respecting dependencies, scope, feedback, and evidence."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 执行计划
 

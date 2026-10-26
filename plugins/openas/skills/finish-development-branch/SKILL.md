@@ -1,7 +1,11 @@
 ---
 name: finish-development-branch
-description: 开发完成后核对 diff、验收与评审，按既有授权提交、推送或合并，并保留未完成项。
+description: "开发完成后核对 diff、验收与评审，按既有授权提交、推送或合并，并保留未完成项。 / Check final diff, acceptance, and reviews, then commit, push, or merge within existing authorization while preserving unfinished work."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 开发分支收尾
 

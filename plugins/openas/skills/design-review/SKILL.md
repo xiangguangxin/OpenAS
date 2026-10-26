@@ -1,7 +1,11 @@
 ---
 name: design-review
-description: 交叉评审需求、调研、技术决策和架构的一致性、可行性与可验收性，输出有依据的问题和设计就绪结论；用于实施前设计检查，不冒充代码或运行验收。
+description: "交叉评审需求、调研、技术决策和架构的一致性、可行性与可验收性，输出有依据的问题和设计就绪结论；用于实施前设计检查，不冒充代码或运行验收。 / Review consistency, feasibility, and acceptance across requirements, research, technical decisions, and architecture before implementation; report evidenced readiness gaps."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 设计评审与实施就绪检查
 

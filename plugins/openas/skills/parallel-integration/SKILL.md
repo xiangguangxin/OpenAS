@@ -1,7 +1,11 @@
 ---
 name: parallel-integration
-description: 整合已授权独立任务的成果，核对文件与接口冲突并验证组合结果；不提供或自动启动并行调度。
+description: "整合已授权独立任务的成果，核对文件与接口冲突并验证组合结果；不提供或自动启动并行调度。 / Integrate already authorized independent work, inspect overlapping changes and contracts, and verify combined behavior; do not provide or automatically start parallel scheduling."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 整合独立成果
 

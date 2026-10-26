@@ -1,7 +1,11 @@
 ---
 name: interaction-design
-description: 将已确认需求转为用户流程、信息架构、界面状态和可实施的交互规格；用于界面或操作流程设计，不自行扩大产品范围。
+description: "将已确认需求转为用户流程、信息架构、界面状态和可实施的交互规格；用于界面或操作流程设计，不自行扩大产品范围。 / Translate confirmed requirements into user flows, information architecture, interface states, and implementable interaction specifications without expanding product scope."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 交互设计
 

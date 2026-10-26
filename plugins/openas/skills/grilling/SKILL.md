@@ -1,7 +1,11 @@
 ---
 name: grilling
-description: 用户明确希望通过采访、连续追问或设计压力测试澄清关键取舍时使用。普通代码审查、项目评审和已经明确的实施任务使用对应评审或开发流程。
+description: "用户明确希望通过采访、连续追问或设计压力测试澄清关键取舍时使用。普通代码审查、项目评审和已经明确的实施任务使用对应评审或开发流程。 / Use explicit interviews or design pressure testing to clarify major tradeoffs; do not turn ordinary reviews or clear implementation requests into interviews."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 设计压力测试
 

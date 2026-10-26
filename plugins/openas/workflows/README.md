@@ -1,3 +1,5 @@
+简体中文 | [English](README.en.md)
+
 # 可执行的 Codex 客户端闭环
 
 `codex-team.py` 是本仓库的第一个真实客户端适配器，使用 Python 标准库调用已经安装并登录的 Codex CLI，不需要 Node 或另配 API SDK。

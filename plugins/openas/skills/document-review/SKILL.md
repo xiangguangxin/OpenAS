@@ -1,7 +1,11 @@
 ---
 name: document-review
-description: 依据源码、需求、设计与可信资料独立评审 README、指南、接口及设计文档，检查事实、完整性、图文一致性和操作可用性；用于只读文档评审，不代替文档编写、设计就绪评审或代码验收。
+description: "依据源码、需求、设计与可信资料独立评审 README、指南、接口及设计文档，检查事实、完整性、图文一致性和操作可用性；用于只读文档评审，不代替文档编写、设计就绪评审或代码验收。 / Independently review documentation against code, requirements, design, and sources for accuracy, completeness, diagrams, and usable instructions; remain read-only."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 文档评审
 

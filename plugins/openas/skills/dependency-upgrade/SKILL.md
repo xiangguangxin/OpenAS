@@ -1,7 +1,11 @@
 ---
 name: dependency-upgrade
-description: 分析并实施指定范围的依赖或工具链升级，核对破坏性变化、传递依赖、锁文件、调用适配和回归证据；用于版本升级及兼容迁移，不默认升级全部依赖或替换既定技术路线。
+description: "分析并实施指定范围的依赖或工具链升级，核对破坏性变化、传递依赖、锁文件、调用适配和回归证据；用于版本升级及兼容迁移，不默认升级全部依赖或替换既定技术路线。 / Assess or implement scoped dependency and toolchain upgrades, including breaking changes, transitive resolution, lockfiles, call-site adaptation, regression checks, and recovery."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 依赖升级
 

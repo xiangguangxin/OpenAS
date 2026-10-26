@@ -1,7 +1,11 @@
 ---
 name: test-strategy
-description: 依据需求和风险制定测试层级、场景、数据与执行计划；用于功能或系统测试规划，不代替具体测试实现或最终验收。
+description: "依据需求和风险制定测试层级、场景、数据与执行计划；用于功能或系统测试规划，不代替具体测试实现或最终验收。 / Plan risk-based test levels, scenarios, data, environments, and execution with acceptance mappings; do not confuse a test plan with implemented tests or final acceptance."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 测试策略
 

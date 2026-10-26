@@ -1,7 +1,11 @@
 ---
 name: verification-before-completion
-description: 在交付前按改动类型核对验收并提供真实验证证据，明确未运行项，不将文档任务机械升级为完整构建。
+description: "在交付前按改动类型核对验收并提供真实验证证据，明确未运行项，不将文档任务机械升级为完整构建。 / Verify acceptance with real evidence appropriate to the change, distinguishing unexecuted, static, mock, historical, and runtime checks."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 完成前验证
 

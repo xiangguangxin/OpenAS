@@ -1,7 +1,11 @@
 ---
 name: writing-plans
-description: 将足够明确的设计拆为可执行任务，保留范围、依赖、项目约束和验收；用于实现前规划或复杂任务交接。
+description: "将足够明确的设计拆为可执行任务，保留范围、依赖、项目约束和验收；用于实现前规划或复杂任务交接。 / Turn sufficiently clear design into executable, dependency-aware tasks with scope, project constraints, and acceptance; separate blockers from implementable work."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 实施计划
 

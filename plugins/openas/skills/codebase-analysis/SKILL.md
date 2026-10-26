@@ -1,7 +1,11 @@
 ---
 name: codebase-analysis
-description: 依据实际源码梳理陌生或已有项目的入口、模块、依赖、核心调用链和扩展点，形成有证据的架构现状说明；用于理解代码库，不默认进行缺陷审计、架构改造或二进制逆向。
+description: "依据实际源码梳理陌生或已有项目的入口、模块、依赖、核心调用链和扩展点，形成有证据的架构现状说明；用于理解代码库，不默认进行缺陷审计、架构改造或二进制逆向。 / Explain repository entry points, modules, dependencies, core call paths, and extension mechanisms from source evidence; do not default to audits or binary reverse engineering."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 代码库分析
 

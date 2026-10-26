@@ -1,7 +1,11 @@
 ---
 name: integration-testing
-description: 编写和排查跨模块、数据库或服务边界的集成测试，明确真实依赖、夹具隔离和状态清理；用于验证组件协作行为。
+description: "编写和排查跨模块、数据库或服务边界的集成测试，明确真实依赖、夹具隔离和状态清理；用于验证组件协作行为。 / Build or investigate tests across module, database, or service boundaries with explicit real dependencies, isolated fixtures, cleanup, and behavioral evidence."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 集成测试
 

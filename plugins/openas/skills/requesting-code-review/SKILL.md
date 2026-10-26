@@ -1,7 +1,11 @@
 ---
 name: requesting-code-review
-description: 对实际代码、diff 或项目现状进行证据驱动的评审，检查需求、边界、兼容和验证缺口；普通评审直接调查并给出发现。
+description: "对实际代码、diff 或项目现状进行证据驱动的评审，检查需求、边界、兼容和验证缺口；普通评审直接调查并给出发现。 / Review actual code, diffs, or repository state for evidenced defects in requirements, boundaries, compatibility, and validation; investigate directly rather than interviewing."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 代码与项目评审
 

@@ -1,7 +1,11 @@
 ---
 name: competitive-analysis
-description: 围绕目标用户和相同使用场景分析竞品、替代方案及自身差距，形成有来源的对比矩阵和机会判断；用于竞品调研，不以宣传或推测冒充实测。
+description: "围绕目标用户和相同使用场景分析竞品、替代方案及自身差距，形成有来源的对比矩阵和机会判断；用于竞品调研，不以宣传或推测冒充实测。 / Compare competitors and alternatives for the same users and scenarios, with sourced evidence, gaps, and opportunity hypotheses rather than marketing claims."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 竞品与替代方案分析
 

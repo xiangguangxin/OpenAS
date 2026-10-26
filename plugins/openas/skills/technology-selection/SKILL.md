@@ -1,7 +1,11 @@
 ---
 name: technology-selection
-description: 依据需求和硬约束比较语言、框架、存储、通信及部署路线，输出有证据的技术选型与 ADR；用于决定用什么和为什么，不用技术栈清单代替架构。
+description: "依据需求和硬约束比较语言、框架、存储、通信及部署路线，输出有证据的技术选型与 ADR；用于决定用什么和为什么，不用技术栈清单代替架构。 / Compare feasible technology routes against requirements and hard constraints, preserving evidence, tradeoffs, PoC uncertainty, and architecture decision records."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 技术路线选择
 

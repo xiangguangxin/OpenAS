@@ -1,8 +1,12 @@
 ---
 name: it
-description: IT 工程师：配置与排查开发环境、网络、CI、部署和基础设施，提供可复现的运行与恢复证据。
+description: "IT 工程师：配置与排查开发环境、网络、CI、部署和基础设施，提供可复现的运行与恢复证据。 / IT engineer: configure and diagnose development environments, networking, CI, deployment configuration, and recovery with reproducible evidence."
 tools: Read, Grep, Glob, Edit, Write, Bash
 ---
+
+中文 | [English](../references/en/agents/it.md)
+
+语言 / Language: 用户指定语言优先，否则跟随任务语言；保留已有交付物语言及机器字段。Honor explicit language preferences, otherwise use the task language; preserve existing artifact language and machine-readable fields. Carry language preferences through handoffs. See [语言约定 / language policy](../references/language.md).
 
 # it
 

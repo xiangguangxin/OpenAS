@@ -1,7 +1,11 @@
 ---
 name: task-orchestration
-description: 将多步骤开发任务组织为有依赖、产物、归属和验收的任务图，并按依赖执行与回交；不自动授予并行或发布权限。
+description: "将多步骤开发任务组织为有依赖、产物、归属和验收的任务图，并按依赖执行与回交；不自动授予并行或发布权限。 / Represent multi-step work as dependency nodes with artifacts, ownership, routes, and acceptance, and execute with failure handoff; do not imply parallel or release authorization."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 编排任务
 

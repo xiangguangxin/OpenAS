@@ -1,7 +1,11 @@
 ---
 name: brainstorming
-description: 需求探索——在编码前先澄清目标、约束、已有架构与验证方式，而不是直接写代码。当用户提出新功能、需求模糊，或需要先理解真实问题再动手时使用。
+description: "需求探索——在编码前先澄清目标、约束、已有架构与验证方式，而不是直接写代码。当用户提出新功能、需求模糊，或需要先理解真实问题再动手时使用。 / Clarify goals, constraints, existing architecture, and verification before coding when requirements are new or unclear."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # Brainstorming
 
