@@ -151,13 +151,13 @@ Roles define responsibilities, skills define methods, and MCP exposes tools. Cor
 - **Context7:** version-appropriate library/framework documentation.
 - **REA:** shipped binaries/packages/runtime evidence, not ordinary source analysis or diagram generation.
 
-Detailed configuration/examples in the [integration guides](plugins/openas/integrations/README.md) currently retain Chinese, while upstream REA instructions are English. Reading a skill does not install a server, register tools or grant target execution. No automatic hooks or background listeners are shipped.
+English configuration guides are available for [MCP setup](plugins/openas/integrations/QUICKSTART.en.md), [Playwright, GitHub, and Context7](plugins/openas/integrations/README.en.md), and [REA](plugins/openas/integrations/rea/README.en.md). Reading a skill does not install a server, register tools or grant target execution. No automatic hooks or background listeners are shipped.
 
 ## Project memory
 
 Runtime knowledge belongs to the consumer project's `.openas/memory/`, not the plugin. Evidence-backed candidates require semantic review before acceptance, and changed sources invalidate reuse. Task checkpoints are short-lived state, not authorization to resume. `--learn` adds explicit model-assisted extraction/review and candidate-skill lifecycle work; it is not background training or a permissions change.
 
-See the [English memory skill](plugins/openas/skills/project-memory/SKILL.en.md). The detailed storage and learning references remain in their original language. They distinguish observation, candidate knowledge, trial, activation, feedback and rollback; do not infer verified knowledge from free-form model self-report.
+See the [English memory skill](plugins/openas/skills/project-memory/SKILL.en.md). English [storage](plugins/openas/memory/README.en.md) and [learning](plugins/openas/memory/learning.en.md) guides cover the full lifecycle. They distinguish observation, candidate knowledge, trial, activation, feedback and rollback; do not infer verified knowledge from free-form model self-report.
 
 ## Development and validation
 
@@ -184,9 +184,9 @@ These use existing client login/model settings, consume quota, require new outpu
 
 ## Sources, contribution and licensing
 
-Use an independent branch, retain user changes and run relevant checks. Update both language editions when changing shared behavior; never refresh translation fingerprints without reviewing meaning. See the English [changelog](CHANGELOG.md), [bilingual maintenance](docs/bilingual.md), [contribution guide](CONTRIBUTING.md), and [compatibility history](docs/compatibility.md). The compatibility history retains its original Chinese text.
+Use an independent branch, retain user changes and run relevant checks. Update both language editions when changing shared behavior; never refresh translation fingerprints without reviewing meaning. See the English [changelog](CHANGELOG.md), [bilingual maintenance](docs/bilingual.md), [contribution guide](CONTRIBUTING.md), and [compatibility history](docs/compatibility.en.md). English [architecture](docs/architecture.en.md), [CI](docs/ci.en.md), [skill evaluation](docs/skill-evaluation.en.md), and [native reload](docs/hot-reload-testing.en.md) guides are also available.
 
-OpenAS originated from a gem5 collaboration setup and is now project-independent; [migration records](docs/migration.json) preserve provenance, not default facts about new consumers. Project-owned material is [MIT](LICENSE), except explicitly identified content. The presentation skill uses Apache-2.0 with retained third-party MIT/Apache notices; upstream REA retains its own licensing. See [presentation NOTICE](plugins/openas/skills/presentation-creation/NOTICE.md) and [REA provenance](plugins/openas/integrations/rea/README.md).
+OpenAS originated from a gem5 collaboration setup and is now project-independent; [migration records](docs/migration.json) preserve provenance, not default facts about new consumers. Project-owned material is [MIT](LICENSE), except explicitly identified content. The presentation skill uses Apache-2.0 with retained third-party MIT/Apache notices; upstream REA retains its own licensing. See [presentation NOTICE](plugins/openas/skills/presentation-creation/NOTICE.md) and [REA provenance](plugins/openas/integrations/rea/README.en.md).
 
 ---
 

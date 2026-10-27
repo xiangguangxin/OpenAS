@@ -1,5 +1,7 @@
 # Playwright MCP
 
+中文 | [English](README.en.md)
+
 用于探索页面、执行用户操作、观察结构与检查交互。适用于 test-engineer、verifier 和 ux-designer 的页面任务；已有稳定 Playwright 测试时优先运行现有测试，交互式 MCP 操作不能替代持久化回归。
 
 ## 基础概念

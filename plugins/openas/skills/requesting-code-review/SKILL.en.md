@@ -15,4 +15,4 @@ Review relevant input/output, failures, state/resource lifetime, compatibility a
 
 Findings need severity, file location, trigger, actual/expected behavior, evidence, impact and repair advice. P0/P1 concern critical correctness or acceptance blockers; assess P2 by impact and treat P3 as optional. Do not promote style preferences or manufacture findings.
 
-Separate confirmed defects, disclosed limitations and future enhancements. No substantial defects may approve, with scope and gaps. Retain IDs during rechecks, checking repairs and new consequences. Modify implementation only when repair is authorized. Use the [GitHub guide](../../integrations/github/README.md) for remote PR/CI objects when available; otherwise use local evidence and state remote gaps.
+Separate confirmed defects, disclosed limitations and future enhancements. No substantial defects may approve, with scope and gaps. Retain IDs during rechecks, checking repairs and new consequences. Modify implementation only when repair is authorized. Use the [GitHub guide](../../integrations/github/README.en.md) for remote PR/CI objects when available; otherwise use local evidence and state remote gaps.

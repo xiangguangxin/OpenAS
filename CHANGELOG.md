@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.2
+
+- Add English companions for six integration guides, two memory guides, and five architecture, CI, compatibility, and evaluation guides, retaining the Chinese editions and language-switch links.
+- Route English documentation to the corresponding English guides and expand plugin-local translation coverage from 63 to 71 pairs. Skills, roles, execution routes, and authorization boundaries remain unchanged.
+- Preserve historical observations, pinned versions, commands, evidence limits, and third-party licensing; documentation translation does not establish new native-client or service acceptance.
+
 ## 0.14.1
 
 - Combine the repository-root README editions into one file, showing English first with English / Simplified Chinese section links while preserving the Chinese content and existing section links.

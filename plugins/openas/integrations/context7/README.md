@@ -1,5 +1,7 @@
 # Context7 MCP
 
+中文 | [English](README.en.md)
+
 用于 researcher、cto 和 developer 获取库或框架的文档与示例，配合 technical-research 和 technology-selection。它是资料获取入口，检索结果不能替代项目当前锁定版本或实际运行证据。
 
 ## 配置
