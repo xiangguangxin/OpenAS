@@ -5,7 +5,7 @@
       "source": "README.md",
       "target": "README.en.md",
       "source_sha256": "ed9131a2431837913ae58f0abff266e178bafee1feafba3755b92fc38c6a59d1",
-      "target_sha256": "3e861de6004ffc3657ce3566ab38557988d5eaab2ca2b0e3beb11dbfdce72c3f"
+      "target_sha256": "88654a489f49e130a85dcac9c2232b6627973e0ea679f988f36240d3d82492a2"
     },
     {
       "source": "agents/cto.md",

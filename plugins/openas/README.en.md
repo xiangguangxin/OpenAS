@@ -2,7 +2,7 @@
 
 [中文](README.md) | English
 
-Load this directory from your target project with `claude --plugin-dir /absolute/path/to/OpenAS/plugins/openas`. Its manifest is [.claude-plugin/plugin.json](.claude-plugin/plugin.json). Run `/reload-plugins` after local edits. Installation and update commands are in the repository-root `README.en.md`.
+Load this directory from your target project with `claude --plugin-dir /absolute/path/to/OpenAS/plugins/openas`. Its manifest is [.claude-plugin/plugin.json](.claude-plugin/plugin.json). Run `/reload-plugins` after local edits. Installation and update commands are in the English section of repository-root `README.md`.
 
 - **12 roles:** [English role instructions](references/en/agents), with original registration files in [agents](agents). Claude uses names such as `openas:cto`; adding roles does not automatically add them to Codex routes.
 - **47 skills:** repository-root `docs/skills.en.md`, with `SKILL.md` discovery entry points and `SKILL.en.md` companions in [skills](skills). IDs/commands do not change by language. Upstream REA already uses English and is preserved.

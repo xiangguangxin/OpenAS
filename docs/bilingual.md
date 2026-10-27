@@ -1,14 +1,16 @@
 # 中英文支持 / Chinese and English support
 
-[中文入口](../README.md) | [English entry](../README.en.md)
+[English entry](../README.md#english) | [中文入口](../README.md#chinese)
 
 ## 中文
+
+仓库根目录使用单一 README，英文在前，通过 English / 简体中文链接跳转到对应章节。GitHub Markdown 不隐藏另一语言的内容；同一页面保留两种语言。子目录插件与工作流指南继续保留配套译本。
 
 同一份插件提供 47 个技能和 12 个角色，不按语言重复注册。明确指定的输出语言优先，否则跟随任务语言；已有文件保留原语言，除非要求翻译。结构化字段、枚举、命令和标识符不翻译。完整规则见 [语言约定](../plugins/openas/references/language.md)。
 
 | 内容 | 中文 | 英文 |
 | --- | --- | --- |
-| 仓库入口 | README.md | README.en.md |
+| 仓库入口（同一文件，英文优先） | README.md#chinese | README.md#english |
 | 技能 | 原 SKILL.md | 同目录 SKILL.en.md（46 份）及上游英文 REA |
 | 角色 | agents 下的原定义 | references/en/agents 下的 12 份说明 |
 | 协作、项目适配、设计就绪 | references 下的原文件 | 同目录 .en.md |
@@ -61,7 +63,7 @@ python3 scripts/evaluate_skills.py --case explicit-chinese --output /tmp/openas-
 
 One installation provides the same 47 skills and 12 roles in both languages. Explicit language preferences override the task language; existing files retain their language unless translation is requested. Keep schemas, enum values, commands and identifiers stable. See the [language policy](../plugins/openas/references/language.md).
 
-The English edition covers the repository README, complete skill catalog, all skill entry instructions (46 new companions plus upstream English REA), 12 role descriptions, team/project/readiness references, plugin guide and workflow guide. Detailed references, historical evidence and third-party documents retain original languages and are not all translated. Companion files do not register duplicate components; vendored REA and its licensing remain unchanged.
+The repository uses one README with English first and clickable English/Chinese section links. The English edition covers the repository README, complete skill catalog, all skill entry instructions (46 new companions plus upstream English REA), 12 role descriptions, team/project/readiness references, plugin guide and workflow guide. Detailed references, historical evidence and third-party documents retain original languages and are not all translated. Companion files do not register duplicate components; vendored REA and its licensing remain unchanged.
 
 When editing shared behavior, compare triggers, procedures, deliverables, authorization, failure handling, versions, applicability and evidence limits in both editions. Different wording is acceptable; changed behavior is not. Preserve language-switch links. The 63 plugin-local pairs in `references/translations.json` record source and target hashes. Structural validation checks coverage, paths, skill IDs and drift. Review meaning before updating hashes using the command above; it does not create missing translations. New/removed skills also require companion/catalog/registry updates.
 
