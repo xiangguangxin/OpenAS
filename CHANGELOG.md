@@ -2,102 +2,102 @@
 
 ## 0.14.1
 
-- 将仓库根目录 README 合并为一份，默认先展示英文，提供 English / 简体中文章节跳转，并保留中文内容及原章节链接。
-- 移除根目录 README.en.md，更新双语维护说明、英文技能索引和插件入口引用；子目录配套译本及技能、角色保持不变。
+- Combine the repository-root README editions into one file, showing English first with English / Simplified Chinese section links while preserving the Chinese content and existing section links.
+- Remove the root README.en.md and update the bilingual maintenance guide, English skill catalog, and plugin entry references; subdirectory translations, skills, and roles remain unchanged.
 
 ## 0.14.0
 
-- 支持中英文入口与输出语言约定：英文 README、47 个技能的英文入口（含上游英文 REA）、12 个英文角色说明，以及英文协作、项目适配和工作流指南。
-- 中文发现入口增加英文描述与配套链接，保留同一组 47 个技能 ID、12 个角色和执行路线；机器字段与授权边界不因翻译改变。
-- 增加翻译覆盖及指纹检查、中英文与显式语言覆盖的可选行为评测；详细技术参考、历史证据和第三方原文保留既有语言与许可。
+- Add Chinese and English entry points and output-language conventions: an English README, English entry instructions for all 47 skills (including upstream English REA), 12 English role descriptions, and English collaboration, project-adaptation, and workflow guides.
+- Add English descriptions and companion links to Chinese discovery entries while retaining the same 47 skill IDs, 12 roles, and execution routes; translation does not change machine-readable fields or authorization boundaries.
+- Add translation coverage and fingerprint checks, plus optional behavior evaluations for Chinese/English requests and explicit language overrides; detailed technical references, historical evidence, and third-party originals retain their existing languages and licenses.
 
 ## 0.13.0
 
-- 新增 codebase-analysis 和 change-impact-analysis，覆盖源码现状、核心调用链、消费者影响、必要联动和验证范围，技能总数为 47。
-- 为 cto 和 developer 接入相应方法，更新技能地图与路由；默认只读分析，不新增角色或执行器路线。
+- Add codebase-analysis and change-impact-analysis for understanding current source, core call paths, consumer impacts, required coordinated changes, and verification scope, bringing the skill count to 47.
+- Integrate these methods into cto and developer and update the skill map and routing; analysis is read-only by default, with no new roles or executor routes.
 
 ## 0.12.0
 
-- 新增 ci-cd 和 dependency-upgrade，覆盖流水线配置与诊断、缓存和制品、版本差异、锁文件及兼容验证，技能总数为 45。
-- 为 it 和 developer 接入相应方法，更新技能地图与路由；不新增角色、执行器路线或默认发布权限。
+- Add ci-cd and dependency-upgrade for pipeline configuration and diagnosis, caches and artifacts, version differences, lockfiles, and compatibility verification, bringing the skill count to 45.
+- Integrate these methods into it and developer and update the skill map and routing; add no roles, executor routes, or default publishing permissions.
 
 ## 0.11.0
 
-- 新增 document-review，独立核对文档事实、读者任务、图文一致性和示例证据，技能总数为 43。
-- red-team 明确区分文档、代码和设计评审，补充文档编写交接、技能地图与路由；不新增角色或执行器路线。
+- Add document-review to independently check documentation facts, reader tasks, diagram/text consistency, and example evidence, bringing the skill count to 43.
+- Clarify red-team's separate document, code, and design review responsibilities, and update documentation handoffs, the skill map, and routing; add no roles or executor routes.
 
 ## 0.10.0
 
-- 新增 architecture-conformance 和 architecture-evolution，覆盖实现后的架构约束检查及已有系统的分阶段改造，技能总数为 42。
-- 补充 cto 的架构偏差跟踪、演进规划和决策重新评估职责，更新技能地图与路由；默认保持只读检查或方案交付，不增加执行器路线。
+- Add architecture-conformance and architecture-evolution for post-implementation architecture checks and staged changes to existing systems, bringing the skill count to 42.
+- Extend cto responsibilities to track architectural deviations, plan evolution, and reevaluate decisions; update the skill map and routing. Default to read-only checks or plan delivery, without adding executor routes.
 
 ## 0.9.1
 
-- 为 github-skill-discovery 增加多技能融合生成流程：能力比较、方法提炼、冲突取舍、独立编写、验证和注册。
-- 明确多来源提交、方法落点、许可证与修改记录，以及单来源导入脚本的能力边界；技能总数仍为 40。
+- Extend github-skill-discovery with a multi-skill synthesis workflow: capability comparison, method extraction, conflict resolution, independent authoring, validation, and registration.
+- Clarify multi-source commits, where adopted methods appear, licensing and modification records, and the boundaries of the single-source import script; the skill count remains 40.
 
 ## 0.9.0
 
-- 新增 presentation-creation，融合三组固定提交且已核对许可的演示方法，保留来源、版权和改动记录，技能总数为 40。
-- 提供独立实现的 JSON 到可编辑 PPTX 工具，支持九类页面、原生图表/表格、中文字体、讲稿备注和数据来源；不依赖收费 API。
-- 增加标准库 OOXML/几何检查、本地 LibreOffice/Poppler 渲染、逐页预览和 8 页示例，区分结构、渲染、视觉和原生客户端验收。
-- 演示技能目录按 Apache-2.0 提供，保留来源 MIT/Apache 条款；未复制专有 PPT 技能、上游运行脚本、字体或图片。
+- Add presentation-creation by synthesizing three sets of presentation methods from pinned, license-reviewed commits, retaining provenance, copyright, and modification records; the skill count reaches 40.
+- Provide an independently implemented JSON-to-editable-PPTX tool supporting nine slide types, native charts/tables, Chinese fonts, speaker notes, and data sources, without requiring paid APIs.
+- Add standard-library OOXML/geometry checks, local LibreOffice/Poppler rendering, per-slide previews, and an eight-slide example, distinguishing structural, rendering, visual, and native-client acceptance checks.
+- Distribute the presentation skill directory under Apache-2.0 while retaining applicable upstream MIT/Apache terms; no proprietary presentation skills, upstream runtime scripts, fonts, or images were copied.
 
 ## 0.8.0
 
-- 新增 github-skill-discovery，覆盖需求搜索、内容/依赖/许可证审查、适用性比较、安装或适配及验证，技能总数为 39。
-- 配套脚本从完整提交的本地 Git 对象暂存技能，保留适用法律文件、来源清单和文件指纹，不执行候选代码或下载依赖。
-- 安装绑定已审查包的指纹，不覆盖已有目录；区分文件复制、宿主发现与调用验证，记录适配差异和验证历史。
+- Add github-skill-discovery for requirements-based search, content/dependency/license review, suitability comparison, installation or adaptation, and validation, bringing the skill count to 39.
+- Add a companion script that stages skills from local Git objects at a full commit SHA, retaining applicable legal files, source manifests, and file fingerprints without executing candidate code or downloading dependencies.
+- Bind installation to the reviewed package fingerprints without overwriting existing directories; distinguish file copying, host discovery, and invocation validation, recording adaptations and verification history.
 
 ## 0.7.0
 
-- 新增项目学习四阶段闭环：任务观察采集、经验提炼与独立审查、候选技能生成与正反试用、反馈评估与版本回滚。
-- 单任务适配器新增 `--learn`，按需调用只读模型提炼和评审；默认仅采集有限观察，不额外调用模型。
-- 项目技能版本绑定原始经验、来源和试用指纹，显式启用后复用；连续负向观察暂停，旧版本有效时可回滚。
-- 提供项目级审计、人工反馈补充、只读诊断试用 fixture 和自动测试；不修改插件自带技能、客户端权限或模型参数。
-- 增加客户 MCP 配置合并、本地环境预检和逐项接入验收指南。
+- Add a four-stage project-learning loop: task observation capture, experience extraction and independent review, candidate-skill generation with positive/negative trials, and feedback evaluation with version rollback.
+- Add `--learn` to the single-task adapter for on-demand read-only model extraction and review; by default, capture only limited observations without additional model calls.
+- Bind project-skill versions to original lessons, sources, and trial fingerprints, reusing them only after explicit activation; pause after consecutive negative observations and allow rollback when an older version remains valid.
+- Provide project-level auditing, manual feedback, read-only diagnostic trial fixtures, and automated tests without changing bundled skills, client permissions, or model parameters.
+- Add guidance for merging client MCP configuration, checking the local environment, and validating integration item by item.
 
 ## 0.6.0
 
-- 新增 research-design 专用可执行路线，依次完成调研、需求、方案、选型、架构、设计文档与独立设计评审，再执行宿主检查与验证。
-- 设计评审使用结构化 revision_from，回退最早受影响阶段并重跑全部下游，阶段修订预算跨恢复保留。
-- 显式区分 live/provided 调研模式；live 必须记录原生已完成的 web_search 事件，没有实际搜索则停止。
-- 逐阶段限制为一个明确 Markdown 文件，产出设计评审与文档交接记录，复用检查点恢复；不进入产品实现。
+- Add the executable research-design route, progressing through research, requirements, solution, technology selection, architecture, design documentation, and independent design review, followed by host checks and verification.
+- Use structured revision_from in design review to return to the earliest affected stage and rerun all downstream stages, preserving per-stage revision budgets across resumption.
+- Explicitly distinguish live/provided research modes; live requires a native completed web_search event and stops if no actual search occurred.
+- Restrict each stage to one explicitly designated Markdown file, produce design-review and documentation-handoff records, and reuse checkpoint resumption without proceeding to product implementation.
 
 ## 0.5.0
 
-- 新增技术调研、方案设计与选型、项目文档、竞品分析、路线图规划五个技能。
-- 补充市场调研、产品需求、技术选型、架构设计和设计评审五个独立入口，总数为 31；solution-design 保留方案与整链路入口，避免重复方法。
-- 形成调研证据、方案决策、文档、路线图与既有实施计划的交接约定，区分已实现能力、假设和未来计划。
-- 串联市场竞品调研、方案设计、技术路线选型、架构设计和设计文档，补充阶段交接与需求验收映射。
-- 补充文档类型核对点及使用示例；新增技能不增加工具依赖或执行器路线。
+- Add five skills for technical research, solution design and selection, project documentation, competitive analysis, and roadmap planning.
+- Add five separate entry points for market research, product requirements, technology selection, architecture design, and design review, bringing the total to 31; solution-design retains the solution and full-chain entry points to avoid duplicated methods.
+- Establish handoff conventions connecting research evidence, solution decisions, documentation, roadmaps, and existing implementation plans, distinguishing implemented capabilities, assumptions, and future plans.
+- Connect market/competitive research, solution design, technology selection, architecture design, and design documentation, adding stage handoffs and requirement/acceptance mappings.
+- Add document-type review points and usage examples; the new skills introduce no tool dependencies or executor routes.
 
 ## 0.4.0
 
-- 新增工作流选择、任务编排、检查点恢复、失败恢复、上下文交接、并行成果集成和验收追踪七个技能，总数为 21。
-- Python 运行器支持 development、repair、direct、review、documentation 五种显式路线。
-- 新格式 state_version=2 支持任务、源码、规则与阶段产物核对后的显式恢复，重新执行宿主检查和验证，不重置修订轮数。
-- 新增顺序依赖图校验与执行，传递实际上游结果，失败阻断下游，独立节点可继续。
-- 生成 task.json、handoff.json 与 acceptance.json，明确机器检查、模型评审和待人工核对。
-- 并行集成仍为技能指导，不宣称提供并行调度或整个图的自动恢复。
+- Add seven skills for workflow routing, task orchestration, checkpoint resumption, failure recovery, context handoff, parallel-result integration, and acceptance tracking, bringing the total to 21.
+- Support five explicit Python runner routes: development, repair, direct, review, and documentation.
+- Introduce state_version=2 for explicit resumption after validating the task, source, rules, and stage artifacts, rerunning host checks and verification without resetting revision counts.
+- Add sequential dependency-graph validation and execution, passing actual upstream results, blocking downstream nodes on failure, and allowing independent nodes to continue.
+- Generate task.json, handoff.json, and acceptance.json to distinguish machine checks, model review, and items requiring human verification.
+- Keep parallel integration as skill guidance, without claiming parallel scheduling or automatic recovery of the entire graph.
 
 ## 0.3.0
 
-- 文件快照记录内容、类型与 POSIX 权限，范围检查及验收可发现 chmod 变化。
-- 项目记忆证据支持 `sources` 原始文件依赖；查询与评审同时核对收据及依赖指纹。
-- 收窄 grilling 的触发范围，普通评审直接给出调查结果；补充 worktree 和计划技能的可执行指导。
-- Codex 任务支持显式声明新建构建产物目录，源码检查保持启用。
-- 新增 CLI、前端状态函数样例、可选真实技能行为评测及合并门禁配置脚本。
-- 补充项目级 MIT 许可证、贡献指南、兼容说明和验收记录。
+- Record file content, type, and POSIX permissions in snapshots so scope and acceptance checks detect chmod changes.
+- Support original-file dependencies through `sources` in project-memory evidence; queries and reviews validate both receipts and dependency fingerprints.
+- Narrow grilling triggers so ordinary reviews directly report investigation results; add executable guidance for worktree and planning skills.
+- Allow Codex tasks to explicitly declare new build-artifact directories while keeping source checks enabled.
+- Add CLI and frontend state-function examples, optional real-client skill behavior evaluations, and a merge-gate configuration script.
+- Add a project-level MIT license, contribution guide, compatibility notes, and acceptance records.
 
-旧版本的字符串 SHA-256 快照改为包含 `sha256`、`mode`、`type` 的对象；消费运行记录的工具需适配。旧记忆仍可读取，但没有 `sources` 的证据只校验直接 JSON 文件，不自动推断原始源码依赖。真实验收范围与未完成的外部条件见 [验收状态](docs/review-remediation.md)。
+Replace older string SHA-256 snapshots with objects containing `sha256`, `mode`, and `type`; tools consuming run records must adapt. Older memory remains readable, but evidence without `sources` validates only the direct JSON file and does not infer original-source dependencies. See [acceptance status](docs/review-remediation.md) for the scope of actual acceptance and outstanding external prerequisites.
 
 ## 0.2.0
 
-- 角色和技能改为从目标项目识别技术栈、约束和验收方式。
-- 新增共用项目适配约定和分页修复示例，移除默认工程专用假设。
+- Update roles and skills to identify the stack, constraints, and acceptance methods from the target project.
+- Add shared project-adaptation conventions and a pagination-repair example, removing default assumptions specific to the original project.
 
 ## 0.1.0
 
-- 首次插件化分发角色、技能、工作流与项目记忆工具。
-- 迁移来源和原始指纹见 [migration.json](docs/migration.json)。
+- Initially distribute roles, skills, workflows, and project-memory tools as a plugin.
+- See [migration.json](docs/migration.json) for migration provenance and original fingerprints.
