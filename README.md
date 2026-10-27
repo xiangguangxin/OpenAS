@@ -184,7 +184,7 @@ These use existing client login/model settings, consume quota, require new outpu
 
 ## Sources, contribution and licensing
 
-Use an independent branch, retain user changes and run relevant checks. Update both language editions when changing shared behavior; never refresh translation fingerprints without reviewing meaning. See the English [changelog](CHANGELOG.md), [bilingual maintenance](docs/bilingual.md), [contribution guide](CONTRIBUTING.md), and [compatibility history](docs/compatibility.md). The contribution guide and compatibility history retain their original Chinese text.
+Use an independent branch, retain user changes and run relevant checks. Update both language editions when changing shared behavior; never refresh translation fingerprints without reviewing meaning. See the English [changelog](CHANGELOG.md), [bilingual maintenance](docs/bilingual.md), [contribution guide](CONTRIBUTING.md), and [compatibility history](docs/compatibility.md). The compatibility history retains its original Chinese text.
 
 OpenAS originated from a gem5 collaboration setup and is now project-independent; [migration records](docs/migration.json) preserve provenance, not default facts about new consumers. Project-owned material is [MIT](LICENSE), except explicitly identified content. The presentation skill uses Apache-2.0 with retained third-party MIT/Apache notices; upstream REA retains its own licensing. See [presentation NOTICE](plugins/openas/skills/presentation-creation/NOTICE.md) and [REA provenance](plugins/openas/integrations/rea/README.md).
 

@@ -1,25 +1,25 @@
-# 参与开发
+# Contributing
 
-在独立分支修改，保留现有用户改动。角色、技能和文档尽量保持通用；领域实例放入独立示例，不能成为其他项目的默认规则。
+Make changes on a separate branch and preserve existing user edits. Keep roles, skills, and documentation broadly applicable. Put domain-specific examples in separate fixtures rather than making them default rules for other projects.
 
-## 验证变更
+## Validate changes
 
-在 Linux / WSL 准备 Python 3.10+ 和 Node.js 22，按 [README](README.md) 执行结构校验、两组 Python 测试及 JavaScript 测试。
-新增行为先补能复现缺陷的测试；纯文字调整核对来源、链接和 diff。不要直接修复随包分发的故意失败样例，复制到临时目录后使用。
+Use Python 3.10+ and Node.js 22 on Linux / WSL. Follow the [README](README.md) to run structural validation, both Python test suites, and the JavaScript tests.
+For new behavior, first add tests that reproduce the defect; for text-only changes, check sources, links, and the diff. Do not repair intentionally failing fixtures in the distributed source directory; copy them to a temporary directory first.
 
-改动技能时检查触发范围、已有授权、项目约束和失败交接。按 [行为评测说明](docs/skill-evaluation.md) 在可用客户端上运行相关任务，普通单元测试不能证明模型行为正确。真实客户端评测消耗模型额度，不在默认 CI 中执行。
+When changing skills, check trigger scope, existing authorization, project constraints, and failure handoffs. Run relevant tasks on an available client following the [behavior evaluation guide](docs/skill-evaluation.md). Ordinary unit tests cannot establish correct model behavior. Real-client evaluations consume model quota and are not part of default CI.
 
-PR 描述包含问题、变化、实际验证命令和未覆盖项。CI 通过与原生客户端通过分别报告，不提交认证信息、完整客户端日志或用户项目数据。
+PR descriptions should state the problem, changes, actual validation commands, and coverage gaps. Report CI results separately from native-client validation. Do not commit authentication information, full client logs, or user project data.
 
-## 更新与发布
+## Updates and releases
 
-1. 运行相关检查并审查 diff；确认 vendored REA 文件和许可未被意外修改。
-2. 更新插件 manifest 版本及 CHANGELOG；变更记录格式时写清迁移方式。
-3. 按 [兼容说明](docs/compatibility.md) 核对当前客户端参数、原生加载和热加载；缺少环境时保留未完成状态。
-4. PR 通过并合并后确认主分支 CI。仅在明确发布授权下创建对应 Git tag / Release，再由使用者更新 marketplace 缓存。
+1. Run relevant checks and review the diff; confirm that vendored REA files and licenses have not been changed accidentally.
+2. Update the plugin manifest version and CHANGELOG. When changing record formats, document the migration procedure.
+3. Follow the [compatibility notes](docs/compatibility.md) to check current client arguments, native loading, and hot reload. Leave checks incomplete when the required environment is unavailable.
+4. After PR approval and merge, confirm main-branch CI. Create the corresponding Git tag / Release only with explicit release authorization; users can then update their marketplace caches.
 
-项目自有内容使用 [MIT License](LICENSE)。第三方 REA 的原始许可和来源说明保留在 [集成目录](plugins/openas/integrations/rea/README.md)。
+Project-owned content uses the [MIT License](LICENSE). The original licenses and provenance of third-party REA remain in the [integration directory](plugins/openas/integrations/rea/README.md).
 
-## 双语维护
+## Bilingual maintenance
 
-角色与自有技能保持中英文配套，遵循 [双语维护说明](docs/bilingual.md)。修改共享行为时同步审查译本，更新 translations.json 指纹前核对语义；结构检查不替代翻译质量或真实客户端评测。
+Keep paired Chinese and English editions of roles and project-owned skills, following the [bilingual maintenance guide](docs/bilingual.md). When changing shared behavior, review the translations together and verify their meaning before updating translations.json fingerprints. Structural checks do not replace translation-quality review or real-client behavior evaluation.
