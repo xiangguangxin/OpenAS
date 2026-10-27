@@ -1,7 +1,11 @@
 ---
 name: solution-design
-description: 形成解决问题的候选方案与取舍，或串联市场调研、需求、技术选型、架构及设计文档的完整流程；具体选型与架构使用相应专门技能，不默认进入开发。
+description: "形成解决问题的候选方案与取舍，或串联市场调研、需求、技术选型、架构及设计文档的完整流程；具体选型与架构使用相应专门技能，不默认进入开发。 / Compare solution alternatives and tradeoffs or coordinate research, requirements, selection, architecture, and design documentation without automatically starting development."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 方案设计与完整设计流程
 

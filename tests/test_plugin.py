@@ -36,6 +36,56 @@ class PluginTests(unittest.TestCase):
         self.assertIn('bug-fix', inventory['skills'])
         self.assertIn('project-memory', inventory['skills'])
 
+    def test_translations_are_complete_and_plugin_remains_relocatable(self):
+        checker = load(ROOT / 'scripts/check_plugin.py', 'plugin_check_translations')
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp)/'plugin'
+            shutil.copytree(PLUGIN, target)
+            inventory = checker.check(target)
+            self.assertEqual(len(inventory['skills']), 47)
+            self.assertEqual(len(inventory['agents']), 12)
+            self.assertEqual(inventory['translations'], 63)
+
+    def test_stale_missing_and_duplicate_translations_are_rejected(self):
+        checker = load(ROOT / 'scripts/check_plugin.py', 'plugin_check_translation_failures')
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp)/'plugin'
+            shutil.copytree(PLUGIN, target)
+            registry = target/'references/translations.json'
+            original = registry.read_text()
+            data = json.loads(original)
+            entry = data['entries'][0]
+            for field in ('source', 'target'):
+                with self.subTest(changed=field):
+                    path = target/entry[field]
+                    before = path.read_bytes()
+                    path.write_bytes(before + b'\nA behavior change needing translation review.\n')
+                    with self.assertRaisesRegex(ValueError, 'needs review'):
+                        checker.check_translations(target)
+                    path.write_bytes(before)
+            for kind in ('missing_file', 'missing_pair', 'duplicate', 'escape', 'missing_registry', 'invalid_registry'):
+                with self.subTest(kind=kind):
+                    edited = json.loads(original)
+                    path = target/entry['target']
+                    before = path.read_bytes()
+                    if kind == 'missing_file':
+                        path.unlink()
+                    elif kind == 'missing_pair':
+                        edited['entries'].pop()
+                    elif kind == 'duplicate':
+                        edited['entries'].append(edited['entries'][0])
+                    elif kind == 'escape':
+                        edited['entries'][0]['source'] = '../outside.md'
+                    elif kind == 'invalid_registry':
+                        edited = []
+                    registry.write_text(json.dumps(edited))
+                    if kind == 'missing_registry':
+                        registry.unlink()
+                    with self.assertRaises(ValueError):
+                        checker.check_translations(target)
+                    path.write_bytes(before)
+                    registry.write_text(original)
+
     def test_validator_rejects_bad_skill_without_modifying_package(self):
         checker = load(ROOT / 'scripts/check_plugin.py', 'plugin_check_bad')
         with tempfile.TemporaryDirectory() as tmp:

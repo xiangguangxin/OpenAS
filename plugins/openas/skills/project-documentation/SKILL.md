@@ -1,7 +1,11 @@
 ---
 name: project-documentation
-description: 依据源码、运行方式和目标读者编写或更新 README、入门指南、设计文档、架构、接口、部署运维及排障文档；用于项目说明与文档润色，不将调研结论冒充已实现功能。
+description: "依据源码、运行方式和目标读者编写或更新 README、入门指南、设计文档、架构、接口、部署运维及排障文档；用于项目说明与文档润色，不将调研结论冒充已实现功能。 / Write or update README, onboarding, design, API, deployment, operations, and troubleshooting documentation from code and evidence without presenting proposals as implemented features."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 项目文档
 

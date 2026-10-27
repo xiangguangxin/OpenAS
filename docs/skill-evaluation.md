@@ -2,7 +2,7 @@
 
 格式检查证明资源可解析；行为评测检查真实客户端面对任务时如何选择技能和处理边界。
 
-`scripts/evaluate_skills.py` 使用现有 Codex 登录和模型设置，在独立临时工作区运行六种任务：
+`scripts/evaluate_skills.py` 使用现有 Codex 登录和模型设置，在独立临时工作区运行十种任务：
 
 | 场景 | 宿主检查 |
 | --- | --- |
@@ -12,6 +12,8 @@
 | 选择最小工作流 | 选择 workflow-routing，不修改文件、不增加确认问题 |
 | 当前任务交接 | 选择 context-handoff，保持只读并区分现场与长期记忆 |
 | 逐项验收 | 选择 acceptance-tracking，保持只读、说明实际检查证据 |
+| 中英文源码分析 | english-analysis / chinese-analysis，检查路由、只读边界和摘要语言信号 |
+| 显式语言覆盖 | explicit-english / explicit-chinese，确认用户指定语言优先于请求主体语言 |
 
 ```bash
 python3 scripts/evaluate_skills.py --output /tmp/openas-skill-evaluation
@@ -36,3 +38,5 @@ github-skill-discovery 另有一次 [真实客户端候选比较验收](../plugi
 presentation-creation 的 [融合与验收记录](../plugins/openas/workflows/evidence/2026-10-24-presentation/README.md) 包含可打开的 8 页 PPTX、真实 LibreOffice/Poppler 渲染、总览和源稿。另有真实客户端按材料生成 4 页原生图表文稿、仅提纲时保持不创建文件的正反场景；固定值门禁对中文状态的误判与语义更正也保留在收据中。
 
 这些试用未加入上述六项默认模型评测。普通测试在安装固定依赖后验证实际 PPTX 对象和机械边界，不调用模型；不以其结果替代目标 PowerPoint 客户端或无障碍验收。
+
+中英文场景及语言检测限制见 [双语维护与评测](bilingual.md)。摘要字符信号不等于语义正确或整份交付语言正确，仍需人工核对。

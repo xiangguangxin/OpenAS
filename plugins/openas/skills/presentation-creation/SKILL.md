@@ -1,8 +1,12 @@
 ---
 name: presentation-creation
-description: 将可信材料组织为适合受众和时长的演示，生成原生文字、图表与表格可编辑的 PowerPoint（.pptx），包含讲稿备注、源稿、预览与检查；用于项目汇报、客户介绍、技术分享和研究演示，不将仅需提纲或 HTML/Beamer 的请求擅自改为 PPTX。
+description: "将可信材料组织为适合受众和时长的演示，生成原生文字、图表与表格可编辑的 PowerPoint（.pptx），包含讲稿备注、源稿、预览与检查；用于项目汇报、客户介绍、技术分享和研究演示，不将仅需提纲或 HTML/Beamer 的请求擅自改为 PPTX。 / Create audience-appropriate editable PowerPoint presentations from trusted material, with native text/charts/tables, notes, source, previews, and explicit validation stages."
 license: Apache-2.0
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 演示文稿制作
 

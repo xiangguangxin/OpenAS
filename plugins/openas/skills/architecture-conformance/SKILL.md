@@ -1,7 +1,11 @@
 ---
 name: architecture-conformance
-description: 对照有效架构决策和实际代码检查模块边界、依赖方向、数据归属及接口契约，报告架构偏差与证据；用于实现后的架构符合性检查，不代替实施前设计评审或运行验收。
+description: "对照有效架构决策和实际代码检查模块边界、依赖方向、数据归属及接口契约，报告架构偏差与证据；用于实现后的架构符合性检查，不代替实施前设计评审或运行验收。 / Compare actual code with effective architecture decisions, boundaries, dependencies, ownership, and contracts; report deviations without replacing design review or runtime acceptance."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 架构符合性检查
 

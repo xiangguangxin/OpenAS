@@ -1,7 +1,11 @@
 ---
 name: github-skill-discovery
-description: 按需求从 GitHub 搜索和评估 Agent Skills，检查内容、依赖、许可证与宿主兼容性，按任务授权安装、适配或融合多个技能生成新技能，并验证和记录来源提交；用于寻找、引入或融合外部技能，不用于普通业务仓库搜索或自动执行远程安装脚本。
+description: "按需求从 GitHub 搜索和评估 Agent Skills，检查内容、依赖、许可证与宿主兼容性，按任务授权安装、适配或融合多个技能生成新技能，并验证和记录来源提交；用于寻找、引入或融合外部技能，不用于普通业务仓库搜索或自动执行远程安装脚本。 / Find and assess GitHub Agent Skills, review content, dependencies, licensing, and host compatibility, and install, adapt, or synthesize them within task authorization."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # GitHub 技能发现、引入与融合
 

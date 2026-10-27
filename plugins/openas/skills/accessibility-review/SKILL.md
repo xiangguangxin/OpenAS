@@ -1,7 +1,11 @@
 ---
 name: accessibility-review
-description: 检查界面或交互设计的键盘、焦点、语义、标签、对比度和动态反馈，提供可复现问题；用于可访问性评审，不凭自动扫描宣称全面合规。
+description: "检查界面或交互设计的键盘、焦点、语义、标签、对比度和动态反馈，提供可复现问题；用于可访问性评审，不凭自动扫描宣称全面合规。 / Review keyboard use, focus, semantics, labels, contrast, and dynamic feedback; report reproducible barriers without claiming full compliance from scans."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 可访问性评审
 

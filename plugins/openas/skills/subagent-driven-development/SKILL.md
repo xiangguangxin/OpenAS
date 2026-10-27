@@ -1,7 +1,11 @@
 ---
 name: subagent-driven-development
-description: 对适合分工的跨模块开发、架构或协议变更组织角色交接、对抗评审和独立验证；不对简单问答或机械文档修改强制启动完整团队。
+description: "对适合分工的跨模块开发、架构或协议变更组织角色交接、对抗评审和独立验证；不对简单问答或机械文档修改强制启动完整团队。 / Coordinate authorized role handoffs, adversarial review, and independent verification for complex changes; do not require teams for simple questions or mechanical edits."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 团队协作
 

@@ -1,7 +1,11 @@
 ---
 name: security-review
-description: 依据实际代码、配置与数据流检查信任边界和可利用的安全缺陷，给出攻击前提与修复验证方法；用于安全评审，不自动执行外部扫描。
+description: "依据实际代码、配置与数据流检查信任边界和可利用的安全缺陷，给出攻击前提与修复验证方法；用于安全评审，不自动执行外部扫描。 / Trace actual trust boundaries and exploitable security issues in code, configuration, and data flows, with prerequisites and verification; do not automatically scan external systems."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 安全评审
 

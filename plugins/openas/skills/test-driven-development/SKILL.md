@@ -1,7 +1,11 @@
 ---
 name: test-driven-development
-description: 测试驱动开发：先写失败测试(RED) → 最小实现(GREEN) → 重构(REFACTOR)，用测试将已确认需求具体化并约束实现。当需要以 TDD 方式开发时使用。
+description: "测试驱动开发：先写失败测试(RED) → 最小实现(GREEN) → 重构(REFACTOR)，用测试将已确认需求具体化并约束实现。当需要以 TDD 方式开发时使用。 / Use RED → GREEN → REFACTOR to express confirmed behavior as meaningful tests, implement minimally, and verify regression protection."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # Test Driven Development
 

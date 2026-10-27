@@ -1,7 +1,11 @@
 ---
 name: change-impact-analysis
-description: 围绕拟议变更或实际 diff 追踪调用方、接口、数据、配置、构建、测试和文档的影响，明确兼容风险、必要联动及验证范围；用于修改前影响分析或变更范围核对，不自动实施修改或代替代码评审。
+description: "围绕拟议变更或实际 diff 追踪调用方、接口、数据、配置、构建、测试和文档的影响，明确兼容风险、必要联动及验证范围；用于修改前影响分析或变更范围核对，不自动实施修改或代替代码评审。 / Trace proposed changes or diffs through consumers, contracts, data, configuration, builds, tests, and documentation to identify compatibility risks and verification scope."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 变更影响分析
 

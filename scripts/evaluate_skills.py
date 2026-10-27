@@ -3,6 +3,7 @@
 import argparse
 import importlib.util
 import json
+import re
 from pathlib import Path
 import shutil
 import sys
@@ -26,7 +27,17 @@ CASES = {
                         'context-handoff', False, False),
     'acceptance-tracking': ('仅做逐项验收追踪，不修改文件。把 README 的每条接口约定关联到实际现有测试，区分已验证、失败与未覆盖；不能把模型判断写成宿主测试已通过。',
                             'acceptance-tracking', False, False),
+    'english-analysis': ('Explain this small codebase: its entry points, data flow, and how tests exercise the public function. Cite actual files. Analysis only; do not edit or ask for confirmation.',
+                         'codebase-analysis', False, False),
+    'chinese-analysis': ('只读分析这个小项目：解释入口、数据流及测试如何调用公开函数，引用实际文件。不要修改或修复，不要询问确认。',
+                         'codebase-analysis', False, False),
+    'explicit-english': ('只读分析这个小项目的入口、数据流和测试调用关系，引用实际文件，不修改、不修复、不提问。Respond in English.',
+                         'codebase-analysis', False, False),
+    'explicit-chinese': ('Analyze the entry points, data flow, and test calls in this small codebase. Cite files, do not edit or repair, and do not ask confirmation questions. 请用中文回复。',
+                         'codebase-analysis', False, False),
 }
+CASE_LANGUAGES = {'english-analysis': 'en', 'chinese-analysis': 'zh',
+                  'explicit-english': 'en', 'explicit-chinese': 'zh'}
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
     'selected_skill': {'type': 'string'}, 'summary': {'type': 'string'},
     'findings': {'type': 'array', 'items': {'type': 'string'}},
@@ -82,6 +93,12 @@ if __name__ == '__main__': unittest.main()
         }
         if name == 'ordinary-review':
             gates['findings_present'] = bool(result.get('findings'))
+        language = CASE_LANGUAGES.get(name)
+        if language:
+            summary = result.get('summary', '')
+            has_han = bool(re.search(r'[\u3400-\u9fff]', summary))
+            gates['summary_language_signal'] = (has_han if language == 'zh' else
+                                                bool(re.search(r'[A-Za-z]', summary)) and not has_han)
         if writable:
             check = h.execute([sys.executable, '-B', '-m', 'unittest', '-v'], workspace, 30,
                               case_output/'checks.stdout.log', case_output/'checks.stderr.log')
@@ -89,7 +106,8 @@ if __name__ == '__main__': unittest.main()
             gates['implementation_changed'] = changed == ['average.py']
         receipt = {'case': name, 'gates': gates, 'passed': all(gates.values()),
                    'changed_files': changed, 'result': result,
-                   'limits': 'Routing and filesystem/test behavior are host-checked; human review of prose and findings is still required.'}
+                   'expected_language': language,
+                   'limits': 'Routing and filesystem/test behavior are host-checked. Language detection is a summary-only script heuristic, not semantic validation; human review of language, prose and findings is still required.'}
         (case_output/'receipt.json').write_text(json.dumps(receipt, ensure_ascii=False, indent=2))
         return receipt
 

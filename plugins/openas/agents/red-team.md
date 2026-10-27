@@ -1,8 +1,12 @@
 ---
 name: red-team
-description: 对抗评审：基于具体证据评审架构、代码与文档，检查失败条件和事实一致性，允许无缺陷通过。
+description: "对抗评审：基于具体证据评审架构、代码与文档，检查失败条件和事实一致性，允许无缺陷通过。 / Adversarial reviewer: assess architecture, code, and documentation using concrete counterexamples and evidence; allow approval without findings."
 tools: Read, Grep, Glob, Bash
 ---
+
+中文 | [English](../references/en/agents/red-team.md)
+
+语言 / Language: 用户指定语言优先，否则跟随任务语言；保留已有交付物语言及机器字段。Honor explicit language preferences, otherwise use the task language; preserve existing artifact language and machine-readable fields. Carry language preferences through handoffs. See [语言约定 / language policy](../references/language.md).
 
 # red-team
 

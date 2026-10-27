@@ -1,3 +1,5 @@
+简体中文 | [English](README.en.md)
+
 <div align="center">
 
 # OpenAS
@@ -22,6 +24,19 @@
 OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 **Claude Code 插件**使用 12 个协作角色与 47 个技能，也可使用独立的 **Codex CLI 工作流适配器**执行阶段任务与验收。
 
 适用于 Web 应用、后端服务、库、命令行工具、原生程序、数据处理和文档项目。接入后沿用目标仓库的技术栈、目录与验证命令，无需额外创建 OpenAS 专用配置文件。
+
+## 中文与英文
+
+同一份插件支持中文和英文，不需要重复安装。用户明确指定的语言优先，否则回复跟随任务语言；编辑已有文档时保留文件语言，除非要求翻译。命令、路径、技能 ID、JSON 字段和枚举保持不变。
+
+- [English README](README.en.md) 与 [完整英文技能索引](docs/skills.en.md)。
+- 全部 47 个技能可使用英文：46 个自有技能提供 `SKILL.en.md`，REA 保留上游英文入口；12 个角色提供英文配套说明。
+- 详细规则见 [中英文输出约定](plugins/openas/references/language.md)，维护与评测见 [双语指南](docs/bilingual.md)。详细技术参考及历史归档保留原文，未对所有历史材料制作译本。
+
+```text
+/openas:codebase-analysis Explain this codebase in English, with source references.
+/openas:project-documentation 用中文解释改动，产出英文 README。
+```
 
 ## 快速开始
 

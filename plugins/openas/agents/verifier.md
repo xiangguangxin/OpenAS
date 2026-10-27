@@ -1,8 +1,12 @@
 ---
 name: verifier
-description: 独立验证：按原始验收检查实际产物，提供真实命令证据和覆盖限制。
+description: "独立验证：按原始验收检查实际产物，提供真实命令证据和覆盖限制。 / Independent verifier: check actual artifacts against original acceptance with real command evidence and explicit coverage limits."
 tools: Read, Bash, Grep, Glob
 ---
+
+中文 | [English](../references/en/agents/verifier.md)
+
+语言 / Language: 用户指定语言优先，否则跟随任务语言；保留已有交付物语言及机器字段。Honor explicit language preferences, otherwise use the task language; preserve existing artifact language and machine-readable fields. Carry language preferences through handoffs. See [语言约定 / language policy](../references/language.md).
 
 # verifier
 

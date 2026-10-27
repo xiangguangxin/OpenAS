@@ -1,7 +1,11 @@
 ---
 name: incident-response
-description: 处理正在发生的服务或运行环境故障，确定影响、保留证据、止损恢复并核验服务状态；用于事故响应，深入根因调查与 bug-fix 衔接。
+description: "处理正在发生的服务或运行环境故障，确定影响、保留证据、止损恢复并核验服务状态；用于事故响应，深入根因调查与 bug-fix 衔接。 / Contain and recover an active service or environment incident, preserve evidence, and verify recovery; hand deeper causal investigation to debugging."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 事故响应
 

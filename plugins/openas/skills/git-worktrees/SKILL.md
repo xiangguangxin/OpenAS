@@ -1,7 +1,11 @@
 ---
 name: git-worktrees
-description: 为需要独立文件工作区的 Git 任务创建、检查和清理 worktree；用于并行特性或隔离试验，不为简单改动强制新建工作区。
+description: "为需要独立文件工作区的 Git 任务创建、检查和清理 worktree；用于并行特性或隔离试验，不为简单改动强制新建工作区。 / Create, inspect, and clean isolated Git worktrees for independent features or experiments; do not require one for every simple edit."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # Git worktree
 

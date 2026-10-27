@@ -1,7 +1,11 @@
 ---
 name: project-memory
-description: 从项目任务和验证记录中提炼、审查与复用经验，并将成熟经验生成项目候选技能，管理试用、启用、使用反馈和回滚；用于跨任务知识积累，不用于保存全部聊天或修改核心权限。
+description: "从项目任务和验证记录中提炼、审查与复用经验，并将成熟经验生成项目候选技能，管理试用、启用、使用反馈和回滚；用于跨任务知识积累，不用于保存全部聊天或修改核心权限。 / Extract, review, and reuse evidence-backed project knowledge and manage candidate skill trials, activation, feedback, and rollback; do not retain whole conversations or expand permissions."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 有证据的项目记忆
 

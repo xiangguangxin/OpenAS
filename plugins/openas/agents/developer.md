@@ -1,8 +1,12 @@
 ---
 name: developer
-description: 开发者：按验收实现授权范围内的变更，处理评审反馈并提供相关测试证据。
+description: "开发者：按验收实现授权范围内的变更，处理评审反馈并提供相关测试证据。 / Developer: implement authorized behavior, address review findings, and provide relevant test evidence."
 tools: Read, Grep, Glob, Edit, Write, Bash
 ---
+
+中文 | [English](../references/en/agents/developer.md)
+
+语言 / Language: 用户指定语言优先，否则跟随任务语言；保留已有交付物语言及机器字段。Honor explicit language preferences, otherwise use the task language; preserve existing artifact language and machine-readable fields. Carry language preferences through handoffs. See [语言约定 / language policy](../references/language.md).
 
 # developer
 

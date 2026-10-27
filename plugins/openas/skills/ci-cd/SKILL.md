@@ -1,7 +1,11 @@
 ---
 name: ci-cd
-description: 依据项目构建与验收配置或排查 CI/CD 流水线，处理触发条件、构建矩阵、缓存、制品、权限和失败证据；用于持续集成与交付工程，不自动部署、发布或修改远程仓库设置。
+description: "依据项目构建与验收配置或排查 CI/CD 流水线，处理触发条件、构建矩阵、缓存、制品、权限和失败证据；用于持续集成与交付工程，不自动部署、发布或修改远程仓库设置。 / Configure or diagnose CI/CD triggers, build matrices, caches, artifacts, permissions, and failure evidence; do not automatically deploy or change remote repository settings."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 持续集成与交付
 

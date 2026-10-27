@@ -1,7 +1,11 @@
 ---
 name: market-research
-description: 研究目标市场、用户问题、需求证据和机会，产出有来源及置信度的市场调研；用于新产品定位与机会验证，竞品逐项对比交给 competitive-analysis。
+description: "研究目标市场、用户问题、需求证据和机会，产出有来源及置信度的市场调研；用于新产品定位与机会验证，竞品逐项对比交给 competitive-analysis。 / Research target markets, user problems, demand evidence, and opportunities with sources and confidence; delegate detailed competitor comparisons separately."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 市场与用户问题调研
 

@@ -1,7 +1,11 @@
 ---
 name: roadmap-planning
-description: 将需求、调研和竞品发现转成 MVP、阶段目标、优先级、依赖与验收指标；用于产品或技术路线图，不代替逐文件的实施计划或编造交付日期。
+description: "将需求、调研和竞品发现转成 MVP、阶段目标、优先级、依赖与验收指标；用于产品或技术路线图，不代替逐文件的实施计划或编造交付日期。 / Organize requirements and research into MVP, priorities, phases, dependencies, and acceptance measures; do not invent dates or replace detailed implementation planning."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 路线图规划
 

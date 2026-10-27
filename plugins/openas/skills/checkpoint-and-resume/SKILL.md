@@ -1,7 +1,11 @@
 ---
 name: checkpoint-and-resume
-description: 在工作流中断后核对任务、工作区和执行规则，恢复可信检查点或显式使旧结果失效；用于恢复已有运行，不用于自动继续未经授权的旧任务。
+description: "在工作流中断后核对任务、工作区和执行规则，恢复可信检查点或显式使旧结果失效；用于恢复已有运行，不用于自动继续未经授权的旧任务。 / Validate task, workspace, rules, and evidence after interruption before reusing checkpoints; do not automatically resume unauthorized historical work."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 检查点与恢复
 

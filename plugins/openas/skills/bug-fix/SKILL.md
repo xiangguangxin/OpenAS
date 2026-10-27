@@ -1,7 +1,11 @@
 ---
 name: bug-fix
-description: 系统化排查异常、崩溃、错误结果和卡死，通过需求、设计、实现、配置/环境四象限、日志与可区分实验确认根因，并验证修复；调试工具按目标项目选择，不把猜测当作已确认根因。
+description: "系统化排查异常、崩溃、错误结果和卡死，通过需求、设计、实现、配置/环境四象限、日志与可区分实验确认根因，并验证修复；调试工具按目标项目选择，不把猜测当作已确认根因。 / Investigate exceptions, crashes, wrong results, or hangs using evidence across requirements, design, implementation, and environment; verify the causal fix."
 ---
+
+中文 | [English](SKILL.en.md)
+
+语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
 # 有证据的 Debug
 
