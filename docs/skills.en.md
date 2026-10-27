@@ -1,6 +1,6 @@
 # English skill catalog
 
-[中文技能地图](../README.md#技能地图) | [English guide](../README.en.md)
+[中文技能地图](../README.md#技能地图) | [English guide](../README.md#english)
 
 All 47 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
 
