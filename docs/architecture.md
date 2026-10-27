@@ -1,5 +1,7 @@
 # 插件架构与加载边界
 
+中文 | [English](architecture.en.md)
+
 OpenAS 仓库目前只分发一个原生插件 `openas`。顶层 marketplace 描述去哪找它，插件目录中的 manifest 描述它的身份；宿主负责发现 Skills、注册 Agents、启停及热加载。没有另造一个与客户端竞争的插件注册中心或常驻进程。
 
 ```text

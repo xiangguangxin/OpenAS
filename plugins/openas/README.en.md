@@ -9,6 +9,6 @@ Load this directory from your target project with `claude --plugin-dir /absolute
 - [Language policy](references/language.md): explicit preference first, otherwise the task language; preserve existing artifact language unless translation is requested. Machine-readable identifiers stay unchanged.
 - [Team contract](references/team-contract.en.md), [project adaptation](references/project-context.en.md), and [implementation readiness](references/implementation-readiness.en.md).
 - [Workflow guide](workflows/README.en.md): optional sequential Codex CLI adapter and separate JS host template.
-- [Memory](memory/README.md): consumer-project `.openas/memory/`, with reviewed evidence and lifecycle boundaries; detailed reference remains Chinese.
+- [Memory](memory/README.en.md): consumer-project `.openas/memory/`, with reviewed evidence and lifecycle boundaries; English storage and learning references are available.
 
-Available optional integrations include Playwright, GitHub and Context7; their detailed [guides](integrations/README.md) retain the original language. No automatic hooks, MCP servers or background watchers are installed. Reading a skill does not install tools or grant execution rights. Reuse the target project's stack, layout and checks; examples/historical reports do not become project facts.
+Available optional integrations include Playwright, GitHub and Context7; their detailed [guides](integrations/README.en.md) and [quick start](integrations/QUICKSTART.en.md) are available in English. No automatic hooks, MCP servers or background watchers are installed. Reading a skill does not install tools or grant execution rights. Reuse the target project's stack, layout and checks; examples/historical reports do not become project facts.

@@ -9,7 +9,7 @@ Follow the [language policy](../../references/language.md).
 
 # Evidence-backed project memory
 
-Read the [memory guide](../../memory/README.md). Keep memory project-scoped; reflection does not change model parameters or become executable truth.
+Read the [memory guide](../../memory/README.en.md). Keep memory project-scoped; reflection does not change model parameters or become executable truth.
 
 At task start query a few relevant `accepted` entries and confirm source validity. Current user requests/source take precedence. `current-task.json` is a checkpoint, not resumption authorization. Use [learning.py](scripts/learning.py) with `--root PROJECT context QUERY` for active project guidance only when its applicability holds; it does not install into host skill directories.
 
@@ -19,6 +19,6 @@ Extract minimal specific `fact`, `decision` or `lesson` entries with scope. Do n
 
 Use [project_memory.py](scripts/project_memory.py) with explicit `--root /path/to/consumer-project`; write `.openas/memory/` in that project, not the plugin. Consult its help and memory guide. Harness phases update short-lived checkpoints, retrieve valid reviewed context and derive only limited verified run facts from host fields. Model self-report/failure prose is not automatically verified knowledge.
 
-Memory-enabled single-task runs capture observations; `--learn` adds independent read-only extraction/review and candidate generation. Follow [learning lifecycle](../../memory/learning.md). Generated skills remain candidates until positive/negative trials and independent review; trusted tasks supply evaluation commands. Record versions/feedback and disable/roll back as needed. Changed sources require renewed extraction/review, not silently updated fingerprints.
+Memory-enabled single-task runs capture observations; `--learn` adds independent read-only extraction/review and candidate generation. Follow [learning lifecycle](../../memory/learning.en.md). Generated skills remain candidates until positive/negative trials and independent review; trusted tasks supply evaluation commands. Record versions/feedback and disable/roll back as needed. Changed sources require renewed extraction/review, not silently updated fingerprints.
 
 These are task-triggered workflows, not background watchers. Rule or permission changes are separate work. `inspect` exposes `evidence_valid`; queries exclude missing/changed evidence, while `retire` retains reasons/history. Fingerprints prove unchanged content, not a conclusion's truth.

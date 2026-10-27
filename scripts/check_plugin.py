@@ -45,6 +45,12 @@ def check_translations(root):
     expected.update({f'references/{name}.md': f'references/{name}.en.md'
                      for name in ('team-contract', 'project-context', 'implementation-readiness')})
     expected.update({'README.md': 'README.en.md', 'workflows/README.md': 'workflows/README.en.md'})
+    for source in ('integrations/README.md', 'integrations/QUICKSTART.md',
+                   'integrations/github/README.md', 'integrations/playwright/README.md',
+                   'integrations/context7/README.md', 'integrations/rea/README.md',
+                   'memory/README.md', 'memory/learning.md'):
+        path = Path(source)
+        expected[source] = path.with_name(path.stem + '.en.md').as_posix()
     seen = set()
     for entry in data['entries']:
         if not isinstance(entry, dict):

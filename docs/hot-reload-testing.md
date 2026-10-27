@@ -1,5 +1,7 @@
 # Claude 客户端热加载自动回归
 
+中文 | [English](hot-reload-testing.en.md)
+
 入口是 [test_claude_hot_reload.py](../tests/test_claude_hot_reload.py)，由 Python unittest 运行，属于**依赖真实外部客户端的集成测试**。默认单元测试会显式 skip，不把模拟测试的成功记作真实加载成功。
 
 ## 如何运行

@@ -1,5 +1,7 @@
 # 自动 CI
 
+中文 | [English](ci.en.md)
+
 GitHub Actions 配置位于 [`.github/workflows/ci.yml`](../.github/workflows/ci.yml)。
 使用 GitHub 托管的 Ubuntu Runner，在一个 `checks` 任务中依次执行：
 

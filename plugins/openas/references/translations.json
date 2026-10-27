@@ -5,7 +5,7 @@
       "source": "README.md",
       "target": "README.en.md",
       "source_sha256": "ed9131a2431837913ae58f0abff266e178bafee1feafba3755b92fc38c6a59d1",
-      "target_sha256": "88654a489f49e130a85dcac9c2232b6627973e0ea679f988f36240d3d82492a2"
+      "target_sha256": "f8b01e101fdc12ed93e301d6cd4e035f6b9df88d70c8b8a0ee0d9b019c1b447e"
     },
     {
       "source": "agents/cto.md",
@@ -80,6 +80,54 @@
       "target_sha256": "ee8e25af7c4f01713cf634b2077afe81fa4881dca5b451d313dba6a99701c692"
     },
     {
+      "source": "integrations/QUICKSTART.md",
+      "target": "integrations/QUICKSTART.en.md",
+      "source_sha256": "062dcb0cfed75fc553f626cab258a2c7e6e13c9a661b79eb8c68e36f54064ec1",
+      "target_sha256": "a5a4f73e87e2062c05200da0f089165289a7462fb42e38291c68efbc01fa30f8"
+    },
+    {
+      "source": "integrations/README.md",
+      "target": "integrations/README.en.md",
+      "source_sha256": "25f958b1d3a6dc1c6b46fa3dde00dec2e40f62750f39cd20b10081be70e72a73",
+      "target_sha256": "6e339057ed6a90269280c528c9decb7cd8490a2e0702c35a2cd5416765393501"
+    },
+    {
+      "source": "integrations/context7/README.md",
+      "target": "integrations/context7/README.en.md",
+      "source_sha256": "106f34b8dabba2e0ed785fe5a9b4e9a2597ff741b69e4cbfb739f4c8ac992494",
+      "target_sha256": "87884951ed61e3c17070e8d1389e203efbe94973cb4bfac23c38173ab88b5555"
+    },
+    {
+      "source": "integrations/github/README.md",
+      "target": "integrations/github/README.en.md",
+      "source_sha256": "a40f6a2446db2bedfe255addbe7bba1e6fbc7549826a0f6c8a71aca8532dc126",
+      "target_sha256": "059ecf58535f4e7f93259e1977a79ebbcb8310e89944634e7afd130807ef8788"
+    },
+    {
+      "source": "integrations/playwright/README.md",
+      "target": "integrations/playwright/README.en.md",
+      "source_sha256": "a52a7ac99b1ff7205a742ddf80e986597a69a7a287d66233229129d394b1825e",
+      "target_sha256": "0bb940552111ce330f3c05535e0252cfff4ad20e4281491237db3d1d82fe068d"
+    },
+    {
+      "source": "integrations/rea/README.md",
+      "target": "integrations/rea/README.en.md",
+      "source_sha256": "a0771fd1ca7ef4ae0af4b0ae132cfe9c40644cd4d334c4504f3513f0a9c19052",
+      "target_sha256": "ea72313562793e39613e93b0d60b9d1c89732cf52684296c07d3cba7226552c8"
+    },
+    {
+      "source": "memory/README.md",
+      "target": "memory/README.en.md",
+      "source_sha256": "a68fb7f537a0c28fdb6466f4f41ae8b4e185ff289a6b17e42abfa8fdb2853a5e",
+      "target_sha256": "f02e1acbad7beb35b0ebbfff8b78ae17a61b8601af5328ded679b77766579bb9"
+    },
+    {
+      "source": "memory/learning.md",
+      "target": "memory/learning.en.md",
+      "source_sha256": "c7595a3c6c54cf47a09553a924f6625fcdbeaddaa3d424933196e4038a6f561f",
+      "target_sha256": "079fdfbcec408db1799243f058047a5e09efffa2dc6c4684356886daac7acc28"
+    },
+    {
       "source": "references/implementation-readiness.md",
       "target": "references/implementation-readiness.en.md",
       "source_sha256": "e309297478e0ef4599151639098a405933ed1185acb248716e0a36460db154fa",
@@ -107,7 +155,7 @@
       "source": "skills/accessibility-review/SKILL.md",
       "target": "skills/accessibility-review/SKILL.en.md",
       "source_sha256": "f006569c352cce16312161ebd25a56663e95a03c4097559eba147255f16b6155",
-      "target_sha256": "214f4bc6e1d0390adf8cdaf72f29708f7e45df1bf03021ce95ab8ff4cae9e4e8"
+      "target_sha256": "1ed965e4cedeb5b6fe220999dc7242d0030530729ac4e086e61102430b6640fa"
     },
     {
       "source": "skills/architecture-conformance/SKILL.md",
@@ -239,7 +287,7 @@
       "source": "skills/integration-testing/SKILL.md",
       "target": "skills/integration-testing/SKILL.en.md",
       "source_sha256": "e81b0c0ec1e751eda0ea70be6590d865faa614580dca7c65b65011c49eda1c38",
-      "target_sha256": "3bbfb808d608ce5784b0abf6adb59eca6d3398bdf4d14576cdef96849b59fe9b"
+      "target_sha256": "7136eaf30a62984bff781081cae8f3b4b4575007257460465d1df78134889e27"
     },
     {
       "source": "skills/interaction-design/SKILL.md",
@@ -287,13 +335,13 @@
       "source": "skills/project-memory/SKILL.md",
       "target": "skills/project-memory/SKILL.en.md",
       "source_sha256": "654eecbf7ec99f0cbf555df7c361490c047689948f46beea98a72c557f691475",
-      "target_sha256": "c47a4bef63d1bd00d4733cd5d3cdc9b52b117a6ce3121e46f01e9f9e8b22fdac"
+      "target_sha256": "f5b3cfb13c7c5cc10c715e2dfacab64c11b6b94970c70146b13a5bf7d9b362b7"
     },
     {
       "source": "skills/requesting-code-review/SKILL.md",
       "target": "skills/requesting-code-review/SKILL.en.md",
       "source_sha256": "a530115ddd4b46c4387ea4e4661945092442fd341c276bb9344e2af2f427b4cc",
-      "target_sha256": "32f63ec0e7437e2f864849b4482639815afd457e57ec8e73c5e4d9450be4e44f"
+      "target_sha256": "28e0e40cdc4f288308fb234a5a985872cb2d2b816cfd3a74bd077a4abac6eb3d"
     },
     {
       "source": "skills/roadmap-planning/SKILL.md",
@@ -335,13 +383,13 @@
       "source": "skills/technical-research/SKILL.md",
       "target": "skills/technical-research/SKILL.en.md",
       "source_sha256": "5b51fad0dfcd1eb36c8e3691cbfe3335e0d0bb25d00dbf0858fe96ed92c35250",
-      "target_sha256": "a3568f1804e96be59c0cfe36804581202e96d91570bc0792546d8185de7f26e0"
+      "target_sha256": "3a693effaf5b5a0f07ab8e9f23e649942ce6aa486fe4e844fa9f28a41f0397e8"
     },
     {
       "source": "skills/technology-selection/SKILL.md",
       "target": "skills/technology-selection/SKILL.en.md",
       "source_sha256": "19b70af47e9efab8a51c401859d4018320b9acbd1bbaa2518513aa03ef7588f8",
-      "target_sha256": "e09b635ad4b97b1ce51dd8563aa66f68f3a239cfe2dffdf33ea96a8686b2c556"
+      "target_sha256": "7680026b0feef3ce9d8e94f614d015daaccc700a3332f3be4f327f0ecf97598b"
     },
     {
       "source": "skills/test-driven-development/SKILL.md",
@@ -377,7 +425,7 @@
       "source": "workflows/README.md",
       "target": "workflows/README.en.md",
       "source_sha256": "298c20d3e5eb7255340ba2dbf8b41807859e93150573c4cac8f657af8e59f772",
-      "target_sha256": "5dcdf2df3f0a1523546fe1a5f273a371bd3c3e5c61517c6c919b54f8bd22a500"
+      "target_sha256": "07738680933452a61141064e6d4252c8b4d7b698dde476456f1a4783b29b32ff"
     }
   ]
 }

@@ -1,5 +1,7 @@
 # 技能行为评测
 
+中文 | [English](skill-evaluation.en.md)
+
 格式检查证明资源可解析；行为评测检查真实客户端面对任务时如何选择技能和处理边界。
 
 `scripts/evaluate_skills.py` 使用现有 Codex 登录和模型设置，在独立临时工作区运行十种任务：
@@ -29,7 +31,7 @@ python3 scripts/evaluate_skills.py --case ordinary-review --output /tmp/openas-r
 
 ## 外部技能发现
 
-github-skill-discovery 另有一次 [真实客户端候选比较验收](../plugins/openas/workflows/evidence/2026-10-24-skill-discovery/README.md)：从完整目录选择该技能，比较两个已提供的合成快照，核对内容、依赖、许可证和适用性，并保持只推荐、不安装的任务范围。它未加入上述六项默认评测，不代表实时 GitHub 搜索或原生客户端安装验收。
+github-skill-discovery 另有一次 [真实客户端候选比较验收](../plugins/openas/workflows/evidence/2026-10-24-skill-discovery/README.md)：从完整目录选择该技能，比较两个已提供的合成快照，核对内容、依赖、许可证和适用性，并保持只推荐、不安装的任务范围。它未加入上述默认评测，不代表实时 GitHub 搜索或原生客户端安装验收。
 
 配套 import_skill.py 的本地 Git 测试覆盖固定提交、许可证保留、审查指纹绑定、适配、已有目录保护、来源记录及验证状态；这些机械检查不能替代实际候选的语义和许可证审查。
 
@@ -37,6 +39,6 @@ github-skill-discovery 另有一次 [真实客户端候选比较验收](../plugi
 
 presentation-creation 的 [融合与验收记录](../plugins/openas/workflows/evidence/2026-10-24-presentation/README.md) 包含可打开的 8 页 PPTX、真实 LibreOffice/Poppler 渲染、总览和源稿。另有真实客户端按材料生成 4 页原生图表文稿、仅提纲时保持不创建文件的正反场景；固定值门禁对中文状态的误判与语义更正也保留在收据中。
 
-这些试用未加入上述六项默认模型评测。普通测试在安装固定依赖后验证实际 PPTX 对象和机械边界，不调用模型；不以其结果替代目标 PowerPoint 客户端或无障碍验收。
+这些试用未加入上述默认模型评测。普通测试在安装固定依赖后验证实际 PPTX 对象和机械边界，不调用模型；不以其结果替代目标 PowerPoint 客户端或无障碍验收。
 
 中英文场景及语言检测限制见 [双语维护与评测](bilingual.md)。摘要字符信号不等于语义正确或整份交付语言正确，仍需人工核对。
