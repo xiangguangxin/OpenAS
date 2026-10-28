@@ -25,6 +25,13 @@ DESIGN_SPEC.loader.exec_module(DESIGN)
 LEARNING_SPEC = importlib.util.spec_from_file_location('learning_cycle', Path(__file__).with_name('learning_cycle.py'))
 LEARNING = importlib.util.module_from_spec(LEARNING_SPEC)
 LEARNING_SPEC.loader.exec_module(LEARNING)
+# Share backend types across independently imported single-task/graph runners.
+if 'openas_agent_backend' not in sys.modules:
+    BACKEND_SPEC = importlib.util.spec_from_file_location('openas_agent_backend', Path(__file__).with_name('agent_backend.py'))
+    BACKEND_MODULE = importlib.util.module_from_spec(BACKEND_SPEC)
+    sys.modules[BACKEND_SPEC.name] = BACKEND_MODULE
+    BACKEND_SPEC.loader.exec_module(BACKEND_MODULE)
+BACKENDS = sys.modules['openas_agent_backend']
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
     'verdict': {'type': 'string', 'enum': ['complete', 'approve', 'needs_fix', 'pass', 'fail']},
     'summary': {'type': 'string'}, 'findings': {'type': 'array', 'items': {'type': 'string'}},
@@ -159,8 +166,22 @@ def validate_result(r, allowed, schema=SCHEMA):
 
 class Runner:
     def __init__(self, task, workspace, output, client, timeout=180, rounds=3, memory_enabled=False,
-                 project_root=None, resume=False, restart_stages=False, learning_enabled=False):
+                 project_root=None, resume=False, restart_stages=False, learning_enabled=False, backend=None):
         self.task = validate_task(task)
+        self.backend = backend if backend is not None else BACKENDS.CodexBackend()
+        required = {'read-only', 'structured-output', 'timeout', 'cancellation'}
+        if task.get('workflow', 'development') not in ('review', 'security-review'):
+            required.add('workspace-write')
+        if task.get('workflow') == 'research-design':
+            required.update({'search-control', 'execution-events'})
+            if task['research_mode'] == 'live':
+                required.add('native-search-evidence')
+        try:
+            self.backend.require(required)
+        except BACKENDS.BackendError as exc:
+            raise HarnessError(str(exc), exc.kind) from exc
+        if learning_enabled and type(self.backend) is not BACKENDS.CodexBackend:
+            raise HarnessError('Model learning currently requires the built-in Codex backend', 'backend_capability')
         self.workspace, self.output = workspace.resolve(), output.resolve()
         self.client, self.timeout, self.rounds = client, timeout, rounds
         if not self.workspace.is_dir() or timeout <= 0 or rounds not in (1, 2, 3):
@@ -212,6 +233,8 @@ class Runner:
                         or state.get('learning_requested', False) != learning_enabled
                         or state['project_root'] != str(self.project_root)):
                     raise HarnessError('Task, workspace or execution options changed; start a new run')
+                if state.get('backend', BACKENDS.CodexBackend().identity()) != self.backend.identity():
+                    raise HarnessError('Backend identity or capabilities changed; start a new run')
                 self.initial = state['initial_snapshot']
                 self.state = state
                 current = self.check_scope()
@@ -234,7 +257,7 @@ class Runner:
             self.output.mkdir(parents=True, exist_ok=False)
             self.initial = self.snapshot()
             self.state = {'state_version': 2, 'status': 'running', 'done': False, 'workspace': str(self.workspace),
-                          'client': client, 'rounds': rounds, 'memory_requested': memory_enabled,
+                          'client': client, 'backend': self.backend.identity(), 'rounds': rounds, 'memory_requested': memory_enabled,
                           'learning_requested': learning_enabled,
                           'project_root': str(self.project_root), 'resources_sha256': resources,
                           'task': task, 'memory_context': self.memory_context, 'learned_context': self.learned_context,
@@ -283,7 +306,7 @@ class Runner:
         self._event_seq += 1
 
     def resource_fingerprint(self):
-        files = [Path(__file__).resolve(), Path(__file__).with_name('research_design.py'), Path(__file__).with_name('learning_cycle.py')]
+        files = [Path(__file__).resolve(), Path(__file__).with_name('research_design.py'), Path(__file__).with_name('learning_cycle.py'), Path(__file__).with_name('agent_backend.py')]
         for folder in ('agents', 'references', 'skills'):
             files.extend(p for p in (ROOT/folder).rglob('*')
                          if p.is_file() and '__pycache__' not in p.parts and p.suffix != '.pyc')
@@ -442,22 +465,36 @@ class Runner:
         if design_route and phase == 'design-gate':
             schema_file = self.output/'design-review.schema.json'
             schema_file.write_text(json.dumps(self.stage_schema(phase)))
-        cmd = [self.client, 'exec', '--ephemeral', '--skip-git-repo-check', '--color', 'never',
-               '--sandbox', 'workspace-write' if writable else 'read-only', '-C', str(self.workspace),
-               '--output-schema', str(schema_file),
-               '-o', str(prefix.with_suffix('.result.json')), '-']
-        if design_route:
-            cmd[2:2] = ['--json', '-c', 'web_search="live"' if self.task['research_mode'] == 'live' else 'web_search="disabled"']
-            if phase in DESIGN.PHASES:
-                prompt += '\nOnly write this stage file: ' + DESIGN.outputs(self.task)[phase]
+        if design_route and phase in DESIGN.PHASES:
+            prompt += '\nOnly write this stage file: ' + DESIGN.outputs(self.task)[phase]
+        request = BACKENDS.AgentRequest(
+            client=self.client, workspace=self.workspace, prompt=prompt,
+            access='workspace-write' if writable else 'read-only', timeout=self.timeout,
+            schema_file=schema_file, result_file=prefix.with_suffix('.result.json'),
+            stdout_file=prefix.with_suffix('.stdout.log'), stderr_file=prefix.with_suffix('.stderr.log'),
+            search_mode=('live' if self.task['research_mode'] == 'live' else 'disabled') if design_route else None,
+            execution_events=design_route)
+        try:
+            self.backend.validate(request)
+            invocation = self.backend.prepare(request)
+        except BACKENDS.BackendError as exc:
+            raise HarnessError(str(exc), exc.kind) from exc
+        cmd = list(invocation.argv)
         prefix.with_suffix('.prompt.txt').write_text(prompt)
         print(f'[{seq}] {phase}: {role}', flush=True)
         entry = {'phase': phase, 'role': role, 'status': 'running', 'argv': cmd,
                  'result_file': str(prefix.with_suffix('.result.json'))}
         self.state['history'].append(entry)
         self.write_state()
-        rc = execute(cmd, self.workspace, self.timeout, prefix.with_suffix('.stdout.log'),
-                     prefix.with_suffix('.stderr.log'), prompt)
+        try:
+            execution = self.backend.run(invocation, execute)
+        except BACKENDS.BackendError as exc:
+            raise HarnessError(str(exc), exc.kind) from exc
+        if (type(getattr(execution, 'exit_code', None)) is not int
+                or type(getattr(execution, 'native_search_count', None)) is not int
+                or execution.native_search_count < 0):
+            raise HarnessError('Invalid backend execution result', 'invalid_result')
+        rc = execution.exit_code
         entry['exit_code'] = rc
         self.check_scope()
         if design_route and phase in DESIGN.PHASES:
@@ -481,7 +518,7 @@ class Runner:
             if not artifact.is_file() or not artifact.read_text().strip():
                 raise HarnessError(f'Missing or empty stage document: {artifact}', 'invalid_result')
             if phase == 'market-research' and self.task['research_mode'] == 'live':
-                entry['native_search_count'] = DESIGN.native_searches(prefix.with_suffix('.stdout.log'))
+                entry['native_search_count'] = execution.native_search_count
                 if not entry['native_search_count']:
                     raise HarnessError('Live market research has no completed native web-search evidence', 'research_unavailable')
         entry.update(status='completed', result=result)
@@ -641,10 +678,10 @@ class Runner:
                 elif self.state['status'] == 'stopped':
                     raise HarnessError('Use explicit resume to continue a stopped run')
                 self.emit_event('run.resumed' if self.resuming else 'run.started',
-                                workflow=self.task.get('workflow', 'development'),
+                                workflow=self.task.get('workflow', 'development'), backend=self.backend.identity(),
                                 restart_stages=self._restart_requested)
                 self._cursor = 0
-                self.state.update(status='running', done=False)
+                self.state.update(status='running', done=False, backend=self.backend.identity())
                 for field in ('failure','error','finished','verification','final_checks','final_snapshot'):
                     self.state.pop(field, None)
                 self.write_state()
@@ -698,7 +735,8 @@ def main():
     parser.add_argument('--task', required=True, type=Path)
     parser.add_argument('--workspace', required=True, type=Path)
     parser.add_argument('--output', required=True, type=Path)
-    parser.add_argument('--client', default='codex')
+    parser.add_argument('--client', default='codex', help='Backend client executable (default: codex)')
+    parser.add_argument('--backend', choices=['codex'], default='codex', help='Agent backend (currently codex only)')
     parser.add_argument('--resume', action='store_true', help='Resume a trusted versioned checkpoint in the existing output directory')
     parser.add_argument('--restart-stages', action='store_true', help='With resume, invalidate cached stages after in-scope source or rule changes')
     parser.add_argument('--timeout', type=int, default=180)

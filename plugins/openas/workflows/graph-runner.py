@@ -51,7 +51,7 @@ def plan_graph(doc, base):
     return ordered
 
 
-def run_graph(nodes, output, client, timeout=180, rounds=3, runner_class=None):
+def run_graph(nodes, output, client, timeout=180, rounds=3, runner_class=None, backend=None):
     runner_class=runner_class or h.Runner
     output=output.resolve()
     for node in nodes:
@@ -76,7 +76,8 @@ def run_graph(nodes, output, client, timeout=180, rounds=3, runner_class=None):
         state['nodes'][ident]={'status':'running','dependency_pass':False};save()
         try:
             task={**node['task'], 'upstream_results':[{ 'id':dep, **state['nodes'][dep]} for dep in node['depends_on']]}
-            runner=runner_class(task,Path(node['workspace']),output/ident,client,timeout=timeout,rounds=rounds)
+            runner=runner_class(task,Path(node['workspace']),output/ident,client,timeout=timeout,rounds=rounds,
+                                **({'backend': backend} if backend is not None else {}))
             done=runner.run()
             review_checks=runner.state.get('last_checks',[])
             passed=done and (runner.state['status']=='verified' or

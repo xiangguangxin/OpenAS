@@ -238,3 +238,17 @@ python3 workflows/codex-team.py \
 设计评审额外返回 `revision_from`：approve 时为 `none`；needs_fix 时为六个写作阶段之一，表示最早受影响阶段。运行器重做该阶段及全部下游，保留不受影响上游的结果与评审反馈。宿主检查或 verifier 失败时保守重做六阶段，最多 rounds 轮，仍未通过则停止。每阶段独立计费修订预算并跨 resume 保留；补跑丢失证据也会消耗预算。
 
 输出目录额外包含 `design-artifacts.json`（阶段、文件及结果）与 `design-review.json`（最新结构化评审）。真实完整日志与每次评审保留在普通阶段记录。done=true/status=verified 且 `verification_subject=design-artifacts` 只表示本次设计文档交付成功；不表示产品已经实现、市场需求得到真实用户验证或性能目标已经达到。无机器检查映射的验收仍显示 reviewed。
+
+## 后端接口与能力
+
+`agent_backend.py` 定义 `AgentBackend`、`AgentRequest`、`AgentInvocation` 和 `AgentResult`。工作流负责提示组装、角色权限要求、结果 schema 校验、范围检查和验收；后端负责准备执行参数、执行一次 Agent 请求，并返回退出码与规范化的原生搜索证据数量。主进程验收命令不经过 Agent 后端。
+
+内置 `CodexBackend` 保持原有 Codex CLI 参数和执行行为。单任务 CLI 可显式传 `--backend codex`（也是默认值）；`--client` 指定可执行文件路径，不用于指定模型或其他后端。当前没有内置 dsh 后端，也不宣称其他客户端兼容 Codex 命令行。
+
+能力 ID 包括 `read-only`、`workspace-write`、`structured-output`、`timeout`、`cancellation`、`search-control`、`execution-events` 和 `native-search-evidence`。启动前按路线校验：只读评审不要求写权限；需要产出修改的路线要求写权限；research-design 要求搜索控制和执行事件，live 模式还要求原生搜索证据。缺少能力直接失败，不自动降级或扩大权限。每次实际请求也会校验访问模式和能力。
+
+这些声明描述适配器的执行契约，不是自动探测客户端版本，也不是比客户端实际沙箱更强的权限保证。超时与中断仍由宿主进程执行器终止进程组。客户端参数不受支持、结构化输出无效或退出码非零仍会失败。
+
+可信 Python 调用方可通过 `Runner(..., backend=provider)` 或 `run_graph(..., backend=provider)` 注入其他实现；普通任务 JSON 不能加载后端代码。实现需提供稳定的 `name` / `version` / `capabilities`，并实现 `prepare(request)` 与 `run(invocation, execute)`。执行器要求返回 `AgentResult`，最终 JSON 和进程日志写入请求指定路径。执行语义变化时应递增后端 version。`execute` 回调沿用宿主超时与中断处理，不能用模型自述伪造原生证据。
+
+后端身份和能力保存在 `state.json` 及运行开始/恢复事件中，恢复时不允许切换后端、版本或能力，即使使用 `--restart-stages`。旧检查点缺少 backend 字段时按默认 Codex 身份处理，但仍须通过源码、规则和证据校验。可选 `--learn` 的独立学习执行器目前只支持内置 Codex 后端；其他后端启用它时会在启动前拒绝。该接口不改变原生 Claude 插件或 JS 宿主模板。
