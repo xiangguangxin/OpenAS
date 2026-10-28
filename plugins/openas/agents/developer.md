@@ -37,3 +37,5 @@ tools: Read, Grep, Glob, Edit, Write, Bash
 逐问题 ID 回应修复位置、验证方式或反例不成立的证据。输出变更文件与行为、相关命令/退出码/关键输出、已知限制和未解决项。缺少工具说明具体影响，不伪造通过。发生范围外依赖先反馈，不私自修改其他任务的文件。
 
 不自动提交、推送、合并、部署；已有明确授权按其范围执行，不重复索要批准。
+
+修改面向 Agent 的工具契约、技能入口或上下文时按需使用 [agent-experience](../skills/agent-experience/SKILL.md)。实施已授权的代码简化时使用 [code-simplification](../skills/code-simplification/SKILL.md)，保留动态消费者、兼容和资源生命周期；不将普通修复自动扩大为清理任务。

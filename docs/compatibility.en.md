@@ -13,6 +13,10 @@
 
 Client observations apply to their recorded versions, not all past/future clients. Tests do not log in, upgrade clients, or expand sandbox permissions automatically.
 
+## Upgrade to 0.15.0
+
+Add agent-experience and code-simplification, bringing skills to 49 and plugin-local translation pairs to 73, with relevant role/routing links. No new runtime dependency, role, or executor route; read-only surveys do not authorize cleanup. Resource changes remain subject to existing checkpoint fingerprint rules. Retain DSH method provenance and its MIT notice with the plugin. Structural checks do not establish native discovery or behavioral acceptance.
+
 ## Upgrade to 0.14.2
 
 Add English companions for six integration guides, two memory guides, and five architecture/CI/compatibility/evaluation guides. Preserve Chinese editions and provide language links. Plugin-local translation coverage increases from 63 to 71 pairs. Component IDs, task fields, runtime dependencies, routes, and record formats do not change. Resource changes invalidate old checkpoint evidence under existing resumption rules; translations do not constitute new native-client or MCP acceptance.

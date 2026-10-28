@@ -42,3 +42,7 @@ The [synthesis/acceptance record](../plugins/openas/workflows/evidence/2026-10-2
 These trials are outside default model evaluations. Ordinary tests with pinned dependencies check actual PPTX objects/mechanical boundaries without model calls; they do not establish target PowerPoint or accessibility acceptance.
 
 See [bilingual maintenance/evaluation](bilingual.md) for language cases and detector limits. Summary character signals do not establish semantic correctness or the language of the entire delivery; manual review remains necessary.
+
+## Agent interfaces and code simplification
+
+The [four real-client cases](../plugins/openas/workflows/evidence/2026-10-28-agent-skills/README.md) cover positive routing, similar tasks that should not select the new skills, observed skill reads, and read-only scope, with synthetic inputs and results. They are outside the default ten evaluations and do not establish native Claude discovery or token savings.

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.0
+
+- Add bilingual agent-experience and code-simplification skills, bringing the catalog to 49 skills and plugin translation coverage to 73 pairs.
+- Cover discoverable agent interfaces, progressive context, bounded outputs and measured total work, plus evidence-backed removal of maintenance obligations while preserving dynamic consumers, compatibility and lifecycle behavior.
+- Integrate the methods into cto/developer and workflow routing without new roles, executor routes or automatic cleanup permissions. Retain pinned DSH provenance and its MIT notice.
+
 ## 0.14.2
 
 - Add English companions for six integration guides, two memory guides, and five architecture, CI, compatibility, and evaluation guides, retaining the Chinese editions and language-switch links.
