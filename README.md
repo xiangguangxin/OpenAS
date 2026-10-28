@@ -10,7 +10,7 @@ Start AI-assisted development from clear requirements and deliver verifiable res
 
 [![CI](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml/badge.svg)](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml)
 [![Agents](https://img.shields.io/badge/Agents-12-2563eb)](plugins/openas/agents)
-[![Skills](https://img.shields.io/badge/Skills-47-7c3aed)](docs/skills.en.md)
+[![Skills](https://img.shields.io/badge/Skills-49-7c3aed)](docs/skills.en.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-059669)](LICENSE)
 
 **English** | [简体中文](#chinese)
@@ -19,7 +19,7 @@ Start AI-assisted development from clear requirements and deliver verifiable res
 
 </div>
 
-OpenAS provides composable methods for requirements, research, design, implementation, debugging, review and verification. Use **12 roles and 47 skills through a Claude Code plugin**, or the separate **Codex CLI workflow adapter** for explicitly configured stage execution and acceptance checks.
+OpenAS provides composable methods for requirements, research, design, implementation, debugging, review and verification. Use **12 roles and 49 skills through a Claude Code plugin**, or the separate **Codex CLI workflow adapter** for explicitly configured stage execution and acceptance checks.
 
 It adapts to web applications, services, libraries, CLI tools, native programs, data processing and documentation. It reads the target project's stack, conventions and existing checks rather than imposing another framework or mandatory OpenAS configuration.
 
@@ -38,6 +38,8 @@ Invoke skills in the session:
 /openas:bug-fix Investigate this failure and verify its cause with this project's logs and tests.
 /openas:codebase-analysis Explain the entry points, modules, and main call path, citing source locations.
 /openas:change-impact-analysis Assess consumers, compatibility risks, and checks affected by this change.
+/openas:agent-experience Review skill discovery and context loading; preserve permissions and acceptance requirements.
+/openas:code-simplification Find evidence-backed simplifications; report candidates without editing files.
 /openas:document-review Review this guide against the implementation. Report actual reader-blocking issues without editing files.
 /openas:project-memory Extract reusable project knowledge supported by this task's evidence.
 ```
@@ -94,7 +96,8 @@ The [complete English catalog](docs/skills.en.md) links every skill and explains
 | Market and requirements | market-research, competitive-analysis, product-requirements |
 | Research and selection | technical-research, technology-selection, github-skill-discovery |
 | Architecture | solution-design, architecture-design, design-review |
-| Existing-system understanding | codebase-analysis, change-impact-analysis, architecture-conformance, architecture-evolution |
+| Existing-system understanding | codebase-analysis, change-impact-analysis, architecture-conformance, architecture-evolution, code-simplification |
+| Agent information interfaces | agent-experience |
 | Plans and implementation | roadmap-planning, writing-plans, executing-plans, test-driven-development |
 | CI and upgrades | ci-cd, dependency-upgrade |
 | Testing and review | test-strategy, integration-testing, requesting-code-review, document-review |
@@ -186,6 +189,8 @@ These use existing client login/model settings, consume quota, require new outpu
 
 Use an independent branch, retain user changes and run relevant checks. Update both language editions when changing shared behavior; never refresh translation fingerprints without reviewing meaning. See the English [changelog](CHANGELOG.md), [bilingual maintenance](docs/bilingual.md), [contribution guide](CONTRIBUTING.md), and [compatibility history](docs/compatibility.en.md). English [architecture](docs/architecture.en.md), [CI](docs/ci.en.md), [skill evaluation](docs/skill-evaluation.en.md), and [native reload](docs/hot-reload-testing.en.md) guides are also available.
 
+The agent-experience and code-simplification methods retain pinned [DSH provenance and its MIT notice](plugins/openas/references/dsh-skills-provenance.md).
+
 OpenAS originated from a gem5 collaboration setup and is now project-independent; [migration records](docs/migration.json) preserve provenance, not default facts about new consumers. Project-owned material is [MIT](LICENSE), except explicitly identified content. The presentation skill uses Apache-2.0 with retained third-party MIT/Apache notices; upstream REA retains its own licensing. See [presentation NOTICE](plugins/openas/skills/presentation-creation/NOTICE.md) and [REA provenance](plugins/openas/integrations/rea/README.en.md).
 
 ---
@@ -204,7 +209,7 @@ OpenAS originated from a gem5 collaboration setup and is now project-independent
 
 [![CI](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml/badge.svg)](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml)
 [![Agents](https://img.shields.io/badge/Agents-12-2563eb)](plugins/openas/agents)
-[![Skills](https://img.shields.io/badge/Skills-47-7c3aed)](plugins/openas/skills)
+[![Skills](https://img.shields.io/badge/Skills-49-7c3aed)](plugins/openas/skills)
 [![License: MIT](https://img.shields.io/badge/License-MIT-059669)](LICENSE)
 
 可插拔的角色协作 · 证据驱动的调试 · 可追溯的项目记忆
@@ -215,7 +220,7 @@ OpenAS originated from a gem5 collaboration setup and is now project-independent
 
 ---
 
-OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 **Claude Code 插件**使用 12 个协作角色与 47 个技能，也可使用独立的 **Codex CLI 工作流适配器**执行阶段任务与验收。
+OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 **Claude Code 插件**使用 12 个协作角色与 49 个技能，也可使用独立的 **Codex CLI 工作流适配器**执行阶段任务与验收。
 
 适用于 Web 应用、后端服务、库、命令行工具、原生程序、数据处理和文档项目。接入后沿用目标仓库的技术栈、目录与验证命令，无需额外创建 OpenAS 专用配置文件。
 
@@ -224,7 +229,7 @@ OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为�
 同一份插件支持中文和英文，不需要重复安装。用户明确指定的语言优先，否则回复跟随任务语言；编辑已有文档时保留文件语言，除非要求翻译。命令、路径、技能 ID、JSON 字段和枚举保持不变。
 
 - [English](#english) 与 [完整英文技能索引](docs/skills.en.md)。
-- 全部 47 个技能可使用英文：46 个自有技能提供 `SKILL.en.md`，REA 保留上游英文入口；12 个角色提供英文配套说明。
+- 全部 49 个技能可使用英文：48 个自有技能提供 `SKILL.en.md`，REA 保留上游英文入口；12 个角色提供英文配套说明。
 - 详细规则见 [中英文输出约定](plugins/openas/references/language.md)，维护与评测见 [双语指南](docs/bilingual.md)。详细技术参考及历史归档保留原文，未对所有历史材料制作译本。
 
 ```text
@@ -304,7 +309,7 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 
 ## 技能地图
 
-47 个技能可独立使用，也可组合到角色任务中。下表列出常用入口，完整定义见 [skills](plugins/openas/skills)。
+49 个技能可独立使用，也可组合到角色任务中。下表列出常用入口，完整定义见 [skills](plugins/openas/skills)。
 
 | 任务 | 技能入口 | 主要产物 |
 | --- | --- | --- |
@@ -313,6 +318,8 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 | 外部技能引入 | [github-skill-discovery](plugins/openas/skills/github-skill-discovery/SKILL.md) | 按需搜索、内容/依赖/许可证审查、安装或适配、多技能融合生成与来源版本记录 |
 | 方案与架构 | [solution-design](plugins/openas/skills/solution-design/SKILL.md) · [architecture-design](plugins/openas/skills/architecture-design/SKILL.md) · [design-review](plugins/openas/skills/design-review/SKILL.md) | 方案取舍、模块契约与实施就绪结论 |
 | 代码理解与变更影响 | [codebase-analysis](plugins/openas/skills/codebase-analysis/SKILL.md) · [change-impact-analysis](plugins/openas/skills/change-impact-analysis/SKILL.md) | 源码现状、核心路径、消费者影响与验证范围 |
+| Agent 接口与上下文 | [agent-experience](plugins/openas/skills/agent-experience/SKILL.md) | 工具与技能发现、按需加载、交接约束和总成本验证 |
+| 代码简化 | [code-simplification](plugins/openas/skills/code-simplification/SKILL.md) | 生产者与消费者证据、净维护收益、兼容与生命周期保留 |
 | 架构检查与演进 | [architecture-conformance](plugins/openas/skills/architecture-conformance/SKILL.md) · [architecture-evolution](plugins/openas/skills/architecture-evolution/SKILL.md) | 架构偏差证据、分阶段改造、兼容与退役条件 |
 | 规划与实施 | [roadmap-planning](plugins/openas/skills/roadmap-planning/SKILL.md) · [writing-plans](plugins/openas/skills/writing-plans/SKILL.md) · [test-driven-development](plugins/openas/skills/test-driven-development/SKILL.md) | 阶段目标、可执行任务与行为测试 |
 | CI/CD 与依赖升级 | [ci-cd](plugins/openas/skills/ci-cd/SKILL.md) · [dependency-upgrade](plugins/openas/skills/dependency-upgrade/SKILL.md) | 流水线配置与诊断、制品追溯、版本适配与兼容验证 |
@@ -344,7 +351,7 @@ flowchart TB
     subgraph bundle["OpenAS 插件资源"]
         direction LR
         agents["agents/<br/>12 个角色定义"]
-        skills["skills/<br/>47 个工作方法"]
+        skills["skills/<br/>49 个工作方法"]
         contracts["references/<br/>协作契约、项目适配与实施就绪"]
     end
 
@@ -562,7 +569,7 @@ GitHub Actions 在 PR 创建或更新，以及代码推送或合并到 `main` �
 plugins/openas/
   .claude-plugin/plugin.json     插件清单与版本
   agents/                       12 个协作角色
-  skills/                       47 个技能及配套资源
+  skills/                       49 个技能及配套资源
   references/                   协作契约与项目适配约定
   workflows/                    可选适配器、示例、测试与历史证据
   integrations/                 可选 MCP 配置、使用指引与 REA 集成
@@ -583,5 +590,7 @@ Claude Code 官方文档：[插件格式](https://code.claude.com/docs/en/plugin
 ## 维护与验收
 
 除明确标注的技能目录外，项目自有内容采用 [MIT License](LICENSE)；另行声明的目录与第三方内容遵循各自许可。版本变化见 [CHANGELOG](CHANGELOG.md)，开发与发布流程见 [贡献指南](CONTRIBUTING.md)，运行环境和记录格式见 [兼容说明](docs/compatibility.md)。
+
+agent-experience 与 code-simplification 保留 [DSH 方法来源与 MIT 声明](plugins/openas/references/dsh-skills-provenance.md)。
 
 真实技能行为评测、修复验证及尚缺外部条件的项目分别记录在 [行为评测说明](docs/skill-evaluation.md) 和 [本次修复验收](docs/review-remediation.md) 中。

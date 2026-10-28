@@ -1,0 +1,204 @@
+{
+  "cases": [
+    {
+      "case": "agent-positive",
+      "expected_skill": "agent-experience",
+      "exit_code": 0,
+      "scope_preserved": true,
+      "result": {
+        "selected_skill": "agent-experience",
+        "summary": "已读取技能并只读核对实际 fixture。可通过删除工具描述中的重复语句、集中参数约束及按需读取完整结果来减少重复上下文；未实施修改，也未测量 token 节省。",
+        "findings": [
+          "tools.json:1 的 description 重复表达查找报告元数据，并复述 limit 的默认值和范围。建议简化为“Find report metadata.”；将默认值 2、范围 1–20 和每页条数含义保留在参数定义中。",
+          "必须保留 access=read-only，以及查询失败返回 error 且不返回报告数据的语义；不能在压缩说明时删去这些约束。",
+          "必须保留 cursor 来自上一页且为不透明值的约束，以及 truncated、next_cursor。当前结果已截断，应明确将 next_cursor 原样传入下一次查询的 cursor；不能把当前 items 当成完整结果。",
+          "details_file 指向实际存在的 full-results.json，包含 r1、r2、r3，比当前页多 r3。建议默认提供当前页、截断标记和取回入口，确需全部结果时再读取文件，避免重复注入全文。",
+          "完整结果取回契约仍有缺口：未说明相对路径基准、宿主读取入口、文件有效期和读取失败处理；仓库也未提供 find_reports 执行器或消费者，无法确认分页运行行为。建议明确这些规则，并说明文件读取与游标翻页的适用关系。",
+          "当前 result.items 仅为 ID，未展示元数据字段。建议说明返回的是报告标识还是元数据对象，并提供可取回元数据的真实入口；不要仅凭工具名称推断已有该能力。"
+        ],
+        "questions": [],
+        "evidence": [
+          "已读取 ${OPENAS_PLUGIN}/skills/agent-experience/SKILL.md。",
+          "已检查 tools.json:1、full-results.json:1、README.md、loader.py、report.py，并检索仓库中的工具及结果路径引用；相关定义仅见 tools.json。",
+          "python 不可用，改用 python3 -B 成功解析两个 JSON，确认详情文件存在、包含全部当前页 ID，并额外包含 r3。",
+          "验证仅覆盖静态结构与本地文件取回；未调用真实工具、验证分页服务或错误响应，未安装依赖、修改文件、联网或使用代理。"
+        ]
+      },
+      "routing_matched": true,
+      "request": "只读评估 tools.json 中面向 Agent 的工具描述、参数信息和结果取回路径，提出减少重复上下文的建议，保留权限、失败与分页约束。核对实际文件，不实施、不安装工具、不声称已测得 token 节省。",
+      "skill_read_observed": true,
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        127,
+        0
+      ],
+      "questions_empty": true,
+      "usage": [
+        {
+          "input_tokens": 110502,
+          "cached_input_tokens": 64256,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1161,
+          "reasoning_output_tokens": 0
+        }
+      ],
+      "passed": true,
+      "skill_sha256": "7759645c57a97a7aa00d25b384d681c92a09410dcafc1f6bbb12dfdc98d97a3a"
+    },
+    {
+      "case": "simplification-positive",
+      "expected_skill": "code-simplification",
+      "exit_code": 0,
+      "scope_preserved": true,
+      "result": {
+        "selected_skill": "code-simplification",
+        "summary": "只读检查全部 9 个实际文件，发现 1 项主要简化候选和 1 项低收益候选；未修改文件。",
+        "findings": [
+          "主要候选：删除 report.py:5 的 _total_copy。生产者是 Report.__init__，全仓搜索未发现消费者；total() 在 report.py:7 直接计算 self.values。删除可减少一份派生状态和一次构造期求和，保留 values 与 total()。最强保留理由：它可能承担外部读取、构造时校验或自定义数值对象的运算副作用；删除会改变异常时机，因此目前仅对普通数值元组有行为对照证据。",
+          "低收益候选：精简 tools.json:1 description 中重复的调用说明及 limit 默认值、范围描述，让参数 schema 承担这些约束，减少多处同步维护。保留理由：工具发现阶段可能只展示 description；尚无装载器证据证明参数 schema 同时可见，因此暂缓。分页、只读权限和失败语义应保留。",
+          "保留 encode(data, debug=False)：虽然函数未读取 debug，README.md:1 明确要求兼容外部调用者；删除该参数会破坏公开关键字契约。",
+          "保留 plugins/export_json.py 与动态装载机制：plugins.json:1 生产插件名，loader.py:4-5 按名称导入并取 export，插件再调用 encode；不能因缺少静态直接导入而判为无用。",
+          "保留 full-results.json：tools.json:1 通过 details_file 引用它，并提供 truncated、next_cursor 分页信息；不能把完整结果文件视为重复数据删除。",
+          "ui.json 的 Submit 与 save-draft 命名差异缺乏消费者及行为证据，不作为简化候选。"
+        ],
+        "questions": [],
+        "evidence": [
+          "已读取所选 SKILL.md、项目适配约定、README、全部 Python 源码及四个 JSON 实际夹具，并用 rg 追踪相关符号、字段和动态注册入口。",
+          "python 不可用；改用 python3 -B，检查通过且禁止生成字节码。",
+          "仅在内存中删除缓存赋值，对空元组、整数、正负抵消和浮点数四组输入比较 values 与 total()，结果一致；未证明任意自定义数值类型等价。",
+          "实际验证 debug=True/False 输出一致、清单驱动插件装载及排序 JSON 导出成功，四个 JSON 文件均可解析。",
+          "未执行编辑、依赖安装、提交、网络访问、外部服务调用或代理委派。"
+        ]
+      },
+      "routing_matched": true,
+      "request": "只读寻找这个项目可以减少维护责任的代码简化候选，沿生产者、消费者和公开兼容契约给出证据、收益及保留理由；不实施、不修改文件。",
+      "skill_read_observed": true,
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        127,
+        0
+      ],
+      "questions_empty": true,
+      "usage": [
+        {
+          "input_tokens": 114119,
+          "cached_input_tokens": 89856,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1663,
+          "reasoning_output_tokens": 27
+        }
+      ],
+      "passed": true,
+      "skill_sha256": "6538a2c6886b0ea073fe587467075eab52060bc87f8e48b0392b205051f75171"
+    },
+    {
+      "case": "agent-negative",
+      "expected_skill": "interaction-design",
+      "exit_code": 0,
+      "scope_preserved": true,
+      "result": {
+        "selected_skill": "interaction-design",
+        "summary": "推荐按钮文案为“Save draft”（保存草稿）。",
+        "findings": [
+          "“Save draft”直接说明点击后会保存草稿，比“Submit”更符合当前操作，避免让用户误以为正式提交。",
+          "仅建议调整显示文案，保留 action: save-draft 的操作语义；未修改文件。"
+        ],
+        "questions": [],
+        "evidence": [
+          "实际读取 ui.json：button.label 为 Submit，button.action 为 save-draft。",
+          "已读取 interaction-design/SKILL.md。"
+        ]
+      },
+      "routing_matched": true,
+      "request": "只讨论 ui.json 的产品按钮文案：用户在保存草稿时看到 Submit 很困惑，请推荐清楚的按钮名称及解释。保持只读，不改变操作语义。",
+      "skill_read_observed": true,
+      "command_exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "questions_empty": true,
+      "usage": [
+        {
+          "input_tokens": 62937,
+          "cached_input_tokens": 41472,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 280,
+          "reasoning_output_tokens": 0
+        }
+      ],
+      "passed": true,
+      "skill_sha256": "2db6423a1bfc125d88ab0700c178c435700ff90262306c1ed7fa574e505acc59"
+    },
+    {
+      "case": "simplification-negative",
+      "expected_skill": "codebase-analysis",
+      "exit_code": 0,
+      "scope_preserved": true,
+      "result": {
+        "selected_skill": "codebase-analysis",
+        "summary": "已读取该技能及实际源码、JSON 夹具。当前代码库提供 Python 报告 API 和按配置加载的 JSON 导出插件；未发现命令行或服务启动入口。本次只读解释结构与数据流，未修改文件。",
+        "findings": [
+          "入口：loader.py:3 的 load_default() 读取当前工作目录下的 plugins.json，取得 default 名称，再动态导入 plugins.<名称> 并返回其 export 函数。当前配置绑定 export_json（plugins.json:1）。",
+          "导出数据流：调用方数据 → load_default() 返回的 plugins.export_json.export(data) → report.encode(data) → json.dumps(data, sort_keys=True) → JSON 字符串（plugins/export_json.py:1-3；report.py:8-9）。插件通过配置名称发现，通过 export 属性绑定。",
+          "报告模块：Report 初始化时把输入保存为 tuple，并计算 _total_copy；total() 对 self.values 求和返回。encode(data, debug=False) 是独立函数，保留公开 debug 关键字，当前函数体只进行 JSON 序列化（report.py:2-9；README.md:1）。",
+          "配置与夹具：tools.json:1 描述 find_reports 的分页参数、只读访问、示例结果及失败语义；其中 details_file 指向 full-results.json，后者包含 r1、r2、r3。ui.json:1 声明 Submit 按钮对应 save-draft。现有 Python 源码未引用这些工具或界面声明，因此不能确认它们接入了运行流程。",
+          "依赖与边界：源码使用标准库 importlib、json、pathlib；plugins/__init__.py 为空。所提供文件未包含独立测试入口、构建配置或外部服务实现。"
+        ],
+        "questions": [],
+        "evidence": [
+          "已实际读取 README.md、loader.py、report.py、plugins/__init__.py、plugins/export_json.py，以及全部四个 JSON 文件。",
+          "使用 python3 -B 执行定向检查：默认插件为 plugins.export_json；输入 {'b': 2, 'a': 1} 返回排序后的 JSON 字符串；Report([1, 2, 3]).total() 返回 6；encode(..., debug=True) 可调用。",
+          "使用 python3 -B 成功解析 plugins.json、tools.json、ui.json、full-results.json。运行检查仅覆盖上述调用与夹具解析，不代表完整系统验证。"
+        ]
+      },
+      "routing_matched": true,
+      "request": "只读解释这个代码库的入口、模块和数据流，引用实际文件。不要做缺陷评审、简化审计或删除建议，不修改文件。",
+      "skill_read_observed": true,
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        127,
+        0
+      ],
+      "questions_empty": true,
+      "usage": [
+        {
+          "input_tokens": 111336,
+          "cached_input_tokens": 100096,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1188,
+          "reasoning_output_tokens": 15
+        }
+      ],
+      "passed": true,
+      "skill_sha256": "a13cec3db53522974923c8f2ab91077a0536690c27a94c8ed1607bd35da08139"
+    }
+  ],
+  "client": "codex-cli 0.160.0",
+  "date": "2026-10-28",
+  "configuration": "Existing authenticated client/model configuration; no model or approval override. Read-only sandbox, ephemeral sessions, timeout 180 seconds, no automatic retry.",
+  "fixtures": {
+    "README.md": "The report API accepts encode(data, debug=False); keep that public keyword for existing external callers. Plugins are loaded by name from plugins.json. Report.total() returns the sum of the supplied immutable tuple.\n",
+    "full-results.json": "{\"items\":[\"r1\",\"r2\",\"r3\"]}\n",
+    "loader.py": "import importlib, json\nfrom pathlib import Path\ndef load_default():\n    name = json.loads(Path('plugins.json').read_text())['default']\n    return importlib.import_module('plugins.' + name).export\n",
+    "plugins/__init__.py": "",
+    "plugins/export_json.py": "from report import encode\ndef export(data):\n    return encode(data)\n",
+    "plugins.json": "{\"default\": \"export_json\"}\n",
+    "report.py": "import json\nclass Report:\n    def __init__(self, values):\n        self.values = tuple(values)\n        self._total_copy = sum(self.values)\n    def total(self):\n        return sum(self.values)\ndef encode(data, debug=False):\n    return json.dumps(data, sort_keys=True)\n",
+    "tools.json": "{\"name\": \"find_reports\", \"description\": \"Find report metadata. limit defaults to 2, range 1-20. Call to find report metadata.\", \"parameters\": {\"limit\": {\"type\": \"integer\", \"minimum\": 1, \"maximum\": 20, \"default\": 2, \"description\": \"Maximum items per page.\"}, \"cursor\": {\"type\": \"string\", \"description\": \"Opaque cursor from the preceding page.\"}}, \"access\": \"read-only\", \"result\": {\"items\": [\"r1\", \"r2\"], \"truncated\": true, \"next_cursor\": \"page2\", \"details_file\": \"full-results.json\"}, \"partial_failure\": \"A failed lookup returns an error and no report data.\"}",
+    "ui.json": "{\"button\": {\"label\": \"Submit\", \"action\": \"save-draft\"}}\n"
+  },
+  "passed": true,
+  "limits": "Four single-run synthetic cases. Routing, observed skill reads and unchanged fixture content are host-checked. Results received semantic review in the implementation session, not independent human/client acceptance. No before/after token benchmark or native Claude discovery. Exit 127 entries were unavailable python commands followed by successful python3 -B checks; raw client logs remain local.",
+  "plugin_version": "0.15.0",
+  "base_commit": "14ff340",
+  "evaluated_tree": "Uncommitted skill additions; selected entrypoint hashes recorded per case."
+}

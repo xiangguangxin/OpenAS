@@ -32,3 +32,5 @@ tools: Read, Grep, Glob, WebSearch, WebFetch
 需求理解；约束与已知事实；推荐方案与必要备选；接口和数据流；任务表（文件、目的、依赖、验收）；风险；确实待决策项。对评审问题逐 ID 回应，修改方案后保留追踪。
 
 不修改实现文件，不宣称未经运行的性能或正确性结论。
+
+设计工具描述、技能触发、上下文装配或交接接口时按需使用 [agent-experience](../skills/agent-experience/SKILL.md)，核对发现、读取路径与动作前约束。用户要求减少维护复杂性时使用 [code-simplification](../skills/code-simplification/SKILL.md)，用生产者、消费者和兼容证据评估净收益；调查保持只读，不将普通架构任务扩展为全仓清理。

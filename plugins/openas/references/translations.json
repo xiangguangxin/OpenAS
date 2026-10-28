@@ -4,20 +4,20 @@
     {
       "source": "README.md",
       "target": "README.en.md",
-      "source_sha256": "ed9131a2431837913ae58f0abff266e178bafee1feafba3755b92fc38c6a59d1",
-      "target_sha256": "f8b01e101fdc12ed93e301d6cd4e035f6b9df88d70c8b8a0ee0d9b019c1b447e"
+      "source_sha256": "3efa522cb749d0f8242679ea38c2a4b263f375c727727cb97497fcdcc5f7ef0b",
+      "target_sha256": "05278c3ab17d2f5e08b26820f67b0fdd7e135c243df512443d395e5debb44b49"
     },
     {
       "source": "agents/cto.md",
       "target": "references/en/agents/cto.md",
-      "source_sha256": "f1f1cf056eeeae826784dddc81d57d89f550f005ddcba1aab1f918f8d9144cd0",
-      "target_sha256": "f0483cc1ef6073d1413fc44e7d89142d7f6421b8ae6f098a14cadf678fb6c38f"
+      "source_sha256": "9e54d64889e0021ce0e754443e1a81636c4f0ca90acea8368a8307833b8fa78f",
+      "target_sha256": "bd45114a3b58d1e73d144ddc48465d03b54a972fb22353c1c0321df1c5469e3a"
     },
     {
       "source": "agents/developer.md",
       "target": "references/en/agents/developer.md",
-      "source_sha256": "f664a5a43dcf5c5cd94c6d8dd3ad215419db1eee565900bec06c77bf94602ca6",
-      "target_sha256": "c3e8df48c33e3af45b923469e69caf2fa7653db100159b7648c6ebe7a69bf792"
+      "source_sha256": "db84a1568a0d50a592dc4e8b1759105af13347012e6859af559f15174501cbb4",
+      "target_sha256": "a905937983ea17ac529f1a9cca7b5e7d8d9a5aa8662c17bef65cecdb627fe4ea"
     },
     {
       "source": "agents/it.md",
@@ -412,8 +412,8 @@
     {
       "source": "skills/workflow-routing/SKILL.md",
       "target": "skills/workflow-routing/SKILL.en.md",
-      "source_sha256": "1d591356cd6c11499d4f31f7179e949279dc480118198e808bf25822f27ed805",
-      "target_sha256": "1a8e6b6a0ef6afe1166f41886389445875fa6ca1759d7db01ef9c3fcabe4f7ec"
+      "source_sha256": "87372c7efbce8dc7aa1c802d54ac790d7a2a7db0f078e378af6ba90cc11f296e",
+      "target_sha256": "fd2884cdaea514a7714a8d39c5152e280886dbf7da821d59587b28efac77f97b"
     },
     {
       "source": "skills/writing-plans/SKILL.md",
@@ -426,6 +426,18 @@
       "target": "workflows/README.en.md",
       "source_sha256": "1cb85da2af006f462280f9c97fb5f93c9f34544c72166cf8e6bdad435d36cd6b",
       "target_sha256": "8a8de35ee26f79395c5f0f780e92dc8d16af75909dc649d0e52f3cc463bb20c4"
+    },
+    {
+      "source": "skills/agent-experience/SKILL.md",
+      "target": "skills/agent-experience/SKILL.en.md",
+      "source_sha256": "7759645c57a97a7aa00d25b384d681c92a09410dcafc1f6bbb12dfdc98d97a3a",
+      "target_sha256": "04d5380e92b4260a6827fd2839775f2999900d34638247c4ce4ac92ef62f2ad7"
+    },
+    {
+      "source": "skills/code-simplification/SKILL.md",
+      "target": "skills/code-simplification/SKILL.en.md",
+      "source_sha256": "6538a2c6886b0ea073fe587467075eab52060bc87f8e48b0392b205051f75171",
+      "target_sha256": "b05ac56a8487b567b29000e7ab5357c3bc8e0d18ed5fe3bdd76f7fd5c699a752"
     }
   ]
 }

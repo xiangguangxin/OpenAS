@@ -2,12 +2,13 @@
 
 [中文技能地图](../README.md#技能地图) | [English guide](../README.md#english)
 
-All 47 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
+All 49 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
 
 | Skill | When to use it |
 | --- | --- |
 | [acceptance-tracking](../plugins/openas/skills/acceptance-tracking/SKILL.en.md) | Map each original acceptance criterion to implementation and real check evidence; distinguish verified, reviewed, and pending items. |
 | [accessibility-review](../plugins/openas/skills/accessibility-review/SKILL.en.md) | Review keyboard use, focus, semantics, labels, contrast, and dynamic feedback; report reproducible barriers without claiming full compliance from scans. |
+| [agent-experience](../plugins/openas/skills/agent-experience/SKILL.en.md) | Design agent-facing tools, skill discovery, bounded context and handoffs while preserving constraints; verify retrieval and whole-task costs. |
 | [architecture-conformance](../plugins/openas/skills/architecture-conformance/SKILL.en.md) | Compare actual code with effective architecture decisions, boundaries, dependencies, ownership, and contracts; report deviations without replacing design review or runtime acceptance. |
 | [architecture-design](../plugins/openas/skills/architecture-design/SKILL.en.md) | Design system boundaries, modules, interfaces, data, deployment, and failure behavior from requirements and technical decisions; produce architecture and requirement mappings. |
 | [architecture-evolution](../plugins/openas/skills/architecture-evolution/SKILL.en.md) | Plan staged refactoring and interface or data migration for existing systems, including compatibility, cutover, recovery, and retirement; do not automatically execute migrations. |
@@ -16,6 +17,7 @@ All 47 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery e
 | [change-impact-analysis](../plugins/openas/skills/change-impact-analysis/SKILL.en.md) | Trace proposed changes or diffs through consumers, contracts, data, configuration, builds, tests, and documentation to identify compatibility risks and verification scope. |
 | [checkpoint-and-resume](../plugins/openas/skills/checkpoint-and-resume/SKILL.en.md) | Validate task, workspace, rules, and evidence after interruption before reusing checkpoints; do not automatically resume unauthorized historical work. |
 | [ci-cd](../plugins/openas/skills/ci-cd/SKILL.en.md) | Configure or diagnose CI/CD triggers, build matrices, caches, artifacts, permissions, and failure evidence; do not automatically deploy or change remote repository settings. |
+| [code-simplification](../plugins/openas/skills/code-simplification/SKILL.en.md) | Find or implement net reductions in maintenance obligations using producer/consumer and compatibility evidence; keep surveys read-only. |
 | [codebase-analysis](../plugins/openas/skills/codebase-analysis/SKILL.en.md) | Explain repository entry points, modules, dependencies, core call paths, and extension mechanisms from source evidence; do not default to audits or binary reverse engineering. |
 | [competitive-analysis](../plugins/openas/skills/competitive-analysis/SKILL.en.md) | Compare competitors and alternatives for the same users and scenarios, with sourced evidence, gaps, and opportunity hypotheses rather than marketing claims. |
 | [context-handoff](../plugins/openas/skills/context-handoff/SKILL.en.md) | Transfer current task goals, authorization, state, decisions, artifacts, evidence, and remaining work to another role or session; keep it separate from long-term memory. |

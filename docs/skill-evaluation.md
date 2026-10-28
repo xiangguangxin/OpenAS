@@ -42,3 +42,7 @@ presentation-creation 的 [融合与验收记录](../plugins/openas/workflows/ev
 这些试用未加入上述默认模型评测。普通测试在安装固定依赖后验证实际 PPTX 对象和机械边界，不调用模型；不以其结果替代目标 PowerPoint 客户端或无障碍验收。
 
 中英文场景及语言检测限制见 [双语维护与评测](bilingual.md)。摘要字符信号不等于语义正确或整份交付语言正确，仍需人工核对。
+
+## Agent 接口与代码简化
+
+agent-experience 与 code-simplification 的 [四项真实客户端样例](../plugins/openas/workflows/evidence/2026-10-28-agent-skills/README.md) 覆盖正向选择、相似任务不误触发、实际技能读取与只读边界，并保留合成输入和检查结果。它们在默认十项评测之外，不证明原生 Claude 发现或 token 节省。
