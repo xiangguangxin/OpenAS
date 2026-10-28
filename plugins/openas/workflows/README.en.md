@@ -89,3 +89,21 @@ node workflows/tests/agent-team.test.mjs
 ```
 
 These use fixtures/mocks and do not establish real-client behavior. The JS file itself is a host template requiring injected functions, not an executable Agent SDK.
+
+## Event log
+
+Each workflow run appends `events.jsonl` in its output directory, with one UTF-8 JSON object per line. Graph workflows produce logs in each node's output directory, without a graph-wide aggregate log. No extra flag is required.
+
+Each record contains `version` (currently 1), a consecutive `seq`, UTC ISO 8601 `time`, event `type`, and structured `data`. Event types are:
+
+- `run.started` / `run.resumed`: workflow start or validated resume, including the route and whether stages restart.
+- `stage.started` / `stage.completed` / `stage.failed`: role execution, including role, phase, step index, and completion verdict / result file or failure kind.
+- `stage.reused`: a validated cached stage result was reused without calling the client again.
+- `check.started` / `check.completed` / `check.failed`: host acceptance command execution, including group label, attempt number, check index, output log paths, and normal exit_code or exception kind. A nonzero exit is still completed; the workflow decides acceptance.
+- `run.completed` / `run.stopped`: core workflow termination, including final status, failure information, and state/acceptance file references. Subsequent optional memory harvesting and learning are outside this log's coverage.
+
+Only host-observed events are recorded, without model-internal tool calls, full prompts, or command output; existing evidence files retain output. Path references are relative to the run output directory, except stage result paths retain the existing absolute format. `seq` defines append order; timestamps do not define ordering or causality.
+
+The log uses single-writer append with flush/fsync after each record; the run lock prevents concurrent resume. `--resume` preserves history and continues numbering. An existing checkpoint without a log starts at `run.resumed`, without inventing past events. Damaged or truncated logs refuse resume and remain unchanged; inspect the workspace and use a new run directory. Abrupt process loss can leave unmatched started events, and disk errors can truncate records; starts are not guaranteed to have matching ends.
+
+`state.json` remains the recovery authority. Log appends and checkpoints are not one transaction; events never bypass source, rule, evidence, or authorization checks. Logs contain failure information and should be reviewed for sensitive content alongside other evidence before sharing. This feature does not change the native Claude plugin or JS host template.

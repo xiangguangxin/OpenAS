@@ -424,8 +424,8 @@
     {
       "source": "workflows/README.md",
       "target": "workflows/README.en.md",
-      "source_sha256": "298c20d3e5eb7255340ba2dbf8b41807859e93150573c4cac8f657af8e59f772",
-      "target_sha256": "07738680933452a61141064e6d4252c8b4d7b698dde476456f1a4783b29b32ff"
+      "source_sha256": "3794d2bd903ec1aa51ce5a275fe4eae8f99cef5794138707b9511a53ddc02b69",
+      "target_sha256": "c84f2805804682769b48a2f6c8774876dc048c39fc5741522c014c6f3ca27cd9"
     }
   ]
 }

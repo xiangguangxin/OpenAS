@@ -54,6 +54,64 @@ class OrchestrationTests(unittest.TestCase):
         self.assertTrue((self.root/'run/handoff.json').is_file())
         self.assertTrue((self.root/'run/acceptance.json').is_file())
 
+    def test_events_preserve_failure_and_append_resume_timeline(self):
+        log = self.root/'run/events.jsonl'
+        with patch.object(h, 'execute', side_effect=self.client):
+            first = self.runner()
+            self.assertFalse(first.run())
+            original = log.read_bytes()
+            events = [json.loads(line) for line in original.splitlines()]
+            self.assertEqual(events[0]['type'], 'run.started')
+            self.assertEqual(events[-1]['type'], 'run.stopped')
+            failed = next(e for e in events if e['type'] == 'stage.failed')
+            self.assertEqual(failed['data']['phase'], 'code-review')
+            self.assertEqual(failed['data']['kind'], 'client_failure')
+            self.assertTrue(any(e['type'] == 'check.completed' and e['data']['exit_code'] == 1 for e in events))
+            self.assertTrue(self.runner(resume=True).run())
+        self.assertTrue(log.read_bytes().startswith(original))
+        events = [json.loads(line) for line in log.read_text().splitlines()]
+        self.assertEqual([e['seq'] for e in events], list(range(1, len(events) + 1)))
+        self.assertEqual(events[-1]['type'], 'run.completed')
+        self.assertEqual(events[-1]['data']['status'], 'verified')
+        self.assertTrue(any(e['type'] == 'run.resumed' for e in events))
+        self.assertTrue(any(e['type'] == 'stage.reused' for e in events))
+        for event in events:
+            self.assertEqual(event['version'], 1)
+            self.assertTrue(event['time'].endswith('+00:00'))
+            if event['type'] == 'check.completed':
+                self.assertTrue((log.parent/event['data']['stdout_file']).is_file())
+
+    def test_legacy_checkpoint_without_events_can_resume(self):
+        with patch.object(h, 'execute', side_effect=self.client):
+            self.assertFalse(self.runner().run())
+            (self.root/'run/events.jsonl').unlink()
+            self.assertTrue(self.runner(resume=True).run())
+        events = [json.loads(line) for line in (self.root/'run/events.jsonl').read_text().splitlines()]
+        self.assertEqual(events[0]['type'], 'run.resumed')
+        self.assertEqual(events[0]['seq'], 1)
+
+    def test_damaged_events_refuse_resume_without_changing_history_or_state(self):
+        with patch.object(h, 'execute', side_effect=self.client):
+            self.assertFalse(self.runner().run())
+        log = self.root/'run/events.jsonl'
+        for bad in ('{"seq":', '{}\n', '{"version":1,"seq":true,"type":"x","time":"t","data":{}}\n'):
+            log.write_text(bad)
+            before = (self.root/'run/state.json').read_bytes()
+            with self.assertRaisesRegex(h.HarnessError, 'Invalid event log'):
+                self.runner(resume=True).run()
+            self.assertEqual(log.read_text(), bad)
+            self.assertEqual((self.root/'run/state.json').read_bytes(), before)
+
+    def test_check_timeout_is_recorded_and_stops_run(self):
+        r = self.runner()
+        with patch.object(h, 'execute', side_effect=h.HarnessError('fixture timeout', 'timeout')):
+            self.assertFalse(r.run())
+        events = [json.loads(line) for line in (r.output/'events.jsonl').read_text().splitlines()]
+        self.assertEqual([e['type'] for e in events],
+                         ['run.started', 'check.started', 'check.failed', 'run.stopped'])
+        self.assertEqual(events[2]['data']['kind'], 'timeout')
+        self.assertEqual(events[-1]['data']['failure']['kind'], 'timeout')
+
     def test_changed_source_requires_explicit_restart(self):
         with patch.object(h,'execute',side_effect=self.client):
             first=self.runner();self.assertFalse(first.run())

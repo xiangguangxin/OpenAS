@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Sequential Codex CLI harness. Only task-provided check commands execute on the host."""
 import argparse
+from datetime import datetime, timezone
 import fcntl
 import hashlib
 import importlib.util
@@ -187,6 +188,7 @@ class Runner:
             self.memory_context = self.memory.query(self.task['requirement']) if self.memory else []
         except (ValueError, OSError, KeyError, TypeError):
             self.memory_context = []
+        self._event_seq = None
         self.resuming, self._cursor = resume, 0
         self._restart_requested = restart_stages
         resources = self.resource_fingerprint()
@@ -241,6 +243,44 @@ class Runner:
                           'started': time.time(), 'check_attempt': 0, 'budget_used': {}}
             self.write_state()
             (self.output/'result.schema.json').write_text(json.dumps(SCHEMA))
+
+    def emit_event(self, event_type, **data):
+        """Append host-observed facts; state.json remains the recovery authority.
+
+        run() serializes writers with .run.lock. Direct stage/check callers must
+        likewise use a single writer. Refuse damaged logs rather than rewriting
+        audit history or silently joining a truncated JSON line.
+        """
+        path = self.output/'events.jsonl'
+        if self._event_seq is None:
+            self._event_seq = 0
+            if path.is_symlink():
+                raise HarnessError('Event log must not be a symlink')
+            if path.exists():
+                try:
+                    with path.open(encoding='utf-8') as stream:
+                        for line in stream:
+                            event = json.loads(line)
+                            if (not line.endswith('\n') or not isinstance(event, dict)
+                                    or event.get('version') != 1
+                                    or type(event.get('seq')) is not int
+                                    or event['seq'] != self._event_seq + 1
+                                    or not isinstance(event.get('type'), str)
+                                    or not isinstance(event.get('time'), str)
+                                    or not isinstance(event.get('data'), dict)):
+                                raise ValueError('Invalid event record')
+                            self._event_seq = event['seq']
+                except (ValueError, UnicodeError) as exc:
+                    self._event_seq = None
+                    raise HarnessError('Invalid event log; preserve it and use a new run directory') from exc
+        event = {'version': 1, 'seq': self._event_seq + 1,
+                 'time': datetime.now(timezone.utc).isoformat(),
+                 'type': event_type, 'data': data}
+        with path.open('a', encoding='utf-8') as stream:
+            stream.write(json.dumps(event, ensure_ascii=False) + '\n')
+            stream.flush()
+            os.fsync(stream.fileno())
+        self._event_seq += 1
 
     def resource_fingerprint(self):
         files = [Path(__file__).resolve(), Path(__file__).with_name('research_design.py'), Path(__file__).with_name('learning_cycle.py')]
@@ -322,7 +362,9 @@ class Runner:
                 except (OSError, HarnessError):
                     artifact_valid = False
             if all(cached.get(k) == v for k,v in key.items()) and artifact_valid and not (self.resuming and role == 'verifier'):
-                return validate_result(cached['result'], allowed, schema)
+                result = validate_result(cached['result'], allowed, schema)
+                self.emit_event('stage.reused', role=role, phase=phase, step=index + 1)
+                return result
             del steps[index:]
         self.state['next_phase'] = phase
         budget = {'cto':'design', 'developer':'implementation', 'it':'operations',
@@ -334,7 +376,13 @@ class Runner:
             kind = 'review_limit' if role == 'cto' else 'acceptance_limit'
             raise HarnessError(f'{budget} revision budget exhausted; create a revised task in a new run', kind)
         self.write_state()
-        result = validate_result(self.call(role, phase, context, allowed), allowed, schema)
+        self.emit_event('stage.started', role=role, phase=phase, step=index + 1)
+        try:
+            result = validate_result(self.call(role, phase, context, allowed), allowed, schema)
+        except (HarnessError, OSError, KeyboardInterrupt) as exc:
+            self.emit_event('stage.failed', role=role, phase=phase, step=index + 1,
+                            kind=getattr(exc, 'kind', 'interrupted' if isinstance(exc, KeyboardInterrupt) else 'environment'))
+            raise
         if budget:
             used[budget] = used.get(budget, 0) + 1
         entry = {**key, 'result': result}
@@ -343,6 +391,8 @@ class Runner:
             entry['result_sha256'] = hashlib.sha256(Path(entry['result_file']).read_bytes()).hexdigest()
         steps.append(entry)
         self.checkpoint()
+        self.emit_event('stage.completed', role=role, phase=phase, step=index + 1,
+                        verdict=result['verdict'], result_file=entry.get('result_file'))
         return result
 
     def snapshot(self):
@@ -447,7 +497,17 @@ class Runner:
         before = self.snapshot()
         for i, cmd in enumerate(self.task['checks']):
             prefix = self.output / f'{attempt:03}-{label}-check-{i+1}'
-            rc = execute(cmd, self.workspace, self.timeout, prefix.with_suffix('.stdout.log'), prefix.with_suffix('.stderr.log'))
+            event_data = {'label': label, 'attempt': attempt, 'check': i + 1,
+                          'stdout_file': prefix.with_suffix('.stdout.log').name,
+                          'stderr_file': prefix.with_suffix('.stderr.log').name}
+            self.emit_event('check.started', **event_data)
+            try:
+                rc = execute(cmd, self.workspace, self.timeout, prefix.with_suffix('.stdout.log'), prefix.with_suffix('.stderr.log'))
+            except (HarnessError, OSError, KeyboardInterrupt) as exc:
+                self.emit_event('check.failed', **event_data,
+                                kind=getattr(exc, 'kind', 'interrupted' if isinstance(exc, KeyboardInterrupt) else 'environment'))
+                raise
+            self.emit_event('check.completed', **event_data, exit_code=rc)
             records.append({'argv': cmd, 'exit_code': rc,
                             'stdout': prefix.with_suffix('.stdout.log').read_text()[-12000:],
                             'stderr': prefix.with_suffix('.stderr.log').read_text()[-12000:]})
@@ -580,6 +640,9 @@ class Runner:
                         self.state['checkpoint_snapshot'] = self._resume_snapshot
                 elif self.state['status'] == 'stopped':
                     raise HarnessError('Use explicit resume to continue a stopped run')
+                self.emit_event('run.resumed' if self.resuming else 'run.started',
+                                workflow=self.task.get('workflow', 'development'),
+                                restart_stages=self._restart_requested)
                 self._cursor = 0
                 self.state.update(status='running', done=False)
                 for field in ('failure','error','finished','verification','final_checks','final_snapshot'):
@@ -599,6 +662,9 @@ class Runner:
                 finally:
                     self.state['finished'] = time.time()
                     self.write_state()
+                    self.emit_event('run.completed' if self.state['done'] else 'run.stopped',
+                                    status=self.state['status'], failure=self.state.get('failure'),
+                                    state_file='state.json', acceptance_file='acceptance.json')
                     if self.memory and self.state['done'] and self.state['status'] == 'verified':
                         try:
                             self.state['memory_record_id'] = self.memory.harvest(self.state)['id']
