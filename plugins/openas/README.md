@@ -8,7 +8,7 @@
 
 - [agents](agents)：cto、product-manager、researcher、ux-designer、red-team、security-reviewer、tech-writer、developer、test-engineer、performance-engineer、it、verifier；Claude 原生角色使用 `openas:` 命名空间。
   新增角色可由 Claude Code 按需调用；现有 Codex CLI 工作流仍按各自既定路线执行，不会自动加入这些角色。
-- [skills](skills)：49 个可按需使用的技能，含 Agent 接口与上下文设计、证据驱动的代码简化、可编辑 PPT 制作、GitHub 外部技能发现、引入与融合生成、技术调研、方案选型、代码库分析与变更影响、架构符合性检查与演进、文档编写与独立评审、CI/CD 与依赖升级、竞品、路线图、测试策略与集成测试、交互与可访问性、性能分析、安全评审、事故响应、四象限 Debug、绘图和项目记忆。
+- [skills](skills)：55 个可按需使用的技能，含 Agent 接口与上下文设计、证据驱动的代码简化、可编辑 PPT 制作、GitHub 外部技能发现、引入与融合生成、技术调研、方案选型、代码库分析与变更影响、架构符合性检查与演进、文档编写与独立评审、CI/CD 与依赖升级、竞品、路线图、测试策略与集成测试、交互与可访问性、性能分析、安全评审、事故响应、四象限 Debug、绘图和项目记忆。
 - [团队契约](references/team-contract.md)：需求、范围、角色交接、证据和失败回环。
 - [项目适配](references/project-context.md)：按目标仓库选择技术栈、运行命令、领域约束和验收。
 - [工作流](workflows/README.md)：可选 Codex 执行入口；JS 模板需要宿主。
@@ -17,3 +17,5 @@
 可选 [MCP 集成](integrations/README.md) 提供 Playwright、GitHub 与 Context7 的配置示例和使用指引。
 
 不附带自动执行的 hooks、MCP 服务或后台监听进程。读取技能不等于安装工具或授予执行目标的权限。不预设项目语言、框架、业务或目录；新项目沿用自己的构建、复现与验收命令。默认工作流示例为独立分页工具，历史报告不作为新项目知识。
+
+- Office 内容与操作分开：[office](skills/office/SKILL.md) 路由 DOCX、XLSX、现有 PPTX、渲染、PDF 导出与公式重算；系统工具为可选环境依赖。

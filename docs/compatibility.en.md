@@ -13,6 +13,10 @@
 
 Client observations apply to their recorded versions, not all past/future clients. Tests do not log in, upgrade clients, or expand sandbox permissions automatically.
 
+## Upgrade to 0.16.0
+
+Add six Office skills, reaching 55 skills and 79 translation pairs, while reusing existing PPTX authoring without new roles/routes. Office Python libraries and LibreOffice/Poppler are optional operation-specific dependencies, never auto-installed. Helpers support their documented formats/operations, require fresh outputs and retain existing renderer interfaces. Resource changes use existing checkpoint fingerprint rules; conversion, recalculation checks and native/visual acceptance remain distinct.
+
 ## Upgrade to 0.15.0
 
 Add agent-experience and code-simplification, bringing skills to 49 and plugin-local translation pairs to 73, with relevant role/routing links. No new runtime dependency, role, or executor route; read-only surveys do not authorize cleanup. Resource changes remain subject to existing checkpoint fingerprint rules. Retain DSH method provenance and its MIT notice with the plugin. Structural checks do not establish native discovery or behavioral acceptance.

@@ -46,3 +46,7 @@ presentation-creation 的 [融合与验收记录](../plugins/openas/workflows/ev
 ## Agent 接口与代码简化
 
 agent-experience 与 code-simplification 的 [四项真实客户端样例](../plugins/openas/workflows/evidence/2026-10-28-agent-skills/README.md) 覆盖正向选择、相似任务不误触发、实际技能读取与只读边界，并保留合成输入和检查结果。它们在默认十项评测之外，不证明原生 Claude 发现或 token 节省。
+
+## Office 格式与操作
+
+[Office 验证记录](../plugins/openas/workflows/evidence/2026-10-29-office-workflows/README.md) 包含真实 DOCX/XLSX 生成与定点编辑、缺少导出/重算引擎时的边界处理及 Markdown 反向场景。五例完成，一例渲染请求被 provider 429 阻断。操作脚本单测的模拟管线不代表真实 LibreOffice/Poppler 已验证，完整限制见记录。

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.0
+
+- Add bilingual Office routing, DOCX, XLSX, rendering, PDF export and formula recalculation skills, bringing the catalog to 55 skills and translation coverage to 79 pairs. Reuse existing PPTX authoring.
+- Add independently implemented local operation helpers with isolated source/profile copies, fresh output directories, failure reports, bounded process cleanup and formula/cache checks; dependencies remain optional and are not installed automatically.
+- Separate editable content, formula preservation/cache refresh, PDF conversion and visual acceptance. Retain pinned DSH Office provenance and MIT notice without importing sidecar-specific tools or policies.
+
 ## 0.15.0
 
 - Add bilingual agent-experience and code-simplification skills, bringing the catalog to 49 skills and plugin translation coverage to 73 pairs.

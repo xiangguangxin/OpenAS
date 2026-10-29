@@ -1,0 +1,279 @@
+{
+  "cases": [
+    {
+      "case": "authoring",
+      "request": "根据 brief.md 生成 outputs/report.docx（含标题和段落）及 outputs/report.xlsx。Excel 在 Revenue 工作表 A1:B4 放两列表头、Q1=12、Q2=18、Total，B4 必须保留 =SUM(B2:B3)。只需可编辑内容，不要求公式缓存刷新、渲染或 PDF。",
+      "expected_skill": "office",
+      "exit_code": 0,
+      "changed_files": [
+        "outputs/report.docx",
+        "outputs/report.xlsx"
+      ],
+      "source_preserved": true,
+      "allowed_scope": true,
+      "routing_matched": true,
+      "host_checks": {
+        "docx_content": true,
+        "xlsx_formula": true,
+        "xlsx_values": true
+      },
+      "result": {
+        "selected_skill": "office",
+        "summary": "已根据 brief.md 生成并重开核对两个可编辑文件。",
+        "findings": [
+          "DOCX 包含标题和正文段落。",
+          "Excel 的 Revenue!A1:B4 包含两列表头、Q1=12、Q2=18 和 Total；B4 保留公式 =SUM(B2:B3)。",
+          "输入文件已保留；未刷新公式缓存、渲染或导出 PDF。"
+        ],
+        "questions": [],
+        "evidence": [
+          "[report.docx](outputs/report.docx)",
+          "[report.xlsx](outputs/report.xlsx)"
+        ]
+      },
+      "observed_skill_reads": [
+        "office",
+        "office-docx",
+        "office-xlsx"
+      ],
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "usage": [
+        {
+          "input_tokens": 93597,
+          "cached_input_tokens": 81536,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 788,
+          "reasoning_output_tokens": 0
+        }
+      ],
+      "passed": true,
+      "outcome": "passed"
+    },
+    {
+      "case": "docx-edit",
+      "request": "将 source.docx 的 Draft 改为 Final，另存 outputs/edited.docx，保留 bold、相邻 italic 和原文件。不要渲染或导出 PDF。",
+      "expected_skill": "office-docx",
+      "exit_code": 0,
+      "changed_files": [
+        "outputs/edited.docx"
+      ],
+      "source_preserved": true,
+      "allowed_scope": true,
+      "routing_matched": true,
+      "host_checks": {
+        "docx_runs_preserved": true
+      },
+      "result": {
+        "selected_skill": "office-docx",
+        "summary": "已将 Draft 改为 Final，保存至 outputs/edited.docx。",
+        "findings": [
+          "已保留 bold 和相邻 italic，原文件未修改。"
+        ],
+        "questions": [],
+        "evidence": [
+          "重开输出文件核对文字及 run 格式通过；原文件 SHA-256 未变。",
+          "未渲染或导出 PDF。"
+        ]
+      },
+      "observed_skill_reads": [
+        "office-docx"
+      ],
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "usage": [
+        {
+          "input_tokens": 89016,
+          "cached_input_tokens": 66176,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 630,
+          "reasoning_output_tokens": 0
+        }
+      ],
+      "passed": true,
+      "outcome": "passed"
+    },
+    {
+      "case": "pdf-only",
+      "request": "只将现有 source.docx 导出为 outputs/document.pdf，不编辑原文，不生成图片，不进行视觉评审。当前 PATH 没有 LibreOffice/soffice，若现有工具无法导出，报告缺失并保留原文件，不生成假 PDF。",
+      "expected_skill": "office-export-pdf",
+      "exit_code": 0,
+      "changed_files": [],
+      "source_preserved": true,
+      "allowed_scope": true,
+      "routing_matched": true,
+      "host_checks": {
+        "no_unrequested_or_fake_artifacts": true
+      },
+      "result": {
+        "selected_skill": "office-export-pdf",
+        "summary": "缺少 LibreOffice/soffice，无法导出 outputs/document.pdf。",
+        "findings": [
+          "已读取实际 SKILL.md 并运行导出工具，预检查报告缺少本地转换引擎。",
+          "source.docx 保持不变；未生成 PDF、图片或进行视觉评审。"
+        ],
+        "questions": [],
+        "evidence": [
+          "导出诊断：Required local tool unavailable: soffice/libreoffice",
+          "源文件操作前后 SHA-256 一致。",
+          "outputs/document.pdf 不存在。"
+        ]
+      },
+      "observed_skill_reads": [
+        "office-export-pdf"
+      ],
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "usage": [
+        {
+          "input_tokens": 112235,
+          "cached_input_tokens": 93440,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 721,
+          "reasoning_output_tokens": 14
+        }
+      ],
+      "passed": true,
+      "outcome": "passed"
+    },
+    {
+      "case": "recalculate",
+      "request": "刷新 source.xlsx 的公式缓存并另存 outputs/recalculated.xlsx，保留公式，核对总数应为 30。当前没有 LibreOffice/soffice 或 Excel 引擎，不安装工具；无法刷新就明确报告未完成，不用常量替换公式或伪造缓存。",
+      "expected_skill": "office-recalculate",
+      "exit_code": 0,
+      "changed_files": [],
+      "source_preserved": true,
+      "allowed_scope": true,
+      "routing_matched": true,
+      "host_checks": {
+        "no_unrequested_or_fake_artifacts": true
+      },
+      "result": {
+        "selected_skill": "office-recalculate",
+        "summary": "未完成缓存刷新：没有可用的真实表格计算引擎，未生成 outputs/recalculated.xlsx。",
+        "findings": [
+          "Revenue!B4 保留公式 =SUM(B2:B3)，现有缓存为空。",
+          "输入 B2=12、B3=18，预期总数为 30；未通过重算后的缓存验证。",
+          "源文件未修改，未用常量替换公式或伪造缓存。"
+        ],
+        "questions": [],
+        "evidence": [
+          "已读取 office-recalculate/SKILL.md 并检查实际 source.xlsx。",
+          "使用指定 Python 环境分别以 data_only=False 和 data_only=True 读取工作簿，并检查原始 XML。",
+          "libreoffice、soffice、excel 命令均不可用；未安装工具。"
+        ]
+      },
+      "observed_skill_reads": [
+        "office-recalculate"
+      ],
+      "command_exit_codes": [
+        0,
+        0,
+        0
+      ],
+      "usage": [
+        {
+          "input_tokens": 66700,
+          "cached_input_tokens": 43264,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 590,
+          "reasoning_output_tokens": 0
+        }
+      ],
+      "passed": true,
+      "outcome": "passed"
+    },
+    {
+      "case": "render-only",
+      "request": "只将 source.pdf 的第一页渲染成 PNG，保存 outputs/page.png。当前没有 pdftoppm 或其他已配置的页面图像引擎，不安装工具；不能真实渲染时说明未完成，不另画页面来替代。",
+      "expected_skill": "office-render",
+      "exit_code": 1,
+      "changed_files": [],
+      "source_preserved": true,
+      "allowed_scope": true,
+      "routing_matched": false,
+      "host_checks": {
+        "no_unrequested_or_fake_artifacts": true
+      },
+      "result": {},
+      "observed_skill_reads": [],
+      "command_exit_codes": [],
+      "usage": [],
+      "passed": false,
+      "outcome": "blocked_provider_rate_limit",
+      "provider_error": "429 Too Many Requests; client failed before skill execution"
+    },
+    {
+      "case": "markdown-negative",
+      "request": "只为当前项目 README 写一份入门说明的文字草稿，直接在回复中给出，不生成 Office 文件或安装工具。",
+      "expected_skill": "project-documentation",
+      "exit_code": 0,
+      "changed_files": [],
+      "source_preserved": true,
+      "allowed_scope": true,
+      "routing_matched": true,
+      "host_checks": {
+        "no_unrequested_or_fake_artifacts": true
+      },
+      "result": {
+        "selected_skill": "project-documentation",
+        "summary": "# Project Alpha\n\n本项目提供季度报告与数值示例，适合用于了解示例材料的组织方式。数据为合成演示数据，不依赖外部服务。\n\n## 快速入门\n\n1. 阅读 [项目简报](brief.md)，了解报告主题和季度数据。\n2. 根据需要打开项目中的材料：`source.docx`、`source.xlsx` 或 `source.pdf`。\n3. 以简报中的 Q1：12、Q2：18 为起点了解示例内容；简报未注明数值单位。\n\n阅读 README 和简报无需安装项目依赖。查看其他格式的材料时，请使用支持相应格式的阅读工具。",
+        "findings": [
+          "已直接提供 README 入门草稿，未修改输入文件或生成任何文件。"
+        ],
+        "questions": [],
+        "evidence": [
+          "已读取 project-documentation/SKILL.md 及相关文档写作约定。",
+          "已读取 README.md、brief.md，并确认 source.docx、source.xlsx、source.pdf 文件存在；未核验这三个文件的内部内容。"
+        ]
+      },
+      "observed_skill_reads": [
+        "project-documentation"
+      ],
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "usage": [
+        {
+          "input_tokens": 68727,
+          "cached_input_tokens": 44160,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 557,
+          "reasoning_output_tokens": 0
+        }
+      ],
+      "passed": true,
+      "outcome": "passed"
+    }
+  ],
+  "date": "2026-10-28",
+  "recorded": "2026-10-29",
+  "client": "codex-cli 0.160.0",
+  "plugin_version": "0.16.0",
+  "passed_cases": 5,
+  "blocked_cases": 1,
+  "configuration": "Existing authenticated model configuration; ephemeral workspace-write sessions, 180-second host timeout, no orchestration retries or model override.",
+  "limitations": "Five single-run cases completed; rendering case blocked by provider 429 before execution. No local LibreOffice/Poppler, so real conversion/rendering/recalculation not validated. Unit tests simulate those engines. Native Claude discovery, native Office fidelity and visual acceptance remain unverified. Input files were synthesized in isolated workspaces; dependencies installed only in a temporary virtual environment.",
+  "fixture_description": {
+    "brief.md": "Project Alpha; quarterly report; Q1=12, Q2=18, synthetic data.",
+    "source.docx": "One paragraph with bold Draft and adjacent italic technical summary.",
+    "source.xlsx": "Revenue!A1:B4 with Quarter/Amount header, Q1/12, Q2/18, Total/=SUM(B2:B3), initially without formula cache.",
+    "source.pdf": "One blank 100x100 page generated by pypdf for a missing-renderer test.",
+    "README.md": "Synthetic report fixture without external services."
+  }
+}

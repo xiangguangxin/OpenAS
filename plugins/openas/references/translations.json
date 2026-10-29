@@ -4,8 +4,8 @@
     {
       "source": "README.md",
       "target": "README.en.md",
-      "source_sha256": "3efa522cb749d0f8242679ea38c2a4b263f375c727727cb97497fcdcc5f7ef0b",
-      "target_sha256": "05278c3ab17d2f5e08b26820f67b0fdd7e135c243df512443d395e5debb44b49"
+      "source_sha256": "6400e6812a203ddefe17550c14c8023a40ad3848f32c78ff1985788d06bc944b",
+      "target_sha256": "580ec82f35f6f765524e4bae585e31019fb8231ac74577c638c2c65a1965f687"
     },
     {
       "source": "agents/cto.md",
@@ -58,8 +58,8 @@
     {
       "source": "agents/tech-writer.md",
       "target": "references/en/agents/tech-writer.md",
-      "source_sha256": "1152732c18ad594e5d9b5bd029dc6043c14c7e86bb37f21432425635472066e3",
-      "target_sha256": "6001345177d7764e62c1899c1e9c02e615d7536921b6e8dd4d2595b9321ffc21"
+      "source_sha256": "f516f27a2e9f381d42ec2397e072e9a1c5ab7d35648baf0e65cf8f82202f9f6f",
+      "target_sha256": "b4281c81425605b3bd8d62aa8f6b70ed338d346f805050cda6f01826a525c414"
     },
     {
       "source": "agents/test-engineer.md",
@@ -316,8 +316,8 @@
     {
       "source": "skills/presentation-creation/SKILL.md",
       "target": "skills/presentation-creation/SKILL.en.md",
-      "source_sha256": "73556aa829871e2b605156bdd9155f8346fde0b74b0d534c5c18d8e3dccb1480",
-      "target_sha256": "9c77890a6fd6a80af028e1d0230d97f594d7eafe6d346aa0cf597ff6075e5136"
+      "source_sha256": "c876b31c542b2e93054202390b4d976280c7085592728ee8134a16447affe1ac",
+      "target_sha256": "2ab3e314685c0dc5fef59d8a2097198b25233bc1204f03d60e2946e329a949e2"
     },
     {
       "source": "skills/product-requirements/SKILL.md",
@@ -412,8 +412,8 @@
     {
       "source": "skills/workflow-routing/SKILL.md",
       "target": "skills/workflow-routing/SKILL.en.md",
-      "source_sha256": "87372c7efbce8dc7aa1c802d54ac790d7a2a7db0f078e378af6ba90cc11f296e",
-      "target_sha256": "fd2884cdaea514a7714a8d39c5152e280886dbf7da821d59587b28efac77f97b"
+      "source_sha256": "d6aff3cc9aa68f883bb43bc7a358e8896cd97c3d07faa514f183209f19de3e8a",
+      "target_sha256": "678e5e9e6a5d8172eef4a3b8917160d39dfc4882e236451b411003a9ab552706"
     },
     {
       "source": "skills/writing-plans/SKILL.md",
@@ -438,6 +438,42 @@
       "target": "skills/code-simplification/SKILL.en.md",
       "source_sha256": "6538a2c6886b0ea073fe587467075eab52060bc87f8e48b0392b205051f75171",
       "target_sha256": "b05ac56a8487b567b29000e7ab5357c3bc8e0d18ed5fe3bdd76f7fd5c699a752"
+    },
+    {
+      "source": "skills/office/SKILL.md",
+      "target": "skills/office/SKILL.en.md",
+      "source_sha256": "89bc871f3b4ad03201d62362971d937eb7493150aa5de97117b4dc369b2c3623",
+      "target_sha256": "89d685218c897a2033df747f77656028f7b37e539785b83dc9c7d5abf5dc3b8f"
+    },
+    {
+      "source": "skills/office-docx/SKILL.md",
+      "target": "skills/office-docx/SKILL.en.md",
+      "source_sha256": "d2c189dc6ae2e7c517f1e5ba9a141d79e48ce846bb4703eb03f975ce52ac893e",
+      "target_sha256": "6a6ca85aa3b3f8b59d5a2928ddbe033dc9a3216ce639ddd4da0264edd53304e7"
+    },
+    {
+      "source": "skills/office-xlsx/SKILL.md",
+      "target": "skills/office-xlsx/SKILL.en.md",
+      "source_sha256": "a00e690bb32463194d54ffc5313ed284bbfe8e9878d848bfe3ed411fd4f6da4f",
+      "target_sha256": "4fa3f128d0b6b0a20f11ebae48984906858e3f7bea8bf6ed2ee70354d150311c"
+    },
+    {
+      "source": "skills/office-render/SKILL.md",
+      "target": "skills/office-render/SKILL.en.md",
+      "source_sha256": "5864dcc600368283da5698653e2f80d8b8398618e0838f73125b3dcf77a8ec59",
+      "target_sha256": "406122a2f5ad4bde863b618f31a14f56536619b8e91c2038ecc009ffcd4f4f98"
+    },
+    {
+      "source": "skills/office-export-pdf/SKILL.md",
+      "target": "skills/office-export-pdf/SKILL.en.md",
+      "source_sha256": "34a02dce6080125bf7f7102e465cd4ed676c0716df84ba1b5e2b271b0e07e388",
+      "target_sha256": "dc675d2309ccbf47b96dc1fcb269d3ba12d50cfece0149f93f097ebc59ba5706"
+    },
+    {
+      "source": "skills/office-recalculate/SKILL.md",
+      "target": "skills/office-recalculate/SKILL.en.md",
+      "source_sha256": "4b604bab78152f457bfedd0e662f08e21db8bceb95c141f40caa7da42a327d64",
+      "target_sha256": "61988906b0ac2728d56dd6bdb5ebaf6c1491caf0bde0591f63d28c0528c0a482"
     }
   ]
 }

@@ -2,7 +2,7 @@
 
 [中文技能地图](../README.md#技能地图) | [English guide](../README.md#english)
 
-All 49 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
+All 55 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
 
 | Skill | When to use it |
 | --- | --- |
@@ -34,6 +34,12 @@ All 49 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery e
 | [integration-testing](../plugins/openas/skills/integration-testing/SKILL.en.md) | Build or investigate tests across module, database, or service boundaries with explicit real dependencies, isolated fixtures, cleanup, and behavioral evidence. |
 | [interaction-design](../plugins/openas/skills/interaction-design/SKILL.en.md) | Translate confirmed requirements into user flows, information architecture, interface states, and implementable interaction specifications without expanding product scope. |
 | [market-research](../plugins/openas/skills/market-research/SKILL.en.md) | Research target markets, user problems, demand evidence, and opportunities with sources and confidence; delegate detailed competitor comparisons separately. |
+| [office](../plugins/openas/skills/office/SKILL.en.md) | Route Office requests by format and operation without loading every toolchain. |
+| [office-docx](../plugins/openas/skills/office-docx/SKILL.en.md) | Create/read/edit DOCX with targeted run/style preservation and saved-content checks. |
+| [office-export-pdf](../plugins/openas/skills/office-export-pdf/SKILL.en.md) | Export saved DOCX/XLSX/PPTX to a new PDF without implicit image rendering. |
+| [office-recalculate](../plugins/openas/skills/office-recalculate/SKILL.en.md) | Refresh XLSX caches with a real engine, preserving formulas and checking missing/error results. |
+| [office-render](../plugins/openas/skills/office-render/SKILL.en.md) | Render saved Office/PDF pages and inspect actual images; conversion is not visual acceptance. |
+| [office-xlsx](../plugins/openas/skills/office-xlsx/SKILL.en.md) | Create/read/edit XLSX values, formulas and styles without claiming formula evaluation. |
 | [parallel-integration](../plugins/openas/skills/parallel-integration/SKILL.en.md) | Integrate already authorized independent work, inspect overlapping changes and contracts, and verify combined behavior; do not provide or automatically start parallel scheduling. |
 | [performance-analysis](../plugins/openas/skills/performance-analysis/SKILL.en.md) | Establish reproducible benchmarks, profile execution, and test bottleneck and optimization hypotheses with controlled comparisons rather than single-run timings. |
 | [presentation-creation](../plugins/openas/skills/presentation-creation/SKILL.en.md) | Create audience-appropriate editable PowerPoint presentations from trusted material, with native text/charts/tables, notes, source, previews, and explicit validation stages. |

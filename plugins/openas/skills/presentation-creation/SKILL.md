@@ -45,3 +45,5 @@ license: Apache-2.0
 ## 交付
 
 交付实际 `.pptx`、可重新生成的 JSON/源代码、必要资源、预览和简要检查记录。讲稿备注随 PPTX 保留，说明时间预算、数据来源、适用限制及未验证项；修改既有文稿时保留原文件。只交付需要的资源，不附带虚拟环境、工具安装包、缓存、凭据或完整私有运行日志。
+
+对已保存演示稿只做图片或 PDF 导出时，按需使用 [office-render](../office-render/SKILL.md) 或 [office-export-pdf](../office-export-pdf/SKILL.md)，不重新制作内容。已有 render_deck.py 和新稿逐页渲染验收保持原约定；不要用导出成功替代视觉检查。

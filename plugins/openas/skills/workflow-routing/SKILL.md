@@ -41,3 +41,5 @@ CI/CD 配置与诊断使用 [ci-cd](../ci-cd/SKILL.md)，配置修改沿用 oper
 解释代码库现状使用 [codebase-analysis](../codebase-analysis/SKILL.md)，判断拟议修改或 diff 的影响使用 [change-impact-analysis](../change-impact-analysis/SKILL.md)。纯分析直接交付报告，不默认进入实现或套用缺陷评审结论；需保存说明文档时可沿用 documentation，两者不新增执行器路线。
 
 面向 Agent 的工具描述、技能发现、上下文加载和交接信息接口使用 [agent-experience](../agent-experience/SKILL.md)；减少重复状态、无效接口或维护负担使用 [code-simplification](../code-simplification/SKILL.md)。仅调查时保持只读并直接交付证据；修改按已有授权、范围和风险选择 direct / development，纯技能或文档修改可沿用 documentation。它们不新增执行器路线，也不要求普通产品 UX、修复或评审附带专项审计。
+
+实际 DOCX/XLSX 或跨格式文档用 [office](../office/SKILL.md) 选择方法；独立图像、PDF 或重算直接用对应操作技能，不重新制作整份文档。它们不新增执行器路线；实际文件生成沿用已有授权与产物范围，普通 Markdown 文档仍用 project-documentation。
