@@ -37,7 +37,7 @@ if (typeof agent !== 'function' || typeof log !== 'function') {
 const context = JSON.stringify({requirement, scope:input.scope || [],
   acceptance:input.acceptance || [], constraints:input.constraints || []}, null, 2)
 const dispatch = async (role, phase, task, schema) => {
-  const prompt = `原始任务与边界（每轮保留）：\n${context}\n\n${task}\n\n遵循 OpenAS 插件根目录下的 references/team-contract.md 和 references/project-context.md。先从目标仓库确认技术栈、运行方式及验收命令，不预设业务领域或构建工具；沿用已确认的项目约束。工具可用性与用户授权由宿主执行。不要自行提交推送。`
+  const prompt = `原始任务与边界（每轮保留）：\n${context}\n\n${task}\n\n先读取并遵循 OpenAS 插件根目录下的 references/evidence-policy.md；团队与项目约定见 references/team-contract.md 和 references/project-context.md。先从目标仓库确认技术栈、运行方式及验收命令，不预设业务领域或构建工具；沿用已确认的项目约束。工具可用性与用户授权由宿主执行。不要自行提交推送。`
   return await agent(prompt, {label:`${role}: ${phase}`, phase, agentType:role, ...(schema ? {schema} : {})})
 }
 const artifact = x => typeof x === 'string' ? x.trim().length > 0

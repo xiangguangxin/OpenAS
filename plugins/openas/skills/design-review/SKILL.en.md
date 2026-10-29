@@ -7,6 +7,8 @@ description: Review consistency, feasibility, and acceptance across requirements
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Design review and implementation readiness
 
 Read actual versioned requirements, market/competitive evidence where relevant, solution, ADRs, architecture, interfaces and acceptance. Review only applicable scope; missing irrelevant template sections are not defects. Remain read-only for review requests.

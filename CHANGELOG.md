@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.17.1
+
+- Add one bilingual shared evidence policy for claims, object-version binding, explicit unverified status and stale-evidence revalidation; reach 81 translation pairs while retaining 56 skills and 12 roles.
+- Reference the policy from all project-owned role/skill entries and the team contract, embed its current body in Python role requests, and direct JS hosts to the same resource. Preserve upstream REA.
+- Keep verification proportional to affected scope and distinguish static, mock, historical, runtime and CI evidence. Existing result schemas/record versions are unchanged, and nonempty evidence is not proof of semantic truth.
+
 ## 0.17.0
 
 - Add bilingual pdf-extraction for local PDF text with selected pages/ranges, TXT/JSON outputs, source/page provenance, supplied-password handling and distinct empty/parser-error records; reach 56 skills and 80 translation pairs.

@@ -7,6 +7,8 @@ description: "依据项目构建与验收配置或排查 CI/CD 流水线，处�
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 持续集成与交付
 
 读取 [项目适配约定](../../references/project-context.md)、现有流水线、本地构建测试入口、运行器约束和任务验收。明确本次是配置、诊断还是执行交付，沿用现有平台和工具；本地配置变更不自动授权触发远程发布、安装依赖或变更仓库保护规则。

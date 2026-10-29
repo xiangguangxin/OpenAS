@@ -7,6 +7,8 @@ description: "Refresh XLSX formula caches with a real spreadsheet engine and ver
 
 Follow explicit language preferences, otherwise the task language; preserve existing document language and machine-readable fields. See the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Recalculate XLSX formulas
 
 Use this for refreshed caches or immediately readable calculated values, not every ordinary data/formula edit. Save final inputs/formulas first and retain the original. Use Excel, LibreOffice, or a real host engine supporting the requested functions. Without an engine, report unrefreshed caches rather than substituting Python eval, a partial formula interpreter, or manually written constants.

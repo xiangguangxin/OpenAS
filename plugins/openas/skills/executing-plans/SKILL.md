@@ -7,6 +7,8 @@ description: "按已有计划分步实施并验证，处理依赖和反馈；用
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 执行计划
 
 先核对原始验收、当前分支和起始 diff，保留已有修改。复用已经确定的设计；先完成无外部阻碍的任务，不为常规实现选择重复请示。

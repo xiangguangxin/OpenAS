@@ -7,6 +7,8 @@ description: Use RED → GREEN → REFACTOR to express confirmed behavior as mea
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Test-driven development
 
 Cycle through RED (a meaningful failing test), GREEN (minimum correct implementation), then REFACTOR while retaining checks. Tests derive correctness from confirmed requirements, contracts or trusted references, not current implementation output. Resolve scope/contract ambiguities before using tests to decide them for users.

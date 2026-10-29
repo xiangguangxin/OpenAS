@@ -7,6 +7,8 @@ description: "为已有系统的模块重构、依赖调整和接口或数据迁
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 架构演进与重构
 
 读取当前实现、调用方、有效 ADR、架构偏差及原始目标。明确改造要解决的可观察问题、约束和非目标；区分已验证问题与推测收益。保留维持现状或局部修复作为基线，不因结构不够理想默认整体重写。默认交付方案；实施沿用任务已有授权。

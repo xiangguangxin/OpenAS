@@ -7,6 +7,8 @@ description: Integrate already authorized independent work, inspect overlapping 
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Integrate independent results
 
 Inspect each workspace/branch's original goal, baseline, actual diff, scope, upstream contracts and verification. Completion labels do not establish merge safety; preserve uncommitted or unclear-origin work.

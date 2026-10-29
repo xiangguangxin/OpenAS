@@ -7,6 +7,8 @@ description: Choose the smallest adequate implementation, repair, review, docume
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Workflow routing
 
 Read goals and [project adaptation](../../references/project-context.en.md), reusing authorization and settled choices. Choose a minimal adequate route:

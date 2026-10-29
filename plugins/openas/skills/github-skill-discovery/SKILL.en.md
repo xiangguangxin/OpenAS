@@ -7,6 +7,8 @@ description: Find and assess GitHub Agent Skills, review content, dependencies, 
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # GitHub skill discovery, import and synthesis
 
 Confirm missing capability, output, client and installation scope from current context; check local skills first. Search/recommendation requests deliver comparison only. Already authorized installation/adaptation should continue without repeated approval, but search does not authorize global installation, payment or publishing.

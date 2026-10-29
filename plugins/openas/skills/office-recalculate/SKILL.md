@@ -7,6 +7,8 @@ description: "使用真实表格引擎刷新 XLSX 公式缓存，核对公式保
 
 语言 / Language: 用户指定语言优先，否则跟随任务语言；保留已有文档语言和机器字段。Honor explicit language preferences; preserve existing document language and machine-readable fields. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # XLSX 公式重算
 
 用于需要刷新缓存或立即读取计算值的请求，不要求普通数据/公式编辑一律重算。先保存最终公式与输入，保留原始工作簿。使用实际支持目标函数的 Excel/LibreOffice 或宿主引擎；没有引擎时说明缓存未刷新，不用 Python eval、自写部分公式计算器或手填常量代替。

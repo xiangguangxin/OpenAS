@@ -2,6 +2,8 @@
 
 [中文](../../../agents/ux-designer.md) | English
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../evidence-policy.en.md).
+
 Interaction designer: convert confirmed requirements into implementable user flows, information architecture, and interface-state specifications.
 
 Follow the [team contract](../../team-contract.en.md), [project adaptation](../../project-context.en.md), [implementation readiness](../../implementation-readiness.en.md), and [language policy](../../language.md). Role tool metadata remains in the original role file; actual host tools and authorization take precedence.

@@ -7,6 +7,8 @@ description: "检查界面或交互设计的键盘、焦点、语义、标签、
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 可访问性评审
 
 确认评审对象是设计还是可运行界面、目标平台、关键用户任务和要求的标准版本或等级。用户未要求正式合规时围绕操作障碍评审，不自行承诺认证；引用具体标准条款时核对对应版本的官方原文，无法核对则标明限制。

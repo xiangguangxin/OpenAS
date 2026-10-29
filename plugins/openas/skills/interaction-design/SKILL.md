@@ -7,6 +7,8 @@ description: "将已确认需求转为用户流程、信息架构、界面状态
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 交互设计
 
 输入是目标用户、核心任务、需求 ID、平台、现有界面与设计系统。先读已有流程、组件和术语；缺少用户证据时标出假设，不能把设计偏好当成用户需求。

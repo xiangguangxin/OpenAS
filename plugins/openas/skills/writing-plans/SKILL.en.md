@@ -7,6 +7,8 @@ description: Turn sufficiently clear design into executable, dependency-aware ta
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Implementation planning
 
 Start from user goals, existing code and confirmed decisions without requesting routine authorized choices again. Use [project adaptation](../../references/project-context.en.md) for actual paths and checks.

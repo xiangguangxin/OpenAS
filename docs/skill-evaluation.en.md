@@ -54,3 +54,5 @@ The [Office validation record](../plugins/openas/workflows/evidence/2026-10-29-o
 ## PDF text extraction
 
 The [PDF extraction record](../plugins/openas/workflows/evidence/2026-10-29-pdf-extraction/README.md) preserves an initial missing-report observation, a focused instruction correction and two final real-client cases. Host checks cover selected text, empty image-page text, source provenance, helper reports and exclusion of rendering-only tasks. Real OCR, complex layouts and native discovery remain unverified.
+
+The shared evidence policy has [two real-client trials and a negative control](../plugins/openas/workflows/evidence/2026-10-29-evidence-policy/README.md), covering stale evidence and unverified claims under a static-only scope.

@@ -7,6 +7,8 @@ description: Create, inspect, and clean isolated Git worktrees for independent f
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Git worktrees
 
 Start with `git status --short` and `git worktree list`. Confirm existing edits, worktrees and task branches. Follow repository placement conventions; otherwise choose an explicit directory outside the repository to avoid recursive scans/builds.

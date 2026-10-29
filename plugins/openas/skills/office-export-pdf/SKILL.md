@@ -7,6 +7,8 @@ description: "将已保存的 DOCX、XLSX 或 PPTX 导出为新的 PDF，保留�
 
 语言 / Language: 用户指定语言优先，否则跟随任务语言；保留已有文档语言和机器字段。Honor explicit language preferences; preserve existing document language and machine-readable fields. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # Office 导出 PDF
 
 确认用户需要 PDF 而非可编辑源稿、页面图片或公式缓存刷新。使用最终保存的文档，保留源文件；默认写入新文件或新输出目录。沿用项目/宿主已配置的导出工具，或用 [共用操作脚本](../office/references/operations.md) 的 export-pdf；本地路径不在 PATH 时可显式指定 soffice。

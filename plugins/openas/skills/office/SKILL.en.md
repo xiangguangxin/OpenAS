@@ -7,6 +7,8 @@ description: "Route Office tasks by format and operation: DOCX, XLSX, PPTX autho
 
 Follow explicit language preferences, otherwise the task language; preserve existing document language and machine-readable fields. See the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Office task routing
 
 Separate the editable format from any requested image export, PDF conversion, or refreshed calculation results. Reuse existing authorization and tools; clear requests do not need another interview, and available conversions do not justify extra deliverables.

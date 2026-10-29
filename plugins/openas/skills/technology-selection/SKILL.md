@@ -7,6 +7,8 @@ description: "依据需求和硬约束比较语言、框架、存储、通信及
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 技术路线选择
 
 输入是产品需求、质量要求、现有系统与资源边界。尊重已指定技术，只对需要决策的部分比较；用户未要求重新选型时不推翻已有路线。

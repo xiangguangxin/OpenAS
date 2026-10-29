@@ -7,6 +7,8 @@ description: "研究目标市场、用户问题、需求证据和机会，产出
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 市场与用户问题调研
 
 从任务指定的市场、地域、用户和使用场景出发；缺少范围时先读会话和项目材料，只问会改变调查方向的问题。没有代码也可以开展。先明确调研支持的决定、调查边界和时间/资源上限。

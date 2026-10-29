@@ -44,7 +44,7 @@ class PluginTests(unittest.TestCase):
             inventory = checker.check(target)
             self.assertEqual(len(inventory['skills']), 56)
             self.assertEqual(len(inventory['agents']), 12)
-            self.assertEqual(inventory['translations'], 80)
+            self.assertEqual(inventory['translations'], 81)
 
     def test_stale_missing_and_duplicate_translations_are_rejected(self):
         checker = load(ROOT / 'scripts/check_plugin.py', 'plugin_check_translation_failures')

@@ -7,6 +7,8 @@ description: "开发完成后核对 diff、验收与评审，按既有授权提�
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 开发分支收尾
 
 先核对当前分支、起始改动归属、目标基线和工作区状态。读取实际变更，确认用户已有修改没有被覆盖，生成文件、临时日志和认证信息没有混入待提交内容。

@@ -7,6 +7,8 @@ description: "将足够明确的设计拆为可执行任务，保留范围、依
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 实施计划
 
 从用户目标、现有实现和已经确认的决定出发，不为已授权的常规技术选择重新索要批准。先按 [项目适配约定](../../references/project-context.md) 查明相关路径与检查入口。

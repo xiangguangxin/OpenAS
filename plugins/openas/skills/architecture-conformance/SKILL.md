@@ -7,6 +7,8 @@ description: "对照有效架构决策和实际代码检查模块边界、依赖
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 架构符合性检查
 
 确认目标版本、检查范围和有效的架构说明、ADR、接口契约及已接受例外。读取实际代码、构建配置和调用方；没有设计基线时先区分可观察的现状与待确认的意图，不把目录命名或个人偏好当成架构约束。默认只读，发现问题不自动修复。

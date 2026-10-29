@@ -7,6 +7,8 @@ description: Trace actual trust boundaries and exploitable security issues in co
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Security review
 
 Confirm authorized target/version, entry points, assets/data, runtime and review scope. Read actual design, configuration and callers. Review-only stays read-only; generic risk lists do not expand scanning scope.

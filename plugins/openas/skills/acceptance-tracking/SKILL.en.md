@@ -7,6 +7,8 @@ description: Map each original acceptance criterion to implementation and real c
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Acceptance tracking
 
 Preserve each original criterion and its meaning. Associate it with implementation locations, relevant inputs, check methods, the checked version, and results. Distinguish automated checks, model review, human observation, and unverified claims. A zero exit code does not prove every requirement.

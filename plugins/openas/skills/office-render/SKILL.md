@@ -7,6 +7,8 @@ description: "将已保存的 DOCX、XLSX、PPTX 或 PDF 渲染为页面图片�
 
 语言 / Language: 用户指定语言优先，否则跟随任务语言；保留已有文档语言和机器字段。Honor explicit language preferences; preserve existing document language and machine-readable fields. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 页面图像与视觉检查
 
 使用最终保存的文档和实际渲染器生成图像，不按源数据另画“预览”。优先复用项目或宿主已有工具；共用 [操作脚本](../office/references/operations.md) 支持本地 LibreOffice → PDF → Poppler PNG，已有 PDF 可直接渲染，不需要 LibreOffice。它不依赖 DSH sidecar，也不自动安装替代工具或上传文件。

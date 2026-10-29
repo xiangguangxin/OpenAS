@@ -7,6 +7,8 @@ description: Organize requirements and research into MVP, priorities, phases, de
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Roadmap planning
 
 Start from users, problems, current state, confirmed commitments and [project conventions](../../references/project-context.en.md). Existing research/design feeds the roadmap, while unvalidated opportunities remain hypotheses.

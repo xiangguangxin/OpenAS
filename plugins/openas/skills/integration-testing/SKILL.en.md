@@ -7,6 +7,8 @@ description: Build or investigate tests across module, database, or service boun
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Integration testing
 
 Read call paths, contracts, existing tests and authorized changes. Define which collaborations must be demonstrated, which dependencies must be real, which may be replaced and what replacements cannot prove.

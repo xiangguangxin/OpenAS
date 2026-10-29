@@ -7,6 +7,8 @@ description: Independently review documentation against code, requirements, desi
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Document review
 
 Identify document version, readers, their task and review scope. Read actual text/diff/context and relevant code, configuration, tests, requirements or sources using [project adaptation](../../references/project-context.en.md). Default to read-only; suggested corrections do not authorize rewriting documents or implementation.

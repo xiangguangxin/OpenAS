@@ -7,6 +7,8 @@ description: Translate confirmed requirements into user flows, information archi
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Interaction design
 
 Read target users, tasks, requirement IDs, platform, existing UI/design system, components and terms. Mark missing user evidence as assumptions rather than turning preferences into needs.

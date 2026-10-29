@@ -7,6 +7,8 @@ description: Plan risk-based test levels, scenarios, data, environments, and exe
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Test strategy
 
 Read original requirements/acceptance, actual interfaces/change scope, existing tests and environment/resource limits using [project adaptation](../../references/project-context.en.md). Do not assume a framework.

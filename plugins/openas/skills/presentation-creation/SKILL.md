@@ -8,6 +8,8 @@ license: Apache-2.0
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 演示文稿制作
 
 本文件由 OpenAS 于 2026-10-24 重写与融合。方法来源、改动和条款见 [NOTICE](NOTICE.md) 与 [融合来源记录](FUSION_SOURCES.json)；配套生成与检查代码独立编写，未复制上游运行脚本、字体或图像。

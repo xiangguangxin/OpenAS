@@ -7,6 +7,8 @@ description: "将需求、调研和竞品发现转成 MVP、阶段目标、优�
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 路线图规划
 
 从目标用户、待解决问题、当前项目状态和已确认承诺开始，复用 [项目约定](../../references/project-context.md)。已有调研、设计和竞品报告作为输入，未验证机会保持假设，不直接转成确定需求。

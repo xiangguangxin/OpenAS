@@ -7,6 +7,8 @@ description: "设计或改进面向 Agent 的工具描述、参数 schema、技�
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # Agent 使用体验
 
 让 Agent 能找到合适的能力、取得足够的信息并正确行动。先确认本次修改的是工具契约、技能入口、上下文装配还是交接，读取实际宿主能力与消费者。仅评估时保持只读；已授权修改时完成指定范围，不顺带重构执行器或安装工具。

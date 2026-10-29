@@ -7,6 +7,8 @@ description: "创建、读取或定点编辑 Word DOCX，保留相关文字格�
 
 语言 / Language: 用户指定语言优先，否则跟随任务语言；保留已有文档语言和机器字段。Honor explicit language preferences; preserve existing document language and machine-readable fields. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # Word DOCX
 
 先确认新建、读取、定点修改还是模板改版，检查实际文档中相关段落、表格、样式与用户要求保留的内容。优先沿用项目工具；常规任务可用 python-docx，环境要求见 [Office 操作指南](../office/references/operations.md)。只需读取或提供大纲时不创建未请求的文件。

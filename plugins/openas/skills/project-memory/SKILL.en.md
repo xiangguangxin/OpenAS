@@ -7,6 +7,8 @@ description: Extract, review, and reuse evidence-backed project knowledge and ma
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Evidence-backed project memory
 
 Read the [memory guide](../../memory/README.en.md). Keep memory project-scoped; reflection does not change model parameters or become executable truth.

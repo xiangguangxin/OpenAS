@@ -49,6 +49,8 @@ Invoke skills in the session:
 
 Skill/role IDs use the `openas:` namespace. Local `--plugin-dir` applies to that launch. After edits run `/reload-plugins` for subsequent invocations; it does not guarantee in-flight processes switch versions.
 
+For factual answers, tests and delivery, the [shared evidence policy](plugins/openas/references/evidence-policy.en.md) requires claims to have evidence, evidence to identify object versions, unverified work to be explicit, and stale evidence to be revalidated. All project-owned roles/skills reference it; this does not automatically authenticate model reports.
+
 ## Chinese and English
 
 The same installation supports Chinese and English. No duplicate plugin, role or skill is needed.
@@ -596,6 +598,8 @@ REA 上游 Skill 及参考文件保留原文，并附 [MIT 许可](plugins/opena
 Claude Code 官方文档：[插件格式](https://code.claude.com/docs/en/plugins-reference)、[插件创建与迁移](https://code.claude.com/docs/en/plugins/create)、[热加载与管理命令](https://code.claude.com/docs/en/plugins/cli-reference)。
 
 ## 维护与验收
+
+事实回答、测试与交付遵循 [结论与证据共享规则](plugins/openas/references/evidence-policy.md)：结论绑定证据、证据绑定对象版本、未验证明确标注、失效证据不得复用。全部自有角色/技能引用同一规则；这不等于自动认证模型报告的真实性。
 
 除明确标注的技能目录外，项目自有内容采用 [MIT License](LICENSE)；另行声明的目录与第三方内容遵循各自许可。版本变化见 [CHANGELOG](CHANGELOG.md)，开发与发布流程见 [贡献指南](CONTRIBUTING.md)，运行环境和记录格式见 [兼容说明](docs/compatibility.md)。
 

@@ -7,6 +7,8 @@ description: Extract local PDF text by page into TXT/JSON with provenance, disti
 
 Follow explicit language preferences, otherwise the task language; preserve source-text language and machine-readable fields. See the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # PDF text extraction
 
 Confirm the local source, requested pages, and result: original text, selected fields, summary, or structured data. Page numbers refer to 1-based physical PDF order, not printed footer labels. Process needed pages, or all pages for explicit full-text requests. Execute clear requests without first requiring Office conversion, images, or MCP installation.

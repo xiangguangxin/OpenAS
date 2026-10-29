@@ -7,6 +7,8 @@ description: "创建、读取或定点修改 Excel XLSX 的数据、公式和样
 
 语言 / Language: 用户指定语言优先，否则跟随任务语言；保留已有文档语言和机器字段。Honor explicit language preferences; preserve existing document language and machine-readable fields. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # Excel XLSX
 
 沿用项目环境；普通创建和已有工作簿的定点修改可用 openpyxl。先检查实际工作表、目标范围、单元格类型、公式、合并和引用。保留已有文件，默认另存结果；依赖与操作接口见 [Office 操作指南](../office/references/operations.md)，示例见 [编写示例](references/authoring.md)。

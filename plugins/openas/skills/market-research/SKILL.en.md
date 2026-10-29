@@ -7,6 +7,8 @@ description: Research target markets, user problems, demand evidence, and opport
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Market and user research
 
 Start from the specified market, region, users and scenario. Reuse context and ask only gaps changing research direction. Code is not required. Define the supported decision, boundaries, time and resource limits.

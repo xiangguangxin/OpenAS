@@ -7,6 +7,8 @@ description: "用生产者、消费者和兼容证据寻找或实施代码、接
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 代码与系统简化
 
 目标是减少长期维护责任：需要同步的状态、公开接口、分支、配置入口、依赖或生命周期机制，而不是追求删行数。先读 [项目适配约定](../../references/project-context.md)、当前实现、有效设计与本次范围，区分调查建议、方案评估和已授权实施。调查不自动删除文件；明确的实施任务也不需要为每项局部可逆选择重新请示。

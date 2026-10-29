@@ -7,6 +7,8 @@ description: "Create, read, or edit Word DOCX files while preserving relevant fo
 
 Follow explicit language preferences, otherwise the task language; preserve existing document language and machine-readable fields. See the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Word DOCX
 
 Identify creation, reading, targeted editing, or template redesign. Inspect relevant paragraphs, tables, styles, and content the user requires preserved. Prefer project tools; python-docx suits ordinary tasks. See the [Office operations guide](../office/references/operations.md) for environments. Read-only and outline requests do not need new documents.

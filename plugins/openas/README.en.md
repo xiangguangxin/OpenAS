@@ -17,3 +17,5 @@ Available optional integrations include Playwright, GitHub and Context7; their d
 - [Office routing](skills/office/SKILL.en.md) separates DOCX/XLSX, existing PPTX authoring, rendering, PDF export and recalculation; system tools are optional environment dependencies.
 
 - [PDF text extraction](skills/pdf-extraction/SKILL.en.md): selected/full-page TXT/JSON with physical page/hash provenance and separate empty/error records; no automatic OCR.
+
+- [Shared evidence policy](references/evidence-policy.en.md): bind claims to evidence and object versions, label unverified work and revalidate stale evidence. All project-owned roles/skills reference this policy; vendor REA remains unchanged.

@@ -7,6 +7,8 @@ description: "按需求从 GitHub 搜索和评估 Agent Skills，检查内容、
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # GitHub 技能发现、引入与融合
 
 从当前任务确认需要补充的能力、预期产物、使用客户端和安装范围；复用已有上下文，先检查本地是否已有可用技能。用户只要求搜索或推荐时交付候选比较；已经要求安装或适配时继续完成该范围内的工作，不重复索要许可。全局安装、额外付费服务和远程发布不能从“搜索技能”推导授权。

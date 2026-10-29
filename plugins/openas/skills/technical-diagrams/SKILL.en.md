@@ -7,6 +7,8 @@ description: Create maintainable architecture, data-flow, state, sequence, and d
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Technical diagrams
 
 Represent requested structure/flow accurately and readably, normally locally without external services. Preserve document language and visual conventions.

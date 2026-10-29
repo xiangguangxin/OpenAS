@@ -7,6 +7,8 @@ description: "从项目任务和验证记录中提炼、审查与复用经验，
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 有证据的项目记忆
 
 先读 [项目记忆说明](../../memory/README.md)。默认项目范围，不修改模型参数，不将反思文字直接升级为真理或可执行指令。

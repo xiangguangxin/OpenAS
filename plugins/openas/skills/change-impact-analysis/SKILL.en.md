@@ -7,6 +7,8 @@ description: Trace proposed changes or diffs through consumers, contracts, data,
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Change impact analysis
 
 Confirm original goal, current/target behavior, baseline and authorized scope. Identify exact compared commits or working-tree state for a diff, and distinguish proposed locations from existing implementation. Use [codebase analysis](../codebase-analysis/SKILL.en.md) where cross-module context is missing, without making every local change a whole-repository survey. Default to read-only.

@@ -7,6 +7,8 @@ description: Design system boundaries, modules, interfaces, data, deployment, an
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Architecture design
 
 Read requirement IDs, technical decisions, existing code and project conventions. New projects may start from requirements and constraints. State current and proposed architecture and the change scope. Prefer a simple structure for small systems; do not default to microservices or new infrastructure.

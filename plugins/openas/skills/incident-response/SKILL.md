@@ -7,6 +7,8 @@ description: "处理正在发生的服务或运行环境故障，确定影响、
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 事故响应
 
 先确认目标环境、症状、开始时间与时区、受影响用户或服务、近期变更及可执行操作范围。已有事故流程和恢复手册时优先沿用。服务恢复是当前目标时，根因调查不能无故阻塞有证据、可回退的恢复操作。

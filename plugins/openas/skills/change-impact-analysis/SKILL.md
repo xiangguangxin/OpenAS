@@ -7,6 +7,8 @@ description: "围绕拟议变更或实际 diff 追踪调用方、接口、数据
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 变更影响分析
 
 确认原始目标、当前与目标行为、变更基线及允许范围；分析实际 diff 时明确比较的提交或工作区状态，分析尚未实施的方案时区分拟议位置与已存在代码。缺少系统现状且影响跨模块时按需使用 [codebase-analysis](../codebase-analysis/SKILL.md)，不要求每次修改先做全仓分析。默认只读。

@@ -7,6 +7,8 @@ description: "将每条原始验收关联到实现和真实检查证据，区分
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 逐项验收追踪
 
 保留每条原始验收及其含义，为其关联实现位置、适用输入、检查方法、执行对象和结果。区分自动检查、模型评审、人工观察和未验证，不把“命令退出 0”自动推广为所有需求都满足。

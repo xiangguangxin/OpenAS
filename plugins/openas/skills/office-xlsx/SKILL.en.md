@@ -7,6 +7,8 @@ description: "Create, read, or edit Excel XLSX data, formulas, and styles while 
 
 Follow explicit language preferences, otherwise the task language; preserve existing document language and machine-readable fields. See the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Excel XLSX
 
 Reuse project environments; openpyxl suits ordinary creation and targeted workbook edits. Inspect actual sheets, affected ranges, cell types, formulas, merges, and references. Preserve the original and save a separate result by default. See the [operations guide](../office/references/operations.md) and optional [authoring examples](references/authoring.md).

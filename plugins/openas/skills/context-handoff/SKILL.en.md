@@ -7,6 +7,8 @@ description: Transfer current task goals, authorization, state, decisions, artif
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Context handoff
 
 Preserve original goals and acceptance, authorization, workspace/branch, file scope and existing user changes. Distinguish established facts, decisions, inferences and pending questions. Do not omit implementation-relevant constraints for brevity.

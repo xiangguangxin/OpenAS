@@ -7,6 +7,8 @@ description: Validate task, workspace, rules, and evidence after interruption be
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Checkpoints and resumption
 
 Confirm the task the user currently wants to continue. Read the original task, `state.json` and `handoff.json`; compare workspace, scope, acceptance and current files. Memory is not authorization to resume.

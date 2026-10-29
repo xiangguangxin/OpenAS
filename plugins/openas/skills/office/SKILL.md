@@ -7,6 +7,8 @@ description: "按产物和操作选择 DOCX、XLSX、现有 PPTX 制作、图像
 
 语言 / Language: 用户指定语言优先，否则跟随任务语言；保留已有文档语言和机器字段。Honor explicit language preferences; preserve existing document language and machine-readable fields. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # Office 任务路由
 
 先区分用户要创建/编辑什么，以及是否另需图像、PDF 或刷新计算结果。沿用已有授权与工具，不为清晰请求重复采访，也不因能导出就增加未请求的产物。

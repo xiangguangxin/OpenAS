@@ -7,6 +7,8 @@ description: "依据实际源码梳理陌生或已有项目的入口、模块、
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 代码库分析
 
 明确要回答的问题、目标版本、相关子系统和可用源码，读取 [项目适配约定](../../references/project-context.md)。只读分析默认不修改文件；用户指定输出文档时沿用指定路径。仓库很大时围绕目标选择入口和代表性流程，说明覆盖范围，不为介绍局部模块遍历全部源码。

@@ -7,6 +7,8 @@ description: "用户明确希望通过采访、连续追问或设计压力测试
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 设计压力测试
 
 帮助用户识别隐藏假设、比较关键取舍，并形成足够支持下一步的设计。先读取可获得的代码和文档，复用会话中已经确认的决定。
