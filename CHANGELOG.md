@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.17.0
+
+- Add bilingual pdf-extraction for local PDF text with selected pages/ranges, TXT/JSON outputs, source/page provenance, supplied-password handling and distinct empty/parser-error records; reach 56 skills and 80 translation pairs.
+- Reuse optional pypdf without new system tools or automatic OCR/MCP installation. Preserve source and existing outputs, report partial failures explicitly, and keep extraction separate from rendering, conversion and downstream summaries.
+- Add actual PDF fixtures covering text, image-only/blank pages, broken streams, encryption, layout extraction and CLI exit statuses, plus relevant Office/role/routing links.
+
 ## 0.16.0
 
 - Add bilingual Office routing, DOCX, XLSX, rendering, PDF export and formula recalculation skills, bringing the catalog to 55 skills and translation coverage to 79 pairs. Reuse existing PPTX authoring.

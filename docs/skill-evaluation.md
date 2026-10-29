@@ -50,3 +50,7 @@ agent-experience 与 code-simplification 的 [四项真实客户端样例](../pl
 ## Office 格式与操作
 
 [Office 验证记录](../plugins/openas/workflows/evidence/2026-10-29-office-workflows/README.md) 包含真实 DOCX/XLSX 生成与定点编辑、缺少导出/重算引擎时的边界处理及 Markdown 反向场景。五例完成，一例渲染请求被 provider 429 阻断。操作脚本单测的模拟管线不代表真实 LibreOffice/Poppler 已验证，完整限制见记录。
+
+## PDF 文字提取
+
+[PDF 提取记录](../plugins/openas/workflows/evidence/2026-10-29-pdf-extraction/README.md) 保留首次遗漏报告、针对性指令修订，以及两项最终真实客户端样例。宿主核对选页原文、图像页空文本、源指纹、统一报告和渲染任务不误触发提取。真实 OCR、复杂版式和原生发现仍未验证。

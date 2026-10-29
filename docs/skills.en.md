@@ -2,7 +2,7 @@
 
 [中文技能地图](../README.md#技能地图) | [English guide](../README.md#english)
 
-All 55 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
+All 56 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
 
 | Skill | When to use it |
 | --- | --- |
@@ -41,6 +41,7 @@ All 55 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery e
 | [office-render](../plugins/openas/skills/office-render/SKILL.en.md) | Render saved Office/PDF pages and inspect actual images; conversion is not visual acceptance. |
 | [office-xlsx](../plugins/openas/skills/office-xlsx/SKILL.en.md) | Create/read/edit XLSX values, formulas and styles without claiming formula evaluation. |
 | [parallel-integration](../plugins/openas/skills/parallel-integration/SKILL.en.md) | Integrate already authorized independent work, inspect overlapping changes and contracts, and verify combined behavior; do not provide or automatically start parallel scheduling. |
+| [pdf-extraction](../plugins/openas/skills/pdf-extraction/SKILL.en.md) | Extract selected PDF pages to TXT/JSON with source hashes and page provenance; distinguish empty text, parser failures and separate OCR needs. |
 | [performance-analysis](../plugins/openas/skills/performance-analysis/SKILL.en.md) | Establish reproducible benchmarks, profile execution, and test bottleneck and optimization hypotheses with controlled comparisons rather than single-run timings. |
 | [presentation-creation](../plugins/openas/skills/presentation-creation/SKILL.en.md) | Create audience-appropriate editable PowerPoint presentations from trusted material, with native text/charts/tables, notes, source, previews, and explicit validation stages. |
 | [product-requirements](../plugins/openas/skills/product-requirements/SKILL.en.md) | Turn user problems, research, and constraints into a brief or PRD with scope, user flows, testable requirements, and success metrics; keep technology decisions separate. |

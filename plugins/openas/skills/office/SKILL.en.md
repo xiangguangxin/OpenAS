@@ -13,6 +13,7 @@ Separate the editable format from any requested image export, PDF conversion, or
 
 | Goal | Skill |
 | --- | --- |
+| Extract PDF text with page provenance | [pdf-extraction](../pdf-extraction/SKILL.en.md) |
 | Create, read, or edit Word .docx | [office-docx](../office-docx/SKILL.en.md) |
 | Create, read, or edit Excel .xlsx | [office-xlsx](../office-xlsx/SKILL.en.md) |
 | Organize, create, or edit PPTX | Reuse [presentation-creation](../presentation-creation/SKILL.en.md), without a duplicate PPT entry |

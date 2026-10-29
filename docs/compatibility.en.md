@@ -13,6 +13,10 @@
 
 Client observations apply to their recorded versions, not all past/future clients. Tests do not log in, upgrade clients, or expand sandbox permissions automatically.
 
+## Upgrade to 0.17.0
+
+Add pdf-extraction, reaching 56 skills and 80 translation pairs. Reuse optional pypdf with no new system tools, roles or executor routes. The helper accepts local PDF, physical-page selection and TXT/JSON output, without OCR or table reconstruction. Output directories must be new; empty text requires review, while page parser failures retain results with nonzero status. Existing checkpoint fingerprint rules still apply.
+
 ## Upgrade to 0.16.0
 
 Add six Office skills, reaching 55 skills and 79 translation pairs, while reusing existing PPTX authoring without new roles/routes. Office Python libraries and LibreOffice/Poppler are optional operation-specific dependencies, never auto-installed. Helpers support their documented formats/operations, require fresh outputs and retain existing renderer interfaces. Resource changes use existing checkpoint fingerprint rules; conversion, recalculation checks and native/visual acceptance remain distinct.

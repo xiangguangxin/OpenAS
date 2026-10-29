@@ -4,8 +4,8 @@
     {
       "source": "README.md",
       "target": "README.en.md",
-      "source_sha256": "6400e6812a203ddefe17550c14c8023a40ad3848f32c78ff1985788d06bc944b",
-      "target_sha256": "580ec82f35f6f765524e4bae585e31019fb8231ac74577c638c2c65a1965f687"
+      "source_sha256": "6fc6b7fd692500b97ea9001bf643ad82e7103f54cd729ce68c795c29fa7d60ca",
+      "target_sha256": "9b781400c83aa449c664b6858179ec3d08589dea69259d8304d6de4faefee3f5"
     },
     {
       "source": "agents/cto.md",
@@ -58,8 +58,8 @@
     {
       "source": "agents/tech-writer.md",
       "target": "references/en/agents/tech-writer.md",
-      "source_sha256": "f516f27a2e9f381d42ec2397e072e9a1c5ab7d35648baf0e65cf8f82202f9f6f",
-      "target_sha256": "b4281c81425605b3bd8d62aa8f6b70ed338d346f805050cda6f01826a525c414"
+      "source_sha256": "f20073a0d23d70f84035f4e962432325be24c283c3dd5b54eeed90e148a9b091",
+      "target_sha256": "ca6ef0a60f403ce5fc27c4087c1a780da6942f67d1c137807d259dbd4bb3a576"
     },
     {
       "source": "agents/test-engineer.md",
@@ -412,8 +412,8 @@
     {
       "source": "skills/workflow-routing/SKILL.md",
       "target": "skills/workflow-routing/SKILL.en.md",
-      "source_sha256": "d6aff3cc9aa68f883bb43bc7a358e8896cd97c3d07faa514f183209f19de3e8a",
-      "target_sha256": "678e5e9e6a5d8172eef4a3b8917160d39dfc4882e236451b411003a9ab552706"
+      "source_sha256": "de76a444af9d9e8a880362c01de77296b1941794a808e7f877b1a922c09e6a5c",
+      "target_sha256": "f49b5b8d66195a65e952fdcb80c2818cb0011df0c97988fb7a16b83a73df0eb2"
     },
     {
       "source": "skills/writing-plans/SKILL.md",
@@ -442,8 +442,8 @@
     {
       "source": "skills/office/SKILL.md",
       "target": "skills/office/SKILL.en.md",
-      "source_sha256": "89bc871f3b4ad03201d62362971d937eb7493150aa5de97117b4dc369b2c3623",
-      "target_sha256": "89d685218c897a2033df747f77656028f7b37e539785b83dc9c7d5abf5dc3b8f"
+      "source_sha256": "d430a615cc487f0604cdf6c66563e0e5ebfd8f4cf930e50eda19674d9cb46af3",
+      "target_sha256": "e77334628d55cd3f856f1e6648426371a03224a862e8999071db1f145136840f"
     },
     {
       "source": "skills/office-docx/SKILL.md",
@@ -474,6 +474,12 @@
       "target": "skills/office-recalculate/SKILL.en.md",
       "source_sha256": "4b604bab78152f457bfedd0e662f08e21db8bceb95c141f40caa7da42a327d64",
       "target_sha256": "61988906b0ac2728d56dd6bdb5ebaf6c1491caf0bde0591f63d28c0528c0a482"
+    },
+    {
+      "source": "skills/pdf-extraction/SKILL.md",
+      "target": "skills/pdf-extraction/SKILL.en.md",
+      "source_sha256": "986301b3cad811b2190aa1d3bf031a2ff592bca62fdd6f15b2ab29ef47840df9",
+      "target_sha256": "48594f5b8fe07b8ea6678fff307fbbee41a3f7f4ddd8e900c1fdbbd1b2000ddb"
     }
   ]
 }

@@ -13,6 +13,7 @@ description: "按产物和操作选择 DOCX、XLSX、现有 PPTX 制作、图像
 
 | 目标 | 使用的技能 |
 | --- | --- |
+| 提取 PDF 文字并保留页码 | [pdf-extraction](../pdf-extraction/SKILL.md) |
 | 创建、读取或修改 Word .docx | [office-docx](../office-docx/SKILL.md) |
 | 创建、读取或修改 Excel .xlsx | [office-xlsx](../office-xlsx/SKILL.md) |
 | PPTX 内容组织、创建或编辑 | 复用 [presentation-creation](../presentation-creation/SKILL.md)，不另造 PPT 入口 |
