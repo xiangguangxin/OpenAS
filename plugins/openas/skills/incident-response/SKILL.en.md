@@ -7,6 +7,8 @@ description: Contain and recover an active service or environment incident, pres
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Incident response
 
 Confirm environment, symptoms, start time/timezone, affected users/services, recent changes and allowed actions. Prefer existing runbooks. When restoration is the goal, causal investigation should not obstruct evidenced reversible recovery.

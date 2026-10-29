@@ -7,6 +7,8 @@ description: Plan staged refactoring and interface or data migration for existin
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Architecture evolution
 
 Read implementation, callers, effective ADRs, deviations and original goals. Identify the observable problem, constraints and non-goals, separating demonstrated problems from hoped-for benefits. Retain the status quo or local repair as a baseline; imperfect structure is not a reason for an automatic rewrite. Default to a plan within existing authorization.

@@ -7,6 +7,8 @@ description: "依据实际代码、配置与数据流检查信任边界和可利
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 安全评审
 
 先确认授权对象、版本、入口、资产与数据类别、运行方式和评审范围。读取真实设计、配置及调用方；任务只要求评审时保持只读，不因通用风险清单扩大扫描范围。

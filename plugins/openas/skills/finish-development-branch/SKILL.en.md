@@ -7,6 +7,8 @@ description: Check final diff, acceptance, and reviews, then commit, push, or me
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Finish a development branch
 
 Check branch, ownership of starting edits, target baseline and workspace. Read actual changes, preserving user work and excluding accidental generated files, temporary logs and authentication data.

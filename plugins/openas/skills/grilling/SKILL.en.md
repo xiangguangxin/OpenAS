@@ -7,6 +7,8 @@ description: Use explicit interviews or design pressure testing to clarify major
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Design pressure testing
 
 Help identify hidden assumptions, compare consequential tradeoffs and establish enough design for the next step. First read available code/docs and reuse confirmed decisions.

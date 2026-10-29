@@ -54,3 +54,5 @@ agent-experience 与 code-simplification 的 [四项真实客户端样例](../pl
 ## PDF 文字提取
 
 [PDF 提取记录](../plugins/openas/workflows/evidence/2026-10-29-pdf-extraction/README.md) 保留首次遗漏报告、针对性指令修订，以及两项最终真实客户端样例。宿主核对选页原文、图像页空文本、源指纹、统一报告和渲染任务不误触发提取。真实 OCR、复杂版式和原生发现仍未验证。
+
+共享证据规则另有[两项真实客户端评估及负对照](../plugins/openas/workflows/evidence/2026-10-29-evidence-policy/README.md)，覆盖旧证据失效和静态回答的未验证边界。

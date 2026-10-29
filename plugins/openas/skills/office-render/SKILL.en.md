@@ -7,6 +7,8 @@ description: "Render saved DOCX, XLSX, PPTX, or PDF to page images and inspect l
 
 Follow explicit language preferences, otherwise the task language; preserve existing document language and machine-readable fields. See the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Page images and visual review
 
 Render the final saved file through a real renderer rather than drawing a substitute preview from source data. Prefer project/host tools. The shared [operations helper](../office/references/operations.md) supports local LibreOffice → PDF → Poppler PNG; existing PDFs render without LibreOffice. It does not require DSH sidecars, install alternatives, or upload files.

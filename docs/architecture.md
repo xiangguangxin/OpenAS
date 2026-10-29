@@ -48,3 +48,7 @@ Python 单任务执行器根据任务的 workflow 字段选择路线，并将成
 handoff.json 用于当前任务交接，acceptance.json 区分机器检查与模型评审；它们与长期项目记忆分开。reviewed 表示只读评审已交付，不能自动作为实现 verified 的事实采集。
 
 graph-runner.py 在启动客户端前校验依赖图，顺序执行节点并交接实际上游结果。失败阻断依赖节点，独立节点可继续；人工中断停止后续启动。当前不提供并发调度或整个图的自动恢复，七个编排技能的入口见 [技能目录](../plugins/openas/skills)，操作示例见 [运行指南](../plugins/openas/workflows/README.md)。
+
+## 结论与证据的共享约束
+
+[共享规则](../plugins/openas/references/evidence-policy.md) 是自有角色和技能的统一依据。Python 角色请求显式包含规则正文，JS 模板要求宿主读取该资源；角色/技能引用不等于任意宿主自动载入。规则在资源指纹中，旧检查点仍需核对当前对象和规则。此层是行为约束，既有执行器检查不认证任意引用的语义真实性。

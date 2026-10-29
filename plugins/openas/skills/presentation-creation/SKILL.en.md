@@ -8,6 +8,8 @@ license: Apache-2.0
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Presentation creation
 
 This OpenAS method was rewritten and synthesized on 2026-10-24. Preserve [NOTICE](NOTICE.md), [source records](FUSION_SOURCES.json) and applicable Apache-2.0/MIT terms. Generator/check code is independent; upstream runtime scripts, fonts and images were not copied.

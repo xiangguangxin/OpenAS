@@ -7,6 +7,8 @@ description: "围绕技术问题收集可追溯资料、比较证据并设计验
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 技术调研
 
 先明确要回答的问题、使用场景和结论将支持的决定。按 [项目适配约定](../../references/project-context.md) 读取已有约束与调查结果；已有明确目标时直接调查，不重复采访。

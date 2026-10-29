@@ -7,6 +7,8 @@ description: "从本地 PDF 按页提取文字，支持选页、TXT/JSON 和页�
 
 语言 / Language: 用户指定语言优先，否则跟随任务语言；保留来源文字语言及机器字段。Honor explicit language preferences; preserve source-text language and machine-readable fields. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # PDF 文字提取
 
 先确认本地源文件、用户关心的页码和所需结果：原始文字、指定字段、摘要还是结构化数据。页码默认指 PDF 实际页序（一基），不等于页脚印刷页码。只提取任务所需页；明确要全文时处理全部。清晰请求直接执行，不要求先转换 Office、渲染图片或安装 MCP。

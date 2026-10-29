@@ -7,6 +7,8 @@ description: Turn user problems, research, and constraints into a brief or PRD w
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Product briefs and requirements
 
 Read research, user decisions and project constraints. Choose a short brief or PRD appropriate to collaboration, retaining requested format/path. Thin inputs may produce an assumption-marked draft; ask only scope-critical gaps.

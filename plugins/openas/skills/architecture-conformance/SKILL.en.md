@@ -7,6 +7,8 @@ description: Compare actual code with effective architecture decisions, boundari
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Architecture conformance
 
 Confirm target version, scope, effective architecture, ADRs, contracts, and accepted exceptions. Read actual code, build configuration, and callers. Without an agreed baseline, distinguish observed structure from unconfirmed intent; directory names and preferences are not constraints. Remain read-only by default.

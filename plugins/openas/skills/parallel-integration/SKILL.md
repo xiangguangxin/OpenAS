@@ -7,6 +7,8 @@ description: "整合已授权独立任务的成果，核对文件与接口冲突
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 整合独立成果
 
 先核对各工作区或分支的原始目标、基线、实际 diff、范围、上游接口和验证记录。分支标记完成不代表可以安全合并；来源不明或含未保存修改时先保留现场。

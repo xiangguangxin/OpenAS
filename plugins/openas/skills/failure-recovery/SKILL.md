@@ -7,6 +7,8 @@ description: "工作流失败时根据实现、环境、客户端、验收、范
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 失败恢复
 
 读取 failure、原始命令、退出码和上下文，核对是否已有部分产物或外部副作用。以实际证据分类；未知原因保持 unknown，不把所有失败都称为网络问题。

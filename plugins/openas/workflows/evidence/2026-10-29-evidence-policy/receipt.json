@@ -1,0 +1,174 @@
+{
+  "fixtures": {
+    "README.md": "Public contract: add(a, b) returns their sum. Current checkout is uncommitted; inspect actual files rather than treating an old label as its version.\n",
+    "calculator.py": "def add(a, b):\n    return a - b\n",
+    "test_calculator.py": "import unittest\nfrom calculator import add\nclass CalculatorTests(unittest.TestCase):\n    def test_add(self): self.assertEqual(add(4, 2), 6)\nif __name__ == \"__main__\": unittest.main()\n",
+    "previous-results.json": "{\n  \"object\": \"calculator.py\",\n  \"source_sha256\": \"ba1a531f581d2e6094e978ed6f7aca7a8d92eeb62c6e7ad73ee692f7f18bc772\",\n  \"version_label\": \"historical-v1\",\n  \"command\": \"python3 -B -m unittest -v test_calculator.py\",\n  \"cwd\": \".\",\n  \"exit_code\": 0,\n  \"output_file\": \"previous-tests.log\",\n  \"origin\": \"local\"\n}",
+    "previous-tests.log": "test_add ... ok\nRan 1 test\nOK\n",
+    "performance-note.md": "A previous developer said this implementation is 10x faster. No benchmark command, workload, baseline, runtime or samples were supplied.\n"
+  },
+  "cases": [
+    {
+      "case": "stale-pass",
+      "request": "现有 previous-results.json 说测试通过。请只读核对当前工作区是否满足 README 的 add 接口验收，给出对应对象版本、实际证据、旧报告的适用性和未验证项。不要修改文件。",
+      "exit_code": 0,
+      "expected_skill": "verification-before-completion",
+      "host_checks": {
+        "source_preserved": true,
+        "routing_matched": true,
+        "policy_read_observed": true,
+        "runtime_check_observed": true
+      },
+      "result": {
+        "selected_skill": "verification-before-completion",
+        "summary": "当前工作区不满足 README 的 add 接口验收。只读复核发现实际测试失败，旧通过报告不适用于当前实现；未修改文件。",
+        "findings": [
+          "README.md 要求 add(a, b) 返回两者之和；calculator.py:2 实际返回 a - b。",
+          "当前实际运行 add(4, 2) 得到 2，预期为 6；现有 1 项测试失败，退出码为 1。",
+          "previous-results.json 对应 historical-v1，记录的源码 SHA-256 与当前 calculator.py 不同，因此旧通过结果对当前对象失效。旧日志仅作为历史记录保留，其历史执行真实性未独立验证。",
+          "未验证项：现有测试之外的输入、边界及类型行为。performance-note.md 的“10x faster”缺少基准、负载、环境和样本，未验证，不能作为性能结论。"
+        ],
+        "questions": [],
+        "evidence": [
+          "已读取所选技能的实际 SKILL.md，以及其引用的 evidence-policy.md 和 team-contract.md；已读取全部 6 个夹具文件。",
+          "对象目录：<evaluation-root>/stale-pass/workspace；以实际文件指纹绑定当前对象，不使用历史版本标签代替工作区版本。",
+          "当前 calculator.py SHA-256：e1a894022d1a082987b87adecb623438c9e386d86b2b621cff4a5fe7fdf7edc8；旧报告 source_sha256：ba1a531f581d2e6094e978ed6f7aca7a8d92eeb62c6e7ad73ee692f7f18bc772。",
+          "README.md SHA-256：c33e2dbe5882985b7d614e29e0eddf60ac170f5627e7b8b572e379c2430ad06d；test_calculator.py SHA-256：497dadae16b39b634f4246551ed74c55908f6d4421f5f396ac25a23bc9734be9。",
+          "在对象目录使用 Python 3.10.12 执行 python3 -B -m unittest -v test_calculator.py；退出码 1；关键输出：AssertionError: 2 != 6；Ran 1 test；FAILED (failures=1)。-B 禁止生成字节码缓存。",
+          "previous-results.json 记录退出码 0，previous-tests.log 内容为 test_add ... ok / Ran 1 test / OK；这些是读取到的历史材料，不是本次执行结果。"
+        ]
+      },
+      "test_commands": [
+        {
+          "command": "/usr/bin/bash -lc 'sha256sum README.md calculator.py test_calculator.py previous-results.json previous-tests.log performance-note.md; python3 -B --version; python3 -B -m unittest -v test_calculator.py'",
+          "exit_code": 1
+        }
+      ],
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "usage": [
+        {
+          "input_tokens": 96274,
+          "cached_input_tokens": 69376,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 978,
+          "reasoning_output_tokens": 0
+        }
+      ]
+    },
+    {
+      "case": "static-answer",
+      "request": "只读解释当前 calculator.py 的实际行为并引用代码位置。说明当前材料是否足以确认 performance-note.md 的性能主张和远程 CI 状态。仅依据源码及现有材料回答，不运行测试、基准或联网，不修改文件。",
+      "exit_code": 0,
+      "expected_skill": "codebase-analysis",
+      "host_checks": {
+        "source_preserved": true,
+        "routing_matched": true,
+        "policy_read_observed": true,
+        "static_scope_preserved": true
+      },
+      "result": {
+        "selected_skill": "codebase-analysis",
+        "summary": "当前 add(a, b) 实际执行减法，与 README 的求和契约不符。现有材料不足以确认“快 10 倍”或远程 CI 状态。本次仅静态读取与计算文件指纹，未运行测试、基准、联网或修改文件。",
+        "findings": [
+          "calculator.py:1-2 定义 add(a, b)，直接返回 a - b，没有输入校验或异常处理。按源码推导，整数调用 add(4, 2) 返回 2；这不是运行观察。",
+          "README.md:1 要求返回两数之和；test_calculator.py:4 也期望 add(4, 2) 等于 6。当前实现与两者不符，但本次未执行测试。",
+          "performance-note.md:1 仅转述前开发者的“快 10 倍”说法，并明确缺少基准命令、工作负载、对照实现、运行环境及样本，无法确认该性能主张。",
+          "previous-results.json:2-9 记录的是历史本地测试，origin 为 local。其源码指纹与当前 calculator.py 不同，previous-tests.log 的通过记录不能证明当前实现通过。",
+          "现有材料没有绑定当前版本的远程 CI 运行记录、结果或日志，因此远程 CI 状态未知；不能据此断言成功或失败。"
+        ],
+        "questions": [],
+        "evidence": [
+          "已读取所选实际技能文件：<repository>/plugins/openas/skills/codebase-analysis/SKILL.md，以及其引用的证据规则与项目适配约定。",
+          "当前 calculator.py:1-2：def add(a, b): return a - b。",
+          "当前 calculator.py SHA-256：e1a894022d1a082987b87adecb623438c9e386d86b2b621cff4a5fe7fdf7edc8；通过只读 sha256sum 获取。",
+          "previous-results.json:3 的历史 SHA-256：ba1a531f581d2e6094e978ed6f7aca7a8d92eeb62c6e7ad73ee692f7f18bc772；与当前文件不匹配。",
+          "previous-results.json:5-9 记载历史命令、退出码 0 和本地来源；previous-tests.log:1-3 记载一次测试通过，仅作为历史材料。",
+          "performance-note.md:1 为无基准支撑的转述；README.md:1 和 test_calculator.py:4 分别提供求和契约与测试期望。"
+        ]
+      },
+      "test_commands": [],
+      "command_exit_codes": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "usage": [
+        {
+          "input_tokens": 93611,
+          "cached_input_tokens": 68224,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 933,
+          "reasoning_output_tokens": 0
+        }
+      ]
+    }
+  ],
+  "scope": {
+    "base_commit": "7184386",
+    "state": "uncommitted implementation; exact relevant source hashes below",
+    "client": "codex exec, existing account/model settings, read-only sandbox",
+    "review": "Implementation-session semantic review, not independent human review or universal compliance proof",
+    "remote_ci": "not checked"
+  },
+  "source_sha256": {
+    "plugins/openas/references/evidence-policy.md": "badacb8b6a384dab27e4eadf885787a8f8f61bac11cf5288724b820c78359e86",
+    "plugins/openas/references/evidence-policy.en.md": "665e02362cd27b5c1bfbb2a9fa45fd74fa5a0e7d5d2bc3be0a7f681830174db8",
+    "plugins/openas/workflows/codex-team.py": "87e68179aee865530bba67a7ced9233dd08a4ed3dc98824186422d5466132859",
+    "plugins/openas/workflows/agent-team.js": "30bdbffce4a50916ebef602c291e5e9ee367267ede9e00337acf42d41d40be37",
+    "plugins/openas/workflows/tests/test_codex_team.py": "980888bf4412c2024ad2bc6f956274862e746b27d3f5f7966b8c5a505e6d276e",
+    "plugins/openas/skills/verification-before-completion/SKILL.md": "e9cba9dd43d1a217184c758bc12be0990096af39ffb636dd3d1680ed1fd04bc2",
+    "plugins/openas/skills/codebase-analysis/SKILL.md": "ffb4ae20fd0f00d20338b2f1529c9ac365965182d912ebf3cf10c427bbaca1d6"
+  },
+  "negative_control": {
+    "command": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "plugins/openas/workflows/tests",
+      "-p",
+      "test_codex_team.py",
+      "-k",
+      "shared_policy",
+      "-v"
+    ],
+    "exit_code": 1,
+    "negative_control": "Removed policy body loading and prompt embedding only; tests otherwise identical.",
+    "observed": "Both targeted tests failed for missing policy propagation and execution without the mandatory policy; no import/syntax failures."
+  },
+  "regression": {
+    "source": "Linux snapshot of current working files; relevant source hashes recorded above",
+    "root": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /tmp/openas-office-venv/bin/python -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "tests": 96,
+      "skipped": 12
+    },
+    "workflow": {
+      "command": "python3 -B -m unittest discover -s plugins/openas/workflows/tests -p 'test_*.py' -q",
+      "exit_code": 0,
+      "tests": 125
+    },
+    "targeted": {
+      "command": "python3 -B -m unittest discover -s plugins/openas/workflows/tests -p test_codex_team.py -k shared_policy -v",
+      "exit_code": 0,
+      "tests": 2
+    },
+    "javascript": {
+      "command": "node plugins/openas/workflows/tests/agent-team.test.mjs",
+      "exit_code": 0,
+      "passed": 8,
+      "scope": "mock orchestration only"
+    }
+  }
+}

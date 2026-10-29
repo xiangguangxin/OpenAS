@@ -7,6 +7,8 @@ description: Compare solution alternatives and tradeoffs or coordinate research,
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Solution design and full design flow
 
 Start with user goals, [current project](../../references/project-context.en.md) and confirmed constraints. Separate problem, requirement and solution. Preserve chosen technologies/product decisions and proceed on clear inputs without repeated interviews.

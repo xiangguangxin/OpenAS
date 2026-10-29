@@ -7,6 +7,8 @@ description: Classify workflow failures and choose repair, bounded retry, or han
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Failure recovery
 
 Read failure, original command, exit code and context. Check partial artifacts and external effects. Classify from evidence, retaining unknown when necessary rather than calling every failure a network issue.

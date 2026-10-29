@@ -7,6 +7,8 @@ description: "根据任务目标、风险和依赖选择直接实现、调试、
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 选择工作流
 
 先读原始目标和 [项目适配约定](../../references/project-context.md)，复用已有授权与决定。按产物和风险选择最小足够流程：

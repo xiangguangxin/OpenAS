@@ -7,6 +7,8 @@ description: Review actual code, diffs, or repository state for evidenced defect
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Code and project review
 
 Confirm object and acceptance, then read actual diff, callers, tests and constraints. Do not rely only on developer summaries or turn ordinary review into a design interview. Investigate repository facts independently.

@@ -43,7 +43,7 @@ def check_translations(root):
     expected.update({p.relative_to(root).as_posix(): f'references/en/agents/{p.name}'
                      for p in (root/'agents').glob('*.md')})
     expected.update({f'references/{name}.md': f'references/{name}.en.md'
-                     for name in ('team-contract', 'project-context', 'implementation-readiness')})
+                     for name in ('team-contract', 'project-context', 'implementation-readiness', 'evidence-policy')})
     expected.update({'README.md': 'README.en.md', 'workflows/README.md': 'workflows/README.en.md'})
     for source in ('integrations/README.md', 'integrations/QUICKSTART.md',
                    'integrations/github/README.md', 'integrations/playwright/README.md',

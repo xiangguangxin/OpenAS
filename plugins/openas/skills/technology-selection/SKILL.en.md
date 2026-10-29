@@ -7,6 +7,8 @@ description: Compare feasible technology routes against requirements and hard co
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Technology selection
 
 Start with requirements, quality goals, current system and resource bounds. Preserve specified technology; compare only open choices and do not reopen settled routes without a task reason.

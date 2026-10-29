@@ -7,6 +7,8 @@ description: "依据源码、需求、设计与可信资料独立评审 README�
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 文档评审
 
 确认文档版本、目标读者、读者要完成的任务及评审范围。读取实际文档、相关 diff 和必要上下文，依据 [项目适配约定](../../references/project-context.md) 寻找对应源码、配置、测试、需求、设计或资料。默认只读；建议修订不等于获准改写文档或实现。

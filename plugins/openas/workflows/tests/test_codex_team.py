@@ -110,6 +110,46 @@ class RunnerTests(unittest.TestCase):
             self.assertFalse(any(x['role']=='verifier' for x in r.state['history']))
             self.assertEqual(json.loads((r.output/'state.json').read_text())['status'],'stopped')
 
+    def test_role_requests_receive_current_shared_policy_body(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            runner = self.runner(tmp)
+            plugin = Path(tmp)/'plugin'
+            (plugin/'agents').mkdir(parents=True)
+            (plugin/'references').mkdir()
+            (plugin/'agents/cto.md').write_text('Fixture role instructions')
+            (plugin/'references/team-contract.md').write_text('Fixture contract')
+            (plugin/'references/project-context.md').write_text('Fixture adaptation')
+            policy = plugin/'references/evidence-policy.md'
+            prompts = []
+            def client(argv, cwd, timeout, stdout, stderr, stdin=None):
+                prompts.append(stdin)
+                Path(argv[argv.index('-o')+1]).write_text(json.dumps(result('complete')))
+                return 0
+            with patch.object(h, 'ROOT', plugin), patch.object(h, 'execute', side_effect=client):
+                for body in ('fixture-policy-v1: bind to the inspected artifact',
+                             'fixture-policy-v2: do not reuse obsolete observations'):
+                    policy.write_text(body)
+                    runner.call('cto', 'design', 'fixture request', {'complete'})
+                    self.assertIn(body, prompts[-1])
+            self.assertNotIn('fixture-policy-v1', prompts[-1])
+            self.assertEqual(len(prompts), 2)
+
+    def test_missing_shared_policy_stops_before_client_execution(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            runner = self.runner(tmp)
+            plugin = Path(tmp)/'plugin'
+            (plugin/'agents').mkdir(parents=True)
+            (plugin/'references').mkdir()
+            (plugin/'agents/cto.md').write_text('Fixture role')
+            (plugin/'references/team-contract.md').write_text('Fixture contract')
+            (plugin/'references/project-context.md').write_text('Fixture adaptation')
+            with patch.object(h, 'ROOT', plugin), patch.object(h, 'execute',
+                                                         side_effect=AssertionError('Client executed without mandatory policy')) as client:
+                with self.assertRaises(FileNotFoundError):
+                    runner.call('cto', 'design', 'fixture request', {'complete'})
+                client.assert_not_called()
+            self.assertEqual(runner.state['history'], [])
+
     def test_nonzero_client_persisted(self):
         with tempfile.TemporaryDirectory() as tmp:
             r=self.runner(tmp);r.client='/bin/false'

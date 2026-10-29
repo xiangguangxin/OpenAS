@@ -7,6 +7,8 @@ description: Establish reproducible benchmarks, profile execution, and test bott
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Performance analysis
 
 Confirm the question, target metrics, representative workload, version, environment and budget. Distinguish user experience, throughput, resources and simulation metrics; keep units, windows and success criteria consistent.

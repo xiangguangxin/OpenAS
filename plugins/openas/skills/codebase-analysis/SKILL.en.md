@@ -7,6 +7,8 @@ description: Explain repository entry points, modules, dependencies, core call p
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Codebase analysis
 
 Establish the question, version, subsystem and available source using [project adaptation](../../references/project-context.en.md). Default to read-only; write a requested report only at its designated path. For large repositories select relevant entry points and representative flows and disclose coverage rather than reading everything.

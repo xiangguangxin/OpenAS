@@ -7,6 +7,8 @@ description: "为下一角色或新会话交接当前任务的目标、现场、
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 任务现场交接
 
 保留原始目标与验收、当前授权、工作区/分支、文件范围和已有用户修改。说明已确认的事实与决定，区分推断和待确认问题，不通过精简丢失影响实现的约束。

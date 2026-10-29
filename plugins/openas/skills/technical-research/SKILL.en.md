@@ -7,6 +7,8 @@ description: Gather traceable technical evidence, compare applicability, and des
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Technical research
 
 Identify the question, scenario and decision supported. Reuse [project context](../../references/project-context.en.md) and existing findings without repeated interviews. Split into answerable subquestions and identify required documents, source, data or experiments, with investigation bounds and stop conditions.

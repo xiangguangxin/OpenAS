@@ -252,3 +252,9 @@ python3 workflows/codex-team.py \
 可信 Python 调用方可通过 `Runner(..., backend=provider)` 或 `run_graph(..., backend=provider)` 注入其他实现；普通任务 JSON 不能加载后端代码。实现需提供稳定的 `name` / `version` / `capabilities`，并实现 `prepare(request)` 与 `run(invocation, execute)`。执行器要求返回 `AgentResult`，最终 JSON 和进程日志写入请求指定路径。执行语义变化时应递增后端 version。`execute` 回调沿用宿主超时与中断处理，不能用模型自述伪造原生证据。
 
 后端身份和能力保存在 `state.json` 及运行开始/恢复事件中，恢复时不允许切换后端、版本或能力，即使使用 `--restart-stages`。旧检查点缺少 backend 字段时按默认 Codex 身份处理，但仍须通过源码、规则和证据校验。可选 `--learn` 的独立学习执行器目前只支持内置 Codex 后端；其他后端启用它时会在启动前拒绝。该接口不改变原生 Claude 插件或 JS 宿主模板。
+
+## 共享证据规则
+
+所有事实回答和验证结论遵循 [共享规则](../references/evidence-policy.md)。Python 单任务执行器将当前规则正文传入每个角色请求，图节点复用此行为；缺少该文件时不启动角色。规则属于既有资源指纹，变更会按恢复检查使旧证据拒绝直接复用。JS 宿主模板提供读取路径，仍依赖宿主实际能力。
+
+此次不改变结果 schema、状态枚举或运行记录版本；非空 evidence 不是语义认证。宿主退出码、文件范围和检查点检查只证明其实际覆盖的性质，远程 CI、原生客户端及人工观察须单独报告。

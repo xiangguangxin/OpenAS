@@ -7,6 +7,8 @@ description: "交叉评审需求、调研、技术决策和架构的一致性、
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 设计评审与实施就绪检查
 
 读取实际产物及版本：市场/竞品证据、需求、方案、选型 ADR、架构、接口与验收。按本次范围评审，不因缺少不适用的模板章节判失败；用户只要求评审时保持只读。

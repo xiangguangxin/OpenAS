@@ -7,6 +7,8 @@ description: "围绕目标用户和相同使用场景分析竞品、替代方案
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 竞品与替代方案分析
 
 市场调研先明确细分用户、问题和地域/行业边界，再检索当前直接竞品、间接替代与现有工作方式。市场规模、占有率和增长结论必须有可核对的数据口径和时间；公开功能信息不能证明真实需求或付费意愿，没有访谈或使用数据时将机会保持为假设。

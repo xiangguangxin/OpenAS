@@ -7,6 +7,8 @@ description: "编写和排查跨模块、数据库或服务边界的集成测试
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 集成测试
 
 先读调用链、边界契约、现有测试入口与允许修改范围。确认本次要证明哪些组件协作，哪些依赖必须真实运行，哪些可以替代，以及替代后无法证明什么。

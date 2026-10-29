@@ -7,6 +7,8 @@ description: "系统化排查异常、崩溃、错误结果和卡死，通过需
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 有证据的 Debug
 
 目标是解释“哪个条件触发了哪处契约违背，如何导致症状”，并提供复现、定位与修复前后的证据。按问题规模使用流程；信息不足时报告假设和下一步，不声称百分之百确定。

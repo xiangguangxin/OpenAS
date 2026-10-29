@@ -7,6 +7,8 @@ description: "分析并实施指定范围的依赖或工具链升级，核对破
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 依赖升级
 
 确认目标依赖、当前与目标版本、升级原因、允许修改范围和支持环境。读取清单、锁文件、实际解析结果、调用方与构建配置，区分声明范围、已锁定版本和当前环境安装版本；无锁文件时沿用项目的版本管理方式，不机械引入新工具。只要求评估时保持只读。

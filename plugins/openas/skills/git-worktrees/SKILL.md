@@ -7,6 +7,8 @@ description: "为需要独立文件工作区的 Git 任务创建、检查和清�
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # Git worktree
 
 先运行 `git status --short`、`git worktree list`，确认当前修改、已有工作区及任务分支。沿用仓库指定的位置；没有约定时选择仓库外的明确目录，避免构建或递归扫描把其他工作区纳入当前工程。

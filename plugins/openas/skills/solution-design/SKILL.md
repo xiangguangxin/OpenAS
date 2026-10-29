@@ -7,6 +7,8 @@ description: "形成解决问题的候选方案与取舍，或串联市场调研
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 方案设计与完整设计流程
 
 从用户目标、[当前项目](../../references/project-context.md) 和已确认约束出发。区分问题、需求和解法，保留用户指定技术与产品决定；已有明确输入时直接形成足够评审的方案，不重复采访。

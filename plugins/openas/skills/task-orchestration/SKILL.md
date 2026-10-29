@@ -7,6 +7,8 @@ description: "将多步骤开发任务组织为有依赖、产物、归属和验
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 编排任务
 
 将原始验收拆成能独立检查的节点，每项写明 ID、上游依赖、工作区、文件归属、输入、产物、执行路线和完成条件。保持用户范围，事实未知先调查，不以拆分任务为由增加产品要求。

@@ -7,6 +7,8 @@ description: "为技术文档创建和维护系统架构、数据流、状态机
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 技术文档绘图
 
 将用户要求表达的结构或流程变成准确、可读、可维护的图。默认在当前仓库本地完成，不依赖外部服务。保留原文语言及项目图形风格。

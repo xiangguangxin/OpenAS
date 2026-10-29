@@ -7,6 +7,8 @@ description: Clarify goals, constraints, existing architecture, and verification
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Requirements exploration
 
 Understand the real problem before coding: requirements → necessary clarification → constraints → alternatives → sufficient design.

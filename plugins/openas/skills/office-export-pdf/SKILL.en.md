@@ -7,6 +7,8 @@ description: "Export saved DOCX, XLSX, or PPTX to a new PDF while preserving sou
 
 Follow explicit language preferences, otherwise the task language; preserve existing document language and machine-readable fields. See the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Export Office to PDF
 
 Confirm the requested artifact is PDF rather than editable source, page images, or refreshed formula caches. Use the final saved document, preserve it, and write a new file/directory by default. Reuse configured project/host exporters or the shared [operations helper](../office/references/operations.md) export-pdf command; specify soffice explicitly when it is outside PATH.

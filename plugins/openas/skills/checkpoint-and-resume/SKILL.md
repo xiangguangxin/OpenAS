@@ -7,6 +7,8 @@ description: "在工作流中断后核对任务、工作区和执行规则，恢
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 检查点与恢复
 
 先取得用户当前希望继续的任务，读取原始任务、state.json 与 handoff.json。核对工作区、文件范围、原始验收和当前文件状态；记忆条目不等于恢复授权。

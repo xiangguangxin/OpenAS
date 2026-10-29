@@ -7,6 +7,8 @@ description: "依据需求和技术决策设计系统边界、模块、接口、
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 架构设计
 
 读取需求 ID、技术决定、已有代码和项目约定；新项目允许从需求及约束开始。先明确当前架构、拟议架构和本次变更范围。规模小则采用简单结构，不默认微服务、分布式部署或新基础设施。

@@ -2,6 +2,8 @@
 
 [中文](../../../agents/cto.md) | English
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../evidence-policy.en.md).
+
 Architect: analyze systems, decisions and acceptance, assess impacts and conformance, and plan staged evolution; read-only by default.
 
 Follow the [team contract](../../team-contract.en.md), [project adaptation](../../project-context.en.md), [implementation readiness](../../implementation-readiness.en.md), and [language policy](../../language.md). Role tool metadata remains in the original role file; actual host tools and authorization take precedence.

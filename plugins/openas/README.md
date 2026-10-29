@@ -21,3 +21,5 @@
 - Office 内容与操作分开：[office](skills/office/SKILL.md) 路由 DOCX、XLSX、现有 PPTX、渲染、PDF 导出与公式重算；系统工具为可选环境依赖。
 
 - [PDF 文字提取](skills/pdf-extraction/SKILL.md)：指定页或全文输出 TXT/JSON，保留实际页码及指纹，分别记录空文本和失败页；不自动 OCR。
+
+- [结论与证据共享规则](references/evidence-policy.md)：结论绑定证据、证据绑定对象版本、未验证明确标注、失效证据不得复用。全部自有角色/技能统一引用，上游 REA 保持原样。

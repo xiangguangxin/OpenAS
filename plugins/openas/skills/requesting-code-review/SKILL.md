@@ -7,6 +7,8 @@ description: "对实际代码、diff 或项目现状进行证据驱动的评审�
 
 语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
 
+涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+
 # 代码与项目评审
 
 先确认评审对象与验收，读取实际 diff、相关调用方、测试和项目约束。不只依赖开发者总结，也不把普通评审转成设计采访。可从仓库确认的事实自行查证。

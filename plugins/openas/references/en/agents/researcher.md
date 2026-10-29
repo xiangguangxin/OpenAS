@@ -2,6 +2,8 @@
 
 [中文](../../../agents/researcher.md) | English
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../evidence-policy.en.md).
+
 Technical researcher: verify capabilities from primary material, source and reproducible experiments, reporting alternatives and evidence limits.
 
 Follow the [team contract](../../team-contract.en.md), [project adaptation](../../project-context.en.md), [implementation readiness](../../implementation-readiness.en.md), and [language policy](../../language.md). Role tool metadata remains in the original role file; actual host tools and authorization take precedence.

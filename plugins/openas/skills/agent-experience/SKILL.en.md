@@ -7,6 +7,8 @@ description: Design or improve agent-facing tools, skill discovery, context load
 
 Follow explicit language preferences, otherwise the task language. Preserve existing artifact language unless translation is requested; keep machine-readable identifiers unchanged. See the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Agent experience
 
 Help agents discover the right capability, obtain sufficient information, and act correctly. Identify whether the requested change concerns a tool contract, skill entry, context assembly, or handoff; inspect actual host capabilities and consumers. Keep assessments read-only. For authorized edits, finish the requested scope without incidental executor rewrites or tool installation.

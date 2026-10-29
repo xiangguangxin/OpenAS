@@ -7,6 +7,8 @@ description: Configure or diagnose CI/CD triggers, build matrices, caches, artif
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Continuous integration and delivery
 
 Read [project adaptation](../../references/project-context.en.md), existing pipelines, local build/test commands, runner constraints and acceptance. Distinguish configuration, diagnosis and authorized delivery execution. Retain the current platform and tools; local changes do not authorize remote publishing, installation or branch-protection changes.

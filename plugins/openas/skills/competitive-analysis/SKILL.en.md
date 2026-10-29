@@ -7,6 +7,8 @@ description: Compare competitors and alternatives for the same users and scenari
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Competitive analysis
 
 Define the supported decision, users, scenario, region/industry and own project scope. Use [project adaptation](../../references/project-context.en.md) to verify existing capabilities; identify product concepts as proposals. Include direct competitors, meaningful alternatives and current workflows, explaining inclusion/exclusion and retaining user-selected candidates.

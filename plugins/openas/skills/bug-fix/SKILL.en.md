@@ -7,6 +7,8 @@ description: Investigate exceptions, crashes, wrong results, or hangs using evid
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Evidence-backed debugging
 
 Explain which condition violated which contract and how that caused the symptom. Scale investigation to the problem and report hypotheses when evidence is insufficient. Use [project adaptation](../../references/project-context.en.md) to identify runtime and reproduction entry points; GDB is not mandatory for every project.

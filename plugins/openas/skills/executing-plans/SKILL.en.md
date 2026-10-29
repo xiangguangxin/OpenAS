@@ -7,6 +7,8 @@ description: Implement and verify an existing sufficiently clear plan step by st
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Execute plans
 
 Check original acceptance, branch and starting diff; preserve existing edits and confirmed design. Proceed on unblocked authorized work without repeated approval for routine choices.

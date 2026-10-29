@@ -7,6 +7,8 @@ description: Write or update README, onboarding, design, API, deployment, operat
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Project documentation
 
 Confirm readers, task and requested paths. Read [project conventions](../../references/project-context.en.md), existing docs, relevant source and CI. Preserve language, structure and style unless translation is requested. Editing wording is not a reason to reorganize the entire documentation set.

@@ -7,6 +7,8 @@ description: Assess or implement scoped dependency and toolchain upgrades, inclu
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Dependency upgrades
 
 Confirm dependency, current/target versions, motivation, allowed scope and supported environments. Read manifests, lockfiles, resolved and installed versions, callers and build configuration; these versions may differ. Retain existing version-management tools, and remain read-only for assessment requests.

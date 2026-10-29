@@ -7,6 +7,8 @@ description: Review keyboard use, focus, semantics, labels, contrast, and dynami
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Accessibility review
 
 Identify whether the target is a design or running interface, its platform, key user tasks, and any required standard version or level. Focus on operational barriers unless formal compliance is requested. Verify official standard clauses before citing them; disclose unavailable evidence.

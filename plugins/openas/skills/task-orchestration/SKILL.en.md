@@ -7,6 +7,8 @@ description: Represent multi-step work as dependency nodes with artifacts, owner
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Task orchestration
 
 Split original acceptance into independently checkable nodes with ID, dependencies, workspace, file ownership, inputs, outputs, route and completion criteria. Retain user scope and investigate unknown facts rather than inventing requirements.

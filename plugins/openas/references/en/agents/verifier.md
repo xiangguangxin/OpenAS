@@ -2,6 +2,8 @@
 
 [中文](../../../agents/verifier.md) | English
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../evidence-policy.en.md).
+
 Independent verifier: check actual artifacts against original acceptance with real command evidence and explicit coverage limits.
 
 Follow the [team contract](../../team-contract.en.md), [project adaptation](../../project-context.en.md), [implementation readiness](../../implementation-readiness.en.md), and [language policy](../../language.md). Role tool metadata remains in the original role file; actual host tools and authorization take precedence.

@@ -7,6 +7,8 @@ description: Find or implement evidence-backed simplifications of code, APIs, co
 
 Follow explicit language preferences, otherwise the task language. Preserve existing artifact language unless translation is requested; keep machine-readable identifiers unchanged. See the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Code and system simplification
 
 Reduce long-term maintenance obligations: synchronized state, public interfaces, branches, configuration surfaces, dependencies, or lifecycle machinery, rather than chasing deleted lines. Read [project adaptation](../../references/project-context.en.md), the implementation, effective decisions, and requested scope. Distinguish surveys, proposal assessment, and authorized implementation. A survey does not authorize deletion; clear implementation requests do not require renewed approval for every reversible local choice.

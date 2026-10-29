@@ -48,3 +48,7 @@ The single-task Python runner selects `workflow` and stores successful stages in
 handoff.json holds current context, and acceptance.json separates machine checks from model review; both are distinct from long-term memory. reviewed means read-only review delivery, not an implementation-verified fact eligible for automatic harvesting.
 
 graph-runner.py validates dependencies before clients start and executes nodes sequentially with actual upstream results. Failures block dependents while independent nodes may continue; user interruption prevents further starts. There is no concurrent scheduling or automatic whole-graph recovery. See the [skill directory](../plugins/openas/skills) and [workflow guide](../plugins/openas/workflows/README.en.md).
+
+## Shared claim and evidence constraints
+
+The [shared policy](../plugins/openas/references/evidence-policy.en.md) is authoritative for project-owned roles/skills. Python role requests embed its body; the JS template directs the host to read it. References do not imply automatic loading by arbitrary hosts. Resource fingerprints include the policy, and old checkpoints still require current object/rule checks. This is a behavioral constraint; existing executor gates do not authenticate arbitrary evidence semantics.

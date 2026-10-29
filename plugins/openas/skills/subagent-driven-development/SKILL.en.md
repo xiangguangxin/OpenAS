@@ -7,6 +7,8 @@ description: Coordinate authorized role handoffs, adversarial review, and indepe
 
 Follow the [language policy](../../references/language.md).
 
+For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+
 # Team collaboration
 
 Read the [team contract](../../references/team-contract.en.md) and actual [roles](../../agents). Claude roles use `openas:cto`, `openas:red-team`, etc.; other hosts dispatch differently. Confirm actual support and authorization before spawning. Otherwise perform necessary responsibilities sequentially and state that review was not independent; never fabricate agent execution.
