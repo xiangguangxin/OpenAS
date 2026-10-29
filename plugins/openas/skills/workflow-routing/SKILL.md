@@ -43,3 +43,5 @@ CI/CD 配置与诊断使用 [ci-cd](../ci-cd/SKILL.md)，配置修改沿用 oper
 面向 Agent 的工具描述、技能发现、上下文加载和交接信息接口使用 [agent-experience](../agent-experience/SKILL.md)；减少重复状态、无效接口或维护负担使用 [code-simplification](../code-simplification/SKILL.md)。仅调查时保持只读并直接交付证据；修改按已有授权、范围和风险选择 direct / development，纯技能或文档修改可沿用 documentation。它们不新增执行器路线，也不要求普通产品 UX、修复或评审附带专项审计。
 
 实际 DOCX/XLSX 或跨格式文档用 [office](../office/SKILL.md) 选择方法；独立图像、PDF 或重算直接用对应操作技能，不重新制作整份文档。它们不新增执行器路线；实际文件生成沿用已有授权与产物范围，普通 Markdown 文档仍用 project-documentation。
+
+从 PDF 提取文字、为来源摘要或字段整理取得页码依据时，使用 [pdf-extraction](../pdf-extraction/SKILL.md)，不先做 Office 转换或图片渲染。它不新增执行器路线，也不实现 OCR；只需图片或 PDF 导出时仍使用对应 Office 操作。

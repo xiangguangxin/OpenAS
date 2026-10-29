@@ -10,7 +10,7 @@ Start AI-assisted development from clear requirements and deliver verifiable res
 
 [![CI](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml/badge.svg)](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml)
 [![Agents](https://img.shields.io/badge/Agents-12-2563eb)](plugins/openas/agents)
-[![Skills](https://img.shields.io/badge/Skills-55-7c3aed)](docs/skills.en.md)
+[![Skills](https://img.shields.io/badge/Skills-56-7c3aed)](docs/skills.en.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-059669)](LICENSE)
 
 **English** | [简体中文](#chinese)
@@ -19,7 +19,7 @@ Start AI-assisted development from clear requirements and deliver verifiable res
 
 </div>
 
-OpenAS provides composable methods for requirements, research, design, implementation, debugging, review and verification. Use **12 roles and 55 skills through a Claude Code plugin**, or the separate **Codex CLI workflow adapter** for explicitly configured stage execution and acceptance checks.
+OpenAS provides composable methods for requirements, research, design, implementation, debugging, review and verification. Use **12 roles and 56 skills through a Claude Code plugin**, or the separate **Codex CLI workflow adapter** for explicitly configured stage execution and acceptance checks.
 
 It adapts to web applications, services, libraries, CLI tools, native programs, data processing and documentation. It reads the target project's stack, conventions and existing checks rather than imposing another framework or mandatory OpenAS configuration.
 
@@ -42,6 +42,7 @@ Invoke skills in the session:
 /openas:code-simplification Find evidence-backed simplifications; report candidates without editing files.
 /openas:document-review Review this guide against the implementation. Report actual reader-blocking issues without editing files.
 /openas:office-docx Create an editable Word report from these materials; preserve their sources.
+/openas:pdf-extraction Extract pages 1 and 3–5 from this PDF into TXT/JSON, retaining source page references.
 /openas:office-recalculate Refresh this workbook’s formula caches without replacing formulas with constants.
 /openas:project-memory Extract reusable project knowledge supported by this task's evidence.
 ```
@@ -105,7 +106,7 @@ The [complete English catalog](docs/skills.en.md) links every skill and explains
 | Testing and review | test-strategy, integration-testing, requesting-code-review, document-review |
 | UX, performance and security | interaction-design, accessibility-review, performance-analysis, security-review, incident-response |
 | Documents and presentations | project-documentation, technical-diagrams, presentation-creation |
-| Office formats and operations | office, office-docx, office-xlsx, office-render, office-export-pdf, office-recalculate |
+| Office formats and operations | office, office-docx, office-xlsx, office-render, office-export-pdf, office-recalculate, pdf-extraction |
 | Orchestration and continuity | workflow-routing, task-orchestration, checkpoint-and-resume, failure-recovery, context-handoff, parallel-integration, acceptance-tracking |
 | Knowledge and delivery | project-memory, verification-before-completion, finish-development-branch, git-worktrees |
 | Specialized work | brainstorming, grilling, bug-fix, subagent-driven-development, reverse-engineer-anything |
@@ -214,7 +215,7 @@ OpenAS originated from a gem5 collaboration setup and is now project-independent
 
 [![CI](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml/badge.svg)](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml)
 [![Agents](https://img.shields.io/badge/Agents-12-2563eb)](plugins/openas/agents)
-[![Skills](https://img.shields.io/badge/Skills-55-7c3aed)](plugins/openas/skills)
+[![Skills](https://img.shields.io/badge/Skills-56-7c3aed)](plugins/openas/skills)
 [![License: MIT](https://img.shields.io/badge/License-MIT-059669)](LICENSE)
 
 可插拔的角色协作 · 证据驱动的调试 · 可追溯的项目记忆
@@ -225,7 +226,7 @@ OpenAS originated from a gem5 collaboration setup and is now project-independent
 
 ---
 
-OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 **Claude Code 插件**使用 12 个协作角色与 55 个技能，也可使用独立的 **Codex CLI 工作流适配器**执行阶段任务与验收。
+OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 **Claude Code 插件**使用 12 个协作角色与 56 个技能，也可使用独立的 **Codex CLI 工作流适配器**执行阶段任务与验收。
 
 适用于 Web 应用、后端服务、库、命令行工具、原生程序、数据处理和文档项目。接入后沿用目标仓库的技术栈、目录与验证命令，无需额外创建 OpenAS 专用配置文件。
 
@@ -234,7 +235,7 @@ OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为�
 同一份插件支持中文和英文，不需要重复安装。用户明确指定的语言优先，否则回复跟随任务语言；编辑已有文档时保留文件语言，除非要求翻译。命令、路径、技能 ID、JSON 字段和枚举保持不变。
 
 - [English](#english) 与 [完整英文技能索引](docs/skills.en.md)。
-- 全部 55 个技能可使用英文：54 个自有技能提供 `SKILL.en.md`，REA 保留上游英文入口；12 个角色提供英文配套说明。
+- 全部 56 个技能可使用英文：55 个自有技能提供 `SKILL.en.md`，REA 保留上游英文入口；12 个角色提供英文配套说明。
 - 详细规则见 [中英文输出约定](plugins/openas/references/language.md)，维护与评测见 [双语指南](docs/bilingual.md)。详细技术参考及历史归档保留原文，未对所有历史材料制作译本。
 
 ```text
@@ -314,7 +315,7 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 
 ## 技能地图
 
-55 个技能可独立使用，也可组合到角色任务中。下表列出常用入口，完整定义见 [skills](plugins/openas/skills)。
+56 个技能可独立使用，也可组合到角色任务中。下表列出常用入口，完整定义见 [skills](plugins/openas/skills)。
 
 | 任务 | 技能入口 | 主要产物 |
 | --- | --- | --- |
@@ -335,6 +336,7 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 | 文档与代码评审 | [document-review](plugins/openas/skills/document-review/SKILL.md) · [requesting-code-review](plugins/openas/skills/requesting-code-review/SKILL.md) | 文档事实与操作可用性、代码缺陷、证据及评审结论 |
 | 文档与图表 | [project-documentation](plugins/openas/skills/project-documentation/SKILL.md) · [technical-diagrams](plugins/openas/skills/technical-diagrams/SKILL.md) | 项目说明、接口文档与 Mermaid / SVG / D2 图表 |
 | Office 文档与操作 | [office](plugins/openas/skills/office/SKILL.md) · [office-docx](plugins/openas/skills/office-docx/SKILL.md) · [office-xlsx](plugins/openas/skills/office-xlsx/SKILL.md) · [office-render](plugins/openas/skills/office-render/SKILL.md) · [office-export-pdf](plugins/openas/skills/office-export-pdf/SKILL.md) · [office-recalculate](plugins/openas/skills/office-recalculate/SKILL.md) | 可编辑内容、页面图像、PDF 与真实公式重算分开验证 |
+| PDF 文字提取 | [pdf-extraction](plugins/openas/skills/pdf-extraction/SKILL.md) | 按页提取 TXT/JSON、页码溯源、空文本提示和失败页记录，不自动 OCR |
 | 演示文稿 | [presentation-creation](plugins/openas/skills/presentation-creation/SKILL.md) | 内容与叙事、原生可编辑 PPTX、讲稿备注、JSON 源稿与渲染预览 |
 | 记忆与交付 | [project-memory](plugins/openas/skills/project-memory/SKILL.md) · [verification-before-completion](plugins/openas/skills/verification-before-completion/SKILL.md) | 可审查经验与真实验收记录 |
 
@@ -357,7 +359,7 @@ flowchart TB
     subgraph bundle["OpenAS 插件资源"]
         direction LR
         agents["agents/<br/>12 个角色定义"]
-        skills["skills/<br/>55 个工作方法"]
+        skills["skills/<br/>56 个工作方法"]
         contracts["references/<br/>协作契约、项目适配与实施就绪"]
     end
 
@@ -575,7 +577,7 @@ GitHub Actions 在 PR 创建或更新，以及代码推送或合并到 `main` �
 plugins/openas/
   .claude-plugin/plugin.json     插件清单与版本
   agents/                       12 个协作角色
-  skills/                       55 个技能及配套资源
+  skills/                       56 个技能及配套资源
   references/                   协作契约与项目适配约定
   workflows/                    可选适配器、示例、测试与历史证据
   integrations/                 可选 MCP 配置、使用指引与 REA 集成
