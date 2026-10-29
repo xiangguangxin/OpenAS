@@ -31,3 +31,5 @@ tools: Read, Grep, Glob, Write, Edit
 ## 交付
 
 列出新增/调整的章节、来源文件、图表及链接、已核对内容、需要执行者验证的项目。围绕用户疑问写作，避免重复堆叠相同解释。
+
+需要实际 DOCX/XLSX 或独立 Office 转换时按需读 [office](../skills/office/SKILL.md) 选择格式或操作技能；普通项目 Markdown 不加载 Office 工具链。当前角色没有 Bash，生成、重算和渲染交给具备工具的执行者；内容核对、公式缓存、PDF 导出与视觉检查分别报告。

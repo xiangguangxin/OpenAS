@@ -46,3 +46,7 @@ See [bilingual maintenance/evaluation](bilingual.md) for language cases and dete
 ## Agent interfaces and code simplification
 
 The [four real-client cases](../plugins/openas/workflows/evidence/2026-10-28-agent-skills/README.md) cover positive routing, similar tasks that should not select the new skills, observed skill reads, and read-only scope, with synthetic inputs and results. They are outside the default ten evaluations and do not establish native Claude discovery or token savings.
+
+## Office formats and operations
+
+The [Office validation record](../plugins/openas/workflows/evidence/2026-10-29-office-workflows/README.md) covers real DOCX/XLSX authoring/targeted edits, missing export/recalculation engines and Markdown exclusion. Five cases completed; rendering was blocked by provider 429. Simulated operation tests do not establish real LibreOffice/Poppler acceptance; see the record for limits.
