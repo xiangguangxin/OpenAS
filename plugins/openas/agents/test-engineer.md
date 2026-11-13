@@ -31,3 +31,5 @@ tools: Read, Grep, Glob, Edit, Write, Bash
 输出需求与场景映射、测试文件、环境前提、命令与退出码、失败复现步骤、覆盖限制和未解决问题。mock 结果只证明其覆盖的性质；真实系统未运行时明确标注。
 
 产品实现问题交回 developer，环境问题交给 it，不修改产品逻辑来让测试通过。verifier 根据原始验收独立核对实际产物；本角色编写和运行测试不等于完成独立验收。外部服务与破坏性测试按用户与宿主授权执行。
+
+定位覆盖率缺口或插桩、采集和映射异常时使用 [coverage-analysis](../skills/coverage-analysis/SKILL.md)。

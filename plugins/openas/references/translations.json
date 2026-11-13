@@ -4,8 +4,8 @@
     {
       "source": "README.md",
       "target": "README.en.md",
-      "source_sha256": "748fa043fcfb925bb81c5cb4297a1e74510a21ffabbb4524c59bce4c2e873bd4",
-      "target_sha256": "59dbdfa85e73545b7f9f7129bef48d005b8430f31ddf69242c26fd06493c836e"
+      "source_sha256": "db8ebab57c7e910f3ad885bf7551ccf5376d56f1f9667fffc145fb865b508054",
+      "target_sha256": "b95d0e445435da3b9ff08ce2e864e5fc9baa46ddd77ad5623fad77998415c844"
     },
     {
       "source": "agents/cto.md",
@@ -16,14 +16,14 @@
     {
       "source": "agents/developer.md",
       "target": "references/en/agents/developer.md",
-      "source_sha256": "5d10b995abd28df9ba2b371dfbbc63dfc8436f75a3b218772ed2877c96fc6c4f",
-      "target_sha256": "49ae1d3238bc6157609ba705a7ebed21df9c9eb38da256455baaa9a21191ef7e"
+      "source_sha256": "1bf5ce7913eff557f13313f7eebff63015fa513bb8e10b42f0ad561ddd5d2471",
+      "target_sha256": "a99cbb7bca8f5fabcd7eecce3fa3a2775024c9894d33bc8b457515b440761a95"
     },
     {
       "source": "agents/it.md",
       "target": "references/en/agents/it.md",
-      "source_sha256": "7d210e26fe46e6fd1bbb2924249e4c6b478467f587151096dd480a81807c15f8",
-      "target_sha256": "b90215a36b25b4a08a0fea585c5cba5c0df7631866ffeaecbedcca99614b52bd"
+      "source_sha256": "db6b37ba30a12025a267782c69e808f1a6cfbe9da5294939bf1c6539d1e70bff",
+      "target_sha256": "9c4d117a3a5a02f166d9b16193629a52a5f1989f2b8f624dbae01c9605f66d33"
     },
     {
       "source": "agents/performance-engineer.md",
@@ -64,8 +64,8 @@
     {
       "source": "agents/test-engineer.md",
       "target": "references/en/agents/test-engineer.md",
-      "source_sha256": "d75d0611d6c34a44dfc69a5366d8f0303ae46a9a3c2644e7b5b8028629c10282",
-      "target_sha256": "b887d9a414f529c5e6fb94908bdf6f21e701ef8a62153553ec55ea47113ff648"
+      "source_sha256": "49e9f4117f59eac3ab4bf616fc84f44f3ff1882f3089d72fd19f38a6dd4cff98",
+      "target_sha256": "0c6b9b8c508a3de9c58f4a315ff198f7d83658808187450dd050041277c42ae4"
     },
     {
       "source": "agents/ux-designer.md",
@@ -224,6 +224,12 @@
       "target_sha256": "acf8946a011b1ba871da223717b1cb6766982864ef6d8201c7c7cdc055342565"
     },
     {
+      "source": "skills/coverage-analysis/SKILL.md",
+      "target": "skills/coverage-analysis/SKILL.en.md",
+      "source_sha256": "5697bc29b7c16c84f94b9cb4f7f8d1494c7d05507c64fe0070b9af288bf32406",
+      "target_sha256": "b8202c89564315752d88b55947da642fe47ffad1c8db9619c2726285195e71b3"
+    },
+    {
       "source": "skills/dependency-upgrade/SKILL.md",
       "target": "skills/dependency-upgrade/SKILL.en.md",
       "source_sha256": "53d744b763a71e17a2c2a892db25cc518765acd3e4bee9750d714d58a8a66399",
@@ -314,6 +320,12 @@
       "target_sha256": "7a75e662475cbb0acfffdc266f7af8248257020d3e089943e260099bff687ff0"
     },
     {
+      "source": "skills/pr-review-feedback/SKILL.md",
+      "target": "skills/pr-review-feedback/SKILL.en.md",
+      "source_sha256": "5538d3344cf4d2490fa444554f8ce317e4e434199fbb844c264315d8c1b0f433",
+      "target_sha256": "75c15a0992394fd2283cf5e360738bb5e54fbc32d730f48542f23c36d6e826d7"
+    },
+    {
       "source": "skills/presentation-creation/SKILL.md",
       "target": "skills/presentation-creation/SKILL.en.md",
       "source_sha256": "1ece6cda9f127b9ff84551b4939ba8cd2249f4bd1419a6802ed5f95166647e6f",
@@ -336,6 +348,12 @@
       "target": "skills/project-memory/SKILL.en.md",
       "source_sha256": "a078ae83f55a36d668caa04aaa105794132ea9c01c42690c58637563c0ef7281",
       "target_sha256": "11b3a9929dcc2401ccb77003fc3cd4a1659fcfaf8d34e5751bffcfd6337cd4d7"
+    },
+    {
+      "source": "skills/release-management/SKILL.md",
+      "target": "skills/release-management/SKILL.en.md",
+      "source_sha256": "77a456c234c4b2e3b2d90dce97cd6ef039b9ff95de959e8f11eccc745f656f58",
+      "target_sha256": "fa0d14887ae01d3598acffa62ce7ee7986309fca12eff862b1a670d44a1bf724"
     },
     {
       "source": "skills/requesting-code-review/SKILL.md",
@@ -412,8 +430,8 @@
     {
       "source": "skills/workflow-routing/SKILL.md",
       "target": "skills/workflow-routing/SKILL.en.md",
-      "source_sha256": "cf780b1f139f7685fc20dc399c9dc1620ce71b5b25ca3f9103c810f67efaf45a",
-      "target_sha256": "392e392017b262afcb091456323a51921f91fa364c372e251ae4d0cb488e25d3"
+      "source_sha256": "93010995c58ac6e9263c06f1c39f7f5e2435a58cce0a9fd4f9e914d9c9cba762",
+      "target_sha256": "11cc26cce837d4f212693c14dc7c330d15ce058071be716d050310da39d55757"
     },
     {
       "source": "skills/writing-plans/SKILL.md",

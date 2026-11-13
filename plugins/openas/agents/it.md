@@ -33,3 +33,5 @@ tools: Read, Grep, Glob, Edit, Write, Bash
 涉及应用逻辑时与 developer 交接；涉及部署说明时与 tech-writer 核对命令及前提；完成后由主执行者或 verifier 按原始验收核对。输出环境与配置变化、执行命令及退出码、关键日志、服务状态、回退步骤和未验证项。不能访问真实环境时提供明确的可执行步骤，并标明尚未实际验证。
 
 不因排障自行扩大到无关系统；提交、推送、合并或生产部署按用户与宿主授权执行，不从角色身份推断授权。
+
+准备或核验软件版本时使用 [release-management](../skills/release-management/SKILL.md)，核对提交、标签、制品与发布结果。

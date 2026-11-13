@@ -2,7 +2,7 @@
 
 [中文技能地图](../README.md#技能地图) | [English guide](../README.md#english)
 
-All 56 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
+All 59 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
 
 | Skill | When to use it |
 | --- | --- |
@@ -21,6 +21,7 @@ All 56 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery e
 | [codebase-analysis](../plugins/openas/skills/codebase-analysis/SKILL.en.md) | Explain repository entry points, modules, dependencies, core call paths, and extension mechanisms from source evidence; do not default to audits or binary reverse engineering. |
 | [competitive-analysis](../plugins/openas/skills/competitive-analysis/SKILL.en.md) | Compare competitors and alternatives for the same users and scenarios, with sourced evidence, gaps, and opportunity hypotheses rather than marketing claims. |
 | [context-handoff](../plugins/openas/skills/context-handoff/SKILL.en.md) | Transfer current task goals, authorization, state, decisions, artifacts, evidence, and remaining work to another role or session; keep it separate from long-term memory. |
+| [coverage-analysis](../plugins/openas/skills/coverage-analysis/SKILL.en.md) | Diagnose statement, branch, condition, or MC/DC gaps using matched source, builds, and profiles, and design or verify targeted tests. |
 | [dependency-upgrade](../plugins/openas/skills/dependency-upgrade/SKILL.en.md) | Assess or implement scoped dependency and toolchain upgrades, including breaking changes, transitive resolution, lockfiles, call-site adaptation, regression checks, and recovery. |
 | [design-review](../plugins/openas/skills/design-review/SKILL.en.md) | Review consistency, feasibility, and acceptance across requirements, research, technical decisions, and architecture before implementation; report evidenced readiness gaps. |
 | [document-review](../plugins/openas/skills/document-review/SKILL.en.md) | Independently review documentation against code, requirements, design, and sources for accuracy, completeness, diagrams, and usable instructions; remain read-only. |
@@ -43,10 +44,12 @@ All 56 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery e
 | [parallel-integration](../plugins/openas/skills/parallel-integration/SKILL.en.md) | Integrate already authorized independent work, inspect overlapping changes and contracts, and verify combined behavior; do not provide or automatically start parallel scheduling. |
 | [pdf-extraction](../plugins/openas/skills/pdf-extraction/SKILL.en.md) | Extract selected PDF pages to TXT/JSON with source hashes and page provenance; distinguish empty text, parser failures and separate OCR needs. |
 | [performance-analysis](../plugins/openas/skills/performance-analysis/SKILL.en.md) | Establish reproducible benchmarks, profile execution, and test bottleneck and optimization hypotheses with controlled comparisons rather than single-run timings. |
+| [pr-review-feedback](../plugins/openas/skills/pr-review-feedback/SKILL.en.md) | Triage existing PR review threads against the current head, fix actionable feedback, verify changes, and record a disposition per thread. |
 | [presentation-creation](../plugins/openas/skills/presentation-creation/SKILL.en.md) | Create audience-appropriate editable PowerPoint presentations from trusted material, with native text/charts/tables, notes, source, previews, and explicit validation stages. |
 | [product-requirements](../plugins/openas/skills/product-requirements/SKILL.en.md) | Turn user problems, research, and constraints into a brief or PRD with scope, user flows, testable requirements, and success metrics; keep technology decisions separate. |
 | [project-documentation](../plugins/openas/skills/project-documentation/SKILL.en.md) | Write or update README, onboarding, design, API, deployment, operations, and troubleshooting documentation from code and evidence without presenting proposals as implemented features. |
 | [project-memory](../plugins/openas/skills/project-memory/SKILL.en.md) | Extract, review, and reuse evidence-backed project knowledge and manage candidate skill trials, activation, feedback, and rollback; do not retain whole conversations or expand permissions. |
+| [release-management](../plugins/openas/skills/release-management/SKILL.en.md) | Prepare or verify a versioned release, bind tags and artifacts to the target commit, and verify installation or upgrade and publication when authorized. |
 | [requesting-code-review](../plugins/openas/skills/requesting-code-review/SKILL.en.md) | Review actual code, diffs, or repository state for evidenced defects in requirements, boundaries, compatibility, and validation; investigate directly rather than interviewing. |
 | [reverse-engineer-anything](../plugins/openas/skills/reverse-engineer-anything/SKILL.md) | Analyze shipped binaries, packages, firmware and runtime evidence with REA; use normal repository tools for ordinary source analysis. |
 | [roadmap-planning](../plugins/openas/skills/roadmap-planning/SKILL.en.md) | Organize requirements and research into MVP, priorities, phases, dependencies, and acceptance measures; do not invent dates or replace detailed implementation planning. |
