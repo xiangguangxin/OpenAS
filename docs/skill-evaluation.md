@@ -56,3 +56,16 @@ agent-experience 与 code-simplification 的 [四项真实客户端样例](../pl
 [PDF 提取记录](../plugins/openas/workflows/evidence/2026-10-29-pdf-extraction/README.md) 保留首次遗漏报告、针对性指令修订，以及两项最终真实客户端样例。宿主核对选页原文、图像页空文本、源指纹、统一报告和渲染任务不误触发提取。真实 OCR、复杂版式和原生发现仍未验证。
 
 共享证据规则另有[两项真实客户端评估及负对照](../plugins/openas/workflows/evidence/2026-10-29-evidence-policy/README.md)，覆盖旧证据失效和静态回答的未验证边界。
+
+## 维护已有技能时比较版本
+
+从固定提交检出完整的基线插件目录，然后运行同一个客户端对照旧版和当前版本。每个版本和用例有独立临时工作区。
+
+```bash
+python3 scripts/evaluate_skills.py --baseline-plugin /path/to/old/plugins/openas \
+  --maintenance-suite development --output /tmp/openas-skill-development
+python3 scripts/evaluate_skills.py --baseline-plugin /path/to/old/plugins/openas \
+  --maintenance-suite holdout --output /tmp/openas-skill-holdout
+```
+
+可用 `--candidate-plugin` 指定另一份候选插件，用 `--case` 单跑一个样例。报告记录插件指纹、每次客户端耗时及逐项通过或退步情况。新旧版本均需成功启动，候选需通过所有对应检查。样例数据为合成，文本信号和自报技能仍需结合实际输出审查。默认十项评测保持原入口。内置验收样例若已用于调优，另留新样例完成最终验收。

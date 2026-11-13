@@ -13,6 +13,10 @@
 
 Client observations apply to their recorded versions, not all past/future clients. Tests do not log in, upgrade clients, or expand sandbox permissions automatically.
 
+## Upgrade to 0.19.0
+
+Add skill maintenance and paired behavior evaluation, reaching 60 skills and 85 translation pairs. PR thread retrieval can use an authenticated GitHub CLI.
+
 ## Upgrade to 0.18.0
 
 Add PR review follow-up, release management, and coverage analysis, reaching 59 skills and 84 translation pairs. The skills use existing roles, workflows, and host tools. Marketplace users can update after the new version reaches their source.

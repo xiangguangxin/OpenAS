@@ -4,8 +4,8 @@
     {
       "source": "README.md",
       "target": "README.en.md",
-      "source_sha256": "db8ebab57c7e910f3ad885bf7551ccf5376d56f1f9667fffc145fb865b508054",
-      "target_sha256": "b95d0e445435da3b9ff08ce2e864e5fc9baa46ddd77ad5623fad77998415c844"
+      "source_sha256": "5f504059ff7e3147ea3e9ddbf6960c359f26322570afcb978cee128eeb6656c0",
+      "target_sha256": "c196b6873e85434408ab3cc21852b72e76b09526b63a43361217add3618ddeb0"
     },
     {
       "source": "agents/cto.md",
@@ -322,8 +322,8 @@
     {
       "source": "skills/pr-review-feedback/SKILL.md",
       "target": "skills/pr-review-feedback/SKILL.en.md",
-      "source_sha256": "5538d3344cf4d2490fa444554f8ce317e4e434199fbb844c264315d8c1b0f433",
-      "target_sha256": "75c15a0992394fd2283cf5e360738bb5e54fbc32d730f48542f23c36d6e826d7"
+      "source_sha256": "aa0002471d7759d8dffc755d0d094a14400aff10074ae3118ca1e6bb797f384c",
+      "target_sha256": "600331efd5766f4605d8fa29504688e9c42a0a1975043cf5430594f0a5d042c3"
     },
     {
       "source": "skills/presentation-creation/SKILL.md",
@@ -372,6 +372,12 @@
       "target": "skills/security-review/SKILL.en.md",
       "source_sha256": "bfeb923b23464ef9de220ee555288702db5f4fd86f622f52a48497fe75b90175",
       "target_sha256": "a83a212c0705601a887205ecca219832e3abd45f3ffc5591e351ff439d6f5f61"
+    },
+    {
+      "source": "skills/skill-maintenance/SKILL.md",
+      "target": "skills/skill-maintenance/SKILL.en.md",
+      "source_sha256": "9a99d9ce97a4b5aaecfc179941c89eb4d8539883eaa5b2edf79b376c7ad1ed6c",
+      "target_sha256": "51e123e853852bc37ee7be3b7786def38a9ffa2e24219175a16173f4c20a38b9"
     },
     {
       "source": "skills/solution-design/SKILL.md",
@@ -430,8 +436,8 @@
     {
       "source": "skills/workflow-routing/SKILL.md",
       "target": "skills/workflow-routing/SKILL.en.md",
-      "source_sha256": "93010995c58ac6e9263c06f1c39f7f5e2435a58cce0a9fd4f9e914d9c9cba762",
-      "target_sha256": "11cc26cce837d4f212693c14dc7c330d15ce058071be716d050310da39d55757"
+      "source_sha256": "39fdc050d21818d652fb59351435ace46d7da733a9b12a77e288a7485f1b6474",
+      "target_sha256": "2fdd7cec80ff501069f96567c08e5e5d07d26d6ba89c3ada6c593571b23cb132"
     },
     {
       "source": "skills/writing-plans/SKILL.md",

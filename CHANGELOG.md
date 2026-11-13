@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.19.0
+
+- Add bilingual skill maintenance, paired behavior evaluation, and separate held-out cases, reaching 60 skills and 85 translation pairs.
+- Add a read-only PR thread reader with independent reply pagination and head SHA checks.
+
 ## 0.18.0
 
 - Add bilingual PR review follow-up, release management, and coverage analysis skills, reaching 59 skills and 84 translation pairs.

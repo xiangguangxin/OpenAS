@@ -11,6 +11,8 @@ Follow the [language policy](../../references/language.md) for response preferen
 
 Identify the repository, PR, base, current head SHA, local branch, and requested scope. Use existing GitHub tools, `gh`, or supplied review material. Paginate unresolved threads and their replies as needed, and read review summaries containing actionable feedback. Keep thread links or IDs, original commits, and locations. Locate the same behavior in the current diff and code. Check whether a finding still applies when its comment is marked outdated.
 
+If the host lacks complete thread retrieval and an authenticated GitHub CLI is available, run `python3 scripts/read_threads.py OWNER/REPO PR_NUMBER` relative to this skill. It reads inline threads and replies and binds the output to the head SHA. Retrieve review summaries and PR conversation comments separately as needed. See [method provenance](FUSION_SOURCES.json).
+
 ## Triage and verify each finding
 
 - Mark feedback as actionable, already addressed, duplicate, unsupported by evidence, or awaiting a decision. Cite current code, requirements, or tests. Link duplicates to the primary thread. Fix findings that still apply and fall within the authorized scope, linking threads that share a fix. For assessment-only requests, report dispositions.

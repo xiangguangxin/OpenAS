@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "reviewed_on": "2026-11-13",
+  "method": "The read-only helper is independently authored using GitHub GraphQL; no upstream code or prose copied.",
+  "sources": [
+    {
+      "repository": "openai/skills",
+      "commit": "49f948faa9258a0c61caceaf225e179651397431",
+      "license": "Apache-2.0",
+      "adopted": [
+        "Read review threads and resolution state through GitHub GraphQL.",
+        "Implement independent thread and reply pagination."
+      ],
+      "files": [
+        {
+          "path": "skills/.curated/gh-address-comments/scripts/fetch_comments.py",
+          "git_blob_sha": "09b9c01c50d9202bd6455ce36887e08be92ac1ae",
+          "url": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/gh-address-comments/scripts/fetch_comments.py"
+        },
+        {
+          "path": "skills/.curated/gh-address-comments/LICENSE.txt",
+          "git_blob_sha": "7a4a3ea2424c09fbe48d455aed1eaa94d9124835",
+          "url": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/gh-address-comments/LICENSE.txt"
+        }
+      ]
+    }
+  ],
+  "mapping": {
+    "scripts/read_threads.py": "Thread and reply pagination with stable ID deduplication and current head verification."
+  }
+}

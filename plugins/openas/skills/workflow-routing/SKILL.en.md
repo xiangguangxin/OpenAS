@@ -37,3 +37,5 @@ Use [office](../office/SKILL.en.md) to select methods for actual DOCX/XLSX or cr
 Use [pdf-extraction](../pdf-extraction/SKILL.en.md) for PDF text and page evidence supporting requested summaries/fields, without first converting Office files or rendering images. It adds no executor route and implements no OCR; image/PDF-only requests retain their corresponding Office operations.
 
 Use [pr-review-feedback](../pr-review-feedback/SKILL.en.md) for existing PR feedback, [release-management](../release-management/SKILL.en.md) to prepare or verify a release, and [coverage-analysis](../coverage-analysis/SKILL.en.md) for measured coverage and gaps. Analysis can deliver findings directly. For workspace changes, use direct or development according to risk, or operations for release configuration. Remote releases and PR actions follow existing authorization and host capabilities.
+
+Use [skill-maintenance](../skill-maintenance/SKILL.en.md) for an existing Agent Skill revision driven by a reproducible failure and matched evaluation cases.

@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "reviewed_on": "2026-11-13",
+  "method": "Methods reviewed at pinned commits and implemented independently. No upstream prose, scripts, templates, or runtime assets are included.",
+  "sources": [
+    {
+      "repository": "anthropics/skills",
+      "commit": "2c5958ecac7cee2b583967a2c4981d0f4a75c579",
+      "license": "Apache-2.0",
+      "adopted": [
+        "Compare the same task on the old and candidate versions.",
+        "Record timing and usage when available."
+      ],
+      "files": [
+        {
+          "path": "skills/skill-creator/SKILL.md",
+          "git_blob_sha": "65b3a402dbd09b8e83f9d637c6b553875189085c",
+          "url": "https://github.com/anthropics/skills/blob/2c5958ecac7cee2b583967a2c4981d0f4a75c579/skills/skill-creator/SKILL.md"
+        },
+        {
+          "path": "skills/skill-creator/LICENSE.txt",
+          "git_blob_sha": "4f881c52d1f72f4cfb720e339e2d35c3058d01a9",
+          "url": "https://github.com/anthropics/skills/blob/2c5958ecac7cee2b583967a2c4981d0f4a75c579/skills/skill-creator/LICENSE.txt"
+        }
+      ]
+    },
+    {
+      "repository": "obra/superpowers",
+      "commit": "22f0b463e7a5e579904dd6211a520321035526f7",
+      "license": "MIT",
+      "adopted": [
+        "Trace observed failures to their evidence.",
+        "Build repeatable reproducers and test negative and pressure scenarios."
+      ],
+      "files": [
+        {
+          "path": "skills/writing-skills/SKILL.md",
+          "git_blob_sha": "09d76b79dd4080fe4dcc9bfb3c54d05dbff8a563",
+          "url": "https://github.com/obra/superpowers/blob/22f0b463e7a5e579904dd6211a520321035526f7/skills/writing-skills/SKILL.md"
+        },
+        {
+          "path": "skills/diagnosing-superpowers/SKILL.md",
+          "git_blob_sha": "dda2692d528574c410b118a6de545d6afc7eb047",
+          "url": "https://github.com/obra/superpowers/blob/22f0b463e7a5e579904dd6211a520321035526f7/skills/diagnosing-superpowers/SKILL.md"
+        },
+        {
+          "path": "LICENSE",
+          "git_blob_sha": "abf0390320aa14406af7a520b9b0739fdda9bf08",
+          "url": "https://github.com/obra/superpowers/blob/22f0b463e7a5e579904dd6211a520321035526f7/LICENSE"
+        }
+      ]
+    },
+    {
+      "repository": "microsoft/SkillOpt",
+      "commit": "45f65ca04f5f6713bca7b9797b495696ba812751",
+      "license": "MIT",
+      "adopted": [
+        "Keep edits scoped.",
+        "Check a held-out case set and flag per-case regressions."
+      ],
+      "files": [
+        {
+          "path": "README.md",
+          "git_blob_sha": "7a3739381597ce52022d079c51b98ce4cb0cde8e",
+          "url": "https://github.com/microsoft/SkillOpt/blob/45f65ca04f5f6713bca7b9797b495696ba812751/README.md"
+        },
+        {
+          "path": "docs/sleep/README.md",
+          "git_blob_sha": "eec3e6cd8e21f7a694fd74b356c5324383b3eac8",
+          "url": "https://github.com/microsoft/SkillOpt/blob/45f65ca04f5f6713bca7b9797b495696ba812751/docs/sleep/README.md"
+        },
+        {
+          "path": "LICENSE",
+          "git_blob_sha": "cf7bcb2ba475e33648180599c0f83c425f1705d9",
+          "url": "https://github.com/microsoft/SkillOpt/blob/45f65ca04f5f6713bca7b9797b495696ba812751/LICENSE"
+        }
+      ]
+    }
+  ],
+  "mapping": {
+    "SKILL.md and SKILL.en.md": "Failure reproduction, scoped revisions, pressure cases, and final independent acceptance.",
+    "scripts/evaluate_skills.py": "Paired comparison, elapsed time, and per-case regressions.",
+    "scripts/maintenance_cases.py": "Separate development and independent final case suites."
+  }
+}

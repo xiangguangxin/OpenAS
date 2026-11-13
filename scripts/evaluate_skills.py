@@ -8,8 +8,13 @@ from pathlib import Path
 import shutil
 import sys
 import tempfile
+import time
 
 ROOT = Path(__file__).resolve().parents[1]
+MAINTENANCE_SPEC = importlib.util.spec_from_file_location('maintenance_cases', Path(__file__).with_name('maintenance_cases.py'))
+maintenance = importlib.util.module_from_spec(MAINTENANCE_SPEC)
+MAINTENANCE_SPEC.loader.exec_module(maintenance)
+
 PLUGIN = ROOT/'plugins/openas'
 SPEC = importlib.util.spec_from_file_location('eval_harness', PLUGIN/'workflows/codex-team.py')
 h = importlib.util.module_from_spec(SPEC)
@@ -46,8 +51,14 @@ SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
 }, 'required': ['selected_skill', 'summary', 'findings', 'questions', 'evidence']}
 
 
-def evaluate(name, client, output, timeout):
-    request, expected_skill, writable, expect_questions = CASES[name]
+def evaluate(name, client, output, timeout, plugin=PLUGIN):
+    fixture = ''
+    expectations = ()
+    if name in maintenance.CASES:
+        request, expected_skill, fixture, expectations = maintenance.CASES[name]
+        writable = expect_questions = False
+    else:
+        request, expected_skill, writable, expect_questions = CASES[name]
     case_output = output/name
     case_output.mkdir()
     schema = case_output/'schema.json'
@@ -63,9 +74,11 @@ class AverageTests(unittest.TestCase):
     def test_numbers(self): self.assertEqual(average([2, 4]), 3)
 if __name__ == '__main__': unittest.main()
 ''')
+        if fixture:
+            (workspace/'fixture.txt').write_text(fixture + '\n')
         before = h.snapshot(workspace)
         catalog = []
-        for skill in sorted((PLUGIN/'skills').glob('*/SKILL.md')):
+        for skill in sorted((plugin/'skills').glob('*/SKILL.md')):
             header = skill.read_text().split('---', 2)[1]
             catalog.append({'path': str(skill), 'metadata': header.strip()})
         prompt = ('Select the relevant skill from the available catalog and read its SKILL.md before performing the task. '
@@ -80,7 +93,9 @@ if __name__ == '__main__': unittest.main()
                    '--sandbox', 'workspace-write' if writable else 'read-only', '-C', str(workspace),
                    '--output-schema', str(schema), '-o', str(case_output/'result.json'), '-']
         print(f'Evaluating {name}', flush=True)
+        started = time.monotonic()
         rc = h.execute(command, workspace, timeout, case_output/'stdout.log', case_output/'stderr.log', prompt)
+        elapsed = time.monotonic() - started
         after = h.snapshot(workspace)
         changed = sorted(x for x in before.keys() | after.keys() if before.get(x) != after.get(x))
         result = json.loads((case_output/'result.json').read_text()) if rc == 0 else {}
@@ -91,6 +106,9 @@ if __name__ == '__main__': unittest.main()
             'question_policy': bool(result.get('questions')) == expect_questions,
             'evidence_present': bool(result.get('evidence')),
         }
+        if expectations:
+            response = '\n'.join([result.get('summary', ''), *result.get('findings', []), *result.get('evidence', [])])
+            gates['fixture_signals'] = all(re.search(pattern, response, re.IGNORECASE) for pattern in expectations)
         if name == 'ordinary-review':
             gates['findings_present'] = bool(result.get('findings'))
         language = CASE_LANGUAGES.get(name)
@@ -105,34 +123,77 @@ if __name__ == '__main__': unittest.main()
             gates['host_tests_pass'] = check == 0
             gates['implementation_changed'] = changed == ['average.py']
         receipt = {'case': name, 'gates': gates, 'passed': all(gates.values()),
-                   'changed_files': changed, 'result': result,
+                   'changed_files': changed, 'result': result, 'elapsed_seconds': round(elapsed, 3),
                    'expected_language': language,
-                   'limits': 'Routing and filesystem/test behavior are host-checked. Language detection is a summary-only script heuristic, not semantic validation; human review of language, prose and findings is still required.'}
+                   'limits': 'Routing is client-reported. Filesystem scope and repair tests are host-checked. Text signals require semantic review.'}
         (case_output/'receipt.json').write_text(json.dumps(receipt, ensure_ascii=False, indent=2))
         return receipt
+
+
+def compare(names, client, output, timeout, baseline, candidate):
+    checker_spec = importlib.util.spec_from_file_location('eval_plugin_check', ROOT/'scripts/check_plugin.py')
+    checker = importlib.util.module_from_spec(checker_spec)
+    checker_spec.loader.exec_module(checker)
+    versions = {label: checker.check(path)['sha256']
+                for label, path in (('baseline', baseline), ('candidate', candidate))}
+    if versions['baseline'] == versions['candidate']:
+        raise ValueError('Baseline and candidate plugin contents are identical')
+    (output/'baseline').mkdir()
+    (output/'candidate').mkdir()
+    comparisons = []
+    for name in names:
+        old = evaluate(name, client, output/'baseline', timeout, baseline)
+        new = evaluate(name, client, output/'candidate', timeout, candidate)
+        comparisons.append({
+            'case': name,
+            'baseline': old,
+            'candidate': new,
+            'improved_gates': [key for key, passed in new['gates'].items()
+                               if passed and not old['gates'][key]],
+            'regressed_gates': [key for key, passed in old['gates'].items()
+                                if passed and not new['gates'][key]],
+        })
+    for label, path in (('baseline', baseline), ('candidate', candidate)):
+        if checker.check(path)['sha256'] != versions[label]:
+            raise ValueError(f'{label} plugin changed during comparison')
+    ready = all(item['baseline']['gates']['client_success'] and item['candidate']['passed']
+                and not item['regressed_gates'] for item in comparisons)
+    return {'status': 'passed' if ready else 'failed', 'plugin_sha256': versions,
+            'comparisons': comparisons,
+            'limits': 'Paired probes use the same executable and inherited settings. Passing gates require semantic review and do not by themselves prove improvement.'}
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--client', default='codex')
-    p.add_argument('--case', choices=CASES)
+    selection = p.add_mutually_exclusive_group()
+    selection.add_argument('--case', choices=(*CASES, *maintenance.CASES))
+    selection.add_argument('--maintenance-suite', choices=maintenance.SUITES)
+    p.add_argument('--baseline-plugin', type=Path, help='Path to a complete baseline plugins/openas directory')
+    p.add_argument('--candidate-plugin', type=Path, default=PLUGIN)
     p.add_argument('--output', required=True, type=Path)
     p.add_argument('--timeout', type=int, default=180)
     args = p.parse_args()
     client = shutil.which(args.client)
     if not client or args.timeout <= 0:
         p.error('An installed client and a positive timeout are required')
+    names = (args.case,) if args.case else maintenance.SUITES[args.maintenance_suite] if args.maintenance_suite else CASES
+    candidate = args.candidate_plugin.resolve()
+    baseline = args.baseline_plugin.resolve() if args.baseline_plugin else None
     output = args.output.resolve()
+    if any(path == output or path in output.parents for path in (candidate, baseline) if path):
+        p.error('Output must be outside the plugin directories')
     output.mkdir(parents=True, exist_ok=False)
-    receipts = []
     try:
-        for name in ([args.case] if args.case else CASES):
-            receipts.append(evaluate(name, client, output, args.timeout))
+        if baseline:
+            report = compare(names, client, output, args.timeout, baseline, candidate)
+        else:
+            receipts = [evaluate(name, client, output, args.timeout, candidate) for name in names]
+            report = {'status': 'passed' if all(r['passed'] for r in receipts) else 'failed', 'cases': receipts}
     except (h.HarnessError, OSError, ValueError) as exc:
         (output/'error.json').write_text(json.dumps({'status': 'failed', 'error': str(exc)}))
         print(str(exc), file=sys.stderr)
         return 1
-    report = {'status': 'passed' if all(r['passed'] for r in receipts) else 'failed', 'cases': receipts}
     (output/'report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2))
     print(json.dumps({'status': report['status'], 'report': str(output/'report.json')}))
     return 0 if report['status'] == 'passed' else 1
