@@ -2,7 +2,7 @@
 
 [中文技能地图](../README.md#技能地图) | [English guide](../README.md#english)
 
-All 59 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
+All 60 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
 
 | Skill | When to use it |
 | --- | --- |
@@ -54,6 +54,7 @@ All 59 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery e
 | [reverse-engineer-anything](../plugins/openas/skills/reverse-engineer-anything/SKILL.md) | Analyze shipped binaries, packages, firmware and runtime evidence with REA; use normal repository tools for ordinary source analysis. |
 | [roadmap-planning](../plugins/openas/skills/roadmap-planning/SKILL.en.md) | Organize requirements and research into MVP, priorities, phases, dependencies, and acceptance measures; do not invent dates or replace detailed implementation planning. |
 | [security-review](../plugins/openas/skills/security-review/SKILL.en.md) | Trace actual trust boundaries and exploitable security issues in code, configuration, and data flows, with prerequisites and verification; do not automatically scan external systems. |
+| [skill-maintenance](../plugins/openas/skills/skill-maintenance/SKILL.en.md) | Improve an existing skill using reproducible failures, matched version comparisons, and held-out acceptance cases. |
 | [solution-design](../plugins/openas/skills/solution-design/SKILL.en.md) | Compare solution alternatives and tradeoffs or coordinate research, requirements, selection, architecture, and design documentation without automatically starting development. |
 | [subagent-driven-development](../plugins/openas/skills/subagent-driven-development/SKILL.en.md) | Coordinate authorized role handoffs, adversarial review, and independent verification for complex changes; do not require teams for simple questions or mechanical edits. |
 | [task-orchestration](../plugins/openas/skills/task-orchestration/SKILL.en.md) | Represent multi-step work as dependency nodes with artifacts, ownership, routes, and acceptance, and execute with failure handoff; do not imply parallel or release authorization. |

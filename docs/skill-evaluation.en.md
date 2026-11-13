@@ -56,3 +56,16 @@ The [Office validation record](../plugins/openas/workflows/evidence/2026-10-29-o
 The [PDF extraction record](../plugins/openas/workflows/evidence/2026-10-29-pdf-extraction/README.md) preserves an initial missing-report observation, a focused instruction correction and two final real-client cases. Host checks cover selected text, empty image-page text, source provenance, helper reports and exclusion of rendering-only tasks. Real OCR, complex layouts and native discovery remain unverified.
 
 The shared evidence policy has [two real-client trials and a negative control](../plugins/openas/workflows/evidence/2026-10-29-evidence-policy/README.md), covering stale evidence and unverified claims under a static-only scope.
+
+## Compare versions when maintaining a skill
+
+Check out the complete baseline plugin at a pinned commit. Run the same client for both versions. Each version and case uses a fresh temporary workspace.
+
+```bash
+python3 scripts/evaluate_skills.py --baseline-plugin /path/to/old/plugins/openas \
+  --maintenance-suite development --output /tmp/openas-skill-development
+python3 scripts/evaluate_skills.py --baseline-plugin /path/to/old/plugins/openas \
+  --maintenance-suite holdout --output /tmp/openas-skill-holdout
+```
+
+Use `--candidate-plugin` to select another candidate bundle and `--case` for one case. Reports record bundle hashes, per-run elapsed time, and per-gate improvements or regressions. Both versions must launch successfully and the candidate must pass the relevant checks. Fixtures are synthetic; assess text signals and self-reported routing against the actual outputs. The original ten cases remain the default. If the built-in holdouts have informed edits, reserve fresh cases for final acceptance.

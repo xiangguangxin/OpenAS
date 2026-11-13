@@ -49,3 +49,5 @@ CI/CD 配置与诊断使用 [ci-cd](../ci-cd/SKILL.md)，配置修改沿用 oper
 从 PDF 提取文字、为来源摘要或字段整理取得页码依据时，使用 [pdf-extraction](../pdf-extraction/SKILL.md)，不先做 Office 转换或图片渲染。它不新增执行器路线，也不实现 OCR；只需图片或 PDF 导出时仍使用对应 Office 操作。
 
 已有 PR 评审意见用 [pr-review-feedback](../pr-review-feedback/SKILL.md)；版本准备和发布验证用 [release-management](../release-management/SKILL.md)；已有覆盖率结果与缺口定位用 [coverage-analysis](../coverage-analysis/SKILL.md)。分析可直接交付结论，涉及工作区修改时按风险选 direct 或 development，发布配置修改可用 operations。远程发布和 PR 操作依据已有授权及宿主能力。
+
+维护已有 Agent Skill 的触发和执行行为时用 [skill-maintenance](../skill-maintenance/SKILL.md)，以复现证据和对照用例确定改动范围。

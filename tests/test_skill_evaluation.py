@@ -59,3 +59,47 @@ class SkillEvaluationTests(unittest.TestCase):
             receipt = evaluation.evaluate('repair', 'fake', Path(tmp), 10)
         self.assertFalse(receipt['passed'])
         self.assertFalse(receipt['gates']['scope_preserved'])
+
+    def test_paired_comparison_reports_improvements_and_regressions(self):
+        root = evaluation.ROOT
+        baseline = root/'baseline-test'
+        candidate = root/'candidate-test'
+        calls = []
+
+        def evaluate(name, client, output, timeout, plugin):
+            calls.append((name, plugin))
+            old = plugin == baseline
+            gates = {'client_success': True, 'skill_routing': not old, 'scope_preserved': old}
+            return {'passed': all(gates.values()), 'gates': gates}
+
+        checker = type('Checker', (), {
+            'check': staticmethod(lambda path: {'sha256': path.name}),
+        })()
+        with tempfile.TemporaryDirectory() as tmp, \
+                patch.object(evaluation, 'evaluate', side_effect=evaluate), \
+                patch.object(evaluation.importlib.util, 'module_from_spec', return_value=checker), \
+                patch('importlib.machinery.SourceFileLoader.exec_module'):
+            report = evaluation.compare(('feedback-outdated',), 'fake', Path(tmp), 10, baseline, candidate)
+        self.assertEqual(calls, [('feedback-outdated', baseline), ('feedback-outdated', candidate)])
+        self.assertEqual(report['plugin_sha256'], {'baseline': baseline.name, 'candidate': candidate.name})
+        self.assertEqual(report['comparisons'][0]['improved_gates'], ['skill_routing'])
+        self.assertEqual(report['comparisons'][0]['regressed_gates'], ['scope_preserved'])
+        self.assertEqual(report['status'], 'failed')
+
+    def test_maintenance_fixture_requires_expected_behavior_signals(self):
+        def execute(argv, cwd, timeout, stdout, stderr, stdin=None):
+            self.assertIn('REV-A', (cwd/'fixture.txt').read_text())
+            self.assertNotIn('REV-A', stdin)
+            Path(argv[argv.index('-o') + 1]).write_text(json.dumps({
+                'selected_skill': 'pr-review-feedback', 'summary': 'Everything passed',
+                'findings': [], 'questions': [], 'evidence': ['fixture.txt'],
+            }))
+            return 0
+
+        with tempfile.TemporaryDirectory() as tmp, patch.object(evaluation.h, 'execute', side_effect=execute):
+            receipt = evaluation.evaluate('feedback-outdated', 'fake', Path(tmp), 10)
+        self.assertTrue(receipt['gates']['skill_routing'])
+        self.assertFalse(receipt['gates']['fixture_signals'])
+        self.assertFalse(receipt['passed'])
+        self.assertTrue(set(evaluation.maintenance.SUITES['development']).isdisjoint(
+            evaluation.maintenance.SUITES['holdout']))
