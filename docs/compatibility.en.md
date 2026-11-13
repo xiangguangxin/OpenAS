@@ -13,6 +13,10 @@
 
 Client observations apply to their recorded versions, not all past/future clients. Tests do not log in, upgrade clients, or expand sandbox permissions automatically.
 
+## Upgrade to 0.18.0
+
+Add PR review follow-up, release management, and coverage analysis, reaching 59 skills and 84 translation pairs. The skills use existing roles, workflows, and host tools. Marketplace users can update after the new version reaches their source.
+
 ## Upgrade to 0.17.1
 
 Add the bilingual evidence policy across project-owned role/skill entries, retaining 56 skills and 12 roles with 81 translation pairs. Python role prompts embed its body and missing files stop role execution; JS hosts receive a read path. No new runtime dependencies, routes, result fields or state formats. Existing resource fingerprints/checkpoint revalidation apply; historical passes do not automatically establish changed targets.

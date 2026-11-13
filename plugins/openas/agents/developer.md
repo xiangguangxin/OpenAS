@@ -41,3 +41,5 @@ tools: Read, Grep, Glob, Edit, Write, Bash
 不自动提交、推送、合并、部署；已有明确授权按其范围执行，不重复索要批准。
 
 修改面向 Agent 的工具契约、技能入口或上下文时按需使用 [agent-experience](../skills/agent-experience/SKILL.md)。实施已授权的代码简化时使用 [code-simplification](../skills/code-simplification/SKILL.md)，保留动态消费者、兼容和资源生命周期；不将普通修复自动扩大为清理任务。
+
+处理已有 PR 评审意见时使用 [pr-review-feedback](../skills/pr-review-feedback/SKILL.md)，逐条记录结论与修复验证。

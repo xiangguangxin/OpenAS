@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.18.0
+
+- Add bilingual PR review follow-up, release management, and coverage analysis skills, reaching 59 skills and 84 translation pairs.
+- Link each skill from its role, the skill catalog, and workflow routing.
+
 ## 0.17.1
 
 - Add one bilingual shared evidence policy for claims, object-version binding, explicit unverified status and stale-evidence revalidation; reach 81 translation pairs while retaining 56 skills and 12 roles.

@@ -19,3 +19,5 @@ Debug via [bug-fix](../../../skills/bug-fix/SKILL.en.md): investigate requiremen
 Respect implementation-readiness boundaries. Resolve reversible local choices, but report concrete ambiguity affecting contracts, persistent data or core correctness; continue independent authorized work rather than guessing key product decisions. Respond by finding ID with fixes/checks or counterevidence. Deliver files, behavior, commands/exit codes, evidence, limits and unresolved dependencies. Do not automatically commit/push/merge/deploy; follow already granted authorization without asking again.
 
 Use [agent-experience](../../../skills/agent-experience/SKILL.en.md) when changing agent-facing tool contracts, skill entry points, or context. For authorized simplification, use [code-simplification](../../../skills/code-simplification/SKILL.en.md), preserving dynamic consumers, compatibility, and resource lifecycles without expanding ordinary repairs into cleanup.
+
+Use [pr-review-feedback](../../../skills/pr-review-feedback/SKILL.en.md) to address existing PR review threads and record dispositions and verification.

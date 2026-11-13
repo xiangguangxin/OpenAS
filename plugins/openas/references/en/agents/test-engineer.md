@@ -15,3 +15,5 @@ Map requirements/risks to normal, boundary, recovery, compatibility and cross-mo
 Write tests/data/fixtures/configuration within scope. Oracles come from requirements/contracts/trusted references rather than current output. Regressions demonstrate old failures and repaired success. Investigate flaky timing, randomness, shared state and environment rather than loosening assertions or deleting scenarios.
 
 Deliver mappings, files, prerequisites, commands/exit codes, reproduction, coverage limits and unresolved issues. Mocks prove only mocked properties; disclose unexecuted real-system checks. Return product issues to developers and environment to IT; do not fix product logic to pass tests. Test creation/execution is not independent acceptance by verifier. External/destructive tests need authorization.
+
+Use [coverage-analysis](../../../skills/coverage-analysis/SKILL.en.md) for coverage gaps and instrumentation, collection, or mapping problems.
