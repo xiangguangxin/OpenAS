@@ -10,6 +10,8 @@ OpenAS provides configuration examples and on-demand guidance; loading the plugi
 | [GitHub](github/README.en.md) | product-manager, developer, red-team, it; requirements and review workflows | Official server binary, GitHub token, and network access |
 | [Context7](context7/README.en.md) | researcher, cto, developer; technical-research, technology-selection | Network access and service API key |
 
+| [Computer Use](computer-use/README.en.md) | computer-use; Windows/macOS GUI | User-installed Nova (or equivalent desktop MCP), OS permissions; configure Claude Code/Codex independently |
+
 ## Configuration and activation
 
 Start with the [integration quick start](QUICKSTART.en.md): select services → merge configuration → supply your credentials → run local preflight → connect the client and validate each service. The bundled [configuration and checking tool](setup_mcp.py) requires Python 3.9+, merges any selection of the three services, preserves unrelated configuration, stops on name conflicts, and does not write real credentials.

@@ -88,8 +88,8 @@
     {
       "source": "integrations/README.md",
       "target": "integrations/README.en.md",
-      "source_sha256": "25f958b1d3a6dc1c6b46fa3dde00dec2e40f62750f39cd20b10081be70e72a73",
-      "target_sha256": "6e339057ed6a90269280c528c9decb7cd8490a2e0702c35a2cd5416765393501"
+      "source_sha256": "ae46a01ce612616e80bca36f2cfa576da52a558dfd2ca269c7735fff5f1dc34c",
+      "target_sha256": "8cadd019deb26a844fbc562f70f55a1cd558e8ccd7a588221f24a6e1cc63d683"
     },
     {
       "source": "integrations/context7/README.md",
@@ -510,6 +510,12 @@
       "target": "references/evidence-policy.en.md",
       "source_sha256": "badacb8b6a384dab27e4eadf885787a8f8f61bac11cf5288724b820c78359e86",
       "target_sha256": "665e02362cd27b5c1bfbb2a9fa45fd74fa5a0e7d5d2bc3be0a7f681830174db8"
+    },
+    {
+      "source": "skills/computer-use/SKILL.md",
+      "target": "skills/computer-use/SKILL.en.md",
+      "source_sha256": "13e4ed0036532b5c81355c0c61710341d1da44d874233e98692eb29e8151827a",
+      "target_sha256": "394d34ccc6617d810b6f1137555acb50b8952c1289adffce6de295d0e194257b"
     }
   ]
 }
