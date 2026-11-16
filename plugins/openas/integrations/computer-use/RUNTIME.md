@@ -91,3 +91,17 @@ checkpoint 使用原子写入，只记录任务摘要、步骤计数、结果摘
 请勿把模型声称的 `completed` 当成独立验证通过；在生产场景应加入文件检查、测试结果检查等外部验收器。模型可能判断错误，工具名和风险分类也不能覆盖全部危险操作。建议先在隔离测试桌面使用。
 
 对应文件：[`goal_runtime.py`](goal_runtime.py)、[`live_goal_agent.py`](live_goal_agent.py)、[`gui-goal-executor` Skill](../../skills/gui-goal-executor/SKILL.md)。
+
+## Phase 3 / Phase 4：恢复与独立验收
+
+新版 checkpoint 为 **v2**，可以读取旧 v1 状态，并在写入时迁移。每个 checkpoint 增加跨进程互斥锁；如果中断发生在操作已发出但结果未知时，恢复后会阻塞，不会盲目重试。人工检查桌面后执行：
+
+```sh
+openas-gui reconcile ./goal-state.json --outcome executed --note "已核对操作执行成功"
+openas-gui resume ./goal-state.json --nova /absolute/path/to/nova
+```
+
+也可指定 `--outcome not-executed`。两种结果都不会重放旧动作，而是重新观察并规划。手动核对是必要步骤。
+
+**独立文件验收：** 通过 `--verifier ./coverage-verifier.json` 指定 JSON 验收规则，检查文件存在、最小大小、内容关键字。规则路径限定在指定目录下，防止简单目录穿越。没有提供 `--verifier` 时仍使用旧的模型证据检查，**不能视为独立验收**。新增模拟桌面完整流程测试，但尚未进行真实 Nova/Windows/macOS 端到端验证。
+
