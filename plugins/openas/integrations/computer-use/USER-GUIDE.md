@@ -6,7 +6,7 @@
 
 ## 1. 准备工作
 
-- 已安装并能运行 Claude Code 或 Codex CLI；OpenAS 已按 [仓库安装说明](../../../../README.md) 安装或更新到包含 `computer-use` 的版本。
+- 已安装并能运行 Claude Code 或 Codex CLI；OpenAS 已按 [仓库安装说明](https://github.com/xiangguangxin/OpenAS#readme) 安装或更新到包含 `computer-use` 的版本。
 - 从 [Nova 官方仓库](https://github.com/bigduu/Nova) 阅读说明，在 [Releases](https://github.com/bigduu/Nova/releases) 下载匹配操作系统和 CPU 架构的版本；核对发布资产的 SHA-256 后解压。
 - 选择一个固定且可信的可执行文件路径，**下面所有路径只是示例**，必须替换成你自己的真实路径。
 - 测试时关闭敏感窗口，用临时文件，保持屏幕解锁，避免人在旁边同时操作鼠标。
