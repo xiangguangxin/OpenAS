@@ -510,6 +510,12 @@
       "target": "references/evidence-policy.en.md",
       "source_sha256": "badacb8b6a384dab27e4eadf885787a8f8f61bac11cf5288724b820c78359e86",
       "target_sha256": "665e02362cd27b5c1bfbb2a9fa45fd74fa5a0e7d5d2bc3be0a7f681830174db8"
+    },
+    {
+      "source": "skills/computer-use/SKILL.md",
+      "target": "skills/computer-use/SKILL.en.md",
+      "source_sha256": "13e4ed0036532b5c81355c0c61710341d1da44d874233e98692eb29e8151827a",
+      "target_sha256": "394d34ccc6617d810b6f1137555acb50b8952c1289adffce6de295d0e194257b"
     }
   ]
 }
