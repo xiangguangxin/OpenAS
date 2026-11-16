@@ -11,7 +11,7 @@ def main():
     s = sub.add_parser("status"); s.add_argument("checkpoint", type=Path)
     r = sub.add_parser("reconcile"); r.add_argument("checkpoint", type=Path); r.add_argument("--outcome", choices=["executed", "not-executed"], required=True); r.add_argument("--note", required=True)
     for name in ("run", "resume"):
-        x = sub.add_parser(name); x.add_argument("checkpoint", type=Path); x.add_argument("--nova", required=True); x.add_argument("--model", default=os.getenv("OPENAS_GUI_MODEL")); x.add_argument("--endpoint", default=os.getenv("OPENAS_GUI_API_URL", "https://api.openai.com/v1/chat/completions")); x.add_argument("--approve-pending", action="store_true"); x.add_argument("--verifier", type=Path, help="JSON rules for independent local file verification")
+        x = sub.add_parser(name); x.add_argument("checkpoint", type=Path); x.add_argument("--nova", required=True); x.add_argument("--model", default=os.getenv("OPENAS_GUI_MODEL")); x.add_argument("--endpoint", default=os.getenv("OPENAS_GUI_API_URL", "https://api.openai.com/v1/chat/completions")); x.add_argument("--approve-pending", action="store_true"); x.add_argument("--verifier", type=Path, help="JSON rules for independent local file verification"); x.add_argument("--max-model-calls", type=int, default=0); x.add_argument("--max-model-tokens", type=int, default=0); x.add_argument("--max-ui-text-chars", type=int, default=5000); x.add_argument("--max-images", type=int, default=1)
     a = p.parse_args()
     if a.command == "create": result = create(a.checkpoint, a.goal, a.criterion, max_steps=a.max_steps)
     elif a.command == "status": result = load(a.checkpoint)
@@ -24,9 +24,10 @@ def main():
         from .executor import LiveDesktop
         key = os.getenv("OPENAS_GUI_API_KEY")
         if not key or not a.model: p.error("Set OPENAS_GUI_API_KEY and OPENAS_GUI_MODEL (or --model)")
+        if a.max_model_calls < 0 or a.max_model_tokens < 0 or a.max_ui_text_chars < 0 or a.max_images < 0: p.error("Token limits must be nonnegative")
         nova = NovaMCP(a.nova)
         try:
-            planner = ModelPlanner(a.model, key, a.endpoint)
+            planner = ModelPlanner(a.model, key, a.endpoint, max_tokens=a.max_model_tokens, max_calls=a.max_model_calls, max_text_chars=a.max_ui_text_chars, max_images=a.max_images)
             from .verification import FileVerifier
             verifier = FileVerifier.from_json(a.verifier) if a.verifier else None
             result = run(a.checkpoint, LiveDesktop(nova, planner), planner, approval=a.approve_pending, verifier=verifier)
