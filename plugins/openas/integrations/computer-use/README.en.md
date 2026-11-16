@@ -1,3 +1,5 @@
+**Built-in multi-step Agent Runtime and persistent resume:** [setup and limitations](RUNTIME.en.md).
+
 # Computer Use MCP: Windows/macOS × Claude Code/Codex
 
 **New user?** Start with the [complete user guide](USER-GUIDE.en.md) for setup, verification and troubleshooting.
