@@ -8,7 +8,7 @@ This is an **opt-in, executable Python agent loop**, separate from the instructi
 
 ## Modular package installation (recommended)
 
-The runtime is now in [`packages/gui-agent-runtime`](../../../../packages/gui-agent-runtime/README.md). The old scripts are compatibility wrappers requiring the package to be installed first:
+The runtime is now in [`packages/gui-agent-runtime`](https://github.com/xiangguangxin/OpenAS/tree/main/packages/gui-agent-runtime). The old scripts are compatibility wrappers requiring the package to be installed first:
 
 ```sh
 python -m pip install -e packages/gui-agent-runtime
