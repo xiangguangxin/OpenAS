@@ -6,7 +6,7 @@ Windows 10/11, macOS 14+, Claude Code and Codex CLI. [简体中文](USER-GUIDE.m
 
 ## 1. Prerequisites
 
-Install Claude Code or Codex CLI and update/install OpenAS according to the [repository README](../../../../README.md). Download the correct architecture from the [official Nova releases](https://github.com/bigduu/Nova/releases), verify the release archive's SHA-256 against the published checksum, and extract to a trusted fixed location. Keep the desktop unlocked, close sensitive windows, and test with disposable data.
+Install Claude Code or Codex CLI and update/install OpenAS according to the [repository README](https://github.com/xiangguangxin/OpenAS#readme). Download the correct architecture from the [official Nova releases](https://github.com/bigduu/Nova/releases), verify the release archive's SHA-256 against the published checksum, and extract to a trusted fixed location. Keep the desktop unlocked, close sensitive windows, and test with disposable data.
 
 **Windows:** Example path `C:\Tools\nova\nova.exe`. In PowerShell:
 
