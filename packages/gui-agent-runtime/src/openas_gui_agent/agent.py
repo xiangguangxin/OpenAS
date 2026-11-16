@@ -6,7 +6,13 @@ from typing import Any
 from .state import load, persist, _record, TERMINAL
 from .policy import needs_approval, fingerprint
 from .verifier import EvidenceOnlyVerifier
+from .locking import checkpoint_lock
 def run(path: Path, desktop, planner, *, approval: bool = False, verifier=None) -> dict[str, Any]:
+    with checkpoint_lock(path):
+        return _run_locked(path, desktop, planner, approval=approval, verifier=verifier)
+
+
+def _run_locked(path: Path, desktop, planner, *, approval: bool = False, verifier=None) -> dict[str, Any]:
     state = load(path)
     if state["status"] in TERMINAL:
         return state
