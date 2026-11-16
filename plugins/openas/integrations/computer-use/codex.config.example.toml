@@ -1,0 +1,4 @@
+# Merge into ~/.codex/config.toml. Replace with a trusted OS-specific absolute path.
+[mcp_servers.nova]
+command = "/absolute/path/to/nova"
+args = ["mcp"]
