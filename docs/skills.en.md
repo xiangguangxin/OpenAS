@@ -2,7 +2,7 @@
 
 [中文技能地图](../README.md#技能地图) | [English guide](../README.md#english)
 
-All 60 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
+All 61 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
 
 | Skill | When to use it |
 | --- | --- |
@@ -19,6 +19,7 @@ All 60 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery e
 | [ci-cd](../plugins/openas/skills/ci-cd/SKILL.en.md) | Configure or diagnose CI/CD triggers, build matrices, caches, artifacts, permissions, and failure evidence; do not automatically deploy or change remote repository settings. |
 | [code-simplification](../plugins/openas/skills/code-simplification/SKILL.en.md) | Find or implement net reductions in maintenance obligations using producer/consumer and compatibility evidence; keep surveys read-only. |
 | [codebase-analysis](../plugins/openas/skills/codebase-analysis/SKILL.en.md) | Explain repository entry points, modules, dependencies, core call paths, and extension mechanisms from source evidence; do not default to audits or binary reverse engineering. |
+| [computer-use](../plugins/openas/skills/computer-use/SKILL.en.md) | Access Windows/macOS desktop GUI via an explicitly connected MCP in Claude Code or Codex; accessibility-first, visual fallback, observe–act–verify, and human confirmation of risky actions. |
 | [competitive-analysis](../plugins/openas/skills/competitive-analysis/SKILL.en.md) | Compare competitors and alternatives for the same users and scenarios, with sourced evidence, gaps, and opportunity hypotheses rather than marketing claims. |
 | [context-handoff](../plugins/openas/skills/context-handoff/SKILL.en.md) | Transfer current task goals, authorization, state, decisions, artifacts, evidence, and remaining work to another role or session; keep it separate from long-term memory. |
 | [coverage-analysis](../plugins/openas/skills/coverage-analysis/SKILL.en.md) | Diagnose statement, branch, condition, or MC/DC gaps using matched source, builds, and profiles, and design or verify targeted tests. |
