@@ -72,6 +72,10 @@ Restart Codex and confirm Nova tools appear. Alternatively merge [this TOML exam
 
 OpenAS provides [Chinese](../../skills/computer-use/SKILL.md) and [English](../../skills/computer-use/SKILL.en.md) skill files. Install/update OpenAS for the chosen host, then explicitly ask it to use the computer-use skill. **MCP registration alone does not load the OpenAS skill**, especially in Codex where skill discovery depends on the installed adapter. If unavailable, follow the OpenAS installation instructions before claiming it is active.
 
+## Multi-step goal execution
+
+Use the [gui-goal-executor skill](../../skills/gui-goal-executor/SKILL.en.md) with computer-use and a connected Nova MCP. The agent loops through observe → reason → act → verify → replan until the acceptance criteria are met or it stops safely. Example: “Use gui-goal-executor to generate a coverage report for an authorized test project. Only claim success if build and tests pass and the report exists and is readable. Ask before overwriting; limit to 40 steps and stop after 3 consecutive failures.” This is skill orchestration, not a standalone persistent background service.
+
 ## 4. First safe smoke test
 
 Paste this prompt into Claude Code or Codex:
