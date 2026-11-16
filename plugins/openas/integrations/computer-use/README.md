@@ -26,11 +26,11 @@
 把 [codex.config.example.toml](codex.config.example.toml) 中的 `command` 改为本机绝对路径，**合并**到 `~/.codex/config.toml`，保留已有服务和设置。或在支持的版本使用：
 
 ```sh
-codex mcp add nova -- /absolute/path/to/nova mcp
+codex mcp add nova -- /absolute/path/to/nova
 codex mcp list
 ```
 
-Windows 下将该路径替换为 `C:\Tools\nova\nova.exe` 形式；实际命令以本机 `codex mcp add --help` 与上游 `nova mcp --help` 为准。Codex 与 Claude Code 不共享 MCP 注册。OpenAS Codex 工作流适配器也不会自动加载此服务。
+Windows 下将该路径替换为 `C:\Tools\nova\nova.exe` 形式；实际命令以本机 `codex mcp add --help` 与上游 `nova --help` 为准。Codex 与 Claude Code 不共享 MCP 注册。OpenAS Codex 工作流适配器也不会自动加载此服务。
 
 ## 精度优先验证
 
