@@ -26,11 +26,11 @@ Merge the `nova` entry from [claude.mcp.example.json](claude.mcp.example.json) i
 Merge the [codex.config.example.toml](codex.config.example.toml) section into `~/.codex/config.toml`, preserving other settings, or in compatible CLI versions run:
 
 ```sh
-codex mcp add nova -- /absolute/path/to/nova mcp
+codex mcp add nova -- /absolute/path/to/nova
 codex mcp list
 ```
 
-For Windows use an actual path such as `C:\Tools\nova\nova.exe`. Confirm the CLI flags with `codex mcp add --help` and the provider invocation with `nova mcp --help`. Codex and Claude registrations are independent; the OpenAS Codex workflow adapter does not inject MCP automatically.
+For Windows use an actual path such as `C:\Tools\nova\nova.exe`. Confirm the CLI flags with `codex mcp add --help` and the provider invocation with `nova --help`. Codex and Claude registrations are independent; the OpenAS Codex workflow adapter does not inject MCP automatically.
 
 ## Observe–act–verify acceptance
 
