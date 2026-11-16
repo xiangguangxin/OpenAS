@@ -71,4 +71,25 @@ openas-experience --store ./experiences.json search "coverage report" \
   --environment win11-coverage-v1
 ```
 
-Only use verifier configurations you trust. The store is a local file with no multi-process locking, access control, or encryption; keep it in a trusted directory and do not share it with untrusted users. Environment tags are exact matches and retrieval is simple word overlap (not embeddings). Experiences are **not automatically injected into the planner**, and success in one environment does not authorize replay in another.
+Only use verifier configurations you trust. The store is a local file with no multi-process locking, access control, or encryption; keep it in a trusted directory and do not share it with untrusted users. Environment tags are exact matches and retrieval is simple word overlap (not embeddings). By default experiences are **not injected into the planner**, and success in one environment does not authorize replay in another.
+
+## Opt-in experience-assisted planning and lifecycle
+
+```sh
+openas-gui run ./goal-state.json --nova /absolute/path/to/nova \
+  --experience-store ./experiences.json --experience-environment win11-coverage-v1
+```
+
+When both flags are supplied, the planner automatically searches the **local** store for up to two relevant, independently verified experiences in the exact environment. Hints are bounded and explicitly marked as **untrusted historical context**; the model must reobserve and independently verify current outcomes. No actions are replayed from memory. Omitting the flags disables retrieval.
+
+Experience confidence decays exponentially (default 30-day half-life), and experiences become ineligible after 90 days. Search automatically excludes expired, invalidated, or low-confidence records; `expire` persists their invalidated status without deleting audit history. These are conservative policy defaults, not measured reliability probabilities. Two **explicitly recorded, independently verified** failures invalidate an experience; runtime planner errors alone do not count as verified failures.
+
+```sh
+openas-experience --store ./experiences.json feedback EXPERIENCE_ID \
+  --outcome failure --note "Independent acceptance failed in matching environment"
+openas-experience --store ./experiences.json invalidate EXPERIENCE_ID \
+  --reason "GUI version changed"
+openas-experience --store ./experiences.json expire
+```
+
+The CLI cannot independently establish that feedback is true: operators must check their evidence before submitting feedback. Environment tags should include relevant OS, app and workflow versions. The store remains single-writer local JSON; avoid concurrent writers. Hints may include operator notes, so do not store secrets. This is a first-stage retrieval/lifecycle implementation, not autonomous experience learning or real-world success-rate proof.
