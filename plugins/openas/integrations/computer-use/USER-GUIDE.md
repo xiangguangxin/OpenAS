@@ -88,6 +88,10 @@ OpenAS 包含：
 
 在 Claude Code 中按 OpenAS 插件安装方式加载后，可在提示词中明确要求“使用 OpenAS computer-use Skill”。在 Codex 中需要确认 OpenAS 的 Skill 适配器/加载方式已生效；**只注册 Nova MCP 不代表 Codex 已加载 OpenAS Skill**。如果客户端没有发现 Skill，先根据仓库安装说明修复 Skill 加载，不要假装 Skill 已启用。MCP 本身仍可单独测试。
 
+## 多步骤 Goal 任务
+
+使用 [gui-goal-executor Skill](../../skills/gui-goal-executor/SKILL.md) 配合 computer-use 和已连接的 Nova MCP，Agent 会持续执行“观察 → 判断 → 操作 → 验证 → 更新计划”，直到成功条件满足或安全停止。例如：“使用 gui-goal-executor 在指定测试工程生成覆盖率报告，构建和测试成功且报告存在可读才算完成；覆盖文件前先确认，最多 40 步，连续 3 次失败就停止。”这只是 Skill 编排，不是独立的持久运行服务。
+
 ## 4. 第一次安全测试（推荐）
 
 在 Claude Code 或 Codex 输入：
