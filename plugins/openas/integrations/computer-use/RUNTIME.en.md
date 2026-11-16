@@ -6,6 +6,19 @@ This is an **opt-in, executable Python agent loop**, separate from the instructi
 
 **Important limitations:** this is an initial runtime, not a production-hardened autonomous desktop controller. It requires a trusted Nova binary, a separately configured OpenAI-compatible multimodal chat-completions endpoint, an interactive unlocked desktop and user authorization. It does **not** automatically inherit Claude Code/Codex subscriptions or their MCP registrations. It does not run in the background after the host process exits; restart the command to resume. There are no real Windows/macOS end-to-end tests yet.
 
+## Modular package installation (recommended)
+
+The runtime is now in [`packages/gui-agent-runtime`](../../../../packages/gui-agent-runtime/README.md). The old scripts are compatibility wrappers requiring the package to be installed first:
+
+```sh
+python -m pip install -e packages/gui-agent-runtime
+openas-gui create ./goal-state.json --goal "Inspect authorized GUI" --criterion "Expected result visible"
+openas-gui status ./goal-state.json
+# Configure model credentials, then:
+openas-gui run ./goal-state.json --nova /absolute/path/to/nova
+openas-gui resume ./goal-state.json --nova /absolute/path/to/nova
+```
+
 ## Setup
 
 Use Python 3.10+ and a [trusted Nova executable](https://github.com/bigduu/Nova/releases). In a native Windows PowerShell or macOS terminal, navigate to `plugins/openas/integrations/computer-use`. WSL is not an automatic bridge to the Windows GUI.
