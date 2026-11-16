@@ -153,6 +153,7 @@ Then run `/reload-plugins`. Actual supported flags come from your installed clie
 
 ## Optional MCP integrations
 
+- **Persistent GUI Agent Runtime:** [Python runtime](plugins/openas/integrations/computer-use/RUNTIME.en.md) adds an executable multi-step decision loop, JSON checkpoints and restart-based resume (requires separate model API + Nova MCP; not a background daemon).
 - **GUI Goal Executor:** [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.en.md) coordinates multi-step desktop goals through computer-use and a connected MCP, with bounded observe–act–verify loops, replanning and explicit acceptance checks.
 - **Computer Use (Windows/macOS):** the [computer-use skill](plugins/openas/skills/computer-use/SKILL.en.md) combines accessibility-first actions, screenshot fallback and verification with a separately installed desktop MCP; [Claude Code and Codex setup](plugins/openas/integrations/computer-use/USER-GUIDE.en.md). No MCP service is automatically installed or enabled.
 
@@ -502,6 +503,7 @@ claude plugin update openas@openas-marketplace --scope project
 
 ## 可选 MCP 集成
 
+- **持久化 GUI Agent Runtime**：[Python 运行手册](plugins/openas/integrations/computer-use/RUNTIME.md)，提供多轮决策执行、JSON checkpoint 与重启恢复（需独立模型 API 和 Nova MCP）。
 - **GUI Goal Executor**：[gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.md) 负责多轮 GUI 目标规划、状态追踪、失败恢复和最终验收，调用 computer-use 与已连接 MCP。
 - **Computer Use（Windows/macOS）**：[computer-use Skill](plugins/openas/skills/computer-use/SKILL.md) 通过用户自行配置的 MCP 实现控件优先、截图兜底、操作后验证；参见 [Claude Code/Codex 配置](plugins/openas/integrations/computer-use/USER-GUIDE.md)。默认不安装或开启桌面控制服务。
 
