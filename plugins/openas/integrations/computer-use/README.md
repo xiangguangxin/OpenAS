@@ -1,5 +1,7 @@
 # Computer Use MCP：Windows/macOS × Claude Code/Codex
 
+**第一次使用？** 请先阅读 [完整中文使用手册（安装、配置、测试、排错）](USER-GUIDE.md)。
+
 中文 | [English](README.en.md)
 
 **可选集成，不随 OpenAS 自动安装、启动或授予权限。** 使用 [computer-use Skill](../../skills/computer-use/SKILL.md) 指导“先观察控件 → 视觉兜底 → 执行后验证”。桌面 MCP 会控制真实窗口并接触敏感信息；请先核对来源、下载校验和及权限，再明确启用。

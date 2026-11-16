@@ -1,5 +1,7 @@
 # Computer Use MCP: Windows/macOS × Claude Code/Codex
 
+**New user?** Start with the [complete user guide](USER-GUIDE.en.md) for setup, verification and troubleshooting.
+
 [中文](README.md) | English
 
 **Optional, not installed, started, registered or granted OS permissions by OpenAS.** Pair with [computer-use skill](../../skills/computer-use/SKILL.en.md) for accessibility-first targeting, visual fallback and post-action verification. A desktop MCP can control real windows and read sensitive information: review provenance, checksums and permissions before opting in.
