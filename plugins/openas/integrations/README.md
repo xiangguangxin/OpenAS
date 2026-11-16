@@ -9,6 +9,7 @@ OpenAS 提供配置示例和按需使用指引，不随插件加载自动注册�
 | [Playwright](playwright/README.md) | test-engineer、verifier、ux-designer；integration-testing、accessibility-review | Node/npm、浏览器及其系统依赖 |
 | [GitHub](github/README.md) | product-manager、developer、red-team、it；需求与评审工作流 | 官方服务端二进制、GitHub token 和网络 |
 | [Context7](context7/README.md) | researcher、cto、developer；technical-research、technology-selection | 网络与服务 API key |
+| [Computer Use](computer-use/README.md) | computer-use；Windows/macOS 桌面操作 | 用户主动安装的 Nova 或等价 MCP、桌面授权；Claude Code/Codex 独立配置 |
 
 ## 配置与启用
 
