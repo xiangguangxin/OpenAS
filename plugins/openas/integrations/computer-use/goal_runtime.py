@@ -7,6 +7,7 @@ The runtime never invents desktop access or auto-approves sensitive operations.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import tempfile
@@ -88,6 +89,12 @@ def run(path: Path, desktop: Desktop, planner: Planner, *, approval: bool = Fals
         return state
     if state["status"] == "paused" and state["pending_approval"] and not approval:
         return state
+    if state.get("pending_action"):
+        # A crash may have happened after a non-idempotent action was executed.
+        # Never automatically replay it; require operator reconciliation.
+        state["status"] = "blocked"
+        _record(state, "reconciliation_required", state["pending_action"]["name"])
+        return _persist(path, state)
     if approval and state["pending_approval"]:
         # Approval applies only to the exact pending action, not future actions.
         state["approved_action"] = state["pending_approval"]
@@ -130,7 +137,7 @@ def run(path: Path, desktop: Desktop, planner: Planner, *, approval: bool = Fals
             # Planner must explicitly classify impact. Unclassified actions require approval.
             impact = action.get("impact")
             if impact != "low" or action["name"].lower() in SENSITIVE:
-                fingerprint = json.dumps(action, sort_keys=True, ensure_ascii=False)
+                fingerprint = hashlib.sha256(json.dumps(action, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
                 if state.pop("approved_action", None) != fingerprint:
                     state["pending_approval"] = fingerprint
                     state["status"] = "paused"
