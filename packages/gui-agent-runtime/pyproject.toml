@@ -8,7 +8,7 @@ description = "Resumable desktop goal agent runtime"
 requires-python = ">=3.10"
 [project.scripts]
 openas-gui = "openas_gui_agent.cli:main"
-[tool.setuptools.packages.find]
-where = ["src"]
 openas-benchmark = "openas_gui_agent.benchmark:main"
 openas-experience = "openas_gui_agent.experience_cli:main"
+[tool.setuptools.packages.find]
+where = ["src"]
