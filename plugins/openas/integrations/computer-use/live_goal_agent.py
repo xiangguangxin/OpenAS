@@ -5,7 +5,6 @@ No credentials or screenshots are persisted by the checkpoint runtime.
 """
 from __future__ import annotations
 
-import base64
 import json
 import os
 import queue
@@ -99,6 +98,13 @@ class ModelPlanner:
     def decide(self, state, observation):
         # Content returned from a previous MCP call is transient and never
         # written into the persistent checkpoint.
+        evidence_parts: list[dict[str, Any]] = []
+        for item in self.last_tool_content:
+            if item.get("type") == "image" and item.get("data") and item.get("mimeType"):
+                evidence_parts.append({"type": "image_url", "image_url": {"url":
+                    "data:" + item["mimeType"] + ";base64," + item["data"]}})
+            elif item.get("type") == "text":
+                evidence_parts.append({"type": "text", "text": str(item.get("text", ""))[:30000]})
         messages = [
             {"role": "system", "content": (
                 "You are a GUI goal planner. Reply ONLY with JSON. "
@@ -118,9 +124,10 @@ class ModelPlanner:
                 "step": state["steps"], "budget": state["max_steps"],
                 "observation": observation,
                 "last_action_result": state.get("last_result"),
-                "last_tool_content": self.last_tool_content,
             }, ensure_ascii=False)[:100000]},
         ]
+        if evidence_parts:
+            messages.append({"role": "user", "content": evidence_parts})
         request = urllib.request.Request(
             self.endpoint, data=json.dumps({"model": self.model, "messages": messages,
                                              "temperature": 0, "response_format": {"type": "json_object"}}).encode(),
