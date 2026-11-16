@@ -39,10 +39,7 @@ def run(path: Path, desktop, planner, *, approval: bool = False, verifier=None) 
             if kind == "complete":
                 # A planner must supply explicit per-criterion evidence; no self-certification.
                 evidence = decision.get("evidence", {})
-                if not isinstance(evidence, dict) or any(
-                    not isinstance(evidence.get(c), str) or not evidence[c].strip()
-                    for c in state["criteria"]
-                ):
+                if not (verifier or EvidenceOnlyVerifier()).verify(state["criteria"], evidence, observation):
                     raise ValueError("Missing acceptance evidence for one or more criteria")
                 state["status"] = "completed"
                 _record(state, "completed", "all criteria have evidence")
@@ -58,7 +55,6 @@ def run(path: Path, desktop, planner, *, approval: bool = False, verifier=None) 
             if not isinstance(action.get("name"), str) or not action["name"]:
                 raise ValueError("Action name required")
             # Planner must explicitly classify impact. Unclassified actions require approval.
-            impact = action.get("impact")
             if needs_approval(action):
                 action_fingerprint = fingerprint(action)
                 if state.pop("approved_action", None) != action_fingerprint:
