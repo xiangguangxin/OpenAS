@@ -10,6 +10,21 @@ Goal → Runtime → 观察 Nova MCP → 模型规划下一步
        持久化 JSON ← 操作 + 验证 ← Nova MCP
 ```
 
+## 模块化安装（推荐）
+
+独立 Runtime 已移到 [`packages/gui-agent-runtime`](../../../../packages/gui-agent-runtime/README.md)，原脚本只保留兼容入口。先在仓库根目录安装：
+
+```sh
+python -m pip install -e packages/gui-agent-runtime
+openas-gui create ./goal-state.json --goal "检查授权 GUI" --criterion "结果可见"
+openas-gui status ./goal-state.json
+# 配置模型环境变量后：
+openas-gui run ./goal-state.json --nova /absolute/path/to/nova
+openas-gui resume ./goal-state.json --nova /absolute/path/to/nova
+```
+
+`resume` 是重新启动并加载同一个 checkpoint，不是后台自动执行。下方旧命令仍可作为兼容入口使用，但**需要先安装独立 Python 包**。
+
 ## 使用前提
 
 - Python 3.10+；Windows/macOS **原生交互式桌面**，已解锁；[Nova 官方可执行文件](https://github.com/bigduu/Nova/releases)。
