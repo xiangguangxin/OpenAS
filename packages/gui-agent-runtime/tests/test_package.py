@@ -26,7 +26,7 @@ class Tests(unittest.TestCase):
             desk = Desktop()
             self.assertEqual(run(p, desk, Planner())["status"], "completed")
             self.assertEqual(desk.calls, ["click"])
-            self.assertEqual(load(p)["version"], 1)
+            self.assertEqual(load(p)["version"], 2)
     def test_pluggable_verifier(self):
         with tempfile.TemporaryDirectory() as d:
             p = Path(d) / "state.json"; create(p, "goal", ["done"])
