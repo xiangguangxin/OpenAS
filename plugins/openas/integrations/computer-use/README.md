@@ -1,3 +1,5 @@
+**内置多轮 Agent Runtime / 跨会话持久恢复：** [运行与限制说明](RUNTIME.md)。
+
 # Computer Use MCP：Windows/macOS × Claude Code/Codex
 
 **第一次使用？** 请先阅读 [完整中文使用手册（安装、配置、测试、排错）](USER-GUIDE.md)。
