@@ -72,3 +72,15 @@ The checkpoint stores summaries and action names, not screenshots, tool argument
 - `tests/test_gui_goal_runtime.py`: mocked regression tests.
 
 This runtime complements, but does not replace, [gui-goal-executor Skill](../../skills/gui-goal-executor/SKILL.en.md).
+
+## Phase 3 / Phase 4: recovery and verification
+
+Version 2 checkpoints migrate v1 on write. A cross-process lock prevents two runners from using one checkpoint. Uncertain in-flight actions remain blocked until explicitly reconciled:
+
+```sh
+openas-gui reconcile ./goal-state.json --outcome executed --note "Checked desktop state"
+openas-gui resume ./goal-state.json --nova /absolute/path/to/nova
+```
+
+Use `--outcome not-executed` when appropriate; neither option blindly replays the old action. Add `--verifier ./coverage-verifier.json` for independent local file checks. Without it, completion still relies on model-supplied evidence. Fake-desktop E2E and unit tests exist, but no real Nova/Windows/macOS E2E has been run.
+
