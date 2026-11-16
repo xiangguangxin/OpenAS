@@ -35,3 +35,17 @@ openas-gui run ./goal-state.json --nova /absolute/path/to/nova --verifier ./cove
 Without `--verifier`, the old evidence-only verifier remains for compatibility and is **not independent**. With a verifier, the model cannot mark success until the local file rules pass. Do not use this for untrusted filesystem paths or as a security sandbox. A local report check does not establish that the GUI itself was correctly operated.
 
 Automated tests include a **fake desktop full-goal integration test**, lock/recovery/migration cases and negative verifier tests. **No real Nova/Windows/macOS E2E test has been run**. Those still require authorized hardware and desktop access.
+
+## Token-efficient mode
+
+The planner now sends a bounded tool summary (name, short description and argument schema), short UI summaries and a limited number of recent MCP text/image outputs. It does **not** cache schemas across stateless API requests, and it does **not** blindly batch GUI clicks: each action still requires a fresh observation and safety gating.
+
+```sh
+openas-gui run ./goal-state.json --nova /absolute/path/to/nova \
+  --max-model-calls 30 --max-model-tokens 50000 \
+  --max-ui-text-chars 3000 --max-images 1
+```
+
+`--max-model-calls` and `--max-model-tokens` are optional (0 means no limit). If a budget is reached, the agent **pauses** instead of retrying indefinitely. Model usage is saved in checkpoint `model_usage` and carries over to `resume`. When the provider reports `usage.prompt_tokens` and `usage.completion_tokens`, those are tracked as actual usage. If it omits usage, input is roughly estimated by character count, tracked separately, and output tokens are unknown. Token budgets are best-effort guards, not strict billing caps: a single request can overshoot a remaining budget, images have provider-specific costs, and requests that fail before returning usage may be unaccounted for. The model endpoint may bill for attempted requests.
+
+The compact tool list currently includes the first 12 advertised MCP tools, so check tool ordering and availability before relying on less common Nova tools. For accurate before/after savings, compare `model_usage` across equivalent runs with the same model, UI, and goal. Real Nova Windows/macOS E2E testing is still outstanding.
