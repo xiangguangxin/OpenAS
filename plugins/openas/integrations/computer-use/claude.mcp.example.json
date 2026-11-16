@@ -3,7 +3,7 @@
     "nova": {
       "type": "stdio",
       "command": "/absolute/path/to/nova",
-      "args": ["mcp"]
+      "args": []
     }
   }
 }
