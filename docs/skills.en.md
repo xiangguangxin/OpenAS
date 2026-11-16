@@ -2,7 +2,7 @@
 
 [中文技能地图](../README.md#技能地图) | [English guide](../README.md#english)
 
-All 61 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
+All 62 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
 
 | Skill | When to use it |
 | --- | --- |
@@ -30,6 +30,7 @@ All 61 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery e
 | [failure-recovery](../plugins/openas/skills/failure-recovery/SKILL.en.md) | Classify workflow failures and choose repair, bounded retry, or handoff; preserve partial effects and avoid endless retries or reset limits. |
 | [finish-development-branch](../plugins/openas/skills/finish-development-branch/SKILL.en.md) | Check final diff, acceptance, and reviews, then commit, push, or merge within existing authorization while preserving unfinished work. |
 | [git-worktrees](../plugins/openas/skills/git-worktrees/SKILL.en.md) | Create, inspect, and clean isolated Git worktrees for independent features or experiments; do not require one for every simple edit. |
+| [gui-goal-executor](../plugins/openas/skills/gui-goal-executor/SKILL.en.md) | Execute authorized Windows/macOS desktop goals with bounded observe–plan–act–verify loops, state tracking, dynamic replanning, recovery and acceptance checks using computer-use + connected MCP. |
 | [github-skill-discovery](../plugins/openas/skills/github-skill-discovery/SKILL.en.md) | Find and assess GitHub Agent Skills, review content, dependencies, licensing, and host compatibility, and install, adapt, or synthesize them within task authorization. |
 | [grilling](../plugins/openas/skills/grilling/SKILL.en.md) | Use explicit interviews or design pressure testing to clarify major tradeoffs; do not turn ordinary reviews or clear implementation requests into interviews. |
 | [incident-response](../plugins/openas/skills/incident-response/SKILL.en.md) | Contain and recover an active service or environment incident, preserve evidence, and verify recovery; hand deeper causal investigation to debugging. |
