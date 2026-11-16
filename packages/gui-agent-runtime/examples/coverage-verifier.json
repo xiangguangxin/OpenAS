@@ -1,0 +1,10 @@
+{
+  "root": ".",
+  "criteria": {
+    "Coverage report exists": {
+      "path": "reports/coverage/index.html",
+      "min_bytes": 100,
+      "contains": "Coverage"
+    }
+  }
+}
