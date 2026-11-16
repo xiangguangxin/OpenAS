@@ -37,6 +37,10 @@ jobs:
         run: python3 scripts/check_plugin.py
       - name: Install presentation test dependencies
         run: python3 -m pip install -r plugins/openas/skills/presentation-creation/requirements.txt
+      - name: Install GUI Agent Runtime package
+        run: python3 -m pip install -e packages/gui-agent-runtime
+      - name: GUI Agent Runtime package tests
+        run: python3 -m unittest discover -s packages/gui-agent-runtime/tests -v
       - name: Python tests
         run: python3 -m unittest discover -s tests -v
       - name: Python workflow tests

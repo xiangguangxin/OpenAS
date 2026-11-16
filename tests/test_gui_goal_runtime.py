@@ -1,9 +1,12 @@
 import importlib.util
 import tempfile
+import sys
 import unittest
 from pathlib import Path
 
-MODULE = Path(__file__).resolve().parents[1] / "plugins/openas/integrations/computer-use/goal_runtime.py"
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "packages/gui-agent-runtime/src"))
+MODULE = ROOT / "plugins/openas/integrations/computer-use/goal_runtime.py"
 spec = importlib.util.spec_from_file_location("goal_runtime", MODULE)
 runtime = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(runtime)

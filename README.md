@@ -246,7 +246,7 @@ OpenAS 现在既支持通过 **Claude Code / Codex + `gui-goal-executor` Skill**
 | [`gui-goal-executor`](plugins/openas/skills/gui-goal-executor/SKILL.md) | Goal 分解、动态规划、停止条件和任务验收的 Skill 规范 | 在 Claude Code / Codex 会话中加载 Skill |
 | [`computer-use`](plugins/openas/skills/computer-use/SKILL.md) | 优先通过 UIA / AX 定位控件，必要时截图兜底、逐步验证 | 通过已连接桌面 MCP 使用 |
 | [Nova MCP](plugins/openas/integrations/computer-use/USER-GUIDE.md) | Windows / macOS 的截图、窗口和鼠标键盘等桌面工具 | **用户自行安装和授权** |
-| [Python Agent Runtime](plugins/openas/integrations/computer-use/RUNTIME.md) | 实际多轮 Agent Loop、模型决策适配器、JSON checkpoint、重启后继续任务 | 单独运行 `goal_runtime.py` / `live_goal_agent.py` |
+| [Python Agent Runtime](packages/gui-agent-runtime/README.md) | 独立 Python 包：Agent Loop、模型决策、JSON checkpoint、重启后恢复 | 安装后使用 `openas-gui create/status/run/resume` |
 
 **两种模式不要混淆：** 在 Claude Code / Codex 中使用 Skill，依赖客户端自身的模型和工具调用循环；独立 Python Runtime 则**需要额外配置兼容的多模态模型 API**，不会直接继承 Claude Code / Codex 的订阅或 MCP 注册，也不是常驻后台服务。
 
@@ -633,7 +633,8 @@ plugins/openas/
   references/                   协作契约与项目适配约定
   workflows/                    可选适配器、示例、测试与历史证据
   integrations/                 可选 MCP 配置、使用指引与 REA 集成
-    computer-use/               Nova MCP 使用手册、独立 Python Agent Runtime 和恢复说明
+    computer-use/               Nova MCP 手册与旧 Runtime 兼容入口
+packages/gui-agent-runtime/     可独立安装的 Python GUI Agent Runtime
   memory/README.md              项目记忆存储约定
 scripts/check_plugin.py         只读结构校验器
 ```
