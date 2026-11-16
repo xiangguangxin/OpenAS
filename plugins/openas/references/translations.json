@@ -516,6 +516,12 @@
       "target": "skills/computer-use/SKILL.en.md",
       "source_sha256": "13e4ed0036532b5c81355c0c61710341d1da44d874233e98692eb29e8151827a",
       "target_sha256": "394d34ccc6617d810b6f1137555acb50b8952c1289adffce6de295d0e194257b"
+    },
+    {
+      "source": "skills/gui-goal-executor/SKILL.md",
+      "target": "skills/gui-goal-executor/SKILL.en.md",
+      "source_sha256": "cfdeef64597b445bae4868543a41c0c1d1582e47f11e46479a2c58ca3b3d49bd",
+      "target_sha256": "d25c83945f19697969061292b49418feb127a50e86a2068a68c8b9ed32d9950c"
     }
   ]
 }
