@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import tempfile
 import time
 import uuid
@@ -136,7 +137,7 @@ def run(path: Path, desktop: Desktop, planner: Planner, *, approval: bool = Fals
                 raise ValueError("Action name required")
             # Planner must explicitly classify impact. Unclassified actions require approval.
             impact = action.get("impact")
-            if impact != "low" or action["name"].lower() in SENSITIVE:
+            if impact != "low" or any(re.search(r"(^|[_-])" + word + r"([_-]|$)", action["name"].lower()) for word in SENSITIVE):
                 fingerprint = hashlib.sha256(json.dumps(action, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
                 if state.pop("approved_action", None) != fingerprint:
                     state["pending_approval"] = fingerprint
