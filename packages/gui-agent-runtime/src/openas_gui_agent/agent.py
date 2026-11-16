@@ -7,6 +7,7 @@ from .state import load, persist, _record, TERMINAL
 from .policy import needs_approval, fingerprint
 from .verifier import EvidenceOnlyVerifier
 from .locking import checkpoint_lock
+from .planner import TokenBudgetExceeded
 def run(path: Path, desktop, planner, *, approval: bool = False, verifier=None) -> dict[str, Any]:
     with checkpoint_lock(path):
         return _run_locked(path, desktop, planner, approval=approval, verifier=verifier)
@@ -29,6 +30,8 @@ def _run_locked(path: Path, desktop, planner, *, approval: bool = False, verifie
         state["approved_action"] = state["pending_approval"]
         state["pending_approval"] = None
     state["status"] = "running"
+    if hasattr(planner, "usage"):
+        planner.usage.update(state.get("model_usage", {}))
     persist(path, state)
     while state["steps"] < state["max_steps"]:
         # Recover pending action conservatively: observe before any retry.
@@ -38,7 +41,11 @@ def _run_locked(path: Path, desktop, planner, *, approval: bool = False, verifie
                 raise TypeError("Desktop observation must be a dict")
             state["last_observation"] = {"observed_at": time.time(),
                                          "summary": str(observation.get("summary", ""))[:200]}
-            decision = planner.decide(state.copy(), observation)
+            try:
+                decision = planner.decide(state.copy(), observation)
+            finally:
+                if hasattr(planner, "usage"):
+                    state["model_usage"] = dict(planner.usage)
             if not isinstance(decision, dict):
                 raise TypeError("Planner decision must be a dict")
             kind = decision.get("type")
@@ -84,6 +91,10 @@ def _run_locked(path: Path, desktop, planner, *, approval: bool = False, verifie
                 state["status"] = "blocked"
                 _record(state, "blocked", "three consecutive failed actions")
                 break
+        except TokenBudgetExceeded:
+            state["status"] = "paused"
+            _record(state, "paused", "model token/call budget exhausted")
+            break
         except Exception as exc:
             state["failures"] += 1
             _record(state, "error", type(exc).__name__)
