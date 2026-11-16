@@ -520,8 +520,8 @@
     {
       "source": "skills/gui-goal-executor/SKILL.md",
       "target": "skills/gui-goal-executor/SKILL.en.md",
-      "source_sha256": "cfdeef64597b445bae4868543a41c0c1d1582e47f11e46479a2c58ca3b3d49bd",
-      "target_sha256": "d25c83945f19697969061292b49418feb127a50e86a2068a68c8b9ed32d9950c"
+      "source_sha256": "f99a3222ccb4ac13df138b4cfac44f3ccef8edca941aa38277a51f2cbad3eb12",
+      "target_sha256": "db410518e020f59e274aaff4feadb4e8b70cda0829e0c41175fa66e1dcbc10a8"
     }
   ]
 }
