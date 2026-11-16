@@ -49,3 +49,26 @@ openas-gui run ./goal-state.json --nova /absolute/path/to/nova \
 `--max-model-calls` and `--max-model-tokens` are optional (0 means no limit). If a budget is reached, the agent **pauses** instead of retrying indefinitely. Model usage is saved in checkpoint `model_usage` and carries over to `resume`. When the provider reports `usage.prompt_tokens` and `usage.completion_tokens`, those are tracked as actual usage. If it omits usage, input is roughly estimated by character count, tracked separately, and output tokens are unknown. Token budgets are best-effort guards, not strict billing caps: a single request can overshoot a remaining budget, images have provider-specific costs, and requests that fail before returning usage may be unaccounted for. The model endpoint may bill for attempted requests.
 
 The compact tool list currently includes the first 12 advertised MCP tools, so check tool ordering and availability before relying on less common Nova tools. For accurate before/after savings, compare `model_usage` across equivalent runs with the same model, UI, and goal. Real Nova Windows/macOS E2E testing is still outstanding.
+
+## Offline Agent Benchmark (first stage)
+
+```sh
+openas-benchmark packages/gui-agent-runtime/examples/benchmark-suite.json \
+  --repeat 3 --output ./benchmark-results.json
+```
+
+Runs deterministic **synthetic** desktop/model scenarios using the actual agent loop and local verifier. Reports per-case pass/fail, actions, synthetic model calls/tokens, duration and aggregate success rate. Synthetic token counts are **fixtures**, not measured API usage or evidence of real-world savings. Scenarios execute in isolated temporary directories; do not put secrets in fixtures. Real Nova/Windows/macOS benchmarks require a separate runner and authorized environment.
+
+## Experience Memory (first stage)
+
+Experiences are **explicitly curated** from completed checkpoints only after a trusted local file verifier passes again. They contain a short goal, criteria, environment tag and human note; **no raw screenshots, model prompts, tool payloads, credentials or action replay scripts**. Search returns hints, never commands for automatic execution.
+
+```sh
+openas-experience --store ./experiences.json add ./goal-state.json \
+  --verifier ./coverage-verifier.json --environment win11-coverage-v1 \
+  --note "Coverage report independently inspected"
+openas-experience --store ./experiences.json search "coverage report" \
+  --environment win11-coverage-v1
+```
+
+Only use verifier configurations you trust. The store is a local file with no multi-process locking, access control, or encryption; keep it in a trusted directory and do not share it with untrusted users. Environment tags are exact matches and retrieval is simple word overlap (not embeddings). Experiences are **not automatically injected into the planner**, and success in one environment does not authorize replay in another.
