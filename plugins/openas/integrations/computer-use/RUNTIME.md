@@ -12,7 +12,7 @@ Goal → Runtime → 观察 Nova MCP → 模型规划下一步
 
 ## 模块化安装（推荐）
 
-独立 Runtime 已移到 [`packages/gui-agent-runtime`](../../../../packages/gui-agent-runtime/README.md)，原脚本只保留兼容入口。先在仓库根目录安装：
+独立 Runtime 已移到 [`packages/gui-agent-runtime`](https://github.com/xiangguangxin/OpenAS/tree/main/packages/gui-agent-runtime)，原脚本只保留兼容入口。先在仓库根目录安装：
 
 ```sh
 python -m pip install -e packages/gui-agent-runtime
