@@ -1,0 +1,14 @@
+{
+  "criteria": {
+    "New instrumented MC/DC report for the passed SIL cases": {
+      "path": "coverage.json",
+      "fresh": true,
+      "json_fields": {
+        "/suite": "example-sil",
+        "/build": "instrumented",
+        "/tests": "passed",
+        "/metric": "MC/DC"
+      }
+    }
+  }
+}

@@ -6,14 +6,15 @@ from typing import Any
 from .state import load, persist, _record, TERMINAL
 from .policy import needs_approval, fingerprint
 from .verifier import EvidenceOnlyVerifier
+from .verification import FileVerifier
 from .locking import checkpoint_lock
 from .planner import TokenBudgetExceeded
-def run(path: Path, desktop, planner, *, approval: bool = False, verifier=None) -> dict[str, Any]:
+def run(path: Path, desktop, planner, *, approval: bool = False, verifier=None, backend_scope=None) -> dict[str, Any]:
     with checkpoint_lock(path):
-        return _run_locked(path, desktop, planner, approval=approval, verifier=verifier)
+        return _run_locked(path, desktop, planner, approval=approval, verifier=verifier, backend_scope=backend_scope)
 
 
-def _run_locked(path: Path, desktop, planner, *, approval: bool = False, verifier=None) -> dict[str, Any]:
+def _run_locked(path: Path, desktop, planner, *, approval: bool = False, verifier=None, backend_scope=None) -> dict[str, Any]:
     state = load(path)
     if state["status"] in TERMINAL:
         return state
@@ -25,6 +26,18 @@ def _run_locked(path: Path, desktop, planner, *, approval: bool = False, verifie
         state["status"] = "blocked"
         _record(state, "reconciliation_required", state["pending_action"]["name"])
         return persist(path, state)
+    saved_scope = state.get("backend_scope")
+    if saved_scope is not None and backend_scope != saved_scope:
+        raise ValueError("Resume requires the original browser settings")
+    if backend_scope is not None and saved_scope is None:
+        if state["steps"] or state.get("last_result") or state.get("pending_approval"):
+            raise ValueError("Start browser execution with a fresh checkpoint")
+        state["backend_scope"] = backend_scope
+    if isinstance(verifier, FileVerifier):
+        verifier.prepare(state)
+    elif state.get("artifact_baseline") is not None:
+        raise ValueError("Resume requires the original artifact verifier")
+
     if approval and state["pending_approval"]:
         # Approval applies only to the exact pending action, not future actions.
         state["approved_action"] = state["pending_approval"]
@@ -50,9 +63,16 @@ def _run_locked(path: Path, desktop, planner, *, approval: bool = False, verifie
                 raise TypeError("Planner decision must be a dict")
             kind = decision.get("type")
             if kind == "complete":
-                # A planner must supply explicit per-criterion evidence; no self-certification.
-                evidence = decision.get("evidence", {})
-                if not (verifier or EvidenceOnlyVerifier()).verify(state["criteria"], evidence, observation):
+                if isinstance(verifier, FileVerifier):
+                    state["artifact_verification"] = verifier.evaluate(state)
+                    accepted = state["artifact_verification"]["passed"]
+                    if not accepted:
+                        _record(state, "artifact_rejected", ", ".join(
+                            check["status"] for check in state["artifact_verification"]["checks"].values()))
+                else:
+                    accepted = (verifier or EvidenceOnlyVerifier()).verify(
+                        state["criteria"], decision.get("evidence", {}), observation)
+                if not accepted:
                     raise ValueError("Missing acceptance evidence for one or more criteria")
                 state["status"] = "completed"
                 _record(state, "completed", "all criteria have evidence")
@@ -69,7 +89,8 @@ def _run_locked(path: Path, desktop, planner, *, approval: bool = False, verifie
                 raise ValueError("Action name required")
             # Planner must explicitly classify impact. Unclassified actions require approval.
             if needs_approval(action):
-                action_fingerprint = fingerprint(action)
+                scope = observation.get("action_scope") if backend_scope is not None else None
+                action_fingerprint = fingerprint({"scope": scope, "action": action} if scope else action)
                 if state.pop("approved_action", None) != action_fingerprint:
                     state["pending_approval"] = action_fingerprint
                     state["status"] = "paused"

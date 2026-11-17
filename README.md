@@ -10,7 +10,7 @@ Start AI-assisted development from clear requirements and deliver verifiable res
 
 [![CI](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml/badge.svg)](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml)
 [![Agents](https://img.shields.io/badge/Agents-12-2563eb)](plugins/openas/agents)
-[![Skills](https://img.shields.io/badge/Skills-62-7c3aed)](docs/skills.en.md)
+[![Skills](https://img.shields.io/badge/Skills-65-7c3aed)](docs/skills.en.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-059669)](LICENSE)
 
 **English** | [简体中文](#chinese)
@@ -19,7 +19,7 @@ Start AI-assisted development from clear requirements and deliver verifiable res
 
 </div>
 
-OpenAS provides composable methods for requirements, research, design, implementation, debugging, review and verification. Use **12 roles and 62 skills through a Claude Code plugin**, or the separate **Codex CLI workflow adapter** for explicitly configured stage execution and acceptance checks.
+OpenAS provides composable methods for requirements, research, design, implementation, debugging, review and verification. Use **12 roles and 65 skills through a Claude Code plugin**, or the separate **Codex CLI workflow adapter** for explicitly configured stage execution and acceptance checks.
 
 It adapts to web applications, services, libraries, CLI tools, native programs, data processing and documentation. It reads the target project's stack, conventions and existing checks rather than imposing another framework or mandatory OpenAS configuration.
 
@@ -103,6 +103,7 @@ The [complete English catalog](docs/skills.en.md) links every skill and explains
 | Architecture | solution-design, architecture-design, design-review |
 | Existing-system understanding | codebase-analysis, change-impact-analysis, architecture-conformance, architecture-evolution, code-simplification |
 | Agent information interfaces | agent-experience |
+| GUI goals and evaluation | gui-goal-executor, browser-goal-executor, artifact-verification, agent-evaluation |
 | Plans and implementation | roadmap-planning, writing-plans, executing-plans, test-driven-development |
 | CI, upgrades and releases | ci-cd, dependency-upgrade, release-management |
 | Testing and review | test-strategy, integration-testing, coverage-analysis, requesting-code-review, pr-review-feedback, document-review |
@@ -153,6 +154,7 @@ Then run `/reload-plugins`. Actual supported flags come from your installed clie
 
 ## Optional MCP integrations
 
+- **Browser goals and artifact acceptance:** [browser-goal-executor](plugins/openas/skills/browser-goal-executor/SKILL.en.md) runs authorized web goals using Playwright. [artifact-verification](plugins/openas/skills/artifact-verification/SKILL.en.md) checks new reports and structured fields. [agent-evaluation](plugins/openas/skills/agent-evaluation/SKILL.en.md) measures task outcomes and experience retrieval.
 - **Persistent GUI Agent Runtime:** [Python runtime](plugins/openas/integrations/computer-use/RUNTIME.en.md) adds an executable multi-step decision loop, JSON checkpoints and restart-based resume (requires separate model API + Nova MCP; not a background daemon).
 - **GUI Goal Executor:** [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.en.md) coordinates multi-step desktop goals through computer-use and a connected MCP, with bounded observe–act–verify loops, replanning and explicit acceptance checks.
 - **Computer Use (Windows/macOS):** the [computer-use skill](plugins/openas/skills/computer-use/SKILL.en.md) combines accessibility-first actions, screenshot fallback and verification with a separately installed desktop MCP; [Claude Code and Codex setup](plugins/openas/integrations/computer-use/USER-GUIDE.en.md). No MCP service is automatically installed or enabled.
@@ -222,7 +224,7 @@ OpenAS originated from a gem5 collaboration setup and is now project-independent
 
 [![CI](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml/badge.svg)](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml)
 [![Agents](https://img.shields.io/badge/Agents-12-2563eb)](plugins/openas/agents)
-[![Skills](https://img.shields.io/badge/Skills-62-7c3aed)](plugins/openas/skills)
+[![Skills](https://img.shields.io/badge/Skills-65-7c3aed)](plugins/openas/skills)
 [![License: MIT](https://img.shields.io/badge/License-MIT-059669)](LICENSE)
 
 可插拔的角色协作 · 证据驱动的调试 · 可追溯的项目记忆 · 目标驱动的 GUI Agent
@@ -233,7 +235,7 @@ OpenAS originated from a gem5 collaboration setup and is now project-independent
 
 ---
 
-OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 **Claude Code 插件**使用 12 个协作角色与 62 个技能，也可使用独立的 **Codex CLI 工作流适配器**执行阶段任务与验收。
+OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 **Claude Code 插件**使用 12 个协作角色与 65 个技能，也可使用独立的 **Codex CLI 工作流适配器**执行阶段任务与验收。
 
 适用于 Web 应用、后端服务、库、命令行工具、原生程序、数据处理和文档项目。接入后沿用目标仓库的技术栈、目录与验证命令，无需额外创建 OpenAS 专用配置文件。
 
@@ -272,7 +274,7 @@ flowchart LR
 同一份插件支持中文和英文，不需要重复安装。用户明确指定的语言优先，否则回复跟随任务语言；编辑已有文档时保留文件语言，除非要求翻译。命令、路径、技能 ID、JSON 字段和枚举保持不变。
 
 - [English](#english) 与 [完整英文技能索引](docs/skills.en.md)。
-- 全部 62 个技能可使用英文：59 个自有技能提供 `SKILL.en.md`，REA 保留上游英文入口；12 个角色提供英文配套说明。
+- 全部 65 个技能可使用英文：64 个自有技能提供 `SKILL.en.md`，REA 保留上游英文入口；12 个角色提供英文配套说明。
 - 详细规则见 [中英文输出约定](plugins/openas/references/language.md)，维护与评测见 [双语指南](docs/bilingual.md)。详细技术参考及历史归档保留原文，未对所有历史材料制作译本。
 
 ```text
@@ -353,11 +355,14 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 
 ## 技能地图
 
-62 个技能可独立使用，也可组合到角色任务中。下表列出常用入口，完整定义见 [skills](plugins/openas/skills)。
+65 个技能可独立使用，也可组合到角色任务中。下表列出常用入口，完整定义见 [skills](plugins/openas/skills)。
 
 | 任务 | 技能入口 | 主要产物 |
 | --- | --- | --- |
 | 桌面 GUI Goal 执行 | [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.md) · [computer-use](plugins/openas/skills/computer-use/SKILL.md) | 动态任务步骤、操作验证、失败恢复与任务状态（独立 Runtime 可保存 checkpoint） |
+| 浏览器目标执行 | [browser-goal-executor](plugins/openas/skills/browser-goal-executor/SKILL.md) | Playwright 语义定位、等待、下载与恢复 |
+| 产物验收 | [artifact-verification](plugins/openas/skills/artifact-verification/SKILL.md) | 独立检查旧产物、结构化字段及本次运行关联 |
+| Agent 任务评测 | [agent-evaluation](plugins/openas/skills/agent-evaluation/SKILL.md) | 离线和真实后端评测，比较经验检索开关的效果 |
 | 市场与需求 | [market-research](plugins/openas/skills/market-research/SKILL.md) · [competitive-analysis](plugins/openas/skills/competitive-analysis/SKILL.md) · [product-requirements](plugins/openas/skills/product-requirements/SKILL.md) | 用户与竞品证据、PRD、需求 ID 与验收 |
 | 技术研究 | [technical-research](plugins/openas/skills/technical-research/SKILL.md) · [technology-selection](plugins/openas/skills/technology-selection/SKILL.md) | 来源索引、候选矩阵、PoC 与 ADR |
 | 外部技能引入 | [github-skill-discovery](plugins/openas/skills/github-skill-discovery/SKILL.md) | 按需搜索、内容/依赖/许可证审查、安装或适配、多技能融合生成与来源版本记录 |
@@ -401,7 +406,7 @@ flowchart TB
     subgraph bundle["OpenAS 插件资源"]
         direction LR
         agents["agents/<br/>12 个角色定义"]
-        skills["skills/<br/>62 个工作方法"]
+        skills["skills/<br/>65 个工作方法"]
         contracts["references/<br/>协作契约、项目适配与实施就绪"]
     end
 
@@ -629,7 +634,7 @@ GitHub Actions 在 PR 创建或更新，以及代码推送或合并到 `main` �
 plugins/openas/
   .claude-plugin/plugin.json     插件清单与版本
   agents/                       12 个协作角色
-  skills/                       62 个技能及配套资源
+  skills/                       65 个技能及配套资源
   references/                   协作契约与项目适配约定
   workflows/                    可选适配器、示例、测试与历史证据
   integrations/                 可选 MCP 配置、使用指引与 REA 集成

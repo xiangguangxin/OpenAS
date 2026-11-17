@@ -2,17 +2,20 @@
 
 [中文技能地图](../README.md#技能地图) | [English guide](../README.md#english)
 
-All 62 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
+All 65 skills keep the same IDs and `/openas:<id>` commands. Chinese discovery entries link their English companions. REA retains its upstream English entry. Follow the [language policy](../plugins/openas/references/language.md); choose only relevant methods and retain authorization boundaries.
 
 | Skill | When to use it |
 | --- | --- |
 | [acceptance-tracking](../plugins/openas/skills/acceptance-tracking/SKILL.en.md) | Map each original acceptance criterion to implementation and real check evidence; distinguish verified, reviewed, and pending items. |
 | [accessibility-review](../plugins/openas/skills/accessibility-review/SKILL.en.md) | Review keyboard use, focus, semantics, labels, contrast, and dynamic feedback; report reproducible barriers without claiming full compliance from scans. |
+| [agent-evaluation](../plugins/openas/skills/agent-evaluation/SKILL.en.md) | Measure matched goal outcomes, false completion, recovery, calls, and token usage using independent checks. |
 | [agent-experience](../plugins/openas/skills/agent-experience/SKILL.en.md) | Design agent-facing tools, skill discovery, bounded context and handoffs while preserving constraints; verify retrieval and whole-task costs. |
 | [architecture-conformance](../plugins/openas/skills/architecture-conformance/SKILL.en.md) | Compare actual code with effective architecture decisions, boundaries, dependencies, ownership, and contracts; report deviations without replacing design review or runtime acceptance. |
 | [architecture-design](../plugins/openas/skills/architecture-design/SKILL.en.md) | Design system boundaries, modules, interfaces, data, deployment, and failure behavior from requirements and technical decisions; produce architecture and requirement mappings. |
 | [architecture-evolution](../plugins/openas/skills/architecture-evolution/SKILL.en.md) | Plan staged refactoring and interface or data migration for existing systems, including compatibility, cutover, recovery, and retirement; do not automatically execute migrations. |
+| [artifact-verification](../plugins/openas/skills/artifact-verification/SKILL.en.md) | Verify artifact freshness, structured results, and run identity against explicit criteria. |
 | [brainstorming](../plugins/openas/skills/brainstorming/SKILL.en.md) | Clarify goals, constraints, existing architecture, and verification before coding when requirements are new or unclear. |
+| [browser-goal-executor](../plugins/openas/skills/browser-goal-executor/SKILL.en.md) | Complete authorized web goals using semantic observations, bounded waits, and independently verified downloads. |
 | [bug-fix](../plugins/openas/skills/bug-fix/SKILL.en.md) | Investigate exceptions, crashes, wrong results, or hangs using evidence across requirements, design, implementation, and environment; verify the causal fix. |
 | [change-impact-analysis](../plugins/openas/skills/change-impact-analysis/SKILL.en.md) | Trace proposed changes or diffs through consumers, contracts, data, configuration, builds, tests, and documentation to identify compatibility risks and verification scope. |
 | [checkpoint-and-resume](../plugins/openas/skills/checkpoint-and-resume/SKILL.en.md) | Validate task, workspace, rules, and evidence after interruption before reusing checkpoints; do not automatically resume unauthorized historical work. |

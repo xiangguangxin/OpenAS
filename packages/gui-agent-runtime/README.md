@@ -1,6 +1,6 @@
 # OpenAS GUI Agent Runtime
 
-Independent optional Python package. Provides a bounded observe–decide–act loop, pluggable model/desktop adapters and v1 JSON checkpoint recovery. It is **not** a daemon or independently verified autonomous agent.
+Independent optional Python package. Provides a bounded observe–decide–act loop, pluggable model, desktop and browser adapters, and resumable JSON checkpoints. It is **not** a daemon or independently verified autonomous agent.
 
 ```sh
 python -m pip install -e packages/gui-agent-runtime
@@ -24,17 +24,53 @@ openas-gui resume ./goal-state.json --nova /absolute/path/to/nova
 
 `--outcome not-executed` is also supported. Reconciliation never replays an old action: the planner observes again and chooses a new step. This is not crash-proof external transactionality, and it does not automatically restart a process.
 
-## Phase 4: independent local file verification
+## Artifact verification
 
-Use a JSON verifier configuration (example: [coverage-verifier.json](examples/coverage-verifier.json)). Each criterion must have an exact rule; paths are constrained to the configured root, and rules can require a minimum byte count and a UTF-8 substring.
+Pass `--verifier` on the first run and resume to make completion depend on independent local file checks. Rule keys match the checkpoint's criteria, and artifact paths are relative to the configuration's root. The root defaults to the configuration's directory.
+
+| Rule | Checks |
+| --- | --- |
+| `path` | A regular file inside the verifier root |
+| `min_bytes` and `contains` | Minimum size (default 1) and optional UTF-8 substring |
+| `fresh: true` | File is new or its SHA-256 differs from the pre-action baseline stored in the checkpoint |
+| `json_fields` | A map of JSON Pointers to exact expected values |
+| `run_id_pointer` | A JSON Pointer whose value must equal the checkpoint's `id` |
+
+Use an isolated output directory for identical reproducible builds, or have the application record a run ID. An unchanged file with identical bytes fails a freshness check. Resume with the same root and rules after a baseline is captured. For `run_id_pointer`, the application must receive and write the ID returned by `openas-gui create` or `status`.
 
 ```sh
-openas-gui run ./goal-state.json --nova /absolute/path/to/nova --verifier ./coverage-verifier.json
+openas-gui run ./goal-state.json --nova /absolute/path/to/nova --verifier ./coverage-rules.json
+openas-gui verify ./goal-state.json --verifier ./coverage-rules.json
 ```
 
-Without `--verifier`, the old evidence-only verifier remains for compatibility and is **not independent**. With a verifier, the model cannot mark success until the local file rules pass. Do not use this for untrusted filesystem paths or as a security sandbox. A local report check does not establish that the GUI itself was correctly operated.
+`verify` uses no backend or model. It outputs one check per criterion and exits 1 for a failed check. [Legacy text rules](examples/coverage-verifier.json) and [structured coverage rules](examples/coverage-artifact-verifier.json) are available. With no verifier, the compatibility mode uses planner evidence.
 
-Automated tests include a **fake desktop full-goal integration test**, lock/recovery/migration cases and negative verifier tests. **No real Nova/Windows/macOS E2E test has been run**. Those still require authorized hardware and desktop access.
+## Browser goals
+
+Install the optional browser dependencies and run the local fixture from the repository root. The fixture imitates a coverage GUI and produces a sample report.
+
+```sh
+python -m pip install -e 'packages/gui-agent-runtime[browser]'
+python -m playwright install chromium
+python -m http.server 8080 --bind 127.0.0.1 --directory packages/gui-agent-runtime/examples/coverage-web
+```
+
+In another shell, configure `OPENAS_GUI_API_KEY` and `OPENAS_GUI_MODEL`, then run:
+
+```sh
+work="$(mktemp -d)"
+cp packages/gui-agent-runtime/examples/coverage-artifact-verifier.json "$work/rules.json"
+openas-gui create "$work/state.json" \
+  --goal "Build the instrumented SIL fixture, run cases, wait for success, and download the MC/DC report as coverage.json." \
+  --criterion "New instrumented MC/DC report for the passed SIL cases"
+openas-gui run "$work/state.json" --browser-url http://127.0.0.1:8080/ \
+  --download-dir "$work" --verifier "$work/rules.json"
+openas-gui verify "$work/state.json" --verifier "$work/rules.json"
+```
+
+The backend observes the current page's accessible tree. It offers semantic clicks and fills, bounded text waits, same-origin navigation and explicit downloads. Use authorized test pages and test data. The runtime uses a single Chromium page and an isolated, nonpersistent context. Browser request routing provides a same-origin filter for routed requests. It does not substitute for isolation from untrusted sites. Redirects can affect which requests the browser routes. Downloads require an existing directory, a new filename, and filesystem hard-link support for atomic publication.
+
+Resume with the same URL, download directory, and verifier. Cookies, tabs and in-page form state are recreated. The checkpoint and downloaded artifacts survive. On an uncertain action, check its outcome and use `reconcile` before resuming. `--browser-executable` is available for a locally installed compatible Chromium.
 
 ## Token-efficient mode
 
@@ -50,14 +86,22 @@ openas-gui run ./goal-state.json --nova /absolute/path/to/nova \
 
 The compact tool list currently includes the first 12 advertised MCP tools, so check tool ordering and availability before relying on less common Nova tools. For accurate before/after savings, compare `model_usage` across equivalent runs with the same model, UI, and goal. Real Nova Windows/macOS E2E testing is still outstanding.
 
-## Offline Agent Benchmark (first stage)
+## Agent Benchmark
 
 ```sh
 openas-benchmark packages/gui-agent-runtime/examples/benchmark-suite.json \
-  --repeat 3 --output ./benchmark-results.json
+  --repeat 3 --output ./offline-results.json
+openas-benchmark packages/gui-agent-runtime/examples/live-coverage-suite.json \
+  --browser-url http://127.0.0.1:8080/ --repeat 3 --output ./browser-results.json
+openas-benchmark packages/gui-agent-runtime/examples/live-coverage-suite.json \
+  --nova /absolute/path/to/nova --case produce-mcdc-report --output ./nova-results.json
 ```
 
-Runs deterministic **synthetic** desktop/model scenarios using the actual agent loop and local verifier. Reports per-case pass/fail, actions, synthetic model calls/tokens, duration and aggregate success rate. Synthetic token counts are **fixtures**, not measured API usage or evidence of real-world savings. Scenarios execute in isolated temporary directories; do not put secrets in fixtures. Real Nova/Windows/macOS benchmarks require a separate runner and authorized environment.
+Offline mode uses scripted actions, observations and token counts. The supplied suite also interrupts a run after writing its artifact and verifies that reconciliation resumes without another write. Live mode uses the configured model API and the selected backend. The Nova example requires an authorized, resettable desktop fixture with a matching workflow that can export to the directory in the goal. The included web fixture is for the browser command. Each trial starts with a new checkpoint and artifact directory. In a case's `goal`, use `{output_dir}` for that directory. The suite can set `initial_files` to seed stale artifacts, `expected_status` for the final outcome, and `expected_checks` for required Runtime check reasons.
+
+`success_rate` is the fraction of cases matching their expected outcome. `completion_rate` counts independently verified completions among cases intended to finish. Expected rejections pass when their status and required check reasons match. The CLI returns 1 if any case fails. Live reports record calls, time, provider-reported tokens, missing usage and estimates. Scripted token counts serve only as fixtures.
+
+Add `--experience-store PATH --experience-environment TAG` to the live command for paired baseline and experience-enabled trials. Keep the same application and model, make sure the store has relevant verified experiences, and reset any application state between trials. Trials report each variant and the number of model calls that received experience hints. Use isolated trial data and an application that resets between invocations. You can run individual cases with `--case`. Windows/macOS plus Nova verification requires a real interactive desktop.
 
 ## Experience Memory (first stage)
 

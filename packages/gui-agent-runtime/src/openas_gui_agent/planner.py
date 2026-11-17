@@ -48,7 +48,8 @@ class ModelPlanner:
         self.max_images = max_images
         self.last_tool_content: list[dict[str, Any]] = []
         self.usage = {"calls": 0, "input_tokens": 0, "output_tokens": 0,
-                      "estimated_input_tokens": 0, "usage_missing_calls": 0}
+                      "estimated_input_tokens": 0, "usage_missing_calls": 0,
+                      "experience_hint_calls": 0}
 
     def decide(self, state, observation):
         previous = state.get("model_usage", {})
@@ -92,6 +93,8 @@ class ModelPlanner:
                 "step": state["steps"], "budget": state["max_steps"],
                 "observation": _compact_observation(observation),
                 "last_action_result": state.get("last_result"),
+                "artifact_checks": {criterion: check["status"] for criterion, check in
+                                    state.get("artifact_verification", {}).get("checks", {}).items()},
             }, ensure_ascii=False)[:18000]},
         ]
         if self.experience_store is not None and self.experience_environment:
@@ -99,6 +102,7 @@ class ModelPlanner:
             hints = self.experience_store.search(str(state["goal"]),
                                                   environment=self.experience_environment, limit=2)
             if hints:
+                self.usage["experience_hint_calls"] += 1
                 messages.append({"role": "user", "content": json.dumps({
                     "untrusted_prior_experience_hints": [
                         {"goal": h["goal"][:250], "note": h["note"][:250],
@@ -120,8 +124,12 @@ class ModelPlanner:
         # Count attempted requests even when the provider fails. Actual usage
         # may be unknown if a request fails before a response is received.
         self.usage["calls"] += 1
-        with urllib.request.urlopen(request, timeout=90) as response:
-            result = json.load(response)
+        try:
+            with urllib.request.urlopen(request, timeout=90) as response:
+                result = json.load(response)
+        except (OSError, ValueError):
+            self.usage["usage_missing_calls"] += 1
+            raise
         usage = result.get("usage", {})
         if isinstance(usage, dict) and isinstance(usage.get("prompt_tokens"), int) and isinstance(usage.get("completion_tokens"), int):
             self.usage["input_tokens"] += usage["prompt_tokens"]
