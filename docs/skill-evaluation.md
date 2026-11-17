@@ -69,3 +69,7 @@ python3 scripts/evaluate_skills.py --baseline-plugin /path/to/old/plugins/openas
 ```
 
 可用 `--candidate-plugin` 指定另一份候选插件，用 `--case` 单跑一个样例。报告记录插件指纹、每次客户端耗时及逐项通过或退步情况。新旧版本均需成功启动，候选需通过所有对应检查。样例数据为合成，文本信号和自报技能仍需结合实际输出审查。默认十项评测保持原入口。内置验收样例若已用于调优，另留新样例完成最终验收。
+
+## GUI 目标和产物验收
+
+`scripts/evaluate_skills.py --case` 另提供 `stale-report`、`expected-rejection` 和 `web-download-unavailable`，分别检查旧报告、预期阻止完成的评测口径，以及缺少浏览器工具时的交付边界。需要验证实际浏览器动作、下载和恢复时，运行 [GUI Runtime 套件](../packages/gui-agent-runtime/README.md#agent-benchmark)。

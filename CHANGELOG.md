@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.20.0
+
+- Add bilingual artifact verification, agent evaluation, and browser goal execution skills, reaching 65 skills and 90 translation pairs.
+- Add per-run artifact baselines, structured JSON assertions, checkpoint-linked verification, and a standalone artifact verification command.
+- Add an optional Playwright backend and live Nova or browser benchmarks, with paired experience-retrieval trials and expected rejection scoring.
+
 ## 0.19.0
 
 - Add bilingual skill maintenance, paired behavior evaluation, and separate held-out cases, reaching 60 skills and 85 translation pairs.

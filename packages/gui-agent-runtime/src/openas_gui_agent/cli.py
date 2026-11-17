@@ -1,40 +1,101 @@
-"""CLI: create/status/run/resume."""
-import argparse, json, os
+"""Create, execute, resume and independently verify GUI goals."""
+import argparse
+import json
+import os
 from pathlib import Path
-from .state import create, load
+
 from .agent import run
+from .recovery import reconcile
+from .session import browser_scope, open_session
+from .state import create, load
+from .verification import FileVerifier
+
 
 def main():
-    p = argparse.ArgumentParser(description="OpenAS GUI Agent")
-    sub = p.add_subparsers(dest="command", required=True)
-    c = sub.add_parser("create"); c.add_argument("checkpoint", type=Path); c.add_argument("--goal", required=True); c.add_argument("--criterion", action="append", required=True); c.add_argument("--max-steps", type=int, default=40)
-    s = sub.add_parser("status"); s.add_argument("checkpoint", type=Path)
-    r = sub.add_parser("reconcile"); r.add_argument("checkpoint", type=Path); r.add_argument("--outcome", choices=["executed", "not-executed"], required=True); r.add_argument("--note", required=True)
-    for name in ("run", "resume"):
-        x = sub.add_parser(name); x.add_argument("checkpoint", type=Path); x.add_argument("--nova", required=True); x.add_argument("--model", default=os.getenv("OPENAS_GUI_MODEL")); x.add_argument("--endpoint", default=os.getenv("OPENAS_GUI_API_URL", "https://api.openai.com/v1/chat/completions")); x.add_argument("--approve-pending", action="store_true"); x.add_argument("--verifier", type=Path, help="JSON rules for independent local file verification"); x.add_argument("--max-model-calls", type=int, default=0); x.add_argument("--max-model-tokens", type=int, default=0); x.add_argument("--max-ui-text-chars", type=int, default=5000); x.add_argument("--max-images", type=int, default=1); x.add_argument("--experience-store", type=Path); x.add_argument("--experience-environment", default="")
-    a = p.parse_args()
-    if a.command == "create": result = create(a.checkpoint, a.goal, a.criterion, max_steps=a.max_steps)
-    elif a.command == "status": result = load(a.checkpoint)
-    elif a.command == "reconcile":
-        from .recovery import reconcile
-        result = reconcile(a.checkpoint, outcome=a.outcome, note=a.note)
-    else:
-        from .adapters.nova import NovaMCP
-        from .planner import ModelPlanner
-        from .executor import LiveDesktop
-        key = os.getenv("OPENAS_GUI_API_KEY")
-        if not key or not a.model: p.error("Set OPENAS_GUI_API_KEY and OPENAS_GUI_MODEL (or --model)")
-        if a.max_model_calls < 0 or a.max_model_tokens < 0 or a.max_ui_text_chars < 0 or a.max_images < 0: p.error("Token limits must be nonnegative")
-        if bool(a.experience_store) != bool(a.experience_environment): p.error("--experience-store and --experience-environment must be used together")
-        from .experience import ExperienceStore
-        experience_store = ExperienceStore(a.experience_store) if a.experience_store else None
-        nova = NovaMCP(a.nova)
-        try:
-            planner = ModelPlanner(a.model, key, a.endpoint, max_tokens=a.max_model_tokens, max_calls=a.max_model_calls, max_text_chars=a.max_ui_text_chars, max_images=a.max_images, experience_store=experience_store, experience_environment=a.experience_environment)
-            from .verification import FileVerifier
-            verifier = FileVerifier.from_json(a.verifier) if a.verifier else None
-            result = run(a.checkpoint, LiveDesktop(nova, planner), planner, approval=a.approve_pending, verifier=verifier)
-        finally: nova.close()
-    print(json.dumps(result, ensure_ascii=False, indent=2))
+    parser = argparse.ArgumentParser(description="OpenAS GUI Agent")
+    commands = parser.add_subparsers(dest="command", required=True)
 
-if __name__ == "__main__": main()
+    goal = commands.add_parser("create")
+    goal.add_argument("checkpoint", type=Path)
+    goal.add_argument("--goal", required=True)
+    goal.add_argument("--criterion", action="append", required=True)
+    goal.add_argument("--max-steps", type=int, default=40)
+    commands.add_parser("status").add_argument("checkpoint", type=Path)
+
+    verifier_command = commands.add_parser("verify", help="Recheck artifacts for a checkpoint without a model")
+    verifier_command.add_argument("checkpoint", type=Path)
+    verifier_command.add_argument("--verifier", type=Path, required=True)
+    recovery = commands.add_parser("reconcile")
+    recovery.add_argument("checkpoint", type=Path)
+    recovery.add_argument("--outcome", choices=("executed", "not-executed"), required=True)
+    recovery.add_argument("--note", required=True)
+
+    for name in ("run", "resume"):
+        execution = commands.add_parser(name)
+        execution.add_argument("checkpoint", type=Path)
+        backend = execution.add_mutually_exclusive_group(required=True)
+        backend.add_argument("--nova")
+        backend.add_argument("--browser-url", help="Start URL for an isolated Chromium browser")
+        execution.add_argument("--download-dir", type=Path, help="Existing directory for new browser downloads")
+        execution.add_argument("--browser-executable")
+        execution.add_argument("--model", default=os.getenv("OPENAS_GUI_MODEL"))
+        execution.add_argument("--endpoint", default=os.getenv(
+            "OPENAS_GUI_API_URL", "https://api.openai.com/v1/chat/completions"))
+        execution.add_argument("--approve-pending", action="store_true")
+        execution.add_argument("--verifier", type=Path, help="JSON rules for independent artifact verification")
+        execution.add_argument("--max-model-calls", type=int, default=0)
+        execution.add_argument("--max-model-tokens", type=int, default=0)
+        execution.add_argument("--max-ui-text-chars", type=int, default=5000)
+        execution.add_argument("--max-images", type=int, default=1)
+        execution.add_argument("--experience-store", type=Path)
+        execution.add_argument("--experience-environment", default="")
+
+    args = parser.parse_args()
+    try:
+        if args.command == "create":
+            result = create(args.checkpoint, args.goal, args.criterion, max_steps=args.max_steps)
+        elif args.command == "status":
+            result = load(args.checkpoint)
+        elif args.command == "reconcile":
+            result = reconcile(args.checkpoint, outcome=args.outcome, note=args.note)
+        elif args.command == "verify":
+            result = FileVerifier.from_json(args.verifier).evaluate(load(args.checkpoint))
+        else:
+            result = _execute(args)
+    except (OSError, ValueError, RuntimeError) as exc:
+        parser.error(str(exc))
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    if args.command == "verify" and not result["passed"]:
+        raise SystemExit(1)
+
+
+def _execute(args):
+    from .experience import ExperienceStore
+    from .planner import ModelPlanner
+
+    key = os.getenv("OPENAS_GUI_API_KEY")
+    if not key or not args.model:
+        raise ValueError("Set OPENAS_GUI_API_KEY and OPENAS_GUI_MODEL (or --model)")
+    if min(args.max_model_calls, args.max_model_tokens, args.max_ui_text_chars, args.max_images) < 0:
+        raise ValueError("Token limits must be nonnegative")
+    if bool(args.experience_store) != bool(args.experience_environment):
+        raise ValueError("--experience-store and --experience-environment must be used together")
+    if not args.browser_url and (args.download_dir is not None or args.browser_executable):
+        raise ValueError("Browser settings require --browser-url")
+
+    download_dir = args.download_dir.resolve(strict=True) if args.download_dir else None
+    planner = ModelPlanner(args.model, key, args.endpoint, max_tokens=args.max_model_tokens,
+                           max_calls=args.max_model_calls, max_text_chars=args.max_ui_text_chars,
+                           max_images=args.max_images,
+                           experience_store=ExperienceStore(args.experience_store) if args.experience_store else None,
+                           experience_environment=args.experience_environment)
+    verifier = FileVerifier.from_json(args.verifier) if args.verifier else None
+    scope = browser_scope(args.browser_url, download_dir) if args.browser_url else None
+    with open_session(planner, nova=args.nova, browser_url=args.browser_url,
+                      download_dir=download_dir, browser_executable=args.browser_executable) as backend:
+        return run(args.checkpoint, backend, planner, approval=args.approve_pending,
+                   verifier=verifier, backend_scope=scope)
+
+
+if __name__ == "__main__":
+    main()

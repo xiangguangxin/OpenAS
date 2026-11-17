@@ -69,3 +69,7 @@ python3 scripts/evaluate_skills.py --baseline-plugin /path/to/old/plugins/openas
 ```
 
 Use `--candidate-plugin` to select another candidate bundle and `--case` for one case. Reports record bundle hashes, per-run elapsed time, and per-gate improvements or regressions. Both versions must launch successfully and the candidate must pass the relevant checks. Fixtures are synthetic; assess text signals and self-reported routing against the actual outputs. The original ten cases remain the default. If the built-in holdouts have informed edits, reserve fresh cases for final acceptance.
+
+## GUI goals and artifact acceptance
+
+Optional `scripts/evaluate_skills.py --case` probes include `stale-report`, `expected-rejection`, and `web-download-unavailable`. They check stale evidence, scoring an expected rejection, and reporting a browser capability gap. Use the [GUI Runtime suites](../packages/gui-agent-runtime/README.md#agent-benchmark) to exercise actual browser actions, downloads, or recovery.

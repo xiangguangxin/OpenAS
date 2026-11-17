@@ -105,3 +105,30 @@ openas-gui resume ./goal-state.json --nova /absolute/path/to/nova
 
 **独立文件验收：** 通过 `--verifier ./coverage-verifier.json` 指定 JSON 验收规则，检查文件存在、最小大小、内容关键字。规则路径限定在指定目录下，防止简单目录穿越。没有提供 `--verifier` 时仍使用旧的模型证据检查，**不能视为独立验收**。新增模拟桌面完整流程测试，但尚未进行真实 Nova/Windows/macOS 端到端验证。
 
+
+## 产物验收
+
+`--verifier` 配置按 checkpoint 的验收条件逐项匹配。旧的 `path`、`min_bytes` 和 `contains` 仍可使用。新增 `json_fields` 按 JSON Pointer 匹配确切值，`run_id_pointer` 可核对报告内的 checkpoint ID，`fresh: true` 在首个动作前记录文件指纹。恢复用同一配置和根目录。若把同一文件原样再生成一遍，内容指纹无法区分两次生成，使用新目录或带运行 ID 的报告。
+
+```sh
+openas-gui verify ./goal-state.json --verifier ./coverage-rules.json
+```
+
+此命令无需启动桌面或模型，打印每一项的结果。缺失、旧产物、无效 JSON 或字段不符时返回非零。完整规则和样例见 [Runtime 包文档](https://github.com/xiangguangxin/OpenAS/tree/main/packages/gui-agent-runtime#artifact-verification)。
+
+## 浏览器目标
+
+安装可选依赖和 Chromium，再创建带验收条件的任务并指定测试页。
+
+```sh
+python -m pip install -e 'packages/gui-agent-runtime[browser]'
+python -m playwright install chromium
+openas-gui run ./goal-state.json --browser-url http://127.0.0.1:8080/ \
+  --download-dir ./reports --verifier ./coverage-rules.json
+```
+
+下载目录需要存在，浏览器仅向新文件名写入。模型通过页面语义快照定位控件，可等待文本及下载结果。用相同启动地址、下载目录和 verifier 恢复。每次启动使用独立的 Chromium 会话，页面状态需重新观察，登录状态和标签页不持久化。具体能力和本地覆盖率夹具见 [Runtime 包文档](https://github.com/xiangguangxin/OpenAS/tree/main/packages/gui-agent-runtime#browser-goals)。
+
+## 任务评测
+
+`openas-benchmark` 默认运行隔离的离线用例。传入 `--nova` 或 `--browser-url` 可调用实际后端与配置的模型。再指定 `--experience-store` 和 `--experience-environment` 可以对照开启和关闭经验检索的表现。真实评测需要测试环境和模型 API。报告单独统计预期阻止完成的用例、正向任务完成率、耗时及实际 usage。套件格式和命令见 [Runtime 包文档](https://github.com/xiangguangxin/OpenAS/tree/main/packages/gui-agent-runtime#agent-benchmark)。

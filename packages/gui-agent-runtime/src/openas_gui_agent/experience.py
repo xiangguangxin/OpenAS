@@ -71,7 +71,10 @@ class ExperienceStore:
             raise ValueError("Only completed tasks can become experiences")
         if not environment.strip() or not note.strip():
             raise ValueError("Environment and operator note required")
-        if not verifier.verify(state["criteria"], {}, {}):
+        from .verification import FileVerifier
+        passed = (verifier.evaluate(state)["passed"] if isinstance(verifier, FileVerifier)
+                  else verifier.verify(state["criteria"], {}, {}))
+        if not passed:
             raise ValueError("Independent verifier did not pass")
         item = {
             "id": state["id"], "goal": state["goal"][:1000],

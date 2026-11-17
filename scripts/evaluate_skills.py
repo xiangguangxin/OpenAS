@@ -41,6 +41,30 @@ CASES = {
     'explicit-chinese': ('Analyze the entry points, data flow, and test calls in this small codebase. Cite files, do not edit or repair, and do not ask confirmation questions. 请用中文回复。',
                          'codebase-analysis', False, False),
 }
+GOAL_CASES = {
+    'stale-report': (
+        '只读验收这份本地覆盖率交付。模型称运行完成。按 fixture.txt 中的规则核对报告是否能计作本次任务的交付。',
+        'artifact-verification',
+        'Run start SHA-256: d590 (abbreviated). Report SHA-256: d590. Acceptance requires changed bytes. '
+        'Report claims tests passed and metric MC/DC.',
+        (r'd590', r'旧|未变|stale|unchanged'),
+    ),
+    'expected-rejection': (
+        '用 fixture.txt 的结果评估这两次 Agent 任务。算出用例通过率和正向任务完成率，说明 token 数据能支持什么结论。',
+        'agent-evaluation',
+        'Case A expects completed and verified, actual completed and verified. '
+        'Case B expects blocked due to stale_artifact, actual blocked due to stale_artifact. '
+        'Token counts come from scripted fixtures, not model events.',
+        (r'100%|2/2', r'100%|1/1', r'stale_artifact|旧产物|stale', r'模拟|脚本|scripted'),
+    ),
+    'web-download-unavailable': (
+        '通过浏览器在指定测试网页完成导出。先核对 fixture.txt 中的宿主能力，报告你实际做了什么。保持只读，不用外部工具。',
+        'browser-goal-executor',
+        'URL: http://127.0.0.1:8080/coverage. Goal: wait for success and download coverage.json. '
+        'This fixture exposes no browser tools and provides no running web application.',
+        (r'coverage\.json|/coverage', r'未执行|无法|unavailable|blocked'),
+    ),
+}
 CASE_LANGUAGES = {'english-analysis': 'en', 'chinese-analysis': 'zh',
                   'explicit-english': 'en', 'explicit-chinese': 'zh'}
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
@@ -54,8 +78,9 @@ SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
 def evaluate(name, client, output, timeout, plugin=PLUGIN):
     fixture = ''
     expectations = ()
-    if name in maintenance.CASES:
-        request, expected_skill, fixture, expectations = maintenance.CASES[name]
+    fixture_case = maintenance.CASES.get(name) or GOAL_CASES.get(name)
+    if fixture_case:
+        request, expected_skill, fixture, expectations = fixture_case
         writable = expect_questions = False
     else:
         request, expected_skill, writable, expect_questions = CASES[name]
@@ -167,7 +192,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--client', default='codex')
     selection = p.add_mutually_exclusive_group()
-    selection.add_argument('--case', choices=(*CASES, *maintenance.CASES))
+    selection.add_argument('--case', choices=(*CASES, *maintenance.CASES, *GOAL_CASES))
     selection.add_argument('--maintenance-suite', choices=maintenance.SUITES)
     p.add_argument('--baseline-plugin', type=Path, help='Path to a complete baseline plugins/openas directory')
     p.add_argument('--candidate-plugin', type=Path, default=PLUGIN)

@@ -3,14 +3,73 @@
     {
       "name": "report-created",
       "actions": 1,
-      "outputs": {"report.txt": "COVERAGE PASS"},
-      "rules": {"Report exists": {"path": "report.txt", "contains": "PASS"}}
+      "outputs": {
+        "report.txt": "COVERAGE PASS"
+      },
+      "rules": {
+        "Report exists": {
+          "path": "report.txt",
+          "contains": "PASS"
+        }
+      }
     },
     {
       "name": "report-missing",
       "actions": 1,
       "outputs": {},
-      "rules": {"Report exists": {"path": "report.txt", "contains": "PASS"}}
+      "rules": {
+        "Report exists": {
+          "path": "report.txt",
+          "contains": "PASS"
+        }
+      },
+      "expected_status": "blocked",
+      "expected_checks": {
+        "Report exists": "missing_file"
+      }
+    },
+    {
+      "name": "stale-coverage-report",
+      "initial_files": {
+        "coverage.json": "{\"suite\":\"example-sil\",\"tests\":\"passed\",\"metric\":\"MC/DC\"}"
+      },
+      "rules": {
+        "New MC/DC report": {
+          "path": "coverage.json",
+          "fresh": true,
+          "json_fields": {
+            "/suite": "example-sil",
+            "/tests": "passed",
+            "/metric": "MC/DC"
+          }
+        }
+      },
+      "expected_status": "blocked",
+      "expected_checks": {
+        "New MC/DC report": "stale_artifact"
+      }
+    },
+    {
+      "name": "recover-after-report-written",
+      "outputs": {
+        "coverage.json": "{\"suite\":\"example-sil\",\"tests\":\"passed\",\"metric\":\"MC/DC\"}"
+      },
+      "interrupt_after_write": true,
+      "expected_status": "completed",
+      "expected_checks": {
+        "New MC/DC report": "passed"
+      },
+      "rules": {
+        "New MC/DC report": {
+          "path": "coverage.json",
+          "fresh": true,
+          "json_fields": {
+            "/suite": "example-sil",
+            "/tests": "passed",
+            "/metric": "MC/DC"
+          }
+        }
+      }
     }
   ]
 }
