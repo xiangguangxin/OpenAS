@@ -158,10 +158,9 @@ Then run `/reload-plugins`. Actual supported flags come from your installed clie
 
 - **Browser goals and artifact acceptance:** [browser-goal-executor](plugins/openas/skills/browser-goal-executor/SKILL.en.md) runs authorized web goals using Playwright. [artifact-verification](plugins/openas/skills/artifact-verification/SKILL.en.md) checks new reports and structured fields. [agent-evaluation](plugins/openas/skills/agent-evaluation/SKILL.en.md) measures task outcomes and experience retrieval.
 - **Model gateways:** the standalone runtime and live benchmarks can use an existing [LiteLLM Proxy](packages/gui-agent-runtime/README.md#litellm-gateway).
-- **Persistent GUI Agent Runtime:** [Python runtime](plugins/openas/integrations/computer-use/RUNTIME.en.md) adds an executable multi-step decision loop, JSON checkpoints and restart-based resume (requires separate model API + Nova MCP; not a background daemon).
+- **Standalone GUI Agent Runtime:** [Python runtime](plugins/openas/integrations/computer-use/RUNTIME.en.md) adds an executable multi-step decision loop, JSON checkpoints and restart-based resume (requires separate model API + Nova MCP; not a background daemon).
 - **GUI Goal Executor:** [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.en.md) coordinates multi-step desktop goals through computer-use and a connected MCP, with bounded observe–act–verify loops, replanning and explicit acceptance checks.
 - **Computer Use (Windows/macOS):** the [computer-use skill](plugins/openas/skills/computer-use/SKILL.en.md) combines accessibility-first actions, screenshot fallback and verification with a separately installed desktop MCP; [Claude Code and Codex setup](plugins/openas/integrations/computer-use/USER-GUIDE.en.md). No MCP service is automatically installed or enabled.
-
 
 Roles define responsibilities, skills define methods, and MCP exposes tools. Core resources work without installing optional integrations. Reuse equivalent host tools where available.
 
@@ -173,6 +172,8 @@ Roles define responsibilities, skills define methods, and MCP exposes tools. Cor
 English configuration guides are available for [MCP setup](plugins/openas/integrations/QUICKSTART.en.md), [Playwright, GitHub, and Context7](plugins/openas/integrations/README.en.md), and [REA](plugins/openas/integrations/rea/README.en.md). Reading a skill does not install a server, register tools or grant target execution. No automatic hooks or background listeners are shipped.
 
 ## Project memory
+
+The optional GUI runtime has a separate [verified experience store and retrieval lifecycle](packages/gui-agent-runtime/README.md#opt-in-experience-assisted-planning-and-lifecycle). It is not the same as the target project's general-purpose memory described below, and automatic retrieval is opt-in.
 
 Runtime knowledge belongs to the consumer project's `.openas/memory/`, not the plugin. Evidence-backed candidates require semantic review before acceptance, and changed sources invalidate reuse. Task checkpoints are short-lived state, not authorization to resume. `--learn` adds explicit model-assisted extraction/review and candidate-skill lifecycle work; it is not background training or a permissions change.
 
@@ -238,22 +239,22 @@ OpenAS originated from a gem5 collaboration setup and is now project-independent
 
 ---
 
-OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 **Claude Code 插件**使用 12 个协作角色与 65 个技能，也可使用独立的 **Codex CLI 工作流适配器**执行阶段任务与验收。
+OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 Claude Code 插件使用 12 个协作角色与 65 个技能，也可使用独立的 Codex CLI 工作流适配器执行阶段任务与验收。
 
 适用于 Web 应用、后端服务、库、命令行工具、原生程序、数据处理和文档项目。接入后沿用目标仓库的技术栈、目录与验证命令，无需额外创建 OpenAS 专用配置文件。
 
 ## 新增：目标驱动 GUI Agent（Windows / macOS）
 
-OpenAS 现在既支持通过 **Claude Code / Codex + `gui-goal-executor` Skill** 编排多轮桌面任务，也提供**可选的独立 Python Agent Runtime**。给出最终目标（Goal）和验收条件后，执行器可以多轮观察界面、选择动作、调用 Nova MCP、检查返回结果、调整下一步，并将任务状态写入本地 JSON checkpoint。
+OpenAS 支持通过 Claude Code / Codex 加载 [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.md) Skill，编排多轮桌面任务；也提供可选的独立 [Python Agent Runtime](packages/gui-agent-runtime/README.md)。给出最终目标（Goal）和验收条件后，执行器可多轮观察界面、选择动作、调用 Nova MCP、检查返回结果并调整下一步。独立 Runtime 还会把任务状态写入本地 JSON checkpoint。
 
 | 组件 | 职责 | 使用入口 |
 | --- | --- | --- |
-| [`gui-goal-executor`](plugins/openas/skills/gui-goal-executor/SKILL.md) | Goal 分解、动态规划、停止条件和任务验收的 Skill 规范 | 在 Claude Code / Codex 会话中加载 Skill |
-| [`computer-use`](plugins/openas/skills/computer-use/SKILL.md) | 优先通过 UIA / AX 定位控件，必要时截图兜底、逐步验证 | 通过已连接桌面 MCP 使用 |
-| [Nova MCP](plugins/openas/integrations/computer-use/USER-GUIDE.md) | Windows / macOS 的截图、窗口和鼠标键盘等桌面工具 | **用户自行安装和授权** |
-| [Python Agent Runtime](packages/gui-agent-runtime/README.md) | 独立 Python 包：Agent Loop、模型决策、JSON checkpoint、重启后恢复 | 安装后使用 `openas-gui create/status/run/resume` |
+| [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.md) | Goal 分解、动态规划、停止条件与任务验收规范 | 在 Claude Code / Codex 会话中加载 Skill |
+| [computer-use](plugins/openas/skills/computer-use/SKILL.md) | 优先通过 UIA / AX 定位控件，必要时截图辅助并逐步验证 | 通过已连接的桌面 MCP 使用 |
+| [Nova MCP](plugins/openas/integrations/computer-use/USER-GUIDE.md) | 提供 Windows / macOS 的窗口、截图及鼠标键盘工具 | 用户自行安装并授权 |
+| [Python Agent Runtime](packages/gui-agent-runtime/README.md) | 独立的 Agent Loop、模型决策、checkpoint 与恢复 | 安装后通过 `openas-gui` CLI 创建、查询、运行和恢复任务 |
 
-**两种模式不要混淆：** 在 Claude Code / Codex 中使用 Skill，依赖客户端自身的模型和工具调用循环；独立 Python Runtime 则**需要额外配置兼容的多模态模型 API**，不会直接继承 Claude Code / Codex 的订阅或 MCP 注册，也不是常驻后台服务。
+**两种模式的区别：** 在 Claude Code / Codex 中使用 Skill，依赖客户端自身的模型和工具调用循环；独立 Python Runtime 需要额外配置兼容的多模态模型 API，不会继承 Claude Code / Codex 的订阅或 MCP 注册，也不是常驻后台服务。
 
 ```mermaid
 flowchart LR
@@ -270,7 +271,7 @@ flowchart LR
 
 典型任务：**“打开指定覆盖率 GUI，构建工程、运行测试、生成报告，并在报告存在且可读取后才宣布完成。”** 运行期间遇到弹窗或失败会重新观察和规划；涉及删除、覆盖、付款、发送等高风险动作必须确认。示例任务和安装步骤见 [Computer Use 中文使用手册](plugins/openas/integrations/computer-use/USER-GUIDE.md)，独立执行器的具体命令与恢复方式见 [Runtime 中文手册](plugins/openas/integrations/computer-use/RUNTIME.md)。
 
-**当前边界：** JSON checkpoint 支持在程序重启后恢复进度，**不表示中断后自动后台继续**；不确定是否执行成功的动作会阻塞等待人工核对。Runtime 当前尚未实现模型完成证据的独立业务验收，也没有经过真实 Windows / macOS + Nova 的端到端测试。请先在隔离的测试桌面使用，不要把 CI 通过等同于真实 GUI 任务成功。
+**当前边界：** JSON checkpoint 支持在程序重启后恢复进度，不代表中断后会在后台自动继续；执行结果不确定的动作需要人工核对后才能恢复。独立 Runtime 已支持可选的[本地文件验收规则](packages/gui-agent-runtime/README.md#phase-4-independent-local-file-verification)，但未配置独立 Verifier 时仅检查模型提供的证据，不能视为独立业务验收。目前仍未完成真实 Windows / macOS + Nova 的端到端测试；CI 通过不等同于真实 GUI 任务成功。
 
 ## 中文与英文
 
@@ -287,7 +288,7 @@ flowchart LR
 
 ## 快速开始
 
-在**目标项目目录**中启动 Claude Code，将路径替换为你的 OpenAS 所在位置：
+在 **目标项目目录** 中启动 Claude Code，将路径替换为你的 OpenAS 所在位置：
 
 ```bash
 claude --plugin-dir /path/to/OpenAS/plugins/openas
@@ -446,7 +447,7 @@ flowchart TB
     class repo,memory,evidence,nova dataStyle
 ```
 
-角色和技能是供宿主读取的资源；常规任务由 Claude Code 或 Codex CLI 会话执行。另有**可选的独立 Python GUI Agent Runtime**，通过单独配置的多模态模型 API 与 Nova MCP 执行多轮桌面任务，不自动共享宿主会话权限或订阅。Codex 适配器按既定路线选择角色，新增角色不会自动加入所有工作流；记忆审查与复用规则见 [项目记忆说明](plugins/openas/memory/README.md)。
+角色和技能是供宿主读取的资源；常规任务由 Claude Code 或 Codex CLI 会话执行。另有可选的独立 Python GUI Agent Runtime，通过单独配置的多模态模型 API 与 Nova MCP 执行多轮桌面任务，不自动共享宿主会话权限或订阅。Codex 适配器按既定路线选择角色，新增角色不会自动加入所有工作流；记忆审查与复用规则见 [项目记忆说明](plugins/openas/memory/README.md)。
 
 ## 工作流程
 
@@ -574,7 +575,7 @@ MCP（Model Context Protocol）让 AI 客户端连接外部工具和数据源。
 首次交付客户时，按 [统一接入指南](plugins/openas/integrations/QUICKSTART.md) 使用配置工具合并所选服务、提供客户自己的凭据并执行本地预检，再在客户端完成真实连接与逐项验收。也可按下列步骤手工配置。
 
 1. 打开所需集成的说明，准备运行环境及相应凭据。
-2. 将其 `claude.mcp.example.json` 中需要的服务条目合并到**目标项目**的 `.mcp.json`，保留已有配置；凭据通过环境变量提供。
+2. 将其 `claude.mcp.example.json` 中需要的服务条目合并到 **目标项目** 的 `.mcp.json`，保留已有配置；凭据通过环境变量提供。
 3. 重连 Claude Code 会话，在 `/mcp` 检查服务连接和实际可用工具，再按该集成的最小验收步骤执行一次任务。
 
 这些模板面向 Claude Code。其他客户端需按各自格式注册；现有 Codex CLI 工作流适配器不会自动读取这些模板。角色若有工具白名单，还需在实际客户端中允许相应工具。
@@ -583,7 +584,9 @@ MCP（Model Context Protocol）让 AI 客户端连接外部工具和数据源。
 
 ## 项目记忆
 
-技能、角色和脚本随插件分发，任务产生的记忆则保存在**目标项目**的 `.openas/memory/` 中。插件更新或卸载后，项目记忆仍然保留。各项目的记录独立管理，记忆功能不会改写项目的 `CLAUDE.md`。
+独立 GUI Runtime 还提供[经验检索与生命周期管理](packages/gui-agent-runtime/README.md#opt-in-experience-assisted-planning-and-lifecycle)，可以按环境检索已验证经验，并通过时间衰减与失效规则过滤过期记录。它与以下目标项目的通用项目记忆机制是不同的功能；经验复用需要显式启用。
+
+技能、角色和脚本随插件分发，任务产生的记忆则保存在 **目标项目** 的 `.openas/memory/` 中。插件更新或卸载后，项目记忆仍然保留。各项目的记录独立管理，记忆功能不会改写项目的 `CLAUDE.md`。
 
 使用记忆 CLI 时，必须显式指定目标项目根目录：
 
@@ -644,8 +647,8 @@ plugins/openas/
   workflows/                    可选适配器、示例、测试与历史证据
   integrations/                 可选 MCP 配置、使用指引与 REA 集成
     computer-use/               Nova MCP 手册与旧 Runtime 兼容入口
-packages/gui-agent-runtime/     可独立安装的 Python GUI Agent Runtime
   memory/README.md              项目记忆存储约定
+packages/gui-agent-runtime/     可独立安装的 Python GUI Agent Runtime
 scripts/check_plugin.py         只读结构校验器
 ```
 
@@ -663,7 +666,7 @@ Claude Code 官方文档：[插件格式](https://code.claude.com/docs/en/plugin
 
 事实回答、测试与交付遵循 [结论与证据共享规则](plugins/openas/references/evidence-policy.md)：结论绑定证据、证据绑定对象版本、未验证明确标注、失效证据不得复用。全部自有角色/技能引用同一规则；这不等于自动认证模型报告的真实性。
 
-[验证前置](plugins/openas/references/verification-first.md)将有效契约、故障复现和目标实跑贯穿修复、评审与发布。
+[验证前置](plugins/openas/references/verification-first.md) 将有效契约、故障复现和目标实跑贯穿修复、评审与发布。
 
 除明确标注的技能目录外，项目自有内容采用 [MIT License](LICENSE)；另行声明的目录与第三方内容遵循各自许可。版本变化见 [CHANGELOG](CHANGELOG.md)，开发与发布流程见 [贡献指南](CONTRIBUTING.md)，运行环境和记录格式见 [兼容说明](docs/compatibility.md)。
 
