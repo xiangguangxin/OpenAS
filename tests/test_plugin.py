@@ -47,7 +47,7 @@ class PluginTests(unittest.TestCase):
                              'coverage-analysis', 'skill-maintenance', 'agent-evaluation',
                              'artifact-verification', 'browser-goal-executor'}.issubset(inventory['skills']))
             self.assertEqual(len(inventory['agents']), 12)
-            self.assertEqual(inventory['translations'], 90)
+            self.assertEqual(inventory['translations'], 91)
 
     def test_stale_missing_and_duplicate_translations_are_rejected(self):
         checker = load(ROOT / 'scripts/check_plugin.py', 'plugin_check_translation_failures')

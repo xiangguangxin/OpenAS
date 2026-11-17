@@ -5,10 +5,13 @@ import json
 import os
 from pathlib import Path
 import shutil
+import socket
 import subprocess
 import sys
 import tempfile
 from threading import Thread
+import time
+from urllib.request import urlopen
 import unittest
 
 from openas_gui_agent.adapters.browser import open_browser
@@ -34,6 +37,7 @@ class QuietStaticServer(SimpleHTTPRequestHandler):
 
 class PlannerAPI(BaseHTTPRequestHandler):
     requests = []
+    authorization = []
 
     def log_message(self, *_):
         pass
@@ -42,6 +46,7 @@ class PlannerAPI(BaseHTTPRequestHandler):
         request = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
         observation = json.loads(request["messages"][1]["content"])
         self.requests.append(request)
+        self.authorization.append(self.headers.get("Authorization"))
         step = observation["step"]
         decisions = (
             action("browser_click", role="button", name="Build instrumented fixture"),
@@ -50,8 +55,13 @@ class PlannerAPI(BaseHTTPRequestHandler):
             action("browser_download", role="link", name="Download MC/DC report", filename="coverage.json"),
             {"type": "complete"},
         )
-        result = {"choices": [{"message": {"content": json.dumps(decisions[step])}}],
-                  "usage": {"prompt_tokens": 20, "completion_tokens": 5}}
+        result = {
+            "id": "chatcmpl-openas-fixture", "object": "chat.completion", "created": 1,
+            "model": request["model"],
+            "choices": [{"index": 0, "finish_reason": "stop",
+                         "message": {"role": "assistant", "content": json.dumps(decisions[step])}}],
+            "usage": {"prompt_tokens": 20, "completion_tokens": 5, "total_tokens": 25},
+        }
         payload = json.dumps(result).encode()
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
@@ -68,6 +78,7 @@ class BrowserGoals(unittest.TestCase):
         self.addCleanup(static.server_close)
         self.addCleanup(static.shutdown)
         PlannerAPI.requests = []
+        PlannerAPI.authorization = []
         api, self.endpoint = server(PlannerAPI)
         self.addCleanup(api.server_close)
         self.addCleanup(api.shutdown)
@@ -98,6 +109,8 @@ class BrowserGoals(unittest.TestCase):
             self.assertEqual(state["model_usage"]["input_tokens"], 100)
             self.assertEqual(state["artifact_verification"]["checks"][criterion]["status"], "passed")
             self.assertTrue(self.command("cli", "verify", checkpoint, "--verifier", config)["passed"])
+            self.assertEqual(self.command("cli", "compare-traces", checkpoint, checkpoint),
+                             {"status": "match", "actions_compared": 4})
 
     def test_live_benchmark_browser_experience_pair(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -138,6 +151,76 @@ class BrowserGoals(unittest.TestCase):
                                  for msg in PlannerAPI.requests[0]["messages"]))
             self.assertTrue(any("untrusted_prior_experience_hints" in msg["content"]
                                 for msg in PlannerAPI.requests[5]["messages"]))
+
+    @unittest.skipUnless(os.getenv("OPENAS_TEST_LITELLM_EXECUTABLE"), "opt-in test requires a LiteLLM Proxy")
+    def test_litellm_proxy_drives_a_browser_benchmark(self):
+        alias = "openas-fixture"
+        gateway_key = "sk-openas-fixture-gateway"
+        upstream_key = "sk-openas-fixture-upstream"
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            config = root / "gateway.yaml"
+            config.write_text(json.dumps({
+                "model_list": [{"model_name": alias, "litellm_params": {
+                    "model": "openai/gpt-4o-mini", "api_base": self.endpoint + "/v1",
+                    "api_key": upstream_key,
+                }}],
+                "general_settings": {"master_key": gateway_key},
+            }), encoding="utf-8")
+            with socket.socket() as port_probe:
+                port_probe.bind(("127.0.0.1", 0))
+                port = port_probe.getsockname()[1]
+            gateway = f"http://127.0.0.1:{port}"
+            env = dict(self.env, LITELLM_OFFLINE_MODE="true", LITELLM_LOCAL_MODEL_COST_MAP="true",
+                       LITELLM_TELEMETRY="False")
+            argv = [os.environ["OPENAS_TEST_LITELLM_EXECUTABLE"], "--config", str(config),
+                    "--host", "127.0.0.1", "--port", str(port)]
+            log = root / "gateway.log"
+            with log.open("w", encoding="utf-8") as output, subprocess.Popen(
+                    argv, env=env, stdout=output, stderr=subprocess.STDOUT) as proxy:
+                try:
+                    deadline = time.monotonic() + 25
+                    while proxy.poll() is None and time.monotonic() < deadline:
+                        try:
+                            with urlopen(gateway + "/health/readiness", timeout=1):
+                                break
+                        except OSError:
+                            time.sleep(0.2)
+                    else:
+                        self.fail(log.read_text(encoding="utf-8")[-3500:])
+
+                    self.env["LITELLM_API_KEY"] = gateway_key
+                    options = ["--browser-executable", self.executable] if self.executable else []
+                    report = self.command("benchmark", EXAMPLES / "live-coverage-suite.json",
+                                          "--browser-url", self.site, "--litellm-base-url", gateway,
+                                          "--model", alias, *options)
+
+                    self.env["OPENAS_LITELLM_BASE_URL"] = gateway + "/v1"
+                    self.env["OPENAS_GUI_MODEL"] = alias
+                    case = json.loads((EXAMPLES / "live-coverage-suite.json").read_text())["scenarios"][0]
+                    checkpoint = root / "state.json"
+                    verifier = root / "criteria.json"
+                    verifier.write_text(json.dumps({"criteria": case["rules"]}), encoding="utf-8")
+                    self.command("cli", "create", checkpoint, "--goal", case["goal"],
+                                 "--criterion", next(iter(case["rules"])))
+                    state = self.command("cli", "run", checkpoint, "--browser-url", self.site,
+                                         "--download-dir", root, "--verifier", verifier, *options)
+                finally:
+                    proxy.terminate()
+                    try:
+                        proxy.wait(timeout=5)
+                    except subprocess.TimeoutExpired:
+                        proxy.kill()
+                        proxy.wait()
+
+            self.assertEqual(report["success_rate"], 1)
+            self.assertEqual(report["model"], alias)
+            self.assertEqual(report["provenance"]["model_connection"], "litellm")
+            self.assertEqual(report["avg_tokens"], 125)
+            self.assertEqual(state["status"], "completed")
+            self.assertEqual(state["model_usage"]["input_tokens"], 100)
+            self.assertEqual(PlannerAPI.authorization, [f"Bearer {upstream_key}"] * 10)
+            self.assertTrue(all(r["response_format"] == {"type": "json_object"} for r in PlannerAPI.requests))
 
     def test_browser_refuses_other_origin_and_existing_download(self):
         with tempfile.TemporaryDirectory() as temp:

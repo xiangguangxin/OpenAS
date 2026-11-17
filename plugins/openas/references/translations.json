@@ -160,14 +160,14 @@
     {
       "source": "skills/architecture-conformance/SKILL.md",
       "target": "skills/architecture-conformance/SKILL.en.md",
-      "source_sha256": "7ae421acc8c82ec7eb77a7e71c9c1a63d84b7542d6944ddae6e3d20d44bad6cc",
-      "target_sha256": "89aff2db6a2dc3786ea00dd3296b3193f23decf85c124ebc314681debe3f264a"
+      "source_sha256": "037eb05902e04d42362862fdd023db3991fafdc50fd92d0d3ad1310008f6e695",
+      "target_sha256": "b9cb6f83ed7d151c7668b87fc64d21b1253452c2b02df155b7bc262b865bb9d3"
     },
     {
       "source": "skills/architecture-design/SKILL.md",
       "target": "skills/architecture-design/SKILL.en.md",
-      "source_sha256": "3b162c53b673c5656d4976c51df563671e3a0e97989e63863847fa46d453bbae",
-      "target_sha256": "bcff4e21c229614efbd9f32303d0f70132a8488cedf634cb0034a50119c0dfc5"
+      "source_sha256": "82027294e3acbfdb95fc4eaf90e96a67e0f9ffa69858955d01ff3a47c1b9bc30",
+      "target_sha256": "0cdf22542d6c4fa3686410c27434805b546f35483aa2014c889d61dc14b08316"
     },
     {
       "source": "skills/architecture-evolution/SKILL.md",
@@ -184,8 +184,8 @@
     {
       "source": "skills/bug-fix/SKILL.md",
       "target": "skills/bug-fix/SKILL.en.md",
-      "source_sha256": "247675700d56d6370fe9a1be6caf5f2c83ad144468ce0587066dc6d69f514b7c",
-      "target_sha256": "c2d15ffbb71a7556a9f4dba23e2e758e1814f053505756428c102fa4f339027d"
+      "source_sha256": "c2a8f659a36fc45e8cef985ad7d6a61b03c08b260130c3b0c005b3ba9d9e9e78",
+      "target_sha256": "2da87b17f2e74e2ab3abdd2e717bc5b9413eec3281b961927a8b6d289ee4a3ee"
     },
     {
       "source": "skills/change-impact-analysis/SKILL.md",
@@ -424,8 +424,8 @@
     {
       "source": "skills/test-strategy/SKILL.md",
       "target": "skills/test-strategy/SKILL.en.md",
-      "source_sha256": "402406441a96fc33514fca06f5f3af2b2829040d38c53acd80b808b586f50f9a",
-      "target_sha256": "295c2455bc53f85f34aaa0dac856a61629b5b67a7679f2810d7392a54df2f2d4"
+      "source_sha256": "31e2d935b890baaab520bdced88c969a340df0a9007e5c5a2a6536659492eb98",
+      "target_sha256": "4322f829b5705adccaaf521798263bdc8243b603b0aaf54c4a63b4b0263d1c96"
     },
     {
       "source": "skills/verification-before-completion/SKILL.md",
@@ -540,6 +540,12 @@
       "target": "skills/browser-goal-executor/SKILL.en.md",
       "source_sha256": "7f4a8e02820192e0551a2568d6a4c6be58f7ac52a163b8725aeca1ec25f352aa",
       "target_sha256": "c1cae44c46534b9497baf0be8f9720681f042dd207d99c543ab06f0f8e9fd9db"
+    },
+    {
+      "source": "references/engineering-methods.md",
+      "target": "references/engineering-methods.en.md",
+      "source_sha256": "64f43aa0d8f8a02eb43fa170739574b1237e026b1bf7def7bee2a37c71e5670e",
+      "target_sha256": "0b86782a0819e3d256702c6efec984f75b0c96c0aeca5ba32d5532be394aca2e"
     }
   ]
 }

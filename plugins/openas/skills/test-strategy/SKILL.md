@@ -30,3 +30,5 @@ description: "依据需求和风险制定测试层级、场景、数据与执行
 交付测试矩阵：需求/风险、场景、层级、数据与环境、现有或新增测试位置、执行入口、通过标准、覆盖缺口。规划完成表示关键验收均有验证方法或明确缺口，不表示已运行通过。
 
 编写跨模块测试时使用 [integration-testing](../integration-testing/SKILL.md)，行为开发可用 [test-driven-development](../test-driven-development/SKILL.md)，交付证据使用 [verification-before-completion](../verification-before-completion/SKILL.md)。测试工程由 [test-engineer](../../agents/test-engineer.md) 承担，独立验收由 verifier 核对。
+
+补充方法见 [故障注入、变形、变异或状态机属性测试](../../references/engineering-methods.md#测试)。

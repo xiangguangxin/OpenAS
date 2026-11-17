@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import statistics
 import tempfile
 import time
@@ -13,6 +12,7 @@ from .agent import run
 from .benchmark_provenance import manifest, package_version
 from . import tool_trace
 from .experience import ExperienceStore
+from .model_connection import add_model_arguments, resolve_model_connection
 from .planner import ModelPlanner
 from .recovery import reconcile
 from .session import browser_scope, open_session
@@ -169,15 +169,17 @@ def benchmark(scenarios: list[dict], *, repeat: int = 1) -> dict:
     return _report("offline-synthetic", records, provenance)
 
 
-def live_benchmark(scenarios, args, key):
+def live_benchmark(scenarios, args):
     _validate(scenarios, args.repeat)
     for case in scenarios:
         if not isinstance(case.get("goal"), str) or not case["goal"].strip():
             raise ValueError(f"{case['name']}: live scenarios require a goal")
         if {"outputs", "fail_action", "interrupt_after_write"} & case.keys():
             raise ValueError(f"{case['name']}: scripted outputs, actions and interruption are offline only")
+    connection = resolve_model_connection(args)
     experience = ExperienceStore(args.experience_store) if args.experience_store else None
     provenance = manifest(scenarios, args.repeat)
+    provenance["model_connection"] = connection.kind
     provenance["model_budget"] = {"max_calls": args.max_model_calls, "max_tokens": args.max_model_tokens}
     if args.browser_url:
         provenance["playwright_version"] = package_version("playwright")
@@ -198,7 +200,8 @@ def live_benchmark(scenarios, args, key):
                     goal = case["goal"].replace("{output_dir}", str(output))
                     create(path, goal, list(case["rules"]), max_steps=case.get("max_steps", 25))
                     verifier = FileVerifier(case["rules"], output)
-                    planner = ModelPlanner(args.model, key, args.endpoint, max_calls=args.max_model_calls,
+                    planner = ModelPlanner(connection.model, connection.api_key, connection.endpoint,
+                                           max_calls=args.max_model_calls,
                                            max_tokens=args.max_model_tokens,
                                            experience_store=experience if variant == "experience" else None,
                                            experience_environment=args.experience_environment)
@@ -215,7 +218,7 @@ def live_benchmark(scenarios, args, key):
                     record["backend_version"] = backend_version
                     records.append(record)
     result = _report("live-browser" if args.browser_url else "live-nova", records, provenance)
-    result["model"] = args.model
+    result["model"] = connection.model
     return result
 
 
@@ -229,9 +232,7 @@ def main():
     backend.add_argument("--nova", help="Run a live suite against the specified Nova executable")
     backend.add_argument("--browser-url", help="Run a live suite in isolated Playwright Chromium")
     parser.add_argument("--browser-executable")
-    parser.add_argument("--model", default=os.getenv("OPENAS_GUI_MODEL"))
-    parser.add_argument("--endpoint", default=os.getenv(
-        "OPENAS_GUI_API_URL", "https://api.openai.com/v1/chat/completions"))
+    add_model_arguments(parser)
     parser.add_argument("--max-model-calls", type=int, default=35)
     parser.add_argument("--max-model-tokens", type=int, default=50_000)
     parser.add_argument("--experience-store", type=Path)
@@ -242,17 +243,16 @@ def main():
         if args.case:
             suite = [case for case in suite if case["name"] == args.case]
         if args.nova or args.browser_url:
-            key = os.getenv("OPENAS_GUI_API_KEY")
-            if not key or not args.model:
-                raise ValueError("Live mode requires OPENAS_GUI_API_KEY and a model")
             if args.browser_executable and not args.browser_url:
                 raise ValueError("--browser-executable requires --browser-url")
             if bool(args.experience_store) != bool(args.experience_environment):
                 raise ValueError("--experience-store and --experience-environment must be used together")
             if min(args.max_model_calls, args.max_model_tokens) < 0:
                 raise ValueError("Model limits must be nonnegative")
-            result = live_benchmark(suite, args, key)
+            result = live_benchmark(suite, args)
         else:
+            if args.litellm_base_url is not None:
+                raise ValueError("--litellm-base-url requires a live backend")
             if args.experience_store or args.experience_environment or args.browser_executable:
                 raise ValueError("Experience and browser options require a live backend")
             result = benchmark(suite, repeat=args.repeat)

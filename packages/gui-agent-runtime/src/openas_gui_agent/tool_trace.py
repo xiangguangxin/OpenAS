@@ -54,9 +54,14 @@ def validate_expectation(rules):
         raise ValueError("expected_trajectory.max_counts must map tool names to nonnegative counts")
 
 
+def _complete(trace):
+    return (bool(trace) and not trace["started_after_steps"] and not trace["dropped"]
+            and all(event["tool"] is not None and event["outcome"] != "unknown"
+                    for event in trace["events"]))
+
+
 def evaluate(rules, trace):
-    if (trace is None or trace["started_after_steps"] or trace["dropped"]
-            or any(event["tool"] is None or event["outcome"] == "unknown" for event in trace["events"])):
+    if not _complete(trace):
         return {"passed": False, "reasons": ["incomplete_trace"]}
 
     events = trace["events"]
@@ -84,3 +89,36 @@ def evaluate(rules, trace):
         if counts[tool] > maximum:
             reasons.append(f"count_exceeded:{tool}")
     return {"passed": not reasons, "reasons": reasons}
+
+
+def compare_checkpoints(baseline, candidate):
+    """Locate the first difference visible in two checkpoints' recorded evidence."""
+    sides = [(label, checkpoint.get("tool_trace"))
+             for label, checkpoint in (("baseline", baseline), ("candidate", candidate))]
+    incomplete = [label for label, trace in sides if not _complete(trace)]
+    if incomplete:
+        return {"status": "inconclusive", "incomplete": incomplete}
+
+    sequences = [[{"tool": event["tool"], "outcome": event["outcome"]}
+                  for event in trace["events"]] for _, trace in sides]
+    for index in range(max(map(len, sequences))):
+        left, right = (events[index] if index < len(events) else None for events in sequences)
+        if left != right:
+            return {"status": "different", "stage": "tool", "action": index + 1,
+                    "baseline": left, "candidate": right}
+
+    def artifact_checks(state):
+        report = state.get("artifact_verification", {})
+        return {criterion: result["status"] for criterion, result in report.get("checks", {}).items()}
+
+    left, right = map(artifact_checks, (baseline, candidate))
+    different = [criterion for criterion in sorted(left.keys() | right.keys())
+                 if left.get(criterion) != right.get(criterion)]
+    if different:
+        criterion = different[0]
+        return {"status": "different", "stage": "artifact", "criterion": criterion,
+                "baseline": left.get(criterion), "candidate": right.get(criterion)}
+    if baseline["status"] != candidate["status"]:
+        return {"status": "different", "stage": "runtime", "baseline": baseline["status"],
+                "candidate": candidate["status"]}
+    return {"status": "match", "actions_compared": len(sequences[0])}

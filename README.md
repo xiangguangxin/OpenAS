@@ -155,6 +155,7 @@ Then run `/reload-plugins`. Actual supported flags come from your installed clie
 ## Optional MCP integrations
 
 - **Browser goals and artifact acceptance:** [browser-goal-executor](plugins/openas/skills/browser-goal-executor/SKILL.en.md) runs authorized web goals using Playwright. [artifact-verification](plugins/openas/skills/artifact-verification/SKILL.en.md) checks new reports and structured fields. [agent-evaluation](plugins/openas/skills/agent-evaluation/SKILL.en.md) measures task outcomes and experience retrieval.
+- **Model gateways:** the standalone runtime and live benchmarks can use an existing [LiteLLM Proxy](packages/gui-agent-runtime/README.md#litellm-gateway).
 - **Persistent GUI Agent Runtime:** [Python runtime](plugins/openas/integrations/computer-use/RUNTIME.en.md) adds an executable multi-step decision loop, JSON checkpoints and restart-based resume (requires separate model API + Nova MCP; not a background daemon).
 - **GUI Goal Executor:** [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.en.md) coordinates multi-step desktop goals through computer-use and a connected MCP, with bounded observe–act–verify loops, replanning and explicit acceptance checks.
 - **Computer Use (Windows/macOS):** the [computer-use skill](plugins/openas/skills/computer-use/SKILL.en.md) combines accessibility-first actions, screenshot fallback and verification with a separately installed desktop MCP; [Claude Code and Codex setup](plugins/openas/integrations/computer-use/USER-GUIDE.en.md). No MCP service is automatically installed or enabled.
@@ -546,6 +547,8 @@ claude plugin update openas@openas-marketplace --scope project
 最后在会话中运行 `/reload-plugins`。具体命令及可用参数以本地 Claude CLI 的帮助信息为准。
 
 ## 可选 MCP 集成
+
+独立 Runtime 和实机评测可接入 [LiteLLM 网关](packages/gui-agent-runtime/README.md#litellm-gateway)，统一使用网关的模型别名和 Key。
 
 GUI Agent 的整体架构、Skill/独立 Runtime 两种模式及跨会话恢复限制见上方 [目标驱动 GUI Agent](#新增目标驱动-gui-agentwindows--macos)。实际安装与配置：[Computer Use 中文使用手册](plugins/openas/integrations/computer-use/USER-GUIDE.md) · [独立 Runtime 使用手册](plugins/openas/integrations/computer-use/RUNTIME.md)。
 

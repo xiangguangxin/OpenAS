@@ -72,6 +72,29 @@ The backend observes the current page's accessible tree. It offers semantic clic
 
 Resume with the same URL, download directory, and verifier. Cookies, tabs and in-page form state are recreated. The checkpoint and downloaded artifacts survive. On an uncertain action, check its outcome and use `reconcile` before resuming. `--browser-executable` is available for a locally installed compatible Chromium.
 
+## LiteLLM gateway
+
+Use an existing LiteLLM Proxy or start a local instance with the [example configuration](examples/litellm.yaml). Configure `OPENAI_API_KEY` and a local `LITELLM_MASTER_KEY` in the gateway process, then start the gateway.
+
+```sh
+litellm --config packages/gui-agent-runtime/examples/litellm.yaml --host 127.0.0.1 --port 4000
+```
+
+Set `LITELLM_API_KEY` in the OpenAS process to a key accepted by the gateway. Use a virtual key for a shared gateway. For the local example, use the local instance's master key. Point the runtime at the gateway and use the alias in `model_list`.
+
+```sh
+openas-gui run ./goal-state.json --browser-url http://127.0.0.1:8080/ \
+  --litellm-base-url http://127.0.0.1:4000 --model openas-planner
+
+openas-benchmark packages/gui-agent-runtime/examples/live-coverage-suite.json \
+  --browser-url http://127.0.0.1:8080/ --litellm-base-url http://127.0.0.1:4000 \
+  --model openas-planner
+```
+
+The same options work with `resume` and `--nova`. `--litellm-base-url` accepts the gateway URL with an optional `/v1` suffix. You can also set `OPENAS_LITELLM_BASE_URL` and `OPENAS_GUI_MODEL`. Explicit flags select the route if both gateway and direct endpoint variables are configured. `--endpoint` continues to take a full Chat Completions URL and uses `OPENAS_GUI_API_KEY`.
+
+Choose a gateway deployment that supports Chat Completions JSON mode. Desktop tasks that pass screenshots also need image input support. The benchmark records the connection kind and the requested alias. To compare concrete models, use aliases pinned to one deployment each and control the gateway's fallback policy. See [LiteLLM Proxy setup](https://docs.litellm.ai/docs/proxy/docker_quick_start).
+
 ## Token-efficient mode
 
 The planner now sends a bounded tool summary (name, short description and argument schema), short UI summaries and a limited number of recent MCP text/image outputs. It does **not** cache schemas across stateless API requests, and it does **not** blindly batch GUI clicks: each action still requires a fresh observation and safety gating.
@@ -137,6 +160,26 @@ The report's `provenance` object identifies the selected suite and Runtime sourc
 - Tool sequence matching from [Google ADK trajectory evaluation](https://github.com/google/adk-python/blob/90c3a29412d33e4221fa998600d763173eee6349/src/google/adk/evaluation/trajectory_evaluator.py).
 - Tool spans and sensitive-data handling from [OpenAI Agents SDK tracing](https://github.com/openai/openai-agents-python/blob/9e05bd5bf299a5ddbb25f7fec8da10bf2baf6133/docs/tracing.md).
 - Study version metadata from [ServiceNow AgentLab](https://github.com/ServiceNow/AgentLab/blob/8488c564eea0525aaff5dea189bb03a9b529546e/README.md#reproducibility-features).
+
+## Engineering feedback
+
+Compare two checkpoints recorded with `--trace-tools` to locate the first visible semantic difference.
+
+```sh
+openas-gui compare-traces ./passing.json ./failing.json
+```
+
+The comparison checks tool names and outcomes first, then artifact status and final Runtime status. It ignores elapsed time. An incomplete or unresolved trace yields `inconclusive`.
+
+From the repository root, check whether regressions catch the removal of selected Runtime guards or reduce a JSON array that reproduces a local failure.
+
+```sh
+python scripts/check_runtime_mutations.py
+python scripts/minimize_repro.py events.json --output reduced.json \
+  --failure-marker TARGET_FAILURE -- python check_events.py '{input}'
+```
+
+Use a deterministic local check. The reducer looks for the configured exit status and optional marker, retains input order, and refuses overwriting the output file. See the [engineering methods](../../plugins/openas/references/engineering-methods.en.md) and [model gateway ADR](../../docs/adr/0001-runtime-model-gateway.md).
 
 ## Experience Memory (first stage)
 

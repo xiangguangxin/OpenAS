@@ -43,3 +43,5 @@ description: "系统化排查异常、崩溃、错误结果和卡死，通过需
 简要交付：症状/影响 → 根因分类与置信度 → 因果链及来源行号/日志/栈 → 修复 → 验证命令/退出码 → 剩余风险。未定位时给出已排除项和下一项可区分实验。
 
 有可复用结论时衔接 [project-memory](../project-memory/SKILL.md)：保存必要的脱敏证据收据，经验先 candidate，经语义审查再 accepted。测试通过本身不自动证明根因；不把原始 core dump、完整日志或秘密写入长期记忆。不因调试自动提交、推送或启动额外 Agent。
+
+补充方法见 [首处分歧对比和 Delta debugging](../../references/engineering-methods.md#调试)。

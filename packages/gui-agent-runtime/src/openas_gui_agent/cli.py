@@ -1,13 +1,14 @@
 """Create, execute, resume and independently verify GUI goals."""
 import argparse
 import json
-import os
 from pathlib import Path
 
 from .agent import run
+from .model_connection import add_model_arguments, resolve_model_connection
 from .recovery import reconcile
 from .session import browser_scope, open_session
 from .state import create, load
+from .tool_trace import compare_checkpoints
 from .verification import FileVerifier
 
 
@@ -21,6 +22,9 @@ def main():
     goal.add_argument("--criterion", action="append", required=True)
     goal.add_argument("--max-steps", type=int, default=40)
     commands.add_parser("status").add_argument("checkpoint", type=Path)
+    comparison = commands.add_parser("compare-traces", help="Find the first recorded checkpoint difference")
+    comparison.add_argument("baseline", type=Path)
+    comparison.add_argument("candidate", type=Path)
 
     verifier_command = commands.add_parser("verify", help="Recheck artifacts for a checkpoint without a model")
     verifier_command.add_argument("checkpoint", type=Path)
@@ -38,9 +42,7 @@ def main():
         backend.add_argument("--browser-url", help="Start URL for an isolated Chromium browser")
         execution.add_argument("--download-dir", type=Path, help="Existing directory for new browser downloads")
         execution.add_argument("--browser-executable")
-        execution.add_argument("--model", default=os.getenv("OPENAS_GUI_MODEL"))
-        execution.add_argument("--endpoint", default=os.getenv(
-            "OPENAS_GUI_API_URL", "https://api.openai.com/v1/chat/completions"))
+        add_model_arguments(execution)
         execution.add_argument("--approve-pending", action="store_true")
         execution.add_argument("--trace-tools", action="store_true",
                                help="Record local tool names, outcomes, and times in the checkpoint")
@@ -58,6 +60,8 @@ def main():
             result = create(args.checkpoint, args.goal, args.criterion, max_steps=args.max_steps)
         elif args.command == "status":
             result = load(args.checkpoint)
+        elif args.command == "compare-traces":
+            result = compare_checkpoints(load(args.baseline), load(args.candidate))
         elif args.command == "reconcile":
             result = reconcile(args.checkpoint, outcome=args.outcome, note=args.note)
         elif args.command == "verify":
@@ -75,9 +79,7 @@ def _execute(args):
     from .experience import ExperienceStore
     from .planner import ModelPlanner
 
-    key = os.getenv("OPENAS_GUI_API_KEY")
-    if not key or not args.model:
-        raise ValueError("Set OPENAS_GUI_API_KEY and OPENAS_GUI_MODEL (or --model)")
+    connection = resolve_model_connection(args)
     if min(args.max_model_calls, args.max_model_tokens, args.max_ui_text_chars, args.max_images) < 0:
         raise ValueError("Token limits must be nonnegative")
     if bool(args.experience_store) != bool(args.experience_environment):
@@ -86,7 +88,8 @@ def _execute(args):
         raise ValueError("Browser settings require --browser-url")
 
     download_dir = args.download_dir.resolve(strict=True) if args.download_dir else None
-    planner = ModelPlanner(args.model, key, args.endpoint, max_tokens=args.max_model_tokens,
+    planner = ModelPlanner(connection.model, connection.api_key, connection.endpoint,
+                           max_tokens=args.max_model_tokens,
                            max_calls=args.max_model_calls, max_text_chars=args.max_ui_text_chars,
                            max_images=args.max_images,
                            experience_store=ExperienceStore(args.experience_store) if args.experience_store else None,
