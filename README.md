@@ -73,6 +73,8 @@ Use the language links above to jump between the English and Chinese sections of
 
 Read the [bilingual language policy](plugins/openas/references/language.md). Chinese discovery files remain in place; English skill companions are `SKILL.en.md`, and English role instructions are under `references/en/agents/`, outside role discovery. Both versions share the same authorization and verification requirements. Detailed references, historical evidence and third-party documents may retain their original language; English core guides link to these explicitly.
 
+[Verification first](plugins/openas/references/verification-first.en.md) ties repair to active contracts, a reproducible baseline, and actual target execution.
+
 ## Roles
 
 | Role | Responsibility |
@@ -155,6 +157,7 @@ Then run `/reload-plugins`. Actual supported flags come from your installed clie
 ## Optional MCP integrations
 
 - **Browser goals and artifact acceptance:** [browser-goal-executor](plugins/openas/skills/browser-goal-executor/SKILL.en.md) runs authorized web goals using Playwright. [artifact-verification](plugins/openas/skills/artifact-verification/SKILL.en.md) checks new reports and structured fields. [agent-evaluation](plugins/openas/skills/agent-evaluation/SKILL.en.md) measures task outcomes and experience retrieval.
+- **Model gateways:** the standalone runtime and live benchmarks can use an existing [LiteLLM Proxy](packages/gui-agent-runtime/README.md#litellm-gateway).
 - **Persistent GUI Agent Runtime:** [Python runtime](plugins/openas/integrations/computer-use/RUNTIME.en.md) adds an executable multi-step decision loop, JSON checkpoints and restart-based resume (requires separate model API + Nova MCP; not a background daemon).
 - **GUI Goal Executor:** [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.en.md) coordinates multi-step desktop goals through computer-use and a connected MCP, with bounded observe–act–verify loops, replanning and explicit acceptance checks.
 - **Computer Use (Windows/macOS):** the [computer-use skill](plugins/openas/skills/computer-use/SKILL.en.md) combines accessibility-first actions, screenshot fallback and verification with a separately installed desktop MCP; [Claude Code and Codex setup](plugins/openas/integrations/computer-use/USER-GUIDE.en.md). No MCP service is automatically installed or enabled.
@@ -547,6 +550,8 @@ claude plugin update openas@openas-marketplace --scope project
 
 ## 可选 MCP 集成
 
+独立 Runtime 和实机评测可接入 [LiteLLM 网关](packages/gui-agent-runtime/README.md#litellm-gateway)，统一使用网关的模型别名和 Key。
+
 GUI Agent 的整体架构、Skill/独立 Runtime 两种模式及跨会话恢复限制见上方 [目标驱动 GUI Agent](#新增目标驱动-gui-agentwindows--macos)。实际安装与配置：[Computer Use 中文使用手册](plugins/openas/integrations/computer-use/USER-GUIDE.md) · [独立 Runtime 使用手册](plugins/openas/integrations/computer-use/RUNTIME.md)。
 
 MCP（Model Context Protocol）让 AI 客户端连接外部工具和数据源。在 OpenAS 中，**agent 承担职责，skill 提供工作方法，MCP 提供可调用的工具**。例如，test-engineer 按测试技能设计场景，再通过 Playwright MCP 操作页面、观察结果并记录证据。
@@ -657,6 +662,8 @@ Claude Code 官方文档：[插件格式](https://code.claude.com/docs/en/plugin
 ## 维护与验收
 
 事实回答、测试与交付遵循 [结论与证据共享规则](plugins/openas/references/evidence-policy.md)：结论绑定证据、证据绑定对象版本、未验证明确标注、失效证据不得复用。全部自有角色/技能引用同一规则；这不等于自动认证模型报告的真实性。
+
+[验证前置](plugins/openas/references/verification-first.md)将有效契约、故障复现和目标实跑贯穿修复、评审与发布。
 
 除明确标注的技能目录外，项目自有内容采用 [MIT License](LICENSE)；另行声明的目录与第三方内容遵循各自许可。版本变化见 [CHANGELOG](CHANGELOG.md)，开发与发布流程见 [贡献指南](CONTRIBUTING.md)，运行环境和记录格式见 [兼容说明](docs/compatibility.md)。
 

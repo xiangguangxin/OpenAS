@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.22.0
+
+- Add an optional LiteLLM Proxy connection for the GUI Runtime and live benchmarks.
+- Keep gateway and direct endpoint credentials distinct. Provide a sample alias, setup documentation, and an opt-in gateway integration test.
+- Document testing, architecture, and debugging methods with executable Runtime examples and an ADR for the model gateway.
+- Add deterministic recovery and metamorphic checks, a targeted mutation runner, local trace comparison, and JSON reproduction minimization.
+- Add verification-first guidance (CC-A through CC-Q) and a machine-checked repair reproduction gate with target-specific pass evidence.
+
 ## 0.21.0
 
 - Add bounded local tool traces with adapter outcomes, elapsed time, and interruption reconciliation.

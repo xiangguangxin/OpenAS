@@ -47,7 +47,7 @@ class PluginTests(unittest.TestCase):
                              'coverage-analysis', 'skill-maintenance', 'agent-evaluation',
                              'artifact-verification', 'browser-goal-executor'}.issubset(inventory['skills']))
             self.assertEqual(len(inventory['agents']), 12)
-            self.assertEqual(inventory['translations'], 90)
+            self.assertEqual(inventory['translations'], 92)
 
     def test_stale_missing_and_duplicate_translations_are_rejected(self):
         checker = load(ROOT / 'scripts/check_plugin.py', 'plugin_check_translation_failures')
@@ -190,7 +190,8 @@ class PluginTests(unittest.TestCase):
             root = Path(tmp)
             workspace = root/'standalone-tool'
             shutil.copytree(examples/'pagination-fixture', workspace)
-            original_tests = (workspace/'test_pagination.py').read_bytes()
+            original_tests = {name: (workspace/name).read_bytes()
+                              for name in ('test_pagination.py', 'run_tests.py')}
             runner = harness.Runner(task, workspace, root/'run', 'unused-client')
             baseline = runner.checks('baseline')
             self.assertNotEqual(baseline[0]['exit_code'], 0)
@@ -208,9 +209,10 @@ class PluginTests(unittest.TestCase):
             repaired = runner.checks('repaired')
             self.assertEqual(repaired[0]['exit_code'], 0, repaired[0]['stderr'])
             runner.check_scope()
-            self.assertEqual((workspace/'test_pagination.py').read_bytes(), original_tests)
+            for name, data in original_tests.items():
+                self.assertEqual((workspace/name).read_bytes(), data)
             self.assertEqual(set(p.name for p in workspace.iterdir()),
-                             {'pagination.py', 'test_pagination.py', 'DESIGN.md'})
+                             {'pagination.py', 'DESIGN.md', *original_tests})
 
     def test_no_plugin_resource_paths_point_to_host_claude_folder(self):
         for folder in ['skills', 'agents', 'references']:

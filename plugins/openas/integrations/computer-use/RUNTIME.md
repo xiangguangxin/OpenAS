@@ -129,6 +129,17 @@ openas-gui run ./goal-state.json --browser-url http://127.0.0.1:8080/ \
 
 下载目录需要存在，浏览器仅向新文件名写入。模型通过页面语义快照定位控件，可等待文本及下载结果。用相同启动地址、下载目录和 verifier 恢复。每次启动使用独立的 Chromium 会话，页面状态需重新观察，登录状态和标签页不持久化。具体能力和本地覆盖率夹具见 [Runtime 包文档](https://github.com/xiangguangxin/OpenAS/tree/main/packages/gui-agent-runtime#browser-goals)。
 
+## LiteLLM 网关
+
+已有 LiteLLM Proxy 时，给 OpenAS 进程设置 `LITELLM_API_KEY`，再传入网关地址和模型别名。
+
+```sh
+openas-gui run ./goal-state.json --nova /absolute/path/to/nova \
+  --litellm-base-url http://127.0.0.1:4000 --model openas-planner
+```
+
+`resume` 和 `openas-benchmark` 的实机模式可使用同样的参数。也可用 `OPENAS_LITELLM_BASE_URL` 和 `OPENAS_GUI_MODEL` 配置。网关后面的模型需要支持 JSON 模式，使用截图时还需要支持图像输入。启动网关及浏览器用例见 [Runtime 包文档](https://github.com/xiangguangxin/OpenAS/tree/main/packages/gui-agent-runtime#litellm-gateway)。
+
 ## 任务评测
 
 `openas-benchmark` 默认运行隔离的离线用例。传入 `--nova` 或 `--browser-url` 可调用实际后端与配置的模型。再指定 `--experience-store` 和 `--experience-environment` 可以对照开启和关闭经验检索的表现。真实评测需要测试环境和模型 API。报告单独统计预期阻止完成的用例、正向任务完成率、耗时及实际 usage。套件格式和命令见 [Runtime 包文档](https://github.com/xiangguangxin/OpenAS/tree/main/packages/gui-agent-runtime#agent-benchmark)。

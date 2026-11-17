@@ -20,3 +20,5 @@ Record command, working directory, exit code, significant output and coverage. M
 Before reuse, check actual target versions and relevant dependencies under the shared policy, obtaining affected-scope evidence again after changes. Map each claim to evidence instead of using a passing subset to prove whole-task completion.
 
 Return failures to the implementer. Once checks pass, do not repeat unrelated full regressions without new changes or risk. Role assertions, script completion and user silence do not replace evidence.
+
+Apply [verification first](../../references/verification-first.en.md) to the target execution and report skips separately. Check both paths for convergence and the actual distributable artifact for release acceptance.

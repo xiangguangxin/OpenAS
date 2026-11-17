@@ -108,6 +108,17 @@ openas-gui run ./goal-state.json --browser-url http://127.0.0.1:8080/ \
 
 The download directory must already exist. The runtime publishes downloads under new filenames and uses semantic page snapshots, locators, and bounded waits. Resume with the same start URL, download directory, and verifier. Each invocation uses a fresh Chromium context, so reobserve page state. Login state and tabs are not persisted. See the [runtime package guide](https://github.com/xiangguangxin/OpenAS/tree/main/packages/gui-agent-runtime#browser-goals) for scope and the local coverage fixture.
 
+## LiteLLM gateway
+
+Set `LITELLM_API_KEY` in the OpenAS process and pass the gateway URL and configured model alias.
+
+```sh
+openas-gui run ./goal-state.json --nova /absolute/path/to/nova \
+  --litellm-base-url http://127.0.0.1:4000 --model openas-planner
+```
+
+These options also apply to `resume` and live `openas-benchmark` runs. You can use `OPENAS_LITELLM_BASE_URL` and `OPENAS_GUI_MODEL` instead of the flags. Use a gateway model with JSON mode support and image input support for screenshot tasks. See the [runtime package guide](https://github.com/xiangguangxin/OpenAS/tree/main/packages/gui-agent-runtime#litellm-gateway) for gateway setup and browser examples.
+
 ## Task evaluation
 
 `openas-benchmark` defaults to isolated offline cases. Select `--nova` or `--browser-url` for a real backend and the configured model. Add `--experience-store` with `--experience-environment` for paired trials with retrieval off and on. Live evaluation requires a test environment and a model API. The report includes expected rejections, positive-goal completion, elapsed time, and reported usage. See the [runtime package guide](https://github.com/xiangguangxin/OpenAS/tree/main/packages/gui-agent-runtime#agent-benchmark) for the suite format and commands.

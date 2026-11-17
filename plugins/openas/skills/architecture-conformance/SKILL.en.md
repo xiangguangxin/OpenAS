@@ -20,3 +20,7 @@ Static references establish visible dependencies, not runtime behavior. Investig
 Each finding needs a stable ID, violated constraint and source, implementation location, concrete dependency path or behavioral counterexample, impact, and suggested handling. Distinguish unauthorized deviations, valid exceptions, and stale designs; disagreement with documentation does not automatically make code wrong. Mark insufficient evidence as pending and check exception scope and reevaluation conditions.
 
 Recommend automated rules only for real constraints, without freezing all current directory relationships. Send ordinary defects to [code review](../requesting-code-review/SKILL.en.md), and boundary changes to [architecture evolution](../architecture-evolution/SKILL.en.md). Deliver baseline, coverage, constraint mapping, deviations, exceptions, unchecked areas and advice. No findings does not establish an optimal design, runtime correctness, or release authorization.
+
+See [fitness functions and automated boundary checks](../../references/engineering-methods.en.md#architecture) for the corresponding methods.
+
+Apply [verification first](../../references/verification-first.en.md) to both affected paths in consolidation, handoffs, and single-source migration. Verify caller compatibility and preserved behavior.

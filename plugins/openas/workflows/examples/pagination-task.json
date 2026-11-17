@@ -16,10 +16,7 @@
     [
       "python3",
       "-B",
-      "-m",
-      "unittest",
-      "-v",
-      "test_pagination.py"
+      "run_tests.py"
     ]
   ],
   "workflow": "repair",
@@ -29,5 +26,11 @@
     ],
     [],
     []
-  ]
+  ],
+  "repair_probe": {
+    "check_index": 0,
+    "failure_exit": 1,
+    "failure_marker": "CASE FAIL test_pagination.PaginationTests.test_one_based_pages",
+    "success_marker": "CASE PASS test_pagination.PaginationTests.test_one_based_pages"
+  }
 }

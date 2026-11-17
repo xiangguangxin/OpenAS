@@ -30,3 +30,7 @@ description: "对照有效架构决策和实际代码检查模块边界、依赖
 只对有实际约束的边界建议自动化检查，例如禁止依赖或契约验证；避免把当前全部目录关系冻结成规则。普通实现缺陷交给 [requesting-code-review](../requesting-code-review/SKILL.md)，需改变边界或分阶段改造时交给 [architecture-evolution](../architecture-evolution/SKILL.md)。
 
 交付基线与覆盖范围、约束到实现的核对结果、偏差和例外、未检查项及建议。没有发现只表示本轮范围内未发现偏差，不表示设计最优、运行正确或已获发布授权。
+
+补充方法见 [架构适应度函数和自动化边界检查](../../references/engineering-methods.md#架构)。
+
+按[验证前置](../../references/verification-first.md)检查架构收敛、让位和单源化的受益与让位路径。用调用方回归确认兼容及行为保持。

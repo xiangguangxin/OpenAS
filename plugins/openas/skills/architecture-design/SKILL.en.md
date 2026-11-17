@@ -22,3 +22,5 @@ Apply [implementation readiness](../../references/implementation-readiness.en.md
 Use [technical diagrams](../technical-diagrams/SKILL.en.md) only when useful, with consistent names and a distinction between logical and deployment relationships. Keep stable decision IDs, alternatives, tradeoffs and applicability, referencing [technology selection](../technology-selection/SKILL.en.md). Migration covers compatibility, cutover, rollback and irreversible data risk; return infeasible constraints upstream.
 
 Deliver architecture, useful diagrams, contracts, requirement-to-design/check mappings, risks and open decisions. Use [design review](../design-review/SKILL.en.md), then [project documentation](../project-documentation/SKILL.en.md). Use [architecture evolution](../architecture-evolution/SKILL.en.md) for staged existing-system changes and [conformance](../architecture-conformance/SKILL.en.md) after implementation. Design alone does not authorize implementation.
+
+See [quality attribute scenarios, ATAM tradeoffs, and ADRs](../../references/engineering-methods.en.md#architecture) for the corresponding methods.

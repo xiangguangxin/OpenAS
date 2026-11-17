@@ -20,3 +20,5 @@ Organize commits around the actual problem and behavior. Stage only task-related
 Commit, push, PR creation, merge and release each follow existing authorization. Do not request permission again when granted, or expand authorization merely because work is finishing. Before authorized merge inspect the latest PR commit and required checks; afterwards confirm target branch and automated results.
 
 Deliver changed files/behavior, validation, commit or PR locations and limits. Before removing temporary worktrees inspect unsaved content and retain anything still needing review.
+
+When merge is part of the task, apply [verification first](../../references/verification-first.en.md) by confirming the target branch contains the change and inspecting post-merge verification.
