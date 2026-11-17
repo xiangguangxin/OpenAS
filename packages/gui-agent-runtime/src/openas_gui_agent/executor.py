@@ -4,6 +4,7 @@ from .planner import ModelPlanner
 class LiveDesktop:
     def __init__(self, nova: NovaMCP, planner: ModelPlanner):
         self.nova, self.planner = nova, planner
+        self.backend_version = getattr(nova, "backend_version", None)
 
     def observe(self):
         return self.nova.observe()

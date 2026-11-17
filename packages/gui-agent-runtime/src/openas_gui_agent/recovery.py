@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from .state import load, persist, _record
 from .locking import checkpoint_lock
+from .tool_trace import reconcile_last
 
 def reconcile(path: Path, *, outcome: str, note: str) -> dict:
     if outcome not in {"executed", "not-executed"}:
@@ -22,5 +23,6 @@ def reconcile(path: Path, *, outcome: str, note: str) -> dict:
         state["status"] = "paused"
         state["failures"] = 0
         state["steps"] += 1
+        reconcile_last(state, outcome)
         _record(state, "reconciled", f"{action_name}: {outcome}; {note[:100]}")
         return persist(path, state)

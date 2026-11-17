@@ -11,6 +11,15 @@
           "path": "report.txt",
           "contains": "PASS"
         }
+      },
+      "expected_trajectory": {
+        "match": "exact",
+        "tools": [
+          "synthetic_click"
+        ],
+        "max_counts": {
+          "synthetic_click": 1
+        }
       }
     },
     {
@@ -68,6 +77,15 @@
             "/tests": "passed",
             "/metric": "MC/DC"
           }
+        }
+      },
+      "expected_trajectory": {
+        "match": "exact",
+        "tools": [
+          "synthetic_click"
+        ],
+        "max_counts": {
+          "synthetic_click": 1
         }
       }
     }

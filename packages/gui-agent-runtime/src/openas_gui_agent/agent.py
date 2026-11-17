@@ -9,12 +9,18 @@ from .verifier import EvidenceOnlyVerifier
 from .verification import FileVerifier
 from .locking import checkpoint_lock
 from .planner import TokenBudgetExceeded
-def run(path: Path, desktop, planner, *, approval: bool = False, verifier=None, backend_scope=None) -> dict[str, Any]:
+from . import tool_trace
+
+
+def run(path: Path, desktop, planner, *, approval: bool = False, verifier=None,
+        backend_scope=None, trace_tools: bool = False) -> dict[str, Any]:
     with checkpoint_lock(path):
-        return _run_locked(path, desktop, planner, approval=approval, verifier=verifier, backend_scope=backend_scope)
+        return _run_locked(path, desktop, planner, approval=approval, verifier=verifier,
+                           backend_scope=backend_scope, trace_tools=trace_tools)
 
 
-def _run_locked(path: Path, desktop, planner, *, approval: bool = False, verifier=None, backend_scope=None) -> dict[str, Any]:
+def _run_locked(path: Path, desktop, planner, *, approval: bool, verifier,
+                backend_scope, trace_tools: bool) -> dict[str, Any]:
     state = load(path)
     if state["status"] in TERMINAL:
         return state
@@ -43,6 +49,8 @@ def _run_locked(path: Path, desktop, planner, *, approval: bool = False, verifie
         state["approved_action"] = state["pending_approval"]
         state["pending_approval"] = None
     state["status"] = "running"
+    if trace_tools:
+        tool_trace.enable(state)
     if hasattr(planner, "usage"):
         planner.usage.update(state.get("model_usage", {}))
     persist(path, state)
@@ -98,10 +106,15 @@ def _run_locked(path: Path, desktop, planner, *, approval: bool = False, verifie
                     break
             # Write-ahead checkpoint: after crash, never replay this action blindly.
             state["pending_action"] = {"name": action["name"], "since": time.time()}
+            event = tool_trace.begin(state, action["name"], observation.get("tools"))
             persist(path, state)
+            started = time.monotonic() if event is not None else None
             result = desktop.act(action)
             if not isinstance(result, dict):
                 raise TypeError("Desktop action result must be a dict")
+            if event is not None:
+                event["outcome"] = "ok" if result.get("ok") is True else "error"
+                event["duration_ms"] = round((time.monotonic() - started) * 1000, 3)
             state["steps"] += 1
             state["pending_action"] = None
             state["last_result"] = {"ok": result.get("ok") is True,
