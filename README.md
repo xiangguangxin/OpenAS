@@ -271,7 +271,7 @@ flowchart LR
 
 典型任务：**“打开指定覆盖率 GUI，构建工程、运行测试、生成报告，并在报告存在且可读取后才宣布完成。”** 运行期间遇到弹窗或失败会重新观察和规划；涉及删除、覆盖、付款、发送等高风险动作必须确认。示例任务和安装步骤见 [Computer Use 中文使用手册](plugins/openas/integrations/computer-use/USER-GUIDE.md)，独立执行器的具体命令与恢复方式见 [Runtime 中文手册](plugins/openas/integrations/computer-use/RUNTIME.md)。
 
-**当前边界：** JSON checkpoint 支持在程序重启后恢复进度，不代表中断后会在后台自动继续；执行结果不确定的动作需要人工核对后才能恢复。独立 Runtime 已支持可选的[本地文件验收规则](packages/gui-agent-runtime/README.md#phase-4-independent-local-file-verification)，但未配置独立 Verifier 时仅检查模型提供的证据，不能视为独立业务验收。目前仍未完成真实 Windows / macOS + Nova 的端到端测试；CI 通过不等同于真实 GUI 任务成功。
+**当前边界：** JSON checkpoint 支持在程序重启后恢复进度，不代表中断后会在后台自动继续；执行结果不确定的动作需要人工核对后才能恢复。独立 Runtime 已支持可选的 [本地文件验收规则](packages/gui-agent-runtime/README.md#phase-4-independent-local-file-verification)，但未配置独立 Verifier 时仅检查模型提供的证据，不能视为独立业务验收。目前仍未完成真实 Windows / macOS + Nova 的端到端测试；CI 通过不等同于真实 GUI 任务成功。
 
 ## 中文与英文
 
