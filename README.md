@@ -21,7 +21,7 @@
 
 ---
 
-OpenAS 是面向 Claude Code / Codex 的可组合 Agent 与 Skill 工具集。它提供 **12 个角色、65 个技能**，覆盖需求、设计、实现、调试、评审、验证和经验复用；同时提供可选的桌面 GUI Agent 与独立 Python Runtime。
+OpenAS 是面向 Claude Code / Codex 的可组合 Agent 与 Skill 工具集，提供 **12 个角色、65 个技能**。独立桌面/浏览器 Runtime 已拆分为 [Praxis](https://github.com/xiangguangxin/Praxis)；OpenAS 继续提供 GUI Skill、工作流与 Nova MCP 接入。
 
 > **核心原则：** 目标明确 → 按需选择技能 → 执行并收集证据 → 独立验收 → 交付可追溯结果。Skill 是工作方法，不等于自动获得工具权限或真实执行能力。
 
@@ -64,7 +64,7 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 | **Claude Code 插件** | 在已有工程中按需调用角色与 Skill | Claude Code 客户端和实际授权的工具 |
 | **Codex CLI 适配器** | 按明确路线执行阶段任务、记录证据和恢复 | 已安装、已登录的 Codex CLI；不会自动发现 Claude 插件 |
 | **GUI Goal Skill** | 在 Claude Code / Codex 会话中完成桌面目标 | [computer-use](plugins/openas/skills/computer-use/SKILL.md) + 已连接的 Nova MCP |
-| **独立 Python GUI Runtime** | 单独运行桌面 Agent Loop、保存 checkpoint、重启后恢复 | [Python 包](packages/gui-agent-runtime/README.md) + Nova MCP + 额外配置的多模态模型 API |
+| **Praxis 独立 Runtime** | 单独运行桌面 Agent Loop、保存 checkpoint、重启后恢复 | [Python 包](https://github.com/xiangguangxin/Praxis) + Nova MCP + 额外配置的多模态模型 API |
 
 **特别注意：** 独立 Runtime 不继承 Claude Code / Codex 的模型订阅、MCP 注册或会话权限，也不是常驻后台服务。
 
@@ -93,11 +93,11 @@ flowchart LR
 | [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.md) | Goal、动态规划、停止条件与验收规范 | [Skill](plugins/openas/skills/gui-goal-executor/SKILL.md) |
 | [computer-use](plugins/openas/skills/computer-use/SKILL.md) | 优先 UIA / AX 定位，必要时截图辅助 | [Skill](plugins/openas/skills/computer-use/SKILL.md) |
 | [Nova MCP](plugins/openas/integrations/computer-use/USER-GUIDE.md) | 截图、窗口、鼠标键盘等桌面工具 | [安装与授权](plugins/openas/integrations/computer-use/USER-GUIDE.md) |
-| [Python Agent Runtime](packages/gui-agent-runtime/README.md) | 独立 Agent Loop、模型决策、checkpoint 与恢复 | [CLI 与配置](packages/gui-agent-runtime/README.md) |
+| [Praxis Runtime](https://github.com/xiangguangxin/Praxis) | 独立 Agent Loop、模型决策、checkpoint 与恢复 | [CLI 与配置](https://github.com/xiangguangxin/Praxis) |
 
 例如：打开覆盖率 GUI、运行测试、生成报告，并在报告存在且符合验收条件后才宣布完成。
 
-独立 Runtime 支持可选的[文件验收](packages/gui-agent-runtime/README.md#phase-4-independent-local-file-verification)、[离线 Benchmark](packages/gui-agent-runtime/README.md#offline-agent-benchmark-first-stage) 和[经验检索与衰减](packages/gui-agent-runtime/README.md#opt-in-experience-assisted-planning-and-lifecycle)。历史经验仅作为规划提示，不自动重放操作；checkpoint 恢复也不代表后台自动继续。
+独立 Runtime 支持可选的[文件验收](https://github.com/xiangguangxin/Praxis/blob/main/RUNTIME.md#artifact-verification)、[离线 Benchmark](https://github.com/xiangguangxin/Praxis/blob/main/RUNTIME.md#agent-benchmark) 和[经验检索与衰减](https://github.com/xiangguangxin/Praxis/blob/main/RUNTIME.md#opt-in-experience-assisted-planning-and-lifecycle)。历史经验仅作为规划提示，不自动重放操作；checkpoint 恢复也不代表后台自动继续。
 
 **验证边界：** CI 与模拟测试不等于真实 Windows/macOS + Nova 端到端验收。桌面操作需要用户安装并授权 Nova；高风险操作应经过确认。建议先在隔离环境测试。
 
@@ -155,7 +155,7 @@ claude plugin install openas@openas-marketplace --scope project
 | Context7 | 依赖库与框架文档 | [配置](plugins/openas/integrations/context7/README.md) |
 | Nova | Windows/macOS 桌面控制 | [配置](plugins/openas/integrations/computer-use/USER-GUIDE.md) |
 
-[统一 MCP 接入指南](plugins/openas/integrations/QUICKSTART.md) · [Codex CLI 工作流](plugins/openas/workflows/README.md) · [独立 GUI Runtime](packages/gui-agent-runtime/README.md)
+[统一 MCP 接入指南](plugins/openas/integrations/QUICKSTART.md) · [Codex CLI 工作流](plugins/openas/workflows/README.md) · [独立 GUI Runtime](https://github.com/xiangguangxin/Praxis)
 
 ## 验证与贡献
 
@@ -195,7 +195,7 @@ node plugins/openas/workflows/tests/agent-team.test.mjs
 
 </div>
 
-OpenAS is a composable collection of **12 roles and 65 skills** for Claude Code and Codex workflows. It supports requirements, architecture, implementation, debugging, review, independent verification, and reusable knowledge.
+OpenAS is a composable collection of **12 roles and 65 skills** for Claude Code and Codex workflows. Its standalone desktop/browser runtime is now maintained separately as [Praxis](https://github.com/xiangguangxin/Praxis); OpenAS retains GUI skills and Nova MCP integration guidance.
 
 > **Guiding principle:** Define the goal → select only relevant methods → execute and collect evidence → verify independently → deliver traceable results.
 
@@ -235,7 +235,7 @@ Use `/reload-plugins` after local plugin edits for subsequent invocations. For p
 | Claude Code plugin | Using skills and roles within an existing project | Claude Code and authorized host tools |
 | Codex CLI adapter | Explicit stage workflows with evidence and resume | Installed and authenticated Codex CLI |
 | GUI goal skill | Desktop tasks in Claude Code / Codex | Connected Nova MCP and computer-use skill |
-| Standalone Python runtime | Separate agent loop, checkpoints, and restart resume | Nova MCP and separately configured multimodal model API |
+| Praxis standalone runtime | Separate agent loop, checkpoints, and restart resume | Nova MCP and separately configured multimodal model API |
 
 The standalone runtime does **not** inherit Claude Code / Codex subscriptions, MCP registration, or session permissions. It is not a background daemon.
 
@@ -245,7 +245,7 @@ The standalone runtime does **not** inherit Claude Code / Codex subscriptions, M
 flowchart LR
     G["Goal + acceptance"] --> M{"Choose mode"}
     M --> S["Claude Code / Codex + skill"]
-    M --> R["Standalone Python runtime"]
+    M --> R["Praxis standalone runtime"]
     S --> N["Nova MCP"]
     R --> L["Observe → plan → act → verify"]
     L --> N
@@ -256,7 +256,7 @@ flowchart LR
 - [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.en.md) specifies goal decomposition, replanning, stopping rules, and acceptance.
 - [computer-use](plugins/openas/skills/computer-use/SKILL.en.md) prefers accessibility controls with screenshot fallback.
 - [Nova MCP setup](plugins/openas/integrations/computer-use/USER-GUIDE.en.md) requires separate installation and user authorization.
-- [Python Agent Runtime](packages/gui-agent-runtime/README.md) adds its own model loop, JSON checkpoints, optional independent file verification, offline benchmark, and opt-in experience retrieval with aging and invalidation.
+- [Praxis Runtime](https://github.com/xiangguangxin/Praxis) adds its own model loop, JSON checkpoints, optional independent file verification, offline benchmark, and opt-in experience retrieval with aging and invalidation.
 
 **Limitations:** A checkpoint enables restart-based resume, not automatic background continuation. Offline CI does not establish real Windows/macOS + Nova E2E success. Experience hints never authorize automatic replay or bypass safety checks.
 
@@ -275,7 +275,7 @@ claude plugin marketplace add /path/to/OpenAS
 claude plugin install openas@openas-marketplace --scope project
 ```
 
-Optional integrations are installed and authorized separately: [Playwright](plugins/openas/integrations/playwright/README.en.md), [GitHub](plugins/openas/integrations/github/README.en.md), [Context7](plugins/openas/integrations/context7/README.en.md), and [Nova](plugins/openas/integrations/computer-use/USER-GUIDE.en.md). See the [MCP quickstart](plugins/openas/integrations/QUICKSTART.en.md), [Codex workflow guide](plugins/openas/workflows/README.en.md), and [Python runtime guide](packages/gui-agent-runtime/README.md).
+Optional integrations are installed and authorized separately: [Playwright](plugins/openas/integrations/playwright/README.en.md), [GitHub](plugins/openas/integrations/github/README.en.md), [Context7](plugins/openas/integrations/context7/README.en.md), and [Nova](plugins/openas/integrations/computer-use/USER-GUIDE.en.md). See the [MCP quickstart](plugins/openas/integrations/QUICKSTART.en.md), [Codex workflow guide](plugins/openas/workflows/README.en.md), and [Python runtime guide](https://github.com/xiangguangxin/Praxis).
 
 ## Validation and contributing
 
