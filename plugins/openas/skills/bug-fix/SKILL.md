@@ -45,3 +45,5 @@ description: "系统化排查异常、崩溃、错误结果和卡死，通过需
 有可复用结论时衔接 [project-memory](../project-memory/SKILL.md)：保存必要的脱敏证据收据，经验先 candidate，经语义审查再 accepted。测试通过本身不自动证明根因；不把原始 core dump、完整日志或秘密写入长期记忆。不因调试自动提交、推送或启动额外 Agent。
 
 补充方法见 [首处分歧对比和 Delta debugging](../../references/engineering-methods.md#调试)。
+
+按[验证前置与二维归因](../../references/verification-first.md#二维归因与文档复核)检查设计和测试判据，再追首个异常。同一故障反复出现时重审设计。已声明根因缺证据时暂停依赖该判断的修改。

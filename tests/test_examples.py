@@ -23,14 +23,29 @@ class ExampleTests(unittest.TestCase):
             if task['checks'][0][0] == 'python3':
                 task['checks'][0][0] = sys.executable
             r = h.Runner(task, workspace, root/'run', 'unused')
-            self.assertNotEqual(r.checks('baseline')[0]['exit_code'], 0)
+            baseline = r.checks('baseline')
+            self.assertNotEqual(baseline[0]['exit_code'], 0)
+            if 'repair_probe' in task:
+                r.state['baseline_checks'] = baseline
+                r.require_reproduced_failure()
             original = {p.name: p.read_bytes() for p in workspace.iterdir() if p.name != source}
             (workspace/source).write_text(repair)
             result = r.checks('repaired')
             self.assertEqual(result[0]['exit_code'], 0, result[0]['stderr'])
             r.check_scope()
+            if 'repair_probe' in task:
+                r.complete()
+                self.assertTrue(r.state['done'])
             for name, data in original.items():
                 self.assertEqual((workspace/name).read_bytes(), data)
+
+    def test_pagination_repair_probe(self):
+        self.exercise('pagination', '''def paginate(items, page, page_size):
+    if any(type(value) is not int or value < 1 for value in (page, page_size)):
+        raise ValueError('Expected positive integers')
+    start = (page - 1) * page_size
+    return items[start:start + page_size]
+''', 'pagination.py')
 
     def test_cli_contract(self):
         self.exercise('cli', '''import json, math, sys

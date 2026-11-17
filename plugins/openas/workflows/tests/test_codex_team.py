@@ -25,6 +25,56 @@ class RunnerTests(unittest.TestCase):
             with self.subTest(task=task), self.assertRaises(h.HarnessError):
                 h.validate_task(task)
 
+    def repair_probe_task(self, command):
+        return {**TASK, 'workflow': 'repair', 'checks': [[sys.executable, '-c', command]],
+                'repair_probe': {'check_index': 0, 'failure_exit': 1,
+                                 'failure_marker': 'TARGET_FAILED', 'success_marker': 'TARGET_PASSED'}}
+
+    def test_repair_probe_rejects_invalid_task_configurations(self):
+        task = self.repair_probe_task('print("test")')
+        probe = task['repair_probe']
+        for invalid in (
+            {**task, 'workflow': 'direct'},
+            {**task, 'repair_probe': {**probe, 'check_index': 1}},
+            {**task, 'repair_probe': {**probe, 'failure_exit': 0}},
+            {**task, 'repair_probe': {**probe, 'success_marker': probe['failure_marker']}},
+        ):
+            with self.subTest(invalid=invalid), self.assertRaises(h.HarnessError):
+                h.validate_task(invalid)
+
+    def test_unreproduced_repair_premise_stops_before_any_model_call(self):
+        for command in ('print("TARGET_PASSED")', 'print("import failed"); raise SystemExit(1)',
+                        'print("TARGET_FAILED"); raise SystemExit(2)'):
+            with self.subTest(command=command), tempfile.TemporaryDirectory() as tmp:
+                runner = self.runner(tmp, self.repair_probe_task(command))
+                with patch.object(runner, 'call', side_effect=AssertionError("Non-reproduced premise")) as call:
+                    self.assertFalse(runner.run())
+                call.assert_not_called()
+                self.assertEqual(runner.state['failure']['kind'], 'premise_unverified')
+                self.assertEqual((runner.workspace/'a.txt').read_text(), 'old')
+
+    def test_repair_requires_final_execution_of_same_target(self):
+        command = (
+            "from pathlib import Path; import sys; status=Path('a.txt').read_text(); "
+            "print({'old':'TARGET_FAILED','repaired':'TARGET_PASSED','bypassed':'runner ok'}[status]); "
+            "raise SystemExit(status=='old')"
+        )
+        for outcome in ("repaired", "bypassed"):
+            with self.subTest(outcome=outcome), tempfile.TemporaryDirectory() as tmp:
+                runner = self.runner(tmp, self.repair_probe_task(command))
+
+                def phase(role, phase_name, context, allowed):
+                    if role == 'developer':
+                        (runner.workspace/'a.txt').write_text(outcome)
+                    return result('approve' if role == 'red-team' else 'pass' if role == 'verifier' else 'complete')
+
+                with patch.object(runner, 'call', side_effect=phase):
+                    self.assertEqual(runner.run(), outcome == "repaired")
+                if outcome == "bypassed":
+                    self.assertEqual(runner.state['failure']['kind'], 'acceptance_limit')
+                    self.assertIn('did not show the target executed', runner.state['failure']['message'])
+                self.assertTrue(runner.state['baseline_checks'][0]['repair_probe']['failure_marker'])
+
     def test_result_fail_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
             p=Path(tmp)/'result.json'

@@ -18,3 +18,5 @@ Identify the release version, target commit SHA, channel, and established releas
 - After partial failure, inspect which steps took effect before retrying missing steps. Follow channel-supported promotion stops, withdrawal, or follow-up fixes. For conflicting tags or public artifacts, assess impact and preserve existing records. When data or format migrations are involved, verify whether the old version can read the new state.
 
 Report the version, commit, tag, artifact and channel locations, check evidence, actual publication status, and recovery conditions. Use [ci-cd](../ci-cd/SKILL.en.md) for pipeline configuration and [finish-development-branch](../finish-development-branch/SKILL.en.md) for branch closeout.
+
+Apply [verification first](../../references/verification-first.en.md) to the actual candidate artifact. For overlay delivery, install it over an isolated supported baseline and run the affected regression. Record the installed artifact, version, and target execution.

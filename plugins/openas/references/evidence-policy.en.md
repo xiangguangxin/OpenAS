@@ -44,3 +44,5 @@ Short answers may give a conclusion, source/observation and necessary limits. Co
 Reuse an already supplied current policy body rather than rereading the same file; reread after policy changes.
 
 This is a shared behavioral policy, not automatic evidence authentication. The Python adapter embeds its body in role prompts; existing host checks still inspect commands, scope and checkpoints. The JS template references this file and needs real host reading capability. Native roles/skills must read references as directed; structural checks do not establish compliance by arbitrary sessions. Nonempty evidence in the current result schema does not prove truth, sufficiency or target binding.
+
+Use [verification first](verification-first.en.md) for behavioral repairs. Confirm the active contract, failure premise, and baseline beforehand, and verify execution of the target after the change. Check actual packages for release work and both affected paths for interface convergence.

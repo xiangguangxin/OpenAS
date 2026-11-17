@@ -26,7 +26,7 @@
 
 修改技能或角色时同步检查两种语言的触发范围、步骤、交付、授权和失败行为。版本与来源变化、支持范围、未验证项也要一致。双方说明可以使用不同自然表达，但不能改变行为语义。对应文件保留切换链接。
 
-`plugins/openas/references/translations.json` 记录 91 对插件内文件及双方 SHA-256。`scripts/check_plugin.py` 会检查配套覆盖、路径、技能 ID 和指纹。新增或删除自有技能时必须同时更新配套说明、英文索引和注册表。不能通过只刷新指纹掩盖未审查翻译。
+`plugins/openas/references/translations.json` 记录 92 对插件内文件及双方 SHA-256。`scripts/check_plugin.py` 会检查配套覆盖、路径、技能 ID 和指纹。新增或删除自有技能时必须同时更新配套说明、英文索引和注册表。不能通过只刷新指纹掩盖未审查翻译。
 
 完成语义核对后，已有配对可用以下命令更新指纹（不会新增缺失译本）：
 
@@ -67,7 +67,7 @@ One installation provides the same 65 skills and 12 roles in both languages. Exp
 
 The repository uses one README with English first and clickable English/Chinese section links. The English edition covers the repository README, complete skill catalog, all skill entry instructions (64 companions plus upstream English REA), 12 role descriptions, team/project/readiness/evidence references, plugin guide, workflow guide, six integration guides, two memory guides, and five architecture/CI/compatibility/evaluation guides. Detailed references, historical evidence and third-party documents retain original languages and are not all translated. Companion files do not register duplicate components; vendored REA and its licensing remain unchanged.
 
-When editing shared behavior, compare triggers, procedures, deliverables, authorization, failure handling, versions, applicability and evidence limits in both editions. Different wording is acceptable; changed behavior is not. Preserve language-switch links. The 91 plugin-local pairs in `references/translations.json` record source and target hashes. Structural validation checks coverage, paths, skill IDs and drift. Review meaning before updating hashes using the command above; it does not create missing translations. New/removed skills also require companion/catalog/registry updates.
+When editing shared behavior, compare triggers, procedures, deliverables, authorization, failure handling, versions, applicability and evidence limits in both editions. Different wording is acceptable; changed behavior is not. Preserve language-switch links. The 92 plugin-local pairs in `references/translations.json` record source and target hashes. Structural validation checks coverage, paths, skill IDs and drift. Review meaning before updating hashes using the command above; it does not create missing translations. New/removed skills also require companion/catalog/registry updates.
 
 Fingerprint checks establish recorded file consistency, not translation quality or real-client execution. The four optional evaluation commands above test implicit Chinese/English output and explicit opposite-language overrides on a read-only source-analysis fixture. They inspect routing, unchanged files, question policy, evidence and a basic summary-language signal. The detector is not a semantic language validator and may reject legitimate mixed-language quotations. Review actual prose and source grounding manually.
 

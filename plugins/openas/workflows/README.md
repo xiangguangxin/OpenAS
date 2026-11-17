@@ -57,6 +57,7 @@ python3 workflows/codex-team.py \
 - constraints：可选字符串列表，记录目标项目的平台、兼容性和依赖限制；完整任务会交给每个角色。
 - workflow：`development`（默认）、`repair`、`direct`、`review`、`security-review`、`operations`、`documentation` 或 `research-design`，由任务显式选择，不通过关键词推断授权。`security-review` 由 security-reviewer 只读评审；`operations` 由 it 修改声明的工作区配置文件，再经 red-team 评审、检查和 verifier 验证，不负责登录或操作在线系统。
 - acceptance_checks：可选，与 acceptance 等长的检查索引列表，例如 `[[0], []]`；空列表表示该项没有机器检查映射。
+- repair_probe：可选，仅用于 `repair`。对象包含 `check_index`（从零开始）、`failure_exit`、`failure_marker` 和 `success_marker`。模型运行前先核对指定检查的预期失败退出码和失败标记，且成功标记未出现。最终同一检查须退出 0、出现成功标记且旧失败标记消失。用真实目标用例的通过行作标记，避免把跳过计入通过。未复现时在模型调用前停止，先修订复现条件并启动新运行。见 [验证前置](../references/verification-first.md) 和 [分页示例](examples/pagination-task.json)。
 - artifacts：可选的新建产物目录列表，例如 `["build", ".pytest_cache"]`。可在这些目录生成编译输出、缓存或报告；默认不允许额外产物。
 - 验收命令不能修改源码，只能向明确声明的 artifacts 输出；不能自动安装依赖或访问生产系统。
 

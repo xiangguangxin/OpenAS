@@ -124,6 +124,18 @@ def validate_task(task):
         DESIGN.validate(task, HarnessError)
     elif any(k in task for k in ('research_mode', 'design_outputs')):
         raise HarnessError('research_mode/design_outputs require research-design')
+    if 'repair_probe' in task:
+        probe = task['repair_probe']
+        if task.get('workflow') != 'repair' or not isinstance(probe, dict) or set(probe) != {
+                'check_index', 'failure_exit', 'failure_marker', 'success_marker'}:
+            raise HarnessError('repair_probe requires a repair workflow and check index, exit code and markers')
+        if type(probe['check_index']) is not int or not 0 <= probe['check_index'] < len(task['checks']):
+            raise HarnessError('repair_probe requires a valid zero-based check index')
+        if type(probe['failure_exit']) is not int or not 1 <= probe['failure_exit'] <= 255:
+            raise HarnessError('repair_probe.failure_exit must be a positive process exit code')
+        if any(not isinstance(probe[key], str) or not probe[key].strip()
+               for key in ('failure_marker', 'success_marker')) or probe['failure_marker'] == probe['success_marker']:
+            raise HarnessError('repair_probe requires two distinct nonempty output markers')
     if 'acceptance_checks' in task:
         mappings = task['acceptance_checks']
         if not isinstance(mappings, list) or len(mappings) != len(task['acceptance']):
@@ -547,9 +559,14 @@ class Runner:
                                 kind=getattr(exc, 'kind', 'interrupted' if isinstance(exc, KeyboardInterrupt) else 'environment'))
                 raise
             self.emit_event('check.completed', **event_data, exit_code=rc)
-            records.append({'argv': cmd, 'exit_code': rc,
-                            'stdout': prefix.with_suffix('.stdout.log').read_text()[-12000:],
-                            'stderr': prefix.with_suffix('.stderr.log').read_text()[-12000:]})
+            stdout = prefix.with_suffix('.stdout.log').read_text()
+            stderr = prefix.with_suffix('.stderr.log').read_text()
+            record = {'argv': cmd, 'exit_code': rc, 'stdout': stdout[-12000:], 'stderr': stderr[-12000:]}
+            probe = self.task.get('repair_probe')
+            if probe and i == probe['check_index']:
+                record['repair_probe'] = {key: probe[key] in stdout or probe[key] in stderr
+                                          for key in ('failure_marker', 'success_marker')}
+            records.append(record)
         if self.snapshot() != before:
             raise HarnessError('Acceptance command modified workspace; use non-mutating checks', 'scope_violation')
         (self.output / f'{label}-checks.json').write_text(json.dumps(records, ensure_ascii=False, indent=2))
@@ -557,6 +574,17 @@ class Runner:
         self.state['last_checks'] = records
         self.checkpoint()
         return records
+
+    def require_reproduced_failure(self):
+        probe = self.task.get('repair_probe')
+        if probe is None:
+            return
+        record = self.state['baseline_checks'][probe['check_index']]
+        if (record['exit_code'] != probe['failure_exit']
+                or record.get('repair_probe') != {'failure_marker': True, 'success_marker': False}):
+            raise HarnessError('The configured check did not reproduce the stated failure; inspect baseline evidence',
+                               'premise_unverified')
+        self.emit_event('repair.reproduced', check=probe['check_index'] + 1, exit_code=record['exit_code'])
 
     def verify(self, design, review, checks):
         result = self.stage('verifier', 'verification', json.dumps({'design': design, 'checks': checks, 'review': review,
@@ -570,6 +598,10 @@ class Runner:
         final_checks = self.checks('final')
         if any(r['exit_code'] != 0 for r in final_checks):
             raise HarnessError('Final host checks failed', 'acceptance_limit')
+        probe = self.task.get('repair_probe')
+        if probe and final_checks[probe['check_index']].get('repair_probe') != {
+                'failure_marker': False, 'success_marker': True}:
+            raise HarnessError('Final repair check did not show the target executed and passed', 'acceptance_limit')
         self.state.update(status='verified', done=True, next_phase='complete',
                           final_snapshot=self.check_scope(), final_checks=final_checks)
 
@@ -638,7 +670,12 @@ class Runner:
             raise HarnessError('Documentation/verification round limit', 'acceptance_limit')
         plan_request = 'Plan only. Do not modify files.'
         if route == 'repair':
-            plan_request += ' Use bug-fix to distinguish root-cause hypotheses and preserve the failing baseline.'
+            plan_request += (
+                ' Use bug-fix to distinguish the reported premise from confirmed cause, and preserve the failing baseline. '
+                'Check the active design and test contracts first, then trace the first observable divergence. '
+                'Return unsupported premises upstream as findings, and revise a conflicting contract before code. '
+                'Host run evidence is in baseline-checks.json in the run directory.'
+            )
         architecture = self.stage('cto', 'design', plan_request, {'complete'})
         for i in range(self.rounds):
             review = self.stage('red-team', 'design-review',
@@ -691,6 +728,7 @@ class Runner:
                     if 'baseline_checks' not in self.state:
                         self.state['baseline_checks'] = self.checks('baseline')
                         self.checkpoint()
+                    self.require_reproduced_failure()
                     self.drive()
                 except (HarnessError, OSError, KeyboardInterrupt) as exc:
                     kind = exc.kind if isinstance(exc, HarnessError) else 'environment' if isinstance(exc, OSError) else 'interrupted'
@@ -717,7 +755,8 @@ class Runner:
                             for skill in self.learned_context:
                                 self.learning.outcome(skill['id'], observation['id'])
                             if self.learning_enabled and self.state.get('failure', {}).get('kind') not in (
-                                    'interrupted', 'timeout', 'scope_violation', 'client_failure', 'environment', 'invalid_result'):
+                                    'interrupted', 'timeout', 'scope_violation', 'client_failure', 'environment',
+                                    'invalid_result', 'premise_unverified'):
                                 task_context = {'task': self.task, 'phase_results': [
                                     {'phase': x.get('phase'), 'result': x.get('result')}
                                     for x in self.state['history'][-12:] if x.get('result')]}

@@ -24,3 +24,5 @@ Fix the demonstrated causal chain. Design defects require contract/design update
 Deliver symptom/impact, classification/confidence, causal evidence with locations, fix, commands/exit codes and residual risks. If unresolved, state excluded causes and the next discriminating experiment. Reusable lessons go through [project memory](../project-memory/SKILL.en.md): candidate then semantic review, with minimal redacted evidence. Do not retain raw core dumps, full logs or secrets, or automatically commit, push or spawn agents.
 
 See [first-divergence comparison and delta debugging](../../references/engineering-methods.en.md#debugging) for the corresponding methods.
+
+Use the [verification-first attribution matrix](../../references/verification-first.en.md#attribution-and-document-review). Review the design and oracle first. Revisit the design when the same failure recurs and stop changes that depend on an unsupported premise.

@@ -73,6 +73,8 @@ Use the language links above to jump between the English and Chinese sections of
 
 Read the [bilingual language policy](plugins/openas/references/language.md). Chinese discovery files remain in place; English skill companions are `SKILL.en.md`, and English role instructions are under `references/en/agents/`, outside role discovery. Both versions share the same authorization and verification requirements. Detailed references, historical evidence and third-party documents may retain their original language; English core guides link to these explicitly.
 
+[Verification first](plugins/openas/references/verification-first.en.md) ties repair to active contracts, a reproducible baseline, and actual target execution.
+
 ## Roles
 
 | Role | Responsibility |
@@ -660,6 +662,8 @@ Claude Code 官方文档：[插件格式](https://code.claude.com/docs/en/plugin
 ## 维护与验收
 
 事实回答、测试与交付遵循 [结论与证据共享规则](plugins/openas/references/evidence-policy.md)：结论绑定证据、证据绑定对象版本、未验证明确标注、失效证据不得复用。全部自有角色/技能引用同一规则；这不等于自动认证模型报告的真实性。
+
+[验证前置](plugins/openas/references/verification-first.md)将有效契约、故障复现和目标实跑贯穿修复、评审与发布。
 
 除明确标注的技能目录外，项目自有内容采用 [MIT License](LICENSE)；另行声明的目录与第三方内容遵循各自许可。版本变化见 [CHANGELOG](CHANGELOG.md)，开发与发布流程见 [贡献指南](CONTRIBUTING.md)，运行环境和记录格式见 [兼容说明](docs/compatibility.md)。
 
