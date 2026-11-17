@@ -139,6 +139,7 @@ def open_browser(start_url, download_dir=None, executable=None):
             context = browser.new_context(accept_downloads=True, service_workers="block")
             try:
                 adapter = Browser(context.new_page(), start_url, download_dir)
+                adapter.backend_version = browser.version
                 context.route("**/*", lambda route: (
                     route.continue_() if adapter.allows(route.request.url) else route.abort()))
                 yield adapter

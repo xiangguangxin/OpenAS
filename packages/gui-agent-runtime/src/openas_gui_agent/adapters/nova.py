@@ -10,8 +10,11 @@ class NovaMCP:
         self.next_id = 0
         self._reader = threading.Thread(target=self._read, daemon=True)
         self._reader.start()
-        self._rpc("initialize", {"protocolVersion": "2025-03-26",
+        initialization = self._rpc("initialize", {"protocolVersion": "2025-03-26",
                                  "capabilities": {}, "clientInfo": {"name": "openas-goal-runtime", "version": "0.1"}})
+        server = initialization.get("serverInfo") if isinstance(initialization, dict) else None
+        version = server.get("version") if isinstance(server, dict) else None
+        self.backend_version = version[:128] if isinstance(version, str) else None
         self._notify("notifications/initialized", {})
         self.tools = self._rpc("tools/list", {}).get("tools", [])
         self.names = {tool["name"] for tool in self.tools}

@@ -103,6 +103,41 @@ Offline mode uses scripted actions, observations and token counts. The supplied 
 
 Add `--experience-store PATH --experience-environment TAG` to the live command for paired baseline and experience-enabled trials. Keep the same application and model, make sure the store has relevant verified experiences, and reset any application state between trials. Trials report each variant and the number of model calls that received experience hints. Use isolated trial data and an application that resets between invocations. You can run individual cases with `--case`. Windows/macOS plus Nova verification requires a real interactive desktop.
 
+### Tool trajectories
+
+Add `expected_trajectory` to a case to check which adapter calls occurred. For a browser-specific suite, the example requires two clicks before the download and permits an intermediate wait.
+
+```json
+{
+  "expected_trajectory": {
+    "match": "in_order",
+    "tools": ["browser_click", "browser_click", "browser_download"],
+    "max_counts": {"browser_download": 1}
+  }
+}
+```
+
+| Rule | Checks |
+| --- | --- |
+| `match: "exact"` | The complete attempted sequence equals `tools`, and every call returned success or was reconciled as executed |
+| `match: "in_order"` | The executed sequence contains `tools` in order, including repeated names. Additional calls are permitted |
+| `match: "any_order"` | The executed sequence contains the required count of each item in `tools` |
+| `forbidden`, `max_counts` | Blocks specified names or excessive attempts, including calls that returned errors |
+
+Trajectory and artifact checks both affect `success_rate`. Reports keep artifact completion and `trajectory_pass_rate` visible individually. A missing, late, truncated, or unresolved trace fails a trajectory check. Use artifact rules for business results and for properties that depend on tool arguments.
+
+For standalone runs, add `--trace-tools` to `openas-gui run` and inspect `tool_trace` with `openas-gui status`. It records advertised tool names, adapter outcomes and duration locally, with a maximum of 128 retained events. It stays enabled on resume. An interrupted call remains unknown until the operator reconciles it. The trace omits tool arguments, results, screenshots and model messages. Duration covers the adapter call only.
+
+### Reproducible evaluation
+
+The report's `provenance` object identifies the selected suite and Runtime source by SHA-256. It also records the Runtime package version when installed, Python and OS, repeat count, and live model budgets. Playwright and browser versions are recorded for browser trials. Nova records the version advertised by MCP when available. The existing model field names the provider configuration's requested model. Run comparisons with matching suite fingerprints and controlled application state, and retain both reports when changing the Runtime. Fingerprints document inputs and source identity. Application state and model provider behavior still need to be controlled during evaluation.
+
+#### Upstream methods
+
+- Tool sequence matching from [Google ADK trajectory evaluation](https://github.com/google/adk-python/blob/90c3a29412d33e4221fa998600d763173eee6349/src/google/adk/evaluation/trajectory_evaluator.py).
+- Tool spans and sensitive-data handling from [OpenAI Agents SDK tracing](https://github.com/openai/openai-agents-python/blob/9e05bd5bf299a5ddbb25f7fec8da10bf2baf6133/docs/tracing.md).
+- Study version metadata from [ServiceNow AgentLab](https://github.com/ServiceNow/AgentLab/blob/8488c564eea0525aaff5dea189bb03a9b529546e/README.md#reproducibility-features).
+
 ## Experience Memory (first stage)
 
 Experiences are **explicitly curated** from completed checkpoints only after a trusted local file verifier passes again. They contain a short goal, criteria, environment tag and human note; **no raw screenshots, model prompts, tool payloads, credentials or action replay scripts**. Search returns hints, never commands for automatic execution.

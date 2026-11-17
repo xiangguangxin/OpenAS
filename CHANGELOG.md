@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.21.0
+
+- Add bounded local tool traces with adapter outcomes, elapsed time, and interruption reconciliation.
+- Add benchmark gates for tool ordering, forbidden calls, and duplicate dispatch, alongside independent artifact checks.
+- Record suite and Runtime fingerprints and backend versions for benchmark comparisons.
+
 ## 0.20.0
 
 - Add bilingual artifact verification, agent evaluation, and browser goal execution skills, reaching 65 skills and 90 translation pairs.

@@ -42,6 +42,8 @@ def main():
         execution.add_argument("--endpoint", default=os.getenv(
             "OPENAS_GUI_API_URL", "https://api.openai.com/v1/chat/completions"))
         execution.add_argument("--approve-pending", action="store_true")
+        execution.add_argument("--trace-tools", action="store_true",
+                               help="Record local tool names, outcomes, and times in the checkpoint")
         execution.add_argument("--verifier", type=Path, help="JSON rules for independent artifact verification")
         execution.add_argument("--max-model-calls", type=int, default=0)
         execution.add_argument("--max-model-tokens", type=int, default=0)
@@ -94,7 +96,7 @@ def _execute(args):
     with open_session(planner, nova=args.nova, browser_url=args.browser_url,
                       download_dir=download_dir, browser_executable=args.browser_executable) as backend:
         return run(args.checkpoint, backend, planner, approval=args.approve_pending,
-                   verifier=verifier, backend_scope=scope)
+                   verifier=verifier, backend_scope=scope, trace_tools=args.trace_tools)
 
 
 if __name__ == "__main__":

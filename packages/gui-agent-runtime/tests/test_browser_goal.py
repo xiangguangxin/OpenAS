@@ -90,9 +90,11 @@ class BrowserGoals(unittest.TestCase):
             self.command("cli", "create", checkpoint, "--goal", case["goal"], "--criterion", criterion)
             options = ["--browser-executable", self.executable] if self.executable else []
             state = self.command("cli", "run", checkpoint, "--browser-url", self.site, "--download-dir", root,
-                                 "--endpoint", self.endpoint, "--verifier", config, *options)
+                                 "--endpoint", self.endpoint, "--verifier", config, "--trace-tools", *options)
             self.assertEqual(state["status"], "completed")
             self.assertEqual(state["steps"], 4)
+            self.assertEqual([event["tool"] for event in state["tool_trace"]["events"]],
+                             ["browser_click", "browser_click", "browser_wait_for_text", "browser_download"])
             self.assertEqual(state["model_usage"]["input_tokens"], 100)
             self.assertEqual(state["artifact_verification"]["checks"][criterion]["status"], "passed")
             self.assertTrue(self.command("cli", "verify", checkpoint, "--verifier", config)["passed"])
@@ -113,11 +115,21 @@ class BrowserGoals(unittest.TestCase):
             ExperienceStore(memory).add_verified(checkpoint, verifier=verifier, environment=env,
                                                  note="Wait for the fixture to finish.")
             options = ["--browser-executable", self.executable] if self.executable else []
-            report = self.command("benchmark", EXAMPLES / "live-coverage-suite.json",
+            suite = json.loads((EXAMPLES / "live-coverage-suite.json").read_text())
+            suite["scenarios"][0]["expected_trajectory"] = {
+                "match": "in_order", "tools": ["browser_click", "browser_click", "browser_download"],
+                "max_counts": {"browser_download": 1},
+            }
+            suite_path = Path(temp) / "browser-suite.json"
+            suite_path.write_text(json.dumps(suite), encoding="utf-8")
+            report = self.command("benchmark", suite_path,
                                   "--browser-url", self.site, "--endpoint", self.endpoint,
                                   "--experience-store", memory, "--experience-environment", env, *options)
             self.assertEqual(report["kind"], "live-browser")
             self.assertEqual(report["success_rate"], 1)
+            self.assertEqual(report["trajectory_pass_rate"], 1)
+            self.assertTrue(report["provenance"]["playwright_version"])
+            self.assertTrue(all(record["backend_version"] for record in report["records"]))
             self.assertEqual(report["variants"]["experience"]["avg_tokens"], 125)
             self.assertEqual(report["variants"]["baseline"]["experience_hint_calls"], 0)
             self.assertEqual(report["variants"]["experience"]["experience_hint_calls"], 5)

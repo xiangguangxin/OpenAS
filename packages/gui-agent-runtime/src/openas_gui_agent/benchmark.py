@@ -10,6 +10,8 @@ import time
 from pathlib import Path
 
 from .agent import run
+from .benchmark_provenance import manifest, package_version
+from . import tool_trace
 from .experience import ExperienceStore
 from .planner import ModelPlanner
 from .recovery import reconcile
@@ -37,7 +39,8 @@ class ScriptedDesktop:
         self.calls = 0
 
     def observe(self):
-        return {"summary": "synthetic desktop", "step": self.calls}
+        return {"summary": "synthetic desktop", "step": self.calls,
+                "tools": [{"name": "synthetic_click"}]}
 
     def act(self, action):
         self.calls += 1
@@ -75,6 +78,13 @@ def _record(case, index, variant, state, verifier, actions, elapsed):
     recovered = any(event["event"] == "reconciled" for event in state["history"])
     if case.get("interrupt_after_write"):
         passed = passed and recovered and actions == 1
+    trajectory = {}
+    if "expected_trajectory" in case:
+        trace = state.get("tool_trace")
+        expected_trajectory = case["expected_trajectory"]
+        evaluation = tool_trace.evaluate(expected_trajectory, trace)
+        passed = passed and evaluation["passed"]
+        trajectory = {"trajectory": {**evaluation, "expected": expected_trajectory, "trace": trace}}
     return {
         "scenario": case["name"], "iteration": index + 1, "variant": variant,
         "passed": passed, "completed_and_verified": confirmed, "status": state["status"],
@@ -85,6 +95,7 @@ def _record(case, index, variant, state, verifier, actions, elapsed):
         "experience_hint_calls": usage.get("experience_hint_calls", 0),
         "estimated_input_tokens": usage.get("estimated_input_tokens", 0),
         "elapsed_seconds": round(elapsed, 4),
+        **trajectory,
     }
 
 
@@ -92,7 +103,9 @@ def _metrics(records, synthetic):
     positive = [item for item in records if item["expected_status"] == "completed"]
     usage_complete = all(item["usage_missing_calls"] == 0
                          and (synthetic or item["model_calls"] > 0) for item in records)
+    trajectories = [item["trajectory"]["passed"] for item in records if "trajectory" in item]
     return {
+        "trajectory_pass_rate": statistics.mean(trajectories) if trajectories else None,
         "runs": len(records), "success_rate": statistics.mean(item["passed"] for item in records),
         "completion_rate": statistics.mean(item["completed_and_verified"] for item in positive) if positive else None,
         "avg_model_calls": statistics.mean(item["model_calls"] for item in records),
@@ -103,10 +116,10 @@ def _metrics(records, synthetic):
     }
 
 
-def _report(kind, records):
+def _report(kind, records, provenance):
     synthetic = kind == "offline-synthetic"
     names = dict.fromkeys(item["variant"] for item in records)
-    return {"kind": kind, **_metrics(records, synthetic),
+    return {"kind": kind, "provenance": provenance, **_metrics(records, synthetic),
             "variants": {name: _metrics([item for item in records if item["variant"] == name], synthetic)
                          for name in names}, "records": records}
 
@@ -125,10 +138,13 @@ def _validate(scenarios, repeat):
             raise ValueError(f"{case['name']}: expected at least one artifact rule")
         if case.get("expected_status", "completed") not in ALLOWED - {"planning", "running"}:
             raise ValueError(f"{case['name']}: unsupported expected status")
+        if "expected_trajectory" in case:
+            tool_trace.validate_expectation(case["expected_trajectory"])
 
 
 def benchmark(scenarios: list[dict], *, repeat: int = 1) -> dict:
     _validate(scenarios, repeat)
+    provenance = manifest(scenarios, repeat)
     records = []
     for case in scenarios:
         for index in range(repeat):
@@ -141,15 +157,16 @@ def benchmark(scenarios: list[dict], *, repeat: int = 1) -> dict:
                 verifier = FileVerifier(case["rules"], root)
                 planner = ScriptedPlanner(case)
                 start = time.perf_counter()
+                trace_tools = "expected_trajectory" in case
                 try:
-                    state = run(path, desktop, planner, verifier=verifier)
+                    state = run(path, desktop, planner, verifier=verifier, trace_tools=trace_tools)
                 except ScriptedInterruption:
                     run(path, desktop, planner, verifier=verifier)
                     reconcile(path, outcome="executed", note="Scripted crash after writing the fixture")
                     state = run(path, desktop, planner, verifier=verifier)
                 records.append(_record(case, index, "scripted", state, verifier, desktop.calls,
                                        time.perf_counter() - start))
-    return _report("offline-synthetic", records)
+    return _report("offline-synthetic", records, provenance)
 
 
 def live_benchmark(scenarios, args, key):
@@ -160,6 +177,10 @@ def live_benchmark(scenarios, args, key):
         if {"outputs", "fail_action", "interrupt_after_write"} & case.keys():
             raise ValueError(f"{case['name']}: scripted outputs, actions and interruption are offline only")
     experience = ExperienceStore(args.experience_store) if args.experience_store else None
+    provenance = manifest(scenarios, args.repeat)
+    provenance["model_budget"] = {"max_calls": args.max_model_calls, "max_tokens": args.max_model_tokens}
+    if args.browser_url:
+        provenance["playwright_version"] = package_version("playwright")
     records = []
     for case in scenarios:
         for index in range(args.repeat):
@@ -186,10 +207,14 @@ def live_benchmark(scenarios, args, key):
                     with open_session(planner, nova=args.nova, browser_url=args.browser_url,
                                       download_dir=output if args.browser_url else None,
                                       browser_executable=args.browser_executable) as target:
-                        state = run(path, target, planner, verifier=verifier, backend_scope=scope)
-                    records.append(_record(case, index, variant, state, verifier, state["steps"],
-                                           time.perf_counter() - start))
-    result = _report("live-browser" if args.browser_url else "live-nova", records)
+                        state = run(path, target, planner, verifier=verifier, backend_scope=scope,
+                                    trace_tools="expected_trajectory" in case)
+                        backend_version = getattr(target, "backend_version", None)
+                    record = _record(case, index, variant, state, verifier, state["steps"],
+                                     time.perf_counter() - start)
+                    record["backend_version"] = backend_version
+                    records.append(record)
+    result = _report("live-browser" if args.browser_url else "live-nova", records, provenance)
     result["model"] = args.model
     return result
 
