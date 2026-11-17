@@ -190,7 +190,8 @@ class PluginTests(unittest.TestCase):
             root = Path(tmp)
             workspace = root/'standalone-tool'
             shutil.copytree(examples/'pagination-fixture', workspace)
-            original_tests = (workspace/'test_pagination.py').read_bytes()
+            original_tests = {name: (workspace/name).read_bytes()
+                              for name in ('test_pagination.py', 'run_tests.py')}
             runner = harness.Runner(task, workspace, root/'run', 'unused-client')
             baseline = runner.checks('baseline')
             self.assertNotEqual(baseline[0]['exit_code'], 0)
@@ -208,9 +209,10 @@ class PluginTests(unittest.TestCase):
             repaired = runner.checks('repaired')
             self.assertEqual(repaired[0]['exit_code'], 0, repaired[0]['stderr'])
             runner.check_scope()
-            self.assertEqual((workspace/'test_pagination.py').read_bytes(), original_tests)
+            for name, data in original_tests.items():
+                self.assertEqual((workspace/name).read_bytes(), data)
             self.assertEqual(set(p.name for p in workspace.iterdir()),
-                             {'pagination.py', 'test_pagination.py', 'DESIGN.md'})
+                             {'pagination.py', 'DESIGN.md', *original_tests})
 
     def test_no_plugin_resource_paths_point_to_host_claude_folder(self):
         for folder in ['skills', 'agents', 'references']:
