@@ -1,615 +1,165 @@
-<a id="english"></a>
-
-<div align="center">
-
-# OpenAS
-
-**Open Agents & Skills**
-
-Start AI-assisted development from clear requirements and deliver verifiable results.
-
-[![CI](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml/badge.svg)](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml)
-[![Agents](https://img.shields.io/badge/Agents-12-2563eb)](plugins/openas/agents)
-[![Skills](https://img.shields.io/badge/Skills-65-7c3aed)](docs/skills.en.md)
-[![License: MIT](https://img.shields.io/badge/License-MIT-059669)](LICENSE)
-
-**English** | [简体中文](#chinese)
-
-[Quick start](#quick-start) · [Language](#chinese-and-english) · [Roles](#roles) · [Skills](#skills) · [Workflows](#architecture-and-workflows) · [Installation](#installation-and-updates) · [Validation](#development-and-validation)
-
-</div>
-
-OpenAS provides composable methods for requirements, research, design, implementation, debugging, review and verification. Use **12 roles and 65 skills through a Claude Code plugin**, or the separate **Codex CLI workflow adapter** for explicitly configured stage execution and acceptance checks.
-
-It adapts to web applications, services, libraries, CLI tools, native programs, data processing and documentation. It reads the target project's stack, conventions and existing checks rather than imposing another framework or mandatory OpenAS configuration.
-
-## Quick start
-
-Start Claude Code in your **target project**, substituting your local OpenAS path:
-
-```bash
-claude --plugin-dir /path/to/OpenAS/plugins/openas
-```
-
-Invoke skills in the session:
-
-```text
-/openas:solution-design Design a solution for these requirements, including contracts, failure behavior, and readiness. Respond in English.
-/openas:bug-fix Investigate this failure and verify its cause with this project's logs and tests.
-/openas:codebase-analysis Explain the entry points, modules, and main call path, citing source locations.
-/openas:change-impact-analysis Assess consumers, compatibility risks, and checks affected by this change.
-/openas:agent-experience Review skill discovery and context loading; preserve permissions and acceptance requirements.
-/openas:code-simplification Find evidence-backed simplifications; report candidates without editing files.
-/openas:document-review Review this guide against the implementation. Report actual reader-blocking issues without editing files.
-/openas:office-docx Create an editable Word report from these materials; preserve their sources.
-/openas:pdf-extraction Extract pages 1 and 3–5 from this PDF into TXT/JSON, retaining source page references.
-/openas:office-recalculate Refresh this workbook’s formula caches without replacing formulas with constants.
-/openas:project-memory Extract reusable project knowledge supported by this task's evidence.
-```
-
-Skill/role IDs use the `openas:` namespace. Local `--plugin-dir` applies to that launch. After edits run `/reload-plugins` for subsequent invocations; it does not guarantee in-flight processes switch versions.
-
-For factual answers, tests and delivery, the [shared evidence policy](plugins/openas/references/evidence-policy.en.md) requires claims to have evidence, evidence to identify object versions, unverified work to be explicit, and stale evidence to be revalidated. All project-owned roles/skills reference it; this does not automatically authenticate model reports.
-
-## Chinese and English
-
-The same installation supports Chinese and English. No duplicate plugin, role or skill is needed.
-
-- Explicit output-language instructions take priority; otherwise user-facing replies follow the current request language, rather than the language of code, logs or skill text.
-- Existing documents, comments and UI copy retain their language unless translation is requested. New deliverables follow explicit language or project conventions, then the task language.
-- Commands, paths, API symbols, skill IDs, JSON keys and enum values remain unchanged. Translate explanations, not machine-readable protocols.
-- Handoffs preserve response and artifact language preferences.
-
-Examples:
-
-```text
-/openas:architecture-design 设计这个模块，用中文解释。
-/openas:architecture-design Design this module and explain it in English.
-/openas:project-documentation 用中文说明改动，并编写英文 README。
-/openas:document-review Review the Chinese guide. Respond in English and keep the document unchanged.
-```
-
-Use the language links above to jump between the English and Chinese sections of this README.
-
-Read the [bilingual language policy](plugins/openas/references/language.md). Chinese discovery files remain in place; English skill companions are `SKILL.en.md`, and English role instructions are under `references/en/agents/`, outside role discovery. Both versions share the same authorization and verification requirements. Detailed references, historical evidence and third-party documents may retain their original language; English core guides link to these explicitly.
-
-[Verification first](plugins/openas/references/verification-first.en.md) ties repair to active contracts, a reproducible baseline, and actual target execution.
-
-## Roles
-
-| Role | Responsibility |
-| --- | --- |
-| [product-manager](plugins/openas/references/en/agents/product-manager.md) | User/market evidence, scope, priorities and testable requirements |
-| [researcher](plugins/openas/references/en/agents/researcher.md) | Technical evidence, alternatives and PoCs |
-| [cto](plugins/openas/references/en/agents/cto.md) | System understanding, impacts, contracts, architecture and executable tasks |
-| [ux-designer](plugins/openas/references/en/agents/ux-designer.md) | User flows, information architecture and interface states |
-| [developer](plugins/openas/references/en/agents/developer.md) | Scoped implementation, repairs and related tests |
-| [test-engineer](plugins/openas/references/en/agents/test-engineer.md) | Risk-based test strategies, fixtures and cross-module regressions |
-| [performance-engineer](plugins/openas/references/en/agents/performance-engineer.md) | Baselines, profiling and controlled optimization experiments |
-| [it](plugins/openas/references/en/agents/it.md) | Environment, CI/CD, dependency/toolchain changes and recovery |
-| [security-reviewer](plugins/openas/references/en/agents/security-reviewer.md) | Trust boundaries, security findings and repair verification |
-| [red-team](plugins/openas/references/en/agents/red-team.md) | Evidence-backed design, code and document review |
-| [tech-writer](plugins/openas/references/en/agents/tech-writer.md) | Source-grounded explanations, guides and diagrams |
-| [verifier](plugins/openas/references/en/agents/verifier.md) | Independent acceptance checks of actual artifacts |
-
-Use roles as needed, following the [team contract](plugins/openas/references/team-contract.en.md). Resources do not automatically launch teams. Independent review and tool use require real host support; do not claim them when responsibilities were performed in one session.
-
-## Skills
-
-The [complete English catalog](docs/skills.en.md) links every skill and explains when to use it. Common groups include:
-
-| Task | Skills |
-| --- | --- |
-| Market and requirements | market-research, competitive-analysis, product-requirements |
-| Research and selection | technical-research, technology-selection, github-skill-discovery |
-| Architecture | solution-design, architecture-design, design-review |
-| Existing-system understanding | codebase-analysis, change-impact-analysis, architecture-conformance, architecture-evolution, code-simplification |
-| Agent information interfaces | agent-experience |
-| GUI goals and evaluation | gui-goal-executor, browser-goal-executor, artifact-verification, agent-evaluation |
-| Plans and implementation | roadmap-planning, writing-plans, executing-plans, test-driven-development |
-| CI, upgrades and releases | ci-cd, dependency-upgrade, release-management |
-| Testing and review | test-strategy, integration-testing, coverage-analysis, requesting-code-review, pr-review-feedback, document-review |
-| UX, performance and security | interaction-design, accessibility-review, performance-analysis, security-review, incident-response |
-| Documents and presentations | project-documentation, technical-diagrams, presentation-creation |
-| Office formats and operations | office, office-docx, office-xlsx, office-render, office-export-pdf, office-recalculate, pdf-extraction |
-| Orchestration and continuity | workflow-routing, task-orchestration, checkpoint-and-resume, failure-recovery, context-handoff, parallel-integration, acceptance-tracking |
-| Knowledge and delivery | project-memory, skill-maintenance, verification-before-completion, finish-development-branch, git-worktrees |
-| Specialized work | brainstorming, grilling, bug-fix, subagent-driven-development, reverse-engineer-anything |
-
-Design depth follows risk, not document length. Settle costly cross-boundary decisions and failure behavior, leaving reversible local choices to developers. See [implementation readiness](plugins/openas/references/implementation-readiness.en.md) and [project adaptation](plugins/openas/references/project-context.en.md).
-
-## Architecture and workflows
-
-Claude discovers plugin roles/skills from standard directories. The optional Python Codex adapter explicitly loads role and domain resources and calls an existing authenticated CLI. The JS file is a separate host-injected template, not an SDK or directly executable agent runtime. These entry points share conventions but do not share every execution capability.
-
-The default development sequence is requirements/design → design review → necessary docs → implementation → code review → host checks → verifier → final acceptance/scope checks. Simpler tasks may use a smaller route. The Python adapter supports `development`, `repair`, `direct`, `review`, `security-review`, `operations`, `documentation` and `research-design`.
-
-Research/design delivery ends in design artifacts unless implementation is independently authorized. Sequential task graphs validate dependencies and block downstream failures; they do not provide automatic concurrency. Checkpoints validate task/rule/source fingerprints before reuse. Evidence includes command exit codes, outputs, coverage and gaps; no findings or a success summary alone is not product acceptance.
-
-See the [English workflow guide](plugins/openas/workflows/README.en.md) for trusted task JSON, fixtures, scope, resumption, graph execution, memory and research modes. Real-client runs consume model quota and are separate from ordinary tests.
-
-## Installation and updates
-
-For local development, load with `--plugin-dir` and run `/reload-plugins` after edits. For persistent project installation, run in the target project:
-
-```bash
-claude plugin marketplace add /path/to/OpenAS
-claude plugin install openas@openas-marketplace --scope project
-```
-
-Reload in the session. Management commands are:
-
-```bash
-claude plugin disable openas@openas-marketplace --scope project
-claude plugin enable openas@openas-marketplace --scope project
-claude plugin uninstall openas@openas-marketplace --scope project
-```
-
-Choose either local-directory or marketplace loading to avoid duplicates. Marketplace installations may use cached copies. After a maintainer increments the manifest version:
-
-```bash
-claude plugin marketplace update openas-marketplace
-claude plugin update openas@openas-marketplace --scope project
-```
-
-Then run `/reload-plugins`. Actual supported flags come from your installed client's help; in-flight work is not guaranteed to reload.
-
-## Optional MCP integrations
-
-- **Browser goals and artifact acceptance:** [browser-goal-executor](plugins/openas/skills/browser-goal-executor/SKILL.en.md) runs authorized web goals using Playwright. [artifact-verification](plugins/openas/skills/artifact-verification/SKILL.en.md) checks new reports and structured fields. [agent-evaluation](plugins/openas/skills/agent-evaluation/SKILL.en.md) measures task outcomes and experience retrieval.
-- **Model gateways:** the standalone runtime and live benchmarks can use an existing [LiteLLM Proxy](packages/gui-agent-runtime/README.md#litellm-gateway).
-- **Standalone GUI Agent Runtime:** [Python runtime](plugins/openas/integrations/computer-use/RUNTIME.en.md) adds an executable multi-step decision loop, JSON checkpoints and restart-based resume (requires separate model API + Nova MCP; not a background daemon).
-- **GUI Goal Executor:** [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.en.md) coordinates multi-step desktop goals through computer-use and a connected MCP, with bounded observe–act–verify loops, replanning and explicit acceptance checks.
-- **Computer Use (Windows/macOS):** the [computer-use skill](plugins/openas/skills/computer-use/SKILL.en.md) combines accessibility-first actions, screenshot fallback and verification with a separately installed desktop MCP; [Claude Code and Codex setup](plugins/openas/integrations/computer-use/USER-GUIDE.en.md). No MCP service is automatically installed or enabled.
-
-Roles define responsibilities, skills define methods, and MCP exposes tools. Core resources work without installing optional integrations. Reuse equivalent host tools where available.
-
-- **Playwright:** UI structure and actual browser operations.
-- **GitHub:** repositories, PRs, issues and CI evidence.
-- **Context7:** version-appropriate library/framework documentation.
-- **REA:** shipped binaries/packages/runtime evidence, not ordinary source analysis or diagram generation.
-
-English configuration guides are available for [MCP setup](plugins/openas/integrations/QUICKSTART.en.md), [Playwright, GitHub, and Context7](plugins/openas/integrations/README.en.md), and [REA](plugins/openas/integrations/rea/README.en.md). Reading a skill does not install a server, register tools or grant target execution. No automatic hooks or background listeners are shipped.
-
-## Project memory
-
-The optional GUI runtime has a separate [verified experience store and retrieval lifecycle](packages/gui-agent-runtime/README.md#opt-in-experience-assisted-planning-and-lifecycle). It is not the same as the target project's general-purpose memory described below, and automatic retrieval is opt-in.
-
-Runtime knowledge belongs to the consumer project's `.openas/memory/`, not the plugin. Evidence-backed candidates require semantic review before acceptance, and changed sources invalidate reuse. Task checkpoints are short-lived state, not authorization to resume. `--learn` adds explicit model-assisted extraction/review and candidate-skill lifecycle work; it is not background training or a permissions change.
-
-See the [English memory skill](plugins/openas/skills/project-memory/SKILL.en.md). English [storage](plugins/openas/memory/README.en.md) and [learning](plugins/openas/memory/learning.en.md) guides cover the full lifecycle. They distinguish observation, candidate knowledge, trial, activation, feedback and rollback; do not infer verified knowledge from free-form model self-report.
-
-## Development and validation
-
-Use Python 3.10+ and Node.js 22 on Linux/WSL. Memory uses POSIX locks. From the repository root:
-
-```bash
-python3 scripts/check_plugin.py
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s plugins/openas/workflows/tests -p 'test_*.py' -v
-node plugins/openas/workflows/tests/agent-team.test.mjs
-```
-
-Structure checks include relative links and bilingual companion coverage/fingerprints. They do not prove translation quality or real model behavior. Presentation generation tests need the pinned [requirements](plugins/openas/skills/presentation-creation/requirements.txt); real rendering additionally needs Office/LibreOffice and Poppler.
-
-Optional behavior evaluation:
-
-```bash
-python3 scripts/evaluate_skills.py --case english-analysis --output /tmp/openas-english-evaluation
-python3 scripts/evaluate_skills.py --case chinese-analysis --output /tmp/openas-chinese-evaluation
-python3 scripts/evaluate_skills.py --case explicit-english --output /tmp/openas-language-override
-```
-
-These use existing client login/model settings, consume quota, require new output directories, and are not default CI. Language checks are basic signals, not proof of semantic translation quality. See [bilingual maintenance and evaluation](docs/bilingual.md). Native Claude discovery/reload and target-client acceptance must be tested separately; mocks are not native-client evidence.
-
-## Sources, contribution and licensing
-
-Use an independent branch, retain user changes and run relevant checks. Update both language editions when changing shared behavior; never refresh translation fingerprints without reviewing meaning. See the English [changelog](CHANGELOG.md), [bilingual maintenance](docs/bilingual.md), [contribution guide](CONTRIBUTING.md), and [compatibility history](docs/compatibility.en.md). English [architecture](docs/architecture.en.md), [CI](docs/ci.en.md), [skill evaluation](docs/skill-evaluation.en.md), and [native reload](docs/hot-reload-testing.en.md) guides are also available.
-
-Office workflows retain [DSH Office provenance and its MIT notice](plugins/openas/references/dsh-office-provenance.md), with local helper scripts independently implemented.
-
-The agent-experience and code-simplification methods retain pinned [DSH provenance and its MIT notice](plugins/openas/references/dsh-skills-provenance.md).
-
-OpenAS originated from a gem5 collaboration setup and is now project-independent; [migration records](docs/migration.json) preserve provenance, not default facts about new consumers. Project-owned material is [MIT](LICENSE), except explicitly identified content. The presentation skill uses Apache-2.0 with retained third-party MIT/Apache notices; upstream REA retains its own licensing. See [presentation NOTICE](plugins/openas/skills/presentation-creation/NOTICE.md) and [REA provenance](plugins/openas/integrations/rea/README.en.md).
-
----
-
 <a id="chinese"></a>
 
-[English](#english) | **简体中文**
-
 <div align="center">
 
 # OpenAS
 
 **Open Agents & Skills**
 
-让 AI 开发从明确的需求出发，以可验证的结果交付。
+**从需求到交付，让 AI 开发有方法、有证据、可验收。**
 
 [![CI](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml/badge.svg)](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml)
 [![Agents](https://img.shields.io/badge/Agents-12-2563eb)](plugins/openas/agents)
 [![Skills](https://img.shields.io/badge/Skills-65-7c3aed)](plugins/openas/skills)
 [![License: MIT](https://img.shields.io/badge/License-MIT-059669)](LICENSE)
 
-可插拔的角色协作 · 证据驱动的调试 · 可追溯的项目记忆 · 目标驱动的 GUI Agent
+**简体中文** · [English](#english)
 
-[快速开始](#快速开始) · [GUI Agent](#新增目标驱动-gui-agentwindows--macos) · [角色团队](#角色团队) · [技能地图](#技能地图) · [整体架构](#整体架构) · [工作流程](#工作流程) · [安装与更新](#安装与更新) · [MCP 集成](#可选-mcp-集成) · [开发与验证](#开发与验证)
+[快速开始](#快速开始) · [核心能力](#核心能力) · [运行方式](#运行方式) · [GUI Agent](#gui-agent) · [工作流程](#工作流程) · [技能与角色](#技能与角色) · [安装与集成](#安装与集成) · [验证与贡献](#验证与贡献)
 
 </div>
 
 ---
 
-OpenAS 将需求分析、方案设计、开发调试、评审与验证整理为可按需组合的工作方法。通过 Claude Code 插件使用 12 个协作角色与 65 个技能，也可使用独立的 Codex CLI 工作流适配器执行阶段任务与验收。
+OpenAS 是面向 Claude Code / Codex 的可组合 Agent 与 Skill 工具集。它提供 **12 个角色、65 个技能**，覆盖需求、设计、实现、调试、评审、验证和经验复用；同时提供可选的桌面 GUI Agent 与独立 Python Runtime。
 
-适用于 Web 应用、后端服务、库、命令行工具、原生程序、数据处理和文档项目。接入后沿用目标仓库的技术栈、目录与验证命令，无需额外创建 OpenAS 专用配置文件。
-
-## 新增：目标驱动 GUI Agent（Windows / macOS）
-
-OpenAS 支持通过 Claude Code / Codex 加载 [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.md) Skill，编排多轮桌面任务；也提供可选的独立 [Python Agent Runtime](packages/gui-agent-runtime/README.md)。给出最终目标（Goal）和验收条件后，执行器可多轮观察界面、选择动作、调用 Nova MCP、检查返回结果并调整下一步。独立 Runtime 还会把任务状态写入本地 JSON checkpoint。
-
-| 组件 | 职责 | 使用入口 |
-| --- | --- | --- |
-| [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.md) | Goal 分解、动态规划、停止条件与任务验收规范 | 在 Claude Code / Codex 会话中加载 Skill |
-| [computer-use](plugins/openas/skills/computer-use/SKILL.md) | 优先通过 UIA / AX 定位控件，必要时截图辅助并逐步验证 | 通过已连接的桌面 MCP 使用 |
-| [Nova MCP](plugins/openas/integrations/computer-use/USER-GUIDE.md) | 提供 Windows / macOS 的窗口、截图及鼠标键盘工具 | 用户自行安装并授权 |
-| [Python Agent Runtime](packages/gui-agent-runtime/README.md) | 独立的 Agent Loop、模型决策、checkpoint 与恢复 | 安装后通过 `openas-gui` CLI 创建、查询、运行和恢复任务 |
-
-**两种模式的区别：** 在 Claude Code / Codex 中使用 Skill，依赖客户端自身的模型和工具调用循环；独立 Python Runtime 需要额外配置兼容的多模态模型 API，不会继承 Claude Code / Codex 的订阅或 MCP 注册，也不是常驻后台服务。
-
-```mermaid
-flowchart LR
-    goal["用户 Goal + 验收条件"] --> host["Claude Code / Codex + Goal Skill"]
-    goal --> runtime["独立 Python Agent Runtime（可选）"]
-    host --> skill["computer-use Skill"]
-    runtime --> loop["观察 → 决策 → 操作 → 验证"]
-    loop --> checkpoint["JSON checkpoint"]
-    checkpoint -->|下次启动读取并重新观察| loop
-    skill --> nova["Nova MCP"]
-    loop --> nova
-    nova --> desktop["Windows / macOS 桌面"]
-```
-
-典型任务：**“打开指定覆盖率 GUI，构建工程、运行测试、生成报告，并在报告存在且可读取后才宣布完成。”** 运行期间遇到弹窗或失败会重新观察和规划；涉及删除、覆盖、付款、发送等高风险动作必须确认。示例任务和安装步骤见 [Computer Use 中文使用手册](plugins/openas/integrations/computer-use/USER-GUIDE.md)，独立执行器的具体命令与恢复方式见 [Runtime 中文手册](plugins/openas/integrations/computer-use/RUNTIME.md)。
-
-**当前边界：** JSON checkpoint 支持在程序重启后恢复进度，不代表中断后会在后台自动继续；执行结果不确定的动作需要人工核对后才能恢复。独立 Runtime 已支持可选的 [本地文件验收规则](packages/gui-agent-runtime/README.md#phase-4-independent-local-file-verification)，但未配置独立 Verifier 时仅检查模型提供的证据，不能视为独立业务验收。目前仍未完成真实 Windows / macOS + Nova 的端到端测试；CI 通过不等同于真实 GUI 任务成功。
-
-## 中文与英文
-
-同一份插件支持中文和英文，不需要重复安装。用户明确指定的语言优先，否则回复跟随任务语言；编辑已有文档时保留文件语言，除非要求翻译。命令、路径、技能 ID、JSON 字段和枚举保持不变。
-
-- [English](#english) 与 [完整英文技能索引](docs/skills.en.md)。
-- 全部 65 个技能可使用英文：64 个自有技能提供 `SKILL.en.md`，REA 保留上游英文入口；12 个角色提供英文配套说明。
-- 详细规则见 [中英文输出约定](plugins/openas/references/language.md)，维护与评测见 [双语指南](docs/bilingual.md)。详细技术参考及历史归档保留原文，未对所有历史材料制作译本。
-
-```text
-/openas:codebase-analysis Explain this codebase in English, with source references.
-/openas:project-documentation 用中文解释改动，产出英文 README。
-```
+> **核心原则：** 目标明确 → 按需选择技能 → 执行并收集证据 → 独立验收 → 交付可追溯结果。Skill 是工作方法，不等于自动获得工具权限或真实执行能力。
 
 ## 快速开始
 
-在 **目标项目目录** 中启动 Claude Code，将路径替换为你的 OpenAS 所在位置：
+**Claude Code：** 在目标项目目录中启动，并指向本地 OpenAS 插件。
 
 ```bash
 claude --plugin-dir /path/to/OpenAS/plugins/openas
 ```
 
-在会话中按任务调用技能：
+在会话中按需调用技能：
 
 ```text
-/openas:solution-design 根据当前需求形成方案，明确接口、失败行为和实施就绪条件
-/openas:bug-fix 排查这个问题，用当前项目的日志和测试验证根因
-/openas:test-strategy 根据需求和风险制定测试场景与覆盖计划
-/openas:project-memory 提炼本次任务中有证据、可复用的项目经验
+/openas:solution-design 分析需求，明确方案、边界与验收条件
+/openas:bug-fix 复现并定位问题，用测试验证修复
+/openas:codebase-analysis 梳理项目入口、模块依赖和核心调用链
+/openas:project-memory 提炼本次任务中可验证、可复用的经验
 ```
 
-技能和角色统一使用 `openas:` 命名空间。`--plugin-dir` 只对本次启动生效；修改本地插件后，可在当前会话运行 `/reload-plugins`，更新后续调用使用的组件。
+修改本地插件后，使用 `/reload-plugins` 重新加载后续调用所需的资源。也可以通过 [marketplace 安装](#安装与集成)。OpenAS 不会自动修改目标项目的技术栈或安装 MCP。
 
-<details>
-<summary>更多调用示例</summary>
+## 核心能力
 
-```text
-/openas:technical-research 调研当前项目的数据存储方案，保留来源和关键未知项
-/openas:github-skill-discovery 按当前需求从 GitHub 查找制作 PPT 的技能，核对内容、依赖与许可证，先交付候选比较
-/openas:technical-diagrams 为当前文档绘制架构图
-/openas:project-documentation 根据源码完善 README 和入门指南，核对示例
-/openas:github-skill-discovery 按需求搜索并融合多个技能，生成适合当前项目的新技能，保留来源版本、许可与验证记录
+| 能力 | 解决什么问题 | 关键入口 |
+| :--- | :--- | :--- |
+| **角色协作** | 需求、架构、开发、测试、安全与验收职责分离 | [12 个角色](plugins/openas/agents) |
+| **任务技能** | 将分析、开发、调试、评审等流程标准化 | [65 个技能](plugins/openas/skills) |
+| **目标驱动 GUI** | 根据目标多轮观察桌面、执行操作与检查结果 | [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.md) |
+| **工作流编排** | 任务分阶段、依赖检查、失败恢复与交接 | [工作流指南](plugins/openas/workflows/README.md) |
+| **项目记忆** | 审查、保存和复用有证据的项目知识 | [项目记忆](plugins/openas/memory/README.md) |
+| **结果验收** | 将模型结论与真实命令、测试和产物证据区分 | [证据规则](plugins/openas/references/evidence-policy.md) |
 
-/openas:presentation-creation 根据当前材料制作 10 分钟项目汇报，交付可编辑 PPTX、源稿和预览，保留数据来源
-/openas:competitive-analysis 对比同类工具在目标使用场景中的能力与限制
-/openas:roadmap-planning 将需求和调研结论整理为 MVP 与阶段验收目标
-/openas:interaction-design 将已确认需求整理为用户流程、界面状态和交互规格
-/openas:performance-analysis 建立可复现基线，用剖析与对照实验定位瓶颈
+## 运行方式
+
+不同入口提供的能力与权限不同，请按任务选择：
+
+| 入口 | 适用场景 | 依赖与限制 |
+| :--- | :--- | :--- |
+| **Claude Code 插件** | 在已有工程中按需调用角色与 Skill | Claude Code 客户端和实际授权的工具 |
+| **Codex CLI 适配器** | 按明确路线执行阶段任务、记录证据和恢复 | 已安装、已登录的 Codex CLI；不会自动发现 Claude 插件 |
+| **GUI Goal Skill** | 在 Claude Code / Codex 会话中完成桌面目标 | [computer-use](plugins/openas/skills/computer-use/SKILL.md) + 已连接的 Nova MCP |
+| **独立 Python GUI Runtime** | 单独运行桌面 Agent Loop、保存 checkpoint、重启后恢复 | [Python 包](packages/gui-agent-runtime/README.md) + Nova MCP + 额外配置的多模态模型 API |
+
+**特别注意：** 独立 Runtime 不继承 Claude Code / Codex 的模型订阅、MCP 注册或会话权限，也不是常驻后台服务。
+
+## GUI Agent
+
+<details open>
+<summary><strong>桌面任务如何从 Goal 走到验收？</strong></summary>
+
+```mermaid
+flowchart LR
+    G["Goal + 验收条件"] --> M{"选择执行入口"}
+    M --> S["Claude Code / Codex + Skill"]
+    M --> R["独立 Python Runtime"]
+    S --> N["Nova MCP"]
+    R --> L["观察 → 规划 → 操作 → 检查"]
+    L --> N
+    L --> C["JSON checkpoint"]
+    N --> D["Windows / macOS 桌面"]
+    D --> V["验收结果"]
 ```
 
 </details>
 
-## 为什么使用 OpenAS
+| 组件 | 职责 | 文档 |
+| :--- | :--- | :--- |
+| [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.md) | Goal、动态规划、停止条件与验收规范 | [Skill](plugins/openas/skills/gui-goal-executor/SKILL.md) |
+| [computer-use](plugins/openas/skills/computer-use/SKILL.md) | 优先 UIA / AX 定位，必要时截图辅助 | [Skill](plugins/openas/skills/computer-use/SKILL.md) |
+| [Nova MCP](plugins/openas/integrations/computer-use/USER-GUIDE.md) | 截图、窗口、鼠标键盘等桌面工具 | [安装与授权](plugins/openas/integrations/computer-use/USER-GUIDE.md) |
+| [Python Agent Runtime](packages/gui-agent-runtime/README.md) | 独立 Agent Loop、模型决策、checkpoint 与恢复 | [CLI 与配置](packages/gui-agent-runtime/README.md) |
 
-| 能力 | 工作方式 |
-| --- | --- |
-| **按需协作** | 简单任务调用单个技能；复杂任务按需要组合角色，统一范围、交接与问题追踪 |
-| **设计可实施** | 按风险确定设计深度，明确边界与失败行为，用可验证行为拆分任务 |
-| **调试有证据** | 从需求、设计、实现、配置与环境调查原因，用日志和可区分实验建立因果链 |
-| **交付可核验** | 保留命令、退出码、关键输出与覆盖限制，区分事实、假设和未运行项 |
-| **记忆可追溯** | 项目经验经审查后复用，直接证据或显式关联来源变化时排除旧记录 |
-| **适配已有工程** | 读取目标仓库的规则、源码与 CI，沿用已有工具链和领域约束 |
-| **目标驱动 GUI 任务** | 通过 Skill 或独立 Runtime 进行多轮观察、操作、状态记录与有界恢复，底层桌面权限由 Nova MCP 提供 |
+例如：打开覆盖率 GUI、运行测试、生成报告，并在报告存在且符合验收条件后才宣布完成。
 
-设计与任务拆分的具体标准见 [设计粒度与实施就绪](plugins/openas/references/implementation-readiness.md)，项目接入约定见 [项目适配说明](plugins/openas/references/project-context.md)。
+独立 Runtime 支持可选的[文件验收](packages/gui-agent-runtime/README.md#phase-4-independent-local-file-verification)、[离线 Benchmark](packages/gui-agent-runtime/README.md#offline-agent-benchmark-first-stage) 和[经验检索与衰减](packages/gui-agent-runtime/README.md#opt-in-experience-assisted-planning-and-lifecycle)。历史经验仅作为规划提示，不自动重放操作；checkpoint 恢复也不代表后台自动继续。
 
-## 角色团队
-
-每个角色都有明确输入、交付物和职责边界，共用 [团队协作契约](plugins/openas/references/team-contract.md)。角色按任务需要选用。
-
-| 阶段 | Agent | 职责 |
-| --- | --- | --- |
-| 需求 | [product-manager](plugins/openas/agents/product-manager.md) | 用户与市场证据、产品范围、优先级与验收 |
-| 研究 | [researcher](plugins/openas/agents/researcher.md) | 技术取证、候选比较与 PoC |
-| 架构 | [cto](plugins/openas/agents/cto.md) | 设计取舍、接口契约与可执行任务 |
-| 交互 | [ux-designer](plugins/openas/agents/ux-designer.md) | 用户流程、信息架构与界面状态 |
-| 实现 | [developer](plugins/openas/agents/developer.md) | 授权范围内的实现、修复与相关测试 |
-| 测试 | [test-engineer](plugins/openas/agents/test-engineer.md) | 测试策略、自动化测试与跨模块回归 |
-| 性能 | [performance-engineer](plugins/openas/agents/performance-engineer.md) | 基准、剖析与优化对照实验 |
-| 运维 | [it](plugins/openas/agents/it.md) | 开发环境、CI、部署配置与恢复 |
-| 安全 | [security-reviewer](plugins/openas/agents/security-reviewer.md) | 信任边界、安全问题与修复建议 |
-| 评审 | [red-team](plugins/openas/agents/red-team.md) | 有证据的反例、失败条件与缺陷 |
-| 文档 | [tech-writer](plugins/openas/agents/tech-writer.md) | 基于源码和证据的说明与图表 |
-| 验收 | [verifier](plugins/openas/agents/verifier.md) | 对照原始验收独立核查实际产物 |
-
-## 技能地图
-
-65 个技能可独立使用，也可组合到角色任务中。下表列出常用入口，完整定义见 [skills](plugins/openas/skills)。
-
-| 任务 | 技能入口 | 主要产物 |
-| --- | --- | --- |
-| 桌面 GUI Goal 执行 | [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.md) · [computer-use](plugins/openas/skills/computer-use/SKILL.md) | 动态任务步骤、操作验证、失败恢复与任务状态（独立 Runtime 可保存 checkpoint） |
-| 浏览器目标执行 | [browser-goal-executor](plugins/openas/skills/browser-goal-executor/SKILL.md) | Playwright 语义定位、等待、下载与恢复 |
-| 产物验收 | [artifact-verification](plugins/openas/skills/artifact-verification/SKILL.md) | 独立检查旧产物、结构化字段及本次运行关联 |
-| Agent 任务评测 | [agent-evaluation](plugins/openas/skills/agent-evaluation/SKILL.md) | 离线和真实后端评测，比较经验检索开关的效果 |
-| 市场与需求 | [market-research](plugins/openas/skills/market-research/SKILL.md) · [competitive-analysis](plugins/openas/skills/competitive-analysis/SKILL.md) · [product-requirements](plugins/openas/skills/product-requirements/SKILL.md) | 用户与竞品证据、PRD、需求 ID 与验收 |
-| 技术研究 | [technical-research](plugins/openas/skills/technical-research/SKILL.md) · [technology-selection](plugins/openas/skills/technology-selection/SKILL.md) | 来源索引、候选矩阵、PoC 与 ADR |
-| 外部技能引入 | [github-skill-discovery](plugins/openas/skills/github-skill-discovery/SKILL.md) | 按需搜索、内容/依赖/许可证审查、安装或适配、多技能融合生成与来源版本记录 |
-| 方案与架构 | [solution-design](plugins/openas/skills/solution-design/SKILL.md) · [architecture-design](plugins/openas/skills/architecture-design/SKILL.md) · [design-review](plugins/openas/skills/design-review/SKILL.md) | 方案取舍、模块契约与实施就绪结论 |
-| 代码理解与变更影响 | [codebase-analysis](plugins/openas/skills/codebase-analysis/SKILL.md) · [change-impact-analysis](plugins/openas/skills/change-impact-analysis/SKILL.md) | 源码现状、核心路径、消费者影响与验证范围 |
-| Agent 接口与上下文 | [agent-experience](plugins/openas/skills/agent-experience/SKILL.md) | 工具与技能发现、按需加载、交接约束和总成本验证 |
-| 代码简化 | [code-simplification](plugins/openas/skills/code-simplification/SKILL.md) | 生产者与消费者证据、净维护收益、兼容与生命周期保留 |
-| 架构检查与演进 | [architecture-conformance](plugins/openas/skills/architecture-conformance/SKILL.md) · [architecture-evolution](plugins/openas/skills/architecture-evolution/SKILL.md) | 架构偏差证据、分阶段改造、兼容与退役条件 |
-| 规划与实施 | [roadmap-planning](plugins/openas/skills/roadmap-planning/SKILL.md) · [writing-plans](plugins/openas/skills/writing-plans/SKILL.md) · [test-driven-development](plugins/openas/skills/test-driven-development/SKILL.md) | 阶段目标、可执行任务与行为测试 |
-| CI/CD 与依赖升级 | [ci-cd](plugins/openas/skills/ci-cd/SKILL.md) · [dependency-upgrade](plugins/openas/skills/dependency-upgrade/SKILL.md) | 流水线配置与诊断、制品追溯、版本适配与兼容验证 |
-| 版本发布 | [release-management](plugins/openas/skills/release-management/SKILL.md) | 核对版本、标签与制品，验证安装或升级及发布结果 |
-| 测试工程 | [test-strategy](plugins/openas/skills/test-strategy/SKILL.md) · [integration-testing](plugins/openas/skills/integration-testing/SKILL.md) · [coverage-analysis](plugins/openas/skills/coverage-analysis/SKILL.md) | 测试矩阵、隔离夹具、回归证据和覆盖率缺口 |
-| 交互与可访问性 | [interaction-design](plugins/openas/skills/interaction-design/SKILL.md) · [accessibility-review](plugins/openas/skills/accessibility-review/SKILL.md) | 交互规格、状态与操作障碍评审 |
-| 性能与安全 | [performance-analysis](plugins/openas/skills/performance-analysis/SKILL.md) · [security-review](plugins/openas/skills/security-review/SKILL.md) | 对照实验、瓶颈证据与安全缺陷 |
-| 故障与恢复 | [bug-fix](plugins/openas/skills/bug-fix/SKILL.md) · [incident-response](plugins/openas/skills/incident-response/SKILL.md) | 根因证据、恢复时间线与核验结果 |
-| 文档与代码评审 | [document-review](plugins/openas/skills/document-review/SKILL.md) · [requesting-code-review](plugins/openas/skills/requesting-code-review/SKILL.md) | 文档事实与操作可用性、代码缺陷、证据及评审结论 |
-| PR 评审跟进 | [pr-review-feedback](plugins/openas/skills/pr-review-feedback/SKILL.md) | 核对并处理已有评审意见，逐条记录结论与回归证据 |
-| 文档与图表 | [project-documentation](plugins/openas/skills/project-documentation/SKILL.md) · [technical-diagrams](plugins/openas/skills/technical-diagrams/SKILL.md) | 项目说明、接口文档与 Mermaid / SVG / D2 图表 |
-| Office 文档与操作 | [office](plugins/openas/skills/office/SKILL.md) · [office-docx](plugins/openas/skills/office-docx/SKILL.md) · [office-xlsx](plugins/openas/skills/office-xlsx/SKILL.md) · [office-render](plugins/openas/skills/office-render/SKILL.md) · [office-export-pdf](plugins/openas/skills/office-export-pdf/SKILL.md) · [office-recalculate](plugins/openas/skills/office-recalculate/SKILL.md) | 可编辑内容、页面图像、PDF 与真实公式重算分开验证 |
-| PDF 文字提取 | [pdf-extraction](plugins/openas/skills/pdf-extraction/SKILL.md) | 按页提取 TXT/JSON、页码溯源、空文本提示和失败页记录，不自动 OCR |
-| 演示文稿 | [presentation-creation](plugins/openas/skills/presentation-creation/SKILL.md) | 内容与叙事、原生可编辑 PPTX、讲稿备注、JSON 源稿与渲染预览 |
-| 技能维护 | [skill-maintenance](plugins/openas/skills/skill-maintenance/SKILL.md) | 复现失败、新旧版本对照和独立验收 |
-| 记忆与交付 | [project-memory](plugins/openas/skills/project-memory/SKILL.md) · [verification-before-completion](plugins/openas/skills/verification-before-completion/SKILL.md) | 可审查经验与真实验收记录 |
-
-## 整体架构
-
-OpenAS 提供两条独立入口，共用仓库中的角色、技能与协作约定。下图展示组件关系，连线标注加载、调用与数据读写的含义。
-
-```mermaid
-flowchart TB
-    user["用户目标、范围与验收"]
-
-    subgraph entry["执行入口 · 由宿主提供实际工具与权限"]
-        direction LR
-        claude["Claude Code<br/>插件加载与按需调用"]
-        adapter["Codex CLI 适配器<br/>路线调度、检查与恢复"]
-        sessions["Codex CLI 独立会话<br/>执行既定角色阶段"]
-        adapter -->|调用| sessions
-    end
-
-    subgraph bundle["OpenAS 插件资源"]
-        direction LR
-        agents["agents/<br/>12 个角色定义"]
-        skills["skills/<br/>65 个工作方法"]
-        contracts["references/<br/>协作契约、项目适配与实施就绪"]
-    end
-
-    subgraph target["目标项目"]
-        direction LR
-        repo["规则、源码、文档与测试"]
-        memory[".openas/memory/<br/>经审查的事实、决定与经验"]
-    end
-
-    evidence["运行目录<br/>阶段结果、检查证据与检查点"]
-    gui_runtime["可选独立 GUI Agent Runtime<br/>模型 API + 多轮循环 + JSON checkpoint"]
-    nova["Nova MCP（自行安装授权）<br/>Windows / macOS 桌面"]
-
-    user -->|会话指令| claude
-    user -->|显式任务配置| adapter
-    claude -->|发现与加载| bundle
-    adapter -->|读取并注入阶段提示| bundle
-    claude -->|按授权读取或修改、运行检查| repo
-    sessions -->|按任务范围读取或修改、运行检查| repo
-    claude -->|通过记忆技能检索与维护| memory
-    adapter -->|读取相关记忆作为上下文| memory
-    adapter -->|记录与恢复| evidence
-    user -->|可选单独启动| gui_runtime
-    gui_runtime -->|读取 Skill 规范| skills
-    gui_runtime -->|保存和重读 checkpoint| evidence
-    gui_runtime -->|调用桌面工具| nova
-    claude -.->|经 computer-use 调用| nova
-
-    classDef entryStyle fill:#eff6ff,stroke:#2563eb,color:#172554
-    classDef resourceStyle fill:#f5f3ff,stroke:#7c3aed,color:#2e1065
-    classDef dataStyle fill:#ecfdf5,stroke:#059669,color:#064e3b
-    class claude,adapter,sessions,gui_runtime entryStyle
-    class agents,skills,contracts resourceStyle
-    class repo,memory,evidence,nova dataStyle
-```
-
-角色和技能是供宿主读取的资源；常规任务由 Claude Code 或 Codex CLI 会话执行。另有可选的独立 Python GUI Agent Runtime，通过单独配置的多模态模型 API 与 Nova MCP 执行多轮桌面任务，不自动共享宿主会话权限或订阅。Codex 适配器按既定路线选择角色，新增角色不会自动加入所有工作流；记忆审查与复用规则见 [项目记忆说明](plugins/openas/memory/README.md)。
+**验证边界：** CI 与模拟测试不等于真实 Windows/macOS + Nova 端到端验收。桌面操作需要用户安装并授权 Nova；高风险操作应经过确认。建议先在隔离环境测试。
 
 ## 工作流程
 
-下图展示完整开发任务的协作逻辑。已有有效需求和设计时可复用对应阶段；修复、只读评审、文档等路线按各自范围执行，具体阶段以 [运行指南](plugins/openas/workflows/README.md) 为准。
-
 ```mermaid
-flowchart TB
-    request["明确目标、范围与原始验收"]
-    research["按需研究与需求整理<br/>product-manager / researcher"]
-    design["方案、架构与任务划分<br/>cto"]
-    ready{"设计评审<br/>当前范围是否实施就绪？"}
-    revise["回交需求、研究或设计<br/>关闭阻断未知"]
-    docs["整理设计与交接<br/>tech-writer"]
-    auth{"当前任务是否包含实施授权？"}
-    designOnly["交付设计文档<br/>列出待决策与未验证项"]
-    implement["按任务实施并补充测试<br/>developer · 按需使用领域角色"]
-    review{"实现评审<br/>red-team"}
-    checks{"相关检查与独立验收<br/>检查命令 / verifier"}
-    delivery["交付变更与真实证据<br/>按需提炼候选项目记忆"]
-    stop["停止自动回环<br/>保留问题、证据与交接信息"]
-
-    request --> research
-    research --> design
-    design --> ready
-    ready -->|未就绪且仍可修订| revise
-    revise --> design
-    ready -->|当前范围就绪| docs
-    docs --> auth
-    auth -->|仅设计| designOnly
-    auth -->|已授权实施| implement
-    implement --> review
-    review -->|通过| checks
-    review -->|需修复且仍可修订| implement
-    checks -->|失败且仍可修订| implement
-    checks -->|通过| delivery
-    ready -->|达到修订上限| stop
-    review -->|达到修订上限| stop
-    checks -->|达到修订上限| stop
-
-    classDef work fill:#eff6ff,stroke:#2563eb,color:#172554
-    classDef gate fill:#fffbeb,stroke:#d97706,color:#78350f
-    classDef done fill:#ecfdf5,stroke:#059669,color:#064e3b
-    classDef blocked fill:#fff1f2,stroke:#e11d48,color:#881337
-    class request,research,design,revise,docs,implement work
-    class ready,auth,review,checks gate
-    class designOnly,delivery done
-    class stop blocked
+flowchart LR
+    A["需求 / Goal"] --> B["分析与设计"]
+    B --> C["实施与检查"]
+    C --> D["独立验收"]
+    D -->|通过| E["交付与经验复用"]
+    D -->|失败且仍有授权| C
 ```
 
-“实施就绪”针对明确范围判断：关键契约和失败行为已确定，验收有对应模块及验证方法。领域角色按需参与，图中研究与计划节点表示协作职责，不代表每条运行器路线都会单独派发这些角色。达到宿主配置的修订上限时保留现场，不跳过门禁。
+简单任务可只调用一个 Skill；复杂任务再按风险引入设计评审、代码评审、测试和验收。阶段失败保留证据，不以模型自述的“完成”代替真实验证。
 
-- **完整设计**：支持 [市场与竞品调研到设计文档](plugins/openas/skills/solution-design/references/research-to-design.md)，保留来源、需求与验收关联。设计默认交付到文档；已授权实施时再拆任务。
-- **编排与恢复**：七个编排技能覆盖路线选择、任务依赖、检查点恢复、失败处理、上下文交接、并行成果集成与验收追踪。运行器支持开发、修复、直接修改、评审、安全评审、运维、文档及调研设计路线。
-- **阶段证据**：Codex CLI 适配器保留输出、文件指纹、`handoff.json` 与逐项 `acceptance.json`。中断后显式使用 `--resume` 核对任务、规则和源码，复用有效阶段，按需重跑失效证据。
+- **开发与修复：** [solution-design](plugins/openas/skills/solution-design/SKILL.md)、[bug-fix](plugins/openas/skills/bug-fix/SKILL.md)、[verification-before-completion](plugins/openas/skills/verification-before-completion/SKILL.md)。
+- **编排与恢复：** [工作流指南](plugins/openas/workflows/README.md)说明阶段依赖、checkpoint、handoff 与验收记录。
+- **记忆与学习：** 项目知识保存在目标工程的 `.openas/memory/`，经审查后复用；与 GUI Runtime 的本地经验库相互独立。见[项目学习](plugins/openas/memory/learning.md)。
 
-依赖图目前顺序调度，并行集成技能不等于自动并行执行。Agent 调用、热加载、联网检索和工具执行以客户端能力及会话授权为准。`research-design` 路线支持显式联网与已有资料两种模式，联网模式缺少原生搜索证据时停止。
+## 技能与角色
 
-详见 [工作流指南](plugins/openas/workflows/README.md)、[调研设计验收](docs/research-design-acceptance.md) 与 [编排验收记录](docs/orchestration-acceptance.md)。
+**12 个角色：** product-manager、researcher、cto、ux-designer、developer、test-engineer、performance-engineer、it、security-reviewer、red-team、tech-writer、verifier。职责见[角色定义](plugins/openas/agents)和[团队契约](plugins/openas/references/team-contract.md)。
 
-## 安装与更新
+**65 个技能：** 按任务领域选择，而不是一次性加载全部。
 
-### 本地开发与热加载
+| 任务方向 | 推荐入口 |
+| :--- | :--- |
+| 需求与架构 | [product-requirements](plugins/openas/skills/product-requirements/SKILL.md) · [architecture-design](plugins/openas/skills/architecture-design/SKILL.md) |
+| 理解与改造代码 | [codebase-analysis](plugins/openas/skills/codebase-analysis/SKILL.md) · [change-impact-analysis](plugins/openas/skills/change-impact-analysis/SKILL.md) |
+| 开发与调试 | [test-driven-development](plugins/openas/skills/test-driven-development/SKILL.md) · [bug-fix](plugins/openas/skills/bug-fix/SKILL.md) |
+| 测试与评测 | [test-strategy](plugins/openas/skills/test-strategy/SKILL.md) · [agent-evaluation](plugins/openas/skills/agent-evaluation/SKILL.md) |
+| 桌面与浏览器 | [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.md) · [browser-goal-executor](plugins/openas/skills/browser-goal-executor/SKILL.md) |
+| 文档与知识 | [project-documentation](plugins/openas/skills/project-documentation/SKILL.md) · [project-memory](plugins/openas/skills/project-memory/SKILL.md) |
 
-开发插件时，建议使用 `--plugin-dir` 直接加载本地目录。修改 `plugins/openas` 下的文件后，在已启动的 Claude Code 会话中运行：
+[浏览全部技能](plugins/openas/skills) · [英文技能索引](docs/skills.en.md)
 
-```text
-/reload-plugins
-```
+## 安装与集成
 
-热加载会重新读取插件组件，供后续调用使用，无需将文件复制到各个项目的 `.claude` 目录。如客户端提示缓存问题，按提示决定是否使用 `/reload-plugins --force`。正在执行的任务和外部进程不保证同步切换到新版本。
-
-### 持久安装到项目
-
-在目标项目目录的终端中添加本地 marketplace，并安装插件：
+**持久安装 Claude Code 插件：**
 
 ```bash
 claude plugin marketplace add /path/to/OpenAS
 claude plugin install openas@openas-marketplace --scope project
 ```
 
-安装后，在会话中运行 `/reload-plugins` 应用。后续可按需启用、禁用或卸载：
+更新与卸载参见[插件安装说明](plugins/openas/integrations/QUICKSTART.md)和[贡献指南](CONTRIBUTING.md)。具体参数以本地 Claude CLI 帮助为准。
 
-```bash
-claude plugin disable openas@openas-marketplace --scope project
-claude plugin enable openas@openas-marketplace --scope project
-claude plugin uninstall openas@openas-marketplace --scope project
-```
+**可选 MCP：** 需要真实浏览器、GitHub、文档检索或原生桌面能力时再安装。插件本身不自动安装服务、授予权限或分发凭据。
 
-操作后再次运行 `/reload-plugins`。同一插件请选择本地目录或 marketplace 中的一种加载方式，避免重复加载。
+| 集成 | 主要用途 | 指南 |
+| :--- | :--- | :--- |
+| Playwright | 浏览器自动化与页面验收 | [配置](plugins/openas/integrations/playwright/README.md) |
+| GitHub | 仓库、Issue、PR、CI | [配置](plugins/openas/integrations/github/README.md) |
+| Context7 | 依赖库与框架文档 | [配置](plugins/openas/integrations/context7/README.md) |
+| Nova | Windows/macOS 桌面控制 | [配置](plugins/openas/integrations/computer-use/USER-GUIDE.md) |
 
-### 更新已安装版本
+[统一 MCP 接入指南](plugins/openas/integrations/QUICKSTART.md) · [Codex CLI 工作流](plugins/openas/workflows/README.md) · [独立 GUI Runtime](packages/gui-agent-runtime/README.md)
 
-marketplace 安装可能使用缓存副本。维护者发布更新时需递增插件版本号；使用者随后在终端执行：
+## 验证与贡献
 
-```bash
-claude plugin marketplace update openas-marketplace
-claude plugin update openas@openas-marketplace --scope project
-```
-
-最后在会话中运行 `/reload-plugins`。具体命令及可用参数以本地 Claude CLI 的帮助信息为准。
-
-## 可选 MCP 集成
-
-独立 Runtime 和实机评测可接入 [LiteLLM 网关](packages/gui-agent-runtime/README.md#litellm-gateway)，统一使用网关的模型别名和 Key。
-
-GUI Agent 的整体架构、Skill/独立 Runtime 两种模式及跨会话恢复限制见上方 [目标驱动 GUI Agent](#新增目标驱动-gui-agentwindows--macos)。实际安装与配置：[Computer Use 中文使用手册](plugins/openas/integrations/computer-use/USER-GUIDE.md) · [独立 Runtime 使用手册](plugins/openas/integrations/computer-use/RUNTIME.md)。
-
-MCP（Model Context Protocol）让 AI 客户端连接外部工具和数据源。在 OpenAS 中，**agent 承担职责，skill 提供工作方法，MCP 提供可调用的工具**。例如，test-engineer 按测试技能设计场景，再通过 Playwright MCP 操作页面、观察结果并记录证据。
-
-核心角色和技能可独立使用；需要浏览器、远程仓库或文档检索能力时，再选择相应集成。客户端已有等价工具时可直接复用，同一个技能也可以使用不同工具。
-
-### 已提供的集成
-
-| 集成 | 适用任务 | 常用角色 | 配置与使用 |
-| --- | --- | --- | --- |
-| **Playwright** | 自动操作页面、读取结构快照、检查用户流程与页面状态 | test-engineer、verifier、ux-designer | [基础概念、主要功能、配置与验收](plugins/openas/integrations/playwright/README.md) |
-| **GitHub MCP Server** | 读取仓库、Issue、PR 和 CI 记录；配置示例默认只读 | product-manager、developer、red-team、it | [基础概念、主要功能、配置与验收](plugins/openas/integrations/github/README.md) |
-| **Context7** | 检索库与框架文档，核对 API 的版本与适用条件 | researcher、cto、developer | [配置、操作与验收](plugins/openas/integrations/context7/README.md) |
-| **Nova（桌面 MCP，需自行安装）** | Windows/macOS 的原生桌面 GUI 操作；搭配 computer-use 与 gui-goal-executor | 用户授权的桌面任务 | [安装、接入、操作与安全说明](plugins/openas/integrations/computer-use/USER-GUIDE.md) |
-
-每项集成都包含配置模板、角色与技能使用指引、最小验收步骤，以及工具不可用时的替代方式。浏览器操作记录可作为本次检查证据，需长期回归的行为仍应写入项目测试；文档检索结果也需与项目实际版本核对。
-
-### 如何启用
-
-首次交付客户时，按 [统一接入指南](plugins/openas/integrations/QUICKSTART.md) 使用配置工具合并所选服务、提供客户自己的凭据并执行本地预检，再在客户端完成真实连接与逐项验收。也可按下列步骤手工配置。
-
-1. 打开所需集成的说明，准备运行环境及相应凭据。
-2. 将其 `claude.mcp.example.json` 中需要的服务条目合并到 **目标项目** 的 `.mcp.json`，保留已有配置；凭据通过环境变量提供。
-3. 重连 Claude Code 会话，在 `/mcp` 检查服务连接和实际可用工具，再按该集成的最小验收步骤执行一次任务。
-
-这些模板面向 Claude Code。其他客户端需按各自格式注册；现有 Codex CLI 工作流适配器不会自动读取这些模板。角色若有工具白名单，还需在实际客户端中允许相应工具。
-
-**当前支持范围：配置模板与使用指引已提供，真实连接和任务验收需在目标环境完成。** 加载 OpenAS 不会自动安装或注册 MCP 服务，也不会分发凭据。完整说明见 [MCP 集成指南](plugins/openas/integrations/README.md)。
-
-## 项目记忆
-
-独立 GUI Runtime 还提供[经验检索与生命周期管理](packages/gui-agent-runtime/README.md#opt-in-experience-assisted-planning-and-lifecycle)，可以按环境检索已验证经验，并通过时间衰减与失效规则过滤过期记录。它与以下目标项目的通用项目记忆机制是不同的功能；经验复用需要显式启用。
-
-技能、角色和脚本随插件分发，任务产生的记忆则保存在 **目标项目** 的 `.openas/memory/` 中。插件更新或卸载后，项目记忆仍然保留。各项目的记录独立管理，记忆功能不会改写项目的 `CLAUDE.md`。
-
-使用记忆 CLI 时，必须显式指定目标项目根目录：
-
-```bash
-python3 /path/to/OpenAS/plugins/openas/skills/project-memory/scripts/project_memory.py \
-  --root /path/to/your-project query '输入校验 根因'
-```
-
-可复用结论先进入候选状态，经审查后才能用于后续任务；直接证据或显式关联的原始来源发生变化时，旧记录会被检索排除。存储格式、检索与维护方式见 [项目记忆说明](plugins/openas/memory/README.md)。是否纳入版本管理应遵循项目约定，原始日志、core dump 和敏感信息不应直接共享。
-
-项目学习支持四阶段闭环：**自动复盘采集 → 经验提炼与独立审查 → 候选技能生成、试用与启用 → 使用反馈、停用及版本回滚**。单任务运行器启用记忆时自动采集观察；加 `--learn` 后额外调用模型提炼、评审并生成草稿。技能经正反例试用与独立评审后才复用，不修改插件自带技能或权限。命令和验证范围见 [项目学习与技能演进](plugins/openas/memory/learning.md)。
-
-## Codex CLI 工作流
-
-除 Claude Code 插件外，OpenAS 还提供基于 Python 标准库的 [Codex CLI 工作流适配器](plugins/openas/workflows/README.md)。它使用已安装、已登录的 Codex CLI，顺序调用角色并执行验收命令，记录阶段结果、文件变化和验证证据。
-
-这两个入口分别使用：Claude Code 通过插件发现角色与技能；Codex 适配器显式读取相关资源并调用 CLI，`plugin.json` 本身不会让 Codex 自动加载插件。适配器不自动安装 SDK，也不修改客户端全局配置。
-
-## 开发与验证
-
-以下命令在 OpenAS 仓库根目录运行。Python 工具要求 Python 3.10+，JavaScript 工作流测试使用 Node.js 22；项目记忆依赖 POSIX 文件锁，当前支持 Linux / WSL。
-
-### 本地检查
+项目检查以 Python 3.10+、Node.js 22 为基础；项目记忆的 POSIX 锁依赖 Linux/WSL。仓库根目录运行：
 
 ```bash
 python3 scripts/check_plugin.py
@@ -618,60 +168,124 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s plugins/openas/workflo
 node plugins/openas/workflows/tests/agent-team.test.mjs
 ```
 
-这些检查覆盖插件结构、资源链接和工作流回归，不安装依赖、不调用模型。
+结构检查、模拟客户端、真实 Claude/Codex 和桌面 E2E 属于不同证据等级。参见 [CI](docs/ci.md)、[验收记录](docs/validation.md)、[贡献指南](CONTRIBUTING.md)及 [CHANGELOG](CHANGELOG.md)。
 
-演示文稿的原生对象测试需要先在隔离环境安装 [固定依赖](plugins/openas/skills/presentation-creation/requirements.txt)，未安装时对应测试会跳过；CI 已安装这些依赖。真实 Office 渲染和原生客户端验收另行执行。
+**许可证与来源：** 项目自有内容主要采用 [MIT](LICENSE)；REA、演示文稿及其他第三方材料遵循各自声明，见 [REA 来源](plugins/openas/integrations/rea/README.md)、[演示文稿 NOTICE](plugins/openas/skills/presentation-creation/NOTICE.md)、[DSH 来源](plugins/openas/references/dsh-skills-provenance.md)。
 
-已有 Claude CLI 时，可进一步验证插件清单：
+---
+
+<a id="english"></a>
+
+<div align="center">
+
+# OpenAS · English
+
+**Open Agents & Skills**
+
+**From requirements to verifiable AI-assisted delivery.**
+
+[![CI](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml/badge.svg)](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml)
+[![Agents](https://img.shields.io/badge/Agents-12-2563eb)](plugins/openas/agents)
+[![Skills](https://img.shields.io/badge/Skills-65-7c3aed)](docs/skills.en.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-059669)](LICENSE)
+
+[简体中文](#chinese) · **English**
+
+[Quick start](#quick-start) · [Capabilities](#capabilities) · [Execution modes](#execution-modes) · [GUI agent](#gui-agent-runtime) · [Skills](#roles-and-skills) · [Setup](#setup-and-integrations) · [Validation](#validation-and-contributing)
+
+</div>
+
+OpenAS is a composable collection of **12 roles and 65 skills** for Claude Code and Codex workflows. It supports requirements, architecture, implementation, debugging, review, independent verification, and reusable knowledge.
+
+> **Guiding principle:** Define the goal → select only relevant methods → execute and collect evidence → verify independently → deliver traceable results.
+
+## Quick start
+
+Launch Claude Code from your target project:
 
 ```bash
-claude plugin validate ./plugins/openas
-claude plugin validate .
+claude --plugin-dir /path/to/OpenAS/plugins/openas
 ```
 
-真实客户端的热加载验收由可选集成测试完成，默认跳过。运行条件、额度上限和断言见 [热加载测试说明](docs/hot-reload-testing.md)。结构检查和模拟客户端测试的结果应与真实客户端验收分别看待。
-
-### 持续集成
-
-GitHub Actions 在 PR 创建或更新，以及代码推送或合并到 `main` 后执行检查。配置见 [CI 工作流](.github/workflows/ci.yml)，运行方式与合并检查设置见 [CI 说明](docs/ci.md)。初始移植的验收范围保存在 [验收记录](docs/validation.md) 中，最新回归结果以 GitHub Actions 为准。
-
-## 目录结构
+Invoke a skill:
 
 ```text
-.claude-plugin/marketplace.json   本地 marketplace 入口
-plugins/openas/
-  .claude-plugin/plugin.json     插件清单与版本
-  agents/                       12 个协作角色
-  skills/                       65 个技能及配套资源
-  references/                   协作契约与项目适配约定
-  workflows/                    可选适配器、示例、测试与历史证据
-  integrations/                 可选 MCP 配置、使用指引与 REA 集成
-    computer-use/               Nova MCP 手册与旧 Runtime 兼容入口
-  memory/README.md              项目记忆存储约定
-packages/gui-agent-runtime/     可独立安装的 Python GUI Agent Runtime
-scripts/check_plugin.py         只读结构校验器
+/openas:solution-design Define the architecture, boundaries, and acceptance criteria.
+/openas:bug-fix Reproduce the failure and verify the fix.
+/openas:codebase-analysis Explain the entry points and core call path.
 ```
 
-## 来源与参考
+Use `/reload-plugins` after local plugin edits for subsequent invocations. For persistent installation, see [Setup](#setup-and-integrations).
 
-OpenAS 最初从 gem5 项目的协作配置中提取，现已将角色、技能与具体工程解耦。[迁移记录](docs/migration.json) 保留原始提交和文件指纹，供来源追溯；历史工作流报告与旧示例不作为新项目的默认上下文或验收证据。
+## Capabilities
 
-REA 上游 Skill 及参考文件保留原文，并附 [MIT 许可](plugins/openas/integrations/rea/LICENSE)。相关 MCP 服务和分析工具为可选依赖，加载 OpenAS 不会自动安装或连接它们，详见 [REA 集成说明](plugins/openas/integrations/rea/README.md)。
+| Capability | Purpose | Reference |
+| :--- | :--- | :--- |
+| Role-based collaboration | Separate product, design, engineering, review, and verification responsibilities | [Roles](plugins/openas/agents) |
+| Task-focused skills | Reusable methods for development and delivery | [Skills](docs/skills.en.md) |
+| Desktop GUI goals | Observe, plan, act, and verify through desktop tools | [GUI goal skill](plugins/openas/skills/gui-goal-executor/SKILL.en.md) |
+| Workflow orchestration | Stage execution, handoffs, checkpoints, and acceptance | [Workflow guide](plugins/openas/workflows/README.en.md) |
+| Project memory | Review and reuse evidence-backed project knowledge | [Memory guide](plugins/openas/memory/README.en.md) |
+| Verification | Distinguish model claims from real test and artifact evidence | [Evidence policy](plugins/openas/references/evidence-policy.en.md) |
 
-演示文稿技能融合了已固定提交并核对许可的 MiniMax、K-Dense 与 OpenAI 历史 slides 方法，保留来源及适用条款，运行代码独立实现；详见 [融合与许可说明](plugins/openas/skills/presentation-creation/NOTICE.md)。该技能目录采用 Apache-2.0，附带来源 MIT 条款，不由仓库根 MIT 取代。
+## Execution modes
 
-Claude Code 官方文档：[插件格式](https://code.claude.com/docs/en/plugins-reference)、[插件创建与迁移](https://code.claude.com/docs/en/plugins/create)、[热加载与管理命令](https://code.claude.com/docs/en/plugins/cli-reference)。
+| Mode | Best for | Requirements |
+| :--- | :--- | :--- |
+| Claude Code plugin | Using skills and roles within an existing project | Claude Code and authorized host tools |
+| Codex CLI adapter | Explicit stage workflows with evidence and resume | Installed and authenticated Codex CLI |
+| GUI goal skill | Desktop tasks in Claude Code / Codex | Connected Nova MCP and computer-use skill |
+| Standalone Python runtime | Separate agent loop, checkpoints, and restart resume | Nova MCP and separately configured multimodal model API |
 
-## 维护与验收
+The standalone runtime does **not** inherit Claude Code / Codex subscriptions, MCP registration, or session permissions. It is not a background daemon.
 
-事实回答、测试与交付遵循 [结论与证据共享规则](plugins/openas/references/evidence-policy.md)：结论绑定证据、证据绑定对象版本、未验证明确标注、失效证据不得复用。全部自有角色/技能引用同一规则；这不等于自动认证模型报告的真实性。
+## GUI Agent Runtime
 
-[验证前置](plugins/openas/references/verification-first.md) 将有效契约、故障复现和目标实跑贯穿修复、评审与发布。
+```mermaid
+flowchart LR
+    G["Goal + acceptance"] --> M{"Choose mode"}
+    M --> S["Claude Code / Codex + skill"]
+    M --> R["Standalone Python runtime"]
+    S --> N["Nova MCP"]
+    R --> L["Observe → plan → act → verify"]
+    L --> N
+    L --> C["JSON checkpoint"]
+    N --> D["Windows / macOS"]
+```
 
-除明确标注的技能目录外，项目自有内容采用 [MIT License](LICENSE)；另行声明的目录与第三方内容遵循各自许可。版本变化见 [CHANGELOG](CHANGELOG.md)，开发与发布流程见 [贡献指南](CONTRIBUTING.md)，运行环境和记录格式见 [兼容说明](docs/compatibility.md)。
+- [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.en.md) specifies goal decomposition, replanning, stopping rules, and acceptance.
+- [computer-use](plugins/openas/skills/computer-use/SKILL.en.md) prefers accessibility controls with screenshot fallback.
+- [Nova MCP setup](plugins/openas/integrations/computer-use/USER-GUIDE.en.md) requires separate installation and user authorization.
+- [Python Agent Runtime](packages/gui-agent-runtime/README.md) adds its own model loop, JSON checkpoints, optional independent file verification, offline benchmark, and opt-in experience retrieval with aging and invalidation.
 
-Office 工作流保留 [DSH Office 方法来源与许可](plugins/openas/references/dsh-office-provenance.md)，本地辅助脚本为独立实现。
+**Limitations:** A checkpoint enables restart-based resume, not automatic background continuation. Offline CI does not establish real Windows/macOS + Nova E2E success. Experience hints never authorize automatic replay or bypass safety checks.
 
-agent-experience 与 code-simplification 保留 [DSH 方法来源与 MIT 声明](plugins/openas/references/dsh-skills-provenance.md)。
+## Roles and skills
 
-真实技能行为评测、修复验证及尚缺外部条件的项目分别记录在 [行为评测说明](docs/skill-evaluation.md) 和 [本次修复验收](docs/review-remediation.md) 中。
+The 12 roles cover product management, research, architecture, UX, development, testing, performance, operations, security, red-team review, technical writing, and independent verification. See [role definitions](plugins/openas/agents) and [team contract](plugins/openas/references/team-contract.en.md).
+
+Use skills on demand rather than loading all 65 at once: [English skill catalog](docs/skills.en.md). Typical starting points are [solution-design](plugins/openas/skills/solution-design/SKILL.en.md), [codebase-analysis](plugins/openas/skills/codebase-analysis/SKILL.en.md), [bug-fix](plugins/openas/skills/bug-fix/SKILL.en.md), [agent-evaluation](plugins/openas/skills/agent-evaluation/SKILL.en.md), and [project-memory](plugins/openas/skills/project-memory/SKILL.en.md).
+
+The general project memory lives in the target project's `.openas/memory/`; the optional GUI runtime experience store is separate. See [learning lifecycle](plugins/openas/memory/learning.en.md).
+
+## Setup and integrations
+
+```bash
+claude plugin marketplace add /path/to/OpenAS
+claude plugin install openas@openas-marketplace --scope project
+```
+
+Optional integrations are installed and authorized separately: [Playwright](plugins/openas/integrations/playwright/README.en.md), [GitHub](plugins/openas/integrations/github/README.en.md), [Context7](plugins/openas/integrations/context7/README.en.md), and [Nova](plugins/openas/integrations/computer-use/USER-GUIDE.en.md). See the [MCP quickstart](plugins/openas/integrations/QUICKSTART.en.md), [Codex workflow guide](plugins/openas/workflows/README.en.md), and [Python runtime guide](packages/gui-agent-runtime/README.md).
+
+## Validation and contributing
+
+Run from the repository root (Python 3.10+, Node.js 22; project memory uses POSIX locks on Linux/WSL):
+
+```bash
+python3 scripts/check_plugin.py
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s plugins/openas/workflows/tests -p 'test_*.py' -v
+node plugins/openas/workflows/tests/agent-team.test.mjs
+```
+
+Structure checks, mocked tests, native client tests, and real desktop E2E have distinct evidence requirements. See [CI](docs/ci.en.md), [contributing](CONTRIBUTING.md), [changelog](CHANGELOG.md), and [license](LICENSE). Third-party materials retain their own notices, including [presentation](plugins/openas/skills/presentation-creation/NOTICE.md) and [REA](plugins/openas/integrations/rea/README.en.md).
