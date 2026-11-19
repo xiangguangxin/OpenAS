@@ -45,6 +45,10 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 
 修改本地插件后，使用 `/reload-plugins` 重新加载后续调用所需的资源。也可以通过 [marketplace 安装](#安装与集成)。OpenAS 不会自动修改目标项目的技术栈或安装 MCP。
 
+## 客户展示与工程接入
+
+[客户演示指南](docs/customer-demo.md)提供 Codex 技能安装/原生发现、环境预检、工程隔离、缺陷修复、任务图中断恢复及 GUI 测试报告下载验收。每次工作流生成 HTML 交付报告，明确区分自动检查通过、待人工验收和失败。
+
 ## 核心能力
 
 | 能力 | 解决什么问题 | 关键入口 |
@@ -180,7 +184,7 @@ claude plugin install openas@openas-marketplace --scope project
 
 ## 验证与贡献
 
-项目检查以 Python 3.10+、Node.js 22 为基础；项目记忆的 POSIX 锁依赖 Linux/WSL。仓库根目录运行：
+项目检查以 Python 3.10+、Node.js 22 为基础；工作流锁与超时处理兼容 Windows/POSIX，Windows smoke 与桌面 E2E 分开验收。仓库根目录运行：
 
 ```bash
 python3 scripts/check_plugin.py
@@ -238,6 +242,10 @@ Start with a minimal task bundle, then invoke only the selected methods:
 ```
 
 Use `/reload-plugins` after local plugin edits for subsequent invocations. For persistent installation, see [Setup](#setup-and-integrations).
+
+## Customer demos
+
+The [customer readiness guide](docs/customer-demo.md) covers Codex installation/native discovery, preflight, isolated workspaces, repair, graph recovery and real GUI report-download acceptance. Workflow HTML receipts distinguish automated checks, manual review and failure.
 
 ## Capabilities
 
@@ -305,7 +313,7 @@ Optional integrations are installed and authorized separately: [Playwright](plug
 
 ## Validation and contributing
 
-Run from the repository root (Python 3.10+, Node.js 22; project memory uses POSIX locks on Linux/WSL):
+Run from the repository root (Python 3.10+, Node.js 22; workflow locks/cancellation support Windows/POSIX, with separate Windows smoke and desktop E2E):
 
 ```bash
 python3 scripts/check_plugin.py

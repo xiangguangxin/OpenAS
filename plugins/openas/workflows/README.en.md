@@ -73,7 +73,7 @@ Versioned resumption checks task/rules/memory and source content/permissions, re
 
 ## Graphs, memory and research/design
 
-`graph-runner.py` validates version-1 nodes with IDs, dependencies, workspaces and tasks; `--plan` checks cycles/missing dependencies/shared writes and `--run` executes sequentially. Failed dependencies block downstream while independent nodes may continue. There is no automatic concurrency, whole-graph recovery or graph memory. `upstream_results` carries evidence, not expanded permissions.
+`graph-runner.py` validates version-1 nodes with IDs, dependencies, workspaces and tasks; `--plan` checks cycles/missing dependencies/shared writes and `--run` executes sequentially. Failed dependencies block downstream while independent nodes may continue. There is no automatic concurrency or graph memory. Version-2 run records support explicit `--run --resume`: validate the original plan, execution options, rules, workspace snapshots and completed-node evidence; reuse passing nodes, recover interrupted nodes and advance downstream. A graph lock prevents concurrent recovery and original stage budgets remain. Inspected in-scope changes to unfinished nodes require `--restart-stages`; out-of-scope edits and damaged completed-node evidence block reuse. Old graph records are audit-only. `upstream_results` carries evidence, not expanded permissions.
 
 Memory uses `--project-root` (otherwise current directory); specify the actual consumer project to avoid plugin storage. Use `--no-memory` to disable. Reviewed valid evidence can be reused; candidates cannot. `--learn` additionally consumes model quota for extraction, independent review and candidate generation, with trial/activation/feedback lifecycle described in the [memory guide](../memory/README.en.md) and [learning guide](../memory/learning.en.md). Both detailed guides are available in Chinese and English.
 
@@ -143,3 +143,8 @@ python3 task_router.py --evidence /path/to/run/rigor-evidence.json
 ```
 
 Light tasks use one bounded implementation stage plus host checks, without separate design/review sessions. Standard/heavy tasks retain independent review and acceptance; heavy tasks add impact/design gates and relevant risk reviews. A requested tier below the risk floor fails validation. All tiers require real host check evidence and explicit acceptance mappings. Planning does not execute checks or grant permissions. Evidence validation checks completeness and the current policy fingerprint; arbitrary JSON cannot establish a real execution or reviewer identity.
+
+
+## Customer readiness
+
+The [customer demo guide](https://github.com/xiangguangxin/OpenAS/blob/main/docs/customer-demo.md) covers repo-scoped Codex installation/native discovery, engineering workspace inspection/preparation, graph recovery and opt-in real GUI/download acceptance. Every node emits `report.html`; `acceptance_summary` distinguishes automated checks, manual review and failure. The compatible workflow status `verified` is not blanket business acceptance. Colocated project memory remains active and exposes `memory_status`. Windows/POSIX workflow locks and process cancellation have separate smoke checks; native desktop E2E remains an opt-in real-environment check.

@@ -7,7 +7,7 @@ description: "Goal-driven Windows/macOS GUI agent orchestration for Claude Code 
 
 # GUI Goal Executor
 
-**Responsibility: achieve a user-authorized outcome, not follow a fixed click script.** This skill provides host-side orchestration; an optional [executable Python Agent Runtime](../../integrations/computer-use/RUNTIME.en.md) implements a real multi-step loop and restart-based cross-session JSON checkpoint recovery. The runtime requires a separately configured model API and Nova MCP; it is not a daemon or a guarantee of indefinite execution. Read the [computer-use skill](../computer-use/SKILL.en.md), [MCP user guide](../../integrations/computer-use/USER-GUIDE.en.md), and [evidence policy](../../references/evidence-policy.en.md).
+**Responsibility: achieve a user-authorized outcome, not follow a fixed click script.** This skill provides host-side orchestration; an optional [standalone Praxis Python Agent Runtime](../../integrations/computer-use/RUNTIME.en.md) implements a real multi-step loop and restart-based cross-session JSON checkpoint recovery. The runtime requires a separately configured model API and Nova MCP; it is not a daemon or a guarantee of indefinite execution. Read the [computer-use skill](../computer-use/SKILL.en.md), [MCP user guide](../../integrations/computer-use/USER-GUIDE.en.md), and [evidence policy](../../references/evidence-policy.en.md).
 
 ## Preconditions
 

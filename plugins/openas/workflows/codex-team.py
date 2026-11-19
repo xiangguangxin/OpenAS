@@ -2,7 +2,6 @@
 """Sequential Codex CLI harness. Only task-provided check commands execute on the host."""
 import argparse
 from datetime import datetime, timezone
-import fcntl
 import hashlib
 import importlib.util
 import json
@@ -36,6 +35,9 @@ POLICY_SPEC = importlib.util.spec_from_file_location('openas_workflow_policy', R
 POLICY = importlib.util.module_from_spec(POLICY_SPEC)
 POLICY_SPEC.loader.exec_module(POLICY)
 
+REPORT_SPEC = importlib.util.spec_from_file_location('openas_reporting', Path(__file__).with_name('reporting.py'))
+REPORTING = importlib.util.module_from_spec(REPORT_SPEC)
+REPORT_SPEC.loader.exec_module(REPORTING)
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
     'verdict': {'type': 'string', 'enum': ['complete', 'approve', 'needs_fix', 'pass', 'fail']},
     'summary': {'type': 'string'}, 'findings': {'type': 'array', 'items': {'type': 'string'}},
@@ -50,39 +52,43 @@ class HarnessError(Exception):
 
 
 def snapshot(workspace, artifacts=()):
+    """Prune declared output and runtime memory trees before traversing them."""
     result = {}
-    for p in sorted(workspace.rglob('*')):
-        if p.is_symlink():
-            raise HarnessError(f'Symlink not supported in task workspace: {p}')
-        relative = p.relative_to(workspace)
-        if relative in artifacts and not p.is_dir():
-            raise HarnessError(f'Artifact root must remain a directory: {relative}')
-        if any(relative == root or root in relative.parents for root in artifacts):
-            continue
-        if p.is_file():
-            result[str(p.relative_to(workspace))] = {
-                'type': 'file', 'mode': stat.S_IMODE(p.stat().st_mode),
-                'sha256': hashlib.sha256(p.read_bytes()).hexdigest(),
-            }
-        elif not p.is_dir():
-            raise HarnessError(f'Special file not supported in task workspace: {p}')
-    return result
+    excluded = (*artifacts, Path('.openas/memory'))
+    def failed(error):
+        raise HarnessError('Could not scan task workspace: '+str(error)) from error
+    for directory, folders, files in os.walk(workspace, followlinks=False, onerror=failed):
+        parent = Path(directory)
+        for name in sorted(folders + files):
+            p = parent/name
+            relative = p.relative_to(workspace)
+            if p.is_symlink():
+                raise HarnessError(f'Symlink not supported in task workspace: {p}; use workspace-tools.py prepare')
+            if relative in excluded:
+                if not p.is_dir():
+                    raise HarnessError(f'Output/metadata root must remain a directory: {relative}')
+                if name in folders:
+                    folders.remove(name)
+                continue
+            if p.is_file():
+                result[relative.as_posix()] = {
+                    'type': 'file', 'mode': stat.S_IMODE(p.stat().st_mode),
+                    'sha256': hashlib.sha256(p.read_bytes()).hexdigest(),
+                }
+            elif not p.is_dir():
+                raise HarnessError(f'Special file not supported in task workspace: {p}')
+    return dict(sorted(result.items()))
 
 
 def execute(argv, cwd, timeout, stdout, stderr, stdin=None):
     env = dict(os.environ, PYTHONDONTWRITEBYTECODE='1')
-    with open(stdout, 'w') as out, open(stderr, 'w') as err:
+    with open(stdout, 'w', encoding='utf-8') as out, open(stderr, 'w', encoding='utf-8') as err:
         proc = subprocess.Popen(argv, cwd=cwd, stdin=subprocess.PIPE if stdin is not None else subprocess.DEVNULL,
-                                stdout=out, stderr=err, text=True, env=env, start_new_session=True)
+                                stdout=out, stderr=err, text=True, encoding='utf-8', env=env, **MEMORY_MODULE.support.process_options())
         try:
             proc.communicate(stdin, timeout=timeout)
         except (subprocess.TimeoutExpired, KeyboardInterrupt) as exc:
-            os.killpg(proc.pid, signal.SIGTERM)
-            try:
-                proc.wait(timeout=3)
-            except subprocess.TimeoutExpired:
-                os.killpg(proc.pid, signal.SIGKILL)
-                proc.wait()
+            MEMORY_MODULE.support.terminate_tree(proc)
             kind = 'interrupted' if isinstance(exc, KeyboardInterrupt) else 'timeout'
             raise HarnessError(f'Command timed out or interrupted: {argv[0]}', kind)
     return proc.returncode
@@ -100,7 +106,8 @@ def validate_task(task):
         if not isinstance(task[key], list) or any(not isinstance(x, str) or not x.strip() for x in task[key]):
             raise HarnessError(f'{key} must be a nonempty string list')
     for name in task['scope']:
-        if Path(name).is_absolute() or '..' in Path(name).parts or name in ('.', ''):
+        if (Path(name).is_absolute() or '..' in Path(name).parts or name in ('.', '')
+                or Path(name) == Path('.openas') or Path(name) == Path('.openas/memory') or Path('.openas/memory') in Path(name).parents):
             raise HarnessError('Scope must contain explicit workspace-relative files')
     artifacts = task.get('artifacts', [])
     if not isinstance(artifacts, list):
@@ -108,7 +115,9 @@ def validate_task(task):
     for name in artifacts:
         if (not isinstance(name, str) or not name or Path(name).is_absolute()
                 or '..' in Path(name).parts or Path(name) == Path('.')
-                or Path(name).parts[0] == '.git'):
+                or Path(name).parts[0] == '.git'
+                or Path(name) == Path('.openas') or Path('.openas/memory') == Path(name)
+                or Path('.openas/memory') in Path(name).parents):
             raise HarnessError('Invalid artifact directory')
         root = Path(name)
         for source in map(Path, task['scope']):
@@ -162,7 +171,7 @@ def validate_task(task):
 
 def response(path, allowed, schema=SCHEMA):
     try:
-        r = json.loads(path.read_text())
+        r = json.loads(path.read_text(encoding='utf-8'))
     except (OSError, ValueError) as exc:
         raise HarnessError(f'Invalid client final JSON: {exc}', 'invalid_result') from exc
     return validate_result(r, allowed, schema)
@@ -221,29 +230,30 @@ class Runner:
         self.artifacts = tuple(Path(x) for x in task.get('artifacts', []))
         self.project_root = Path(project_root).resolve() if project_root is not None else Path.cwd().resolve()
         self.memory = MEMORY_MODULE.Memory(self.project_root) if memory_enabled else None
-        if self.memory and (self.memory.directory == self.workspace or self.workspace in self.memory.directory.parents):
-            self.memory = None
         if learning_enabled and not self.memory:
-            raise HarnessError('Model learning requires memory outside the task workspace')
+            raise HarnessError('Model learning requires enabled project memory')
         if learning_enabled and (self.output == self.project_root or self.project_root in self.output.parents):
             raise HarnessError('Model learning output must be outside the consumer project')
         self.learning_enabled = learning_enabled
         self.learning = LEARNING.engine.Learning(self.memory.root) if self.memory else None
+        self.memory_read_warning = None
         try:
             self.learned_context = self.learning.context(self.task['requirement']) if self.learning else []
         except (ValueError, OSError, KeyError, TypeError):
             self.learned_context = []
+            self.memory_read_warning = 'Learned context could not be read; inspect the project memory store'
         try:
             self.memory_context = self.memory.query(self.task['requirement']) if self.memory else []
         except (ValueError, OSError, KeyError, TypeError):
             self.memory_context = []
+            self.memory_read_warning = 'Project memory could not be read; inspect the memory store'
         self._event_seq = None
         self.resuming, self._cursor = resume, 0
         self._restart_requested = restart_stages
         resources = self.resource_fingerprint()
         if resume:
             try:
-                state = json.loads((self.output/'state.json').read_text())
+                state = json.loads((self.output/'state.json').read_text(encoding='utf-8'))
                 if (not isinstance(state, dict) or state.get('state_version') != 2
                         or any(not isinstance(state.get(k), list) for k in ('steps','history','recoveries'))
                         or any(not isinstance(state.get(k), dict) for k in ('initial_snapshot','checkpoint_snapshot','budget_used'))):
@@ -295,7 +305,7 @@ class Runner:
             if self.rigor_plan:
                 self.state['rigor_plan'] = self.rigor_plan
             self.write_state()
-            (self.output/'result.schema.json').write_text(json.dumps(SCHEMA))
+            (self.output/'result.schema.json').write_text(json.dumps(SCHEMA), encoding='utf-8')
 
     def emit_event(self, event_type, **data):
         """Append host-observed facts; state.json remains the recovery authority.
@@ -335,8 +345,9 @@ class Runner:
             os.fsync(stream.fileno())
         self._event_seq += 1
 
-    def resource_fingerprint(self):
-        files = [Path(__file__).resolve(), Path(__file__).with_name('research_design.py'), Path(__file__).with_name('learning_cycle.py'), Path(__file__).with_name('agent_backend.py'), Path(__file__).with_name('workflow_policy.py')]
+    @staticmethod
+    def resource_fingerprint():
+        files = [Path(__file__).resolve(), *(Path(__file__).with_name(name) for name in ('research_design.py', 'learning_cycle.py', 'agent_backend.py', 'reporting.py', 'workflow_policy.py'))]
         for folder in ('agents', 'references', 'skills'):
             files.extend(p for p in (ROOT/folder).rglob('*')
                          if p.is_file() and '__pycache__' not in p.parts and p.suffix != '.pyc')
@@ -365,16 +376,23 @@ class Runner:
     def atomic_record(self, name, data):
         path = self.output/name
         tmp = path.with_suffix(path.suffix+'.tmp')
-        tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2))
+        tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
         tmp.replace(path)
 
     def write_state(self):
         self.state['acceptance_report'] = self.acceptance_report()
+        if self.memory_read_warning:
+            self.state['memory_warning'] = self.memory_read_warning
         if self.memory:
             try:
                 self.memory.checkpoint(self.state)
             except (ValueError, OSError, KeyError, TypeError) as exc:
                 self.state['memory_warning'] = str(exc)
+        self.state['memory_status'] = {'requested': self.state['memory_requested'], 'active': self.memory is not None,
+                                       'directory': str(self.memory.directory) if self.memory else None,
+                                       'warning': self.state.get('memory_warning')}
+        self.state['acceptance_summary'] = REPORTING.summary(self.state)
+        REPORTING.write_report(self.output, self.state)
         self.atomic_record('state.json', self.state)
         self.atomic_record('task.json', self.task)
         self.atomic_record('acceptance.json', self.state['acceptance_report'])
@@ -454,7 +472,7 @@ class Runner:
     def check_scope(self):
         current = self.snapshot()
         changed = {x for x in self.initial.keys() | current.keys() if self.initial.get(x) != current.get(x)}
-        extra = changed - set(self.task['scope'])
+        extra = changed - {Path(p).as_posix() for p in self.task['scope']}
         if extra:
             raise HarnessError(f'Out-of-scope changes: {sorted(extra)}', 'scope_violation')
         return current
@@ -462,10 +480,10 @@ class Runner:
     def call(self, role, phase, context, allowed):
         seq = len(self.state['history']) + 1
         prefix = self.output / f'{seq:02d}-{phase}'
-        role_text = (ROOT / 'agents' / f'{role}.md').read_text()
-        contract = (ROOT / 'references' / 'team-contract.md').read_text()
-        evidence_policy = (ROOT / 'references' / 'evidence-policy.md').read_text()
-        project_context = (ROOT / 'references' / 'project-context.md').read_text()
+        role_text = (ROOT / 'agents' / f'{role}.md').read_text(encoding='utf-8')
+        contract = (ROOT / 'references' / 'team-contract.md').read_text(encoding='utf-8')
+        evidence_policy = (ROOT / 'references' / 'evidence-policy.md').read_text(encoding='utf-8')
+        project_context = (ROOT / 'references' / 'project-context.md').read_text(encoding='utf-8')
         design_route = self.task.get('workflow') == 'research-design'
         domain = ''
         if self.rigor_plan:
@@ -476,7 +494,7 @@ class Runner:
                 domain += '\nLight task: implement only the bounded request. No separate design/review documents or team stages. Host checks are the completion evidence; do not claim independent review.\n'
         if design_route:
             for skill in DESIGN.SKILLS.get(phase, ()):
-                domain += f'\nDomain skill {skill} ({ROOT / "skills" / skill / "SKILL.md"}):\n' + (ROOT/'skills'/skill/'SKILL.md').read_text()
+                domain += f'\nDomain skill {skill} ({ROOT / "skills" / skill / "SKILL.md"}):\n' + (ROOT/'skills'/skill/'SKILL.md').read_text(encoding='utf-8')
             domain += ('\nThis adapter assigns substantive research/design authorship to the writer. '
                        'Use the embedded domain skills, not merely prose editing. Actual host tools take precedence over role metadata. '
                        'In provided mode use supplied local material only, no network; label freshness limits. '
@@ -502,7 +520,7 @@ class Runner:
         schema_file = self.output/'result.schema.json'
         if design_route and phase == 'design-gate':
             schema_file = self.output/'design-review.schema.json'
-            schema_file.write_text(json.dumps(self.stage_schema(phase)))
+            schema_file.write_text(json.dumps(self.stage_schema(phase)), encoding='utf-8')
         if design_route and phase in DESIGN.PHASES:
             prompt += '\nOnly write this stage file: ' + DESIGN.outputs(self.task)[phase]
         request = BACKENDS.AgentRequest(
@@ -518,7 +536,7 @@ class Runner:
         except BACKENDS.BackendError as exc:
             raise HarnessError(str(exc), exc.kind) from exc
         cmd = list(invocation.argv)
-        prefix.with_suffix('.prompt.txt').write_text(prompt)
+        prefix.with_suffix('.prompt.txt').write_text(prompt, encoding='utf-8')
         print(f'[{seq}] {phase}: {role}', flush=True)
         entry = {'phase': phase, 'role': role, 'status': 'running', 'argv': cmd,
                  'result_file': str(prefix.with_suffix('.result.json'))}
@@ -553,7 +571,7 @@ class Runner:
                 entry.update(status='blocked', result=result)
                 raise HarnessError('Design stage blocked: ' + result['summary'], 'design_blocked')
             artifact = self.workspace/DESIGN.outputs(self.task)[phase]
-            if not artifact.is_file() or not artifact.read_text().strip():
+            if not artifact.is_file() or not artifact.read_text(encoding='utf-8').strip():
                 raise HarnessError(f'Missing or empty stage document: {artifact}', 'invalid_result')
             if phase == 'market-research' and self.task['research_mode'] == 'live':
                 entry['native_search_count'] = execution.native_search_count
@@ -583,8 +601,8 @@ class Runner:
                                 kind=getattr(exc, 'kind', 'interrupted' if isinstance(exc, KeyboardInterrupt) else 'environment'))
                 raise
             self.emit_event('check.completed', **event_data, exit_code=rc)
-            stdout = prefix.with_suffix('.stdout.log').read_text()
-            stderr = prefix.with_suffix('.stderr.log').read_text()
+            stdout = prefix.with_suffix('.stdout.log').read_text(encoding='utf-8', errors='replace')
+            stderr = prefix.with_suffix('.stderr.log').read_text(encoding='utf-8', errors='replace')
             record = {'argv': cmd, 'exit_code': rc, 'stdout': stdout[-12000:], 'stderr': stderr[-12000:]}
             probe = self.task.get('repair_probe')
             if probe and i == probe['check_index']:
@@ -593,7 +611,7 @@ class Runner:
             records.append(record)
         if self.snapshot() != before:
             raise HarnessError('Acceptance command modified workspace; use non-mutating checks', 'scope_violation')
-        (self.output / f'{label}-checks.json').write_text(json.dumps(records, ensure_ascii=False, indent=2))
+        (self.output / f'{label}-checks.json').write_text(json.dumps(records, ensure_ascii=False, indent=2), encoding='utf-8')
         self.atomic_record(f'{attempt:03}-{label}-checks.json', records)
         self.state['last_checks'] = records
         self.checkpoint()
@@ -748,16 +766,16 @@ class Runner:
         self.implement(design)
 
     def run(self):
-        with (self.output/'.run.lock').open('a') as lock:
+        with (self.output/'.run.lock').open('a+', encoding='utf-8') as lock:
             try:
-                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                MEMORY_MODULE.support.lock(lock, blocking=False)
             except BlockingIOError as exc:
                 raise HarnessError('Run already active; concurrent resume is forbidden') from exc
             try:
                 if self.state['done']:
                     raise HarnessError('Completed run; create a new task')
                 if self.resuming:
-                    if json.loads((self.output/'state.json').read_text()) != self.state:
+                    if json.loads((self.output/'state.json').read_text(encoding='utf-8')) != self.state:
                         raise HarnessError('Checkpoint changed after loading; reload it before resuming')
                     if self.check_scope() != self._resume_snapshot or self.resource_fingerprint() != self._resume_resources:
                         raise HarnessError('Files or rules changed after checkpoint validation')
@@ -829,7 +847,7 @@ class Runner:
                         self.write_state()
                 return self.state['done']
             finally:
-                fcntl.flock(lock, fcntl.LOCK_UN)
+                MEMORY_MODULE.support.unlock(lock)
 
 
 def main():
@@ -853,10 +871,12 @@ def main():
         client = shutil.which(args.client)
         if not client:
             raise HarnessError('Codex CLI executable not found')
-        task = json.loads(args.task.read_text())
+        task = json.loads(args.task.read_text(encoding='utf-8'))
         runner = Runner(task, args.workspace, args.output, client, args.timeout, args.rounds, memory_enabled=not args.no_memory, project_root=args.project_root, resume=args.resume, restart_stages=args.restart_stages, learning_enabled=args.learn)
         ok = runner.run()
-        print(json.dumps({'done':ok, 'status':runner.state['status'], 'state':str(runner.output/'state.json')}, ensure_ascii=False))
+        print(json.dumps({'done':ok, 'status':runner.state['status'], 'state':str(runner.output/'state.json'),
+                          'acceptance':runner.state['acceptance_summary'], 'memory':runner.state['memory_status'],
+                          'report':str(runner.output/'report.html')}, ensure_ascii=False))
         return 0 if ok else 1
     except (HarnessError, OSError, ValueError) as exc:
         print(str(exc), file=sys.stderr)

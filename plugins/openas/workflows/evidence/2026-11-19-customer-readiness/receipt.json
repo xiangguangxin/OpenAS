@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-19",
+  "scope": "Customer workflow readiness; no production application or native desktop execution",
+  "native_codex_discovery": {
+    "client": "codex-cli 0.167.0-alpha.4",
+    "mode": "real app-server initialize and skills/list",
+    "configuration": "isolated writable client state directory, no account or model turn",
+    "expected_skills": 65,
+    "missing_skills": [],
+    "status": "passed"
+  },
+  "windows_workflow_smoke": "configured; consult CI for actual run result",
+  "real_browser_model_task": "not_run",
+  "native_nova_windows_macos": "not_run",
+  "production_coverage_application": "not_run",
+  "local_regression": {
+    "plugin_structure": "passed",
+    "root_python": {
+      "tests_run": 103,
+      "skipped": 2,
+      "result": "passed",
+      "skip_reason": "Opt-in native Claude tests require an installed authenticated client"
+    },
+    "workflow_python": {
+      "tests_run": 145,
+      "result": "passed"
+    },
+    "javascript_mock_host": {
+      "tests_run": 8,
+      "result": "passed"
+    },
+    "host_python": "3.12.14",
+    "host_node": "24.22.3"
+  }
+}

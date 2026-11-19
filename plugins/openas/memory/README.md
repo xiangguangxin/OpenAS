@@ -11,7 +11,7 @@
 | `.openas/memory/records.json` | 事实、设计决定、经验及审计历史 |
 | `.openas/memory/evidence/*.json` | 精简运行收据或语义评审回执 |
 | `.openas/memory/current-task.json` | 最新任务状态、文件范围和需求哈希；不自动恢复 |
-| `.openas/memory/.lock` | POSIX 并发写入锁，不应提交 |
+| `.openas/memory/.lock` | Windows/POSIX 并发写入锁，不应提交 |
 
 卸载或更新插件不操作上述目录；各项目自行决定知识记录是否入 Git。建议忽略锁文件和检查点，不默认删除已有知识。不要把插件目录作为使用项目；插件可处于只读安装缓存。
 
@@ -70,12 +70,11 @@ review 存储调用方声明的评审标识，不验证身份；没有实际语�
 
 Codex 适配器用 `--project-root /path/to/consumer-project` 指定记忆所属项目，`--no-memory` 关闭。默认 CLI project-root 为当前工作目录，执行时显式传入可避免混淆；直接 Python Runner 默认不启用记忆。为防污染插件自身，记忆目标不得位于插件目录中。
 
-任务开始检索相关项并明确不是指令；每次状态写入同步短期检查点；verified 后自动采集有限机器事实。写入失败记录 memory_warning，不改写任务验收结论。若记忆目录在任务 workspace 内，为保持 scope 检查，当前实现跳过记忆读写；可用独立任务工作树和其外部的 project-root。
+任务开始检索相关项并明确不是指令；每次状态写入同步短期检查点；verified 后自动采集有限机器事实。写入失败记录 memory_warning，不改写任务验收结论。project-root 与 workspace 可以相同；固定 `.openas/memory/` 从源码快照中剪枝，禁止将其声明为源码 scope 或 artifacts。运行记录通过 memory_status 显式显示请求与实际启用状态。
 
 经验提炼可由 project-memory Skill 按任务执行，也可在单任务运行器中使用 `--learn`，自动执行提炼、独立评审并生成项目内候选技能。候选经过试用与技能评审后才能启用；运行结果、停用和回滚形成后续评估闭环。完整命令和四阶段边界见 [项目学习与技能演进](learning.md)。
 
-没有后台观察器，不修改角色、模型参数或权限。文件写入采用 POSIX 锁和原子替换；短期检查点只保留最后写入者，尚无多任务看板。运行日志、core、认证信息与完整聊天不直接写长期记忆。
-
+没有后台观察器，不修改角色、模型参数或权限。文件写入采用 Windows/POSIX 锁和原子替换；短期检查点只保留最后写入者，尚无多任务看板。运行日志、core、认证信息与完整聊天不直接写长期记忆。
 
 ## 机器校验
 

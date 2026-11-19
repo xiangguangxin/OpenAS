@@ -11,7 +11,7 @@ This directory contains guidance only; no records.json is distributed. Each cons
 | `.openas/memory/records.json` | Facts, decisions, lessons, and audit history |
 | `.openas/memory/evidence/*.json` | Minimal run or semantic-review receipts |
 | `.openas/memory/current-task.json` | Latest task state, scope, and requirement hash; no automatic resumption |
-| `.openas/memory/.lock` | POSIX write lock; do not commit |
+| `.openas/memory/.lock` | Windows/POSIX write lock; do not commit |
 
 Plugin updates/uninstallation do not change these files. Projects decide whether knowledge belongs in Git; ignore locks/checkpoints and do not delete existing knowledge by default. The plugin, possibly a read-only cache, is not the consumer project.
 
@@ -68,12 +68,11 @@ review records caller-declared identity without authenticating it; no real seman
 
 Use `--project-root /path/to/consumer-project` in the Codex adapter; `--no-memory` disables memory. CLI defaults project-root to current working directory, so specify it. Direct Python Runner defaults to memory disabled. Memory targets cannot be inside the plugin.
 
-At task start retrieve relevant records as context, not instructions; state writes update short-lived checkpoints; verified runs harvest limited machine facts. Write failures become memory_warning without changing acceptance. If memory is inside task workspace, current scope protection skips memory I/O; use an independent worktree and external project-root.
+At task start retrieve relevant records as context, not instructions; state writes update short-lived checkpoints; verified runs harvest limited machine facts. Write failures become memory_warning without changing acceptance. Project-root may equal workspace. The fixed `.openas/memory/` directory is pruned from source snapshots and forbidden as source scope or artifacts. `memory_status` records requested and active memory explicitly.
 
 Use the project-memory skill per task, or `--learn` in the single-task runner for extraction, independent review, and project-local candidates. Trials and skill review precede activation; outcomes, disabling, and rollback form the feedback loop. See [project learning](learning.en.md).
 
-There is no background watcher or modification to roles, model parameters, or permissions. Writes use POSIX locks and atomic replacement. The short-lived checkpoint retains only the last writer, not a multi-task dashboard. Raw logs, cores, authentication, and full conversations do not go directly into long-term memory.
-
+There is no background watcher or modification to roles, model parameters, or permissions. Writes use Windows/POSIX locks and atomic replacement. The short-lived checkpoint retains only the last writer, not a multi-task dashboard. Raw logs, cores, authentication, and full conversations do not go directly into long-term memory.
 
 ## Machine checks / 机器校验
 

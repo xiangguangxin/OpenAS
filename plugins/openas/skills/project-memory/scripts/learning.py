@@ -69,7 +69,7 @@ class Learning:
     def read(self):
         if not self.file.exists():
             return {'version': 1, 'observations': {}, 'lessons': {}, 'skills': {}, 'active': {}, 'outcomes': {}, 'audit': []}
-        data = json.loads(self.file.read_text())
+        data = json.loads(self.file.read_text(encoding='utf-8'))
         if data.get('version') != 1 or any(not isinstance(data.get(k), dict) for k in ('observations', 'lessons', 'skills', 'active', 'outcomes')) or not isinstance(data.get('audit'), list):
             raise ValueError('Invalid learning store; refusing overwrite')
         return data
@@ -79,8 +79,7 @@ class Learning:
         self.local(self.file)
         self.local(self.directory / '.lock')
         self.directory.mkdir(parents=True, exist_ok=True)
-        with (self.directory / '.lock').open('a') as lock:
-            pm.fcntl.flock(lock, pm.fcntl.LOCK_EX)
+        with (self.directory / '.lock').open('a+', encoding='utf-8') as lock, pm.support.locked(lock):
             data = self.read()
             yield data
             pm.Memory.atomic(self.file, data)
@@ -91,7 +90,7 @@ class Learning:
         self.local(path)
         if not path.exists():
             pm.Memory.atomic(path, value)
-        elif json.loads(path.read_text()) != value:
+        elif json.loads(path.read_text(encoding='utf-8')) != value:
             raise ValueError('Receipt collision or tampering')
         return ident, self.memory.evidence(str(path.relative_to(self.root)), '')
 
@@ -233,7 +232,7 @@ class Learning:
             ident = fingerprint(payload)
             path = self.directory / 'skills' / name / ident / 'SKILL.md'
             self.local(path)
-            if path.exists() and path.read_text() != body:
+            if path.exists() and path.read_text(encoding='utf-8') != body:
                 raise ValueError('Existing skill artifact changed')
             if not path.exists():
                 path.parent.mkdir(parents=True, exist_ok=True)
@@ -258,7 +257,7 @@ class Learning:
     def evaluate(self, ident, report_path):
         """Import a trusted external trial receipt, bound to exact skill bytes and sources."""
         report_path = str(report_path)
-        report = json.loads(self.memory.source(report_path).read_text())
+        report = json.loads(self.memory.source(report_path).read_text(encoding='utf-8'))
         with self.transaction() as data:
             skill = data['skills'][ident]
             if not self.valid_skill(data, skill) or report.get('skill_sha256') != skill['sha256']:
@@ -343,7 +342,7 @@ class Learning:
             skill = data['skills'][ident]
             if not self.eligible(data, skill):
                 continue
-            body = self.memory.source(skill['path']).read_text()
+            body = self.memory.source(skill['path']).read_text(encoding='utf-8')
             if not tokens(query) & tokens(body):
                 continue
             if used + len(body) > budget:
@@ -422,10 +421,10 @@ def main():
         learning = Learning(args.root)
         command = args.command
         if command == 'inspect': result = learning.inspect()
-        elif command == 'capture': result = learning.capture(json.loads(args.run.read_text()), str(args.run.resolve()))
-        elif command == 'propose': result = learning.propose(json.loads(args.proposal.read_text()))
-        elif command == 'review': result = learning.review(args.id, json.loads(args.report.read_text()))
-        elif command == 'review-skill': result = learning.approve_skill(args.id, json.loads(args.report.read_text()))
+        elif command == 'capture': result = learning.capture(json.loads(args.run.read_text(encoding='utf-8')), str(args.run.resolve()))
+        elif command == 'propose': result = learning.propose(json.loads(args.proposal.read_text(encoding='utf-8')))
+        elif command == 'review': result = learning.review(args.id, json.loads(args.report.read_text(encoding='utf-8')))
+        elif command == 'review-skill': result = learning.approve_skill(args.id, json.loads(args.report.read_text(encoding='utf-8')))
         elif command == 'draft': result = learning.draft(args.name, args.lessons, args.author)
         elif command == 'evaluate': result = learning.evaluate(args.id, args.report)
         elif command == 'context': result = learning.context(args.query)

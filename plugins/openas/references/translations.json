@@ -118,8 +118,8 @@
     {
       "source": "memory/README.md",
       "target": "memory/README.en.md",
-      "source_sha256": "fbc09b06120f68e29cc4c6c9331960da0b35f38de72550e2d126a933033a1b0c",
-      "target_sha256": "ec42b963b6847b3655e881969b4b8347a38c5dbbe6c76fe78886e5aa0854a9fa"
+      "source_sha256": "280d31af666376e9ae05b5ff362280f02bedabb5bf0ae74f746456229a80ca99",
+      "target_sha256": "d3b8dbaabd0b089c029da5f5a1c56b3caf009e0c55284fc4977da5d132777023"
     },
     {
       "source": "memory/learning.md",
@@ -448,8 +448,8 @@
     {
       "source": "workflows/README.md",
       "target": "workflows/README.en.md",
-      "source_sha256": "653501532787c966df167fe495262e71d9d3c92f455f8867e6268c9d7e70dbce",
-      "target_sha256": "6f71e181e23142d71519c8a67dc5373d05c361cdc2dde6cf6cb494a31472d343"
+      "source_sha256": "5607059211f1ac8a130a74992ba7d1c8388c60d299a5acfd13e1c09facf344bb",
+      "target_sha256": "6856d4e860ba6ab8e47724f69a1c5cb77682abc3e92d12be2c564105ebb1384a"
     },
     {
       "source": "skills/agent-experience/SKILL.md",
@@ -520,8 +520,8 @@
     {
       "source": "skills/gui-goal-executor/SKILL.md",
       "target": "skills/gui-goal-executor/SKILL.en.md",
-      "source_sha256": "f99a3222ccb4ac13df138b4cfac44f3ccef8edca941aa38277a51f2cbad3eb12",
-      "target_sha256": "db410518e020f59e274aaff4feadb4e8b70cda0829e0c41175fa66e1dcbc10a8"
+      "source_sha256": "0563f581ee8006446f9aaf47489cfc9d55e67d4ae6092d43e6498ec8ecdd0159",
+      "target_sha256": "f17fa3c6fec44ef99cc47090a005c19d57688bbbe49a37abe8ce93e7b25c1a9d"
     },
     {
       "source": "skills/agent-evaluation/SKILL.md",

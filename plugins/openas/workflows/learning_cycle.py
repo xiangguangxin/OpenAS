@@ -44,19 +44,14 @@ def snapshot(root):
 
 
 def execute(argv, cwd, timeout, prefix, prompt=None, env=None):
-    with prefix.with_suffix('.stdout.log').open('w') as out, prefix.with_suffix('.stderr.log').open('w') as err:
+    with prefix.with_suffix('.stdout.log').open('w', encoding='utf-8') as out, prefix.with_suffix('.stderr.log').open('w', encoding='utf-8') as err:
         process = subprocess.Popen(argv, cwd=cwd, env=env, stdout=out, stderr=err,
                                    stdin=subprocess.PIPE if prompt is not None else subprocess.DEVNULL,
-                                   text=True, start_new_session=True)
+                                   text=True, encoding='utf-8', **engine.pm.support.process_options())
         try:
             process.communicate(prompt, timeout=timeout)
         except (subprocess.TimeoutExpired, KeyboardInterrupt):
-            os.killpg(process.pid, signal.SIGTERM)
-            try:
-                process.wait(timeout=3)
-            except subprocess.TimeoutExpired:
-                os.killpg(process.pid, signal.SIGKILL)
-                process.wait()
+            engine.pm.support.terminate_tree(process)
             raise
         return process.returncode
 
@@ -64,8 +59,8 @@ def execute(argv, cwd, timeout, prefix, prompt=None, env=None):
 def call(client, workspace, output, name, schema, prompt, timeout):
     schema_path = output / (name + '.schema.json')
     result_path = output / (name + '.result.json')
-    schema_path.write_text(json.dumps(schema))
-    (output/(name + '.prompt.txt')).write_text(prompt)
+    schema_path.write_text(json.dumps(schema), encoding='utf-8')
+    (output/(name + '.prompt.txt')).write_text(prompt, encoding='utf-8')
     argv = [client, 'exec', '--ephemeral', '--skip-git-repo-check', '--color', 'never',
             '--sandbox', 'read-only', '-C', str(workspace), '--output-schema', str(schema_path),
             '-o', str(result_path), '-']
@@ -77,7 +72,7 @@ def call(client, workspace, output, name, schema, prompt, timeout):
             raise ValueError('Learning client modified read-only project; inspect changes')
     if rc:
         raise ValueError('Learning client failed; inspect private run logs')
-    result = json.loads(result_path.read_text())
+    result = json.loads(result_path.read_text(encoding='utf-8'))
     validate_schema(result, schema)
     return result
 
@@ -186,7 +181,7 @@ def trial(learning, ident, spec, client, output, timeout=180):
     output = new_output(output, learning.root)
     rows = []
     sources = [skill['path']]
-    skill_text = learning.memory.source(skill['path']).read_text()
+    skill_text = learning.memory.source(skill['path']).read_text(encoding='utf-8')
     for index, case in enumerate(cases):
         fixture = learning.memory.source(case['fixture'])
         sources.extend(str(p.relative_to(learning.root)) for p in fixture.rglob('*') if p.is_file())
@@ -238,7 +233,7 @@ def review_skill(learning, ident, client, output, timeout=180, activate=False):
               'A passing process alone does not prove the guidance correct. Return all checks truthfully.\n'
               + json.dumps(skill, ensure_ascii=False) + '\nSource lessons:\n'
               + json.dumps([data['lessons'][x] for x in skill['lesson_ids']], ensure_ascii=False)
-              + '\nSkill:\n' + learning.memory.source(skill['path']).read_text())
+              + '\nSkill:\n' + learning.memory.source(skill['path']).read_text(encoding='utf-8'))
     report = call(client, learning.root, output, 'skill-review', SKILL_REVIEW_SCHEMA, prompt, timeout)
     report['reviewer'] = 'learning-skill-reviewer'
     result = learning.approve_skill(ident, report)
@@ -267,7 +262,7 @@ def main():
         if args.command == 'reflect':
             result = cycle(learning, learning.read()['observations'][args.observation_id], client, args.output, args.timeout)
         elif args.command == 'trial':
-            result = trial(learning, args.skill_id, json.loads(args.spec.read_text()), client, args.output, args.timeout)
+            result = trial(learning, args.skill_id, json.loads(args.spec.read_text(encoding='utf-8')), client, args.output, args.timeout)
         else:
             result = review_skill(learning, args.skill_id, client, args.output, args.timeout, args.activate)
         print(json.dumps(result, ensure_ascii=False, indent=2))
