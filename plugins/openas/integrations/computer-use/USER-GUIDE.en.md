@@ -120,3 +120,5 @@ Check window discovery, semantic AX/UIA controls, accurate input, screenshot coo
 Nova's MIT license permits free use and modification subject to license notice requirements. AI model usage may incur separate charges. Screenshots/UI trees can expose secrets; limit target scope and do not commit sensitive captures. To remove, stop the server, unregister Nova in both clients as applicable, and revoke macOS OS permissions if needed.
 
 Sources: [Nova upstream](https://github.com/bigduu/Nova), [OpenAS integration](README.en.md), [OpenAS skill](../../skills/computer-use/SKILL.en.md). These instructions do not establish successful real-device end-to-end testing.
+
+For repo-scoped Codex skills, run `python plugins/openas/integrations/codex_skills.py install --project /path/to/customer-project` from the repository root, then use the same script with `check --native` to confirm native discovery. See the [customer guide](https://github.com/xiangguangxin/OpenAS/blob/main/docs/customer-demo.md).

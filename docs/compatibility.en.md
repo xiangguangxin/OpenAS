@@ -4,7 +4,7 @@
 
 | Component | Requirements / scope |
 | --- | --- |
-| Python scripts | Python 3.10+; CI uses 3.10. Memory locks/process groups require POSIX, targeting Linux / WSL. |
+| Python scripts | Python 3.10+; CI uses 3.10. Single-task/graph workflows, memory locks and timeout cancellation use Windows/POSIX adapters. Windows smoke is separate from third-party tool or native desktop acceptance. |
 | JavaScript tests/examples | Node.js 22, standard modules, no project npm dependency installation. |
 | Native Claude plugin | Follow installed CLI plugin commands. The documented environment lacked Claude; no full lifecycle pass was claimed. |
 | Claude reload integration | CLI >= 2.1.268, native reload evidence in the same process/session, separate login/quota. |
@@ -12,6 +12,10 @@
 | GitHub gate script | Authenticated `gh` with repository Administration permission; default prints a plan only. |
 
 Client observations apply to their recorded versions, not all past/future clients. Tests do not log in, upgrade clients, or expand sandbox permissions automatically.
+
+## Upgrade to 0.23.0
+
+Fix colocated memory; add portable workflow locks/process handling, explicit graph recovery, HTML delivery receipts/acceptance summaries, repo-scoped Codex installation/native discovery, isolated workspace preparation and opt-in real GUI acceptance. Single-task state_version=2 remains, with additive fields and original changed-input validation. Graph run records are version=2; old graphs are audit-only. Skill and role counts are unchanged. See the [customer demo guide](customer-demo.md).
 
 ## Upgrade to 0.19.0
 

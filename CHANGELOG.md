@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.23.0
+
+- Keep project memory active when project-root equals workspace, with explicit state and a reserved metadata subtree.
+- Add Windows/POSIX workflow locks and process-tree timeout handling, plus Windows smoke CI.
+- Add graph-level explicit resume with graph locking, completed-node evidence validation and preserved stage budgets.
+- Add escaped HTML delivery receipts and machine/manual acceptance summaries.
+- Add repo-scoped Codex skill installation/update/removal, integrity checks, real native discovery and read-only environment preflight.
+- Add engineering workspace inspection and isolated preparation with bounded internal-symlink materialization.
+- Add repeatable repair/recovery demo preparation, a loopback build/test/download fixture and opt-in real Praxis acceptance with fresh run-linked artifacts.
+- Keep real browser/Nova acceptance separate from mocked tests and local HTTP fixture checks.
+
 ## 0.22.0
 
 - Add an optional LiteLLM Proxy connection for the GUI Runtime and live benchmarks.

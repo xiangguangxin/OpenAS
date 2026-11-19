@@ -57,3 +57,7 @@ node plugins/openas/workflows/tests/agent-team.test.mjs
 
 - [GitHub Actions](https://docs.github.com/en/actions/get-started/quickstart)
 - [分支保护及必需检查](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)
+
+## Windows 工作流 smoke
+
+新增 Windows-2025 / Python 3.10 任务，运行跨进程锁、超时终止、同目录记忆、图恢复、Codex 安装、工作区准备和本地 HTTP 演示测试，并检查 CLI 启动。它不调用模型，不证明 Nova、真实浏览器或第三方 Office 工具通过。真实桌面/浏览器验收使用[客户演示指南](customer-demo.md)中的 opt-in 命令。

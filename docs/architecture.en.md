@@ -47,7 +47,7 @@ The single-task Python runner selects `workflow` and stores successful stages in
 
 handoff.json holds current context, and acceptance.json separates machine checks from model review; both are distinct from long-term memory. reviewed means read-only review delivery, not an implementation-verified fact eligible for automatic harvesting.
 
-graph-runner.py validates dependencies before clients start and executes nodes sequentially with actual upstream results. Failures block dependents while independent nodes may continue; user interruption prevents further starts. There is no concurrent scheduling or automatic whole-graph recovery. See the [skill directory](../plugins/openas/skills) and [workflow guide](../plugins/openas/workflows/README.en.md).
+graph-runner.py validates dependencies before clients start and executes nodes sequentially with actual upstream results. Failures block dependents while independent nodes may continue; user interruption prevents further starts. There is no concurrent scheduling. Explicit graph --resume validates the plan, workspace and completed-node evidence, recovers interrupted nodes and advances downstream. See the [skill directory](../plugins/openas/skills) and [workflow guide](../plugins/openas/workflows/README.en.md).
 
 ## Shared claim and evidence constraints
 

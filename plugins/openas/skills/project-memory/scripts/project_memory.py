@@ -3,10 +3,14 @@
 import argparse
 from contextlib import contextmanager
 from datetime import datetime, timezone
-import fcntl
+from pathlib import Path
+import importlib.util
+
+_SUPPORT_SPEC = importlib.util.spec_from_file_location("openas_runtime_support", Path(__file__).with_name("runtime_support.py"))
+support = importlib.util.module_from_spec(_SUPPORT_SPEC)
+_SUPPORT_SPEC.loader.exec_module(support)
 import hashlib
 import json
-from pathlib import Path
 import re
 import tempfile
 import os
@@ -34,6 +38,9 @@ def pointer(doc, path):
 class Memory:
     def __init__(self, root, directory=None):
         self.root = Path(root).resolve()
+        candidate = Path(directory).absolute() if directory else self.root/'.openas/memory'
+        if any(p.is_symlink() for p in (candidate, *candidate.parents)):
+            raise ValueError('Memory directory must not traverse symlinks')
         self.directory = Path(directory).resolve() if directory else (self.root/'.openas/memory').resolve()
         if not self.root.is_dir():
             raise ValueError('Consumer project root must be an existing directory')
@@ -45,8 +52,7 @@ class Memory:
     @contextmanager
     def transaction(self):
         self.directory.mkdir(parents=True, exist_ok=True)
-        with (self.directory/'.lock').open('a') as lock:
-            fcntl.flock(lock, fcntl.LOCK_EX)
+        with (self.directory/'.lock').open('a+', encoding='utf-8') as lock, support.locked(lock):
             data = self.read()
             yield data
             self.atomic(self.file, data)
@@ -54,7 +60,7 @@ class Memory:
     def read(self):
         if not self.file.exists():
             return {'version':1, 'records':[], 'audit':[]}
-        data = json.loads(self.file.read_text())
+        data = json.loads(self.file.read_text(encoding='utf-8'))
         if data.get('version') != 1 or not isinstance(data.get('records'), list):
             raise ValueError('Invalid memory store; do not overwrite')
         return data
@@ -196,8 +202,8 @@ def main():
     args=p.parse_args();m=Memory(args.root)
     if args.command=='query':result=m.query(args.text)
     elif args.command=='inspect':result=m.inspect()
-    elif args.command=='harvest':result=m.harvest(json.loads(args.run.read_text()))
-    elif args.command=='propose':result=m.propose(**json.loads(args.proposal.read_text()))
+    elif args.command=='harvest':result=m.harvest(json.loads(args.run.read_text(encoding='utf-8')))
+    elif args.command=='propose':result=m.propose(**json.loads(args.proposal.read_text(encoding='utf-8')))
     elif args.command=='review':result=m.review(args.id,args.verdict,args.reviewer,args.reason)
     else:result=m.retire(args.id,args.reason)
     print(json.dumps(result,ensure_ascii=False,indent=2))

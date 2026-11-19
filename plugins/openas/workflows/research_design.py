@@ -49,7 +49,7 @@ def validate(task, error):
 def native_searches(path):
     """Count completed native search items, never agent claims in prose."""
     count = 0
-    for line in path.read_text().splitlines():
+    for line in path.read_text(encoding='utf-8').splitlines():
         try:
             event = json.loads(line)
         except ValueError:

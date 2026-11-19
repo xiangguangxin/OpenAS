@@ -50,3 +50,7 @@ node plugins/openas/workflows/tests/agent-team.test.mjs
 
 - [GitHub Actions](https://docs.github.com/en/actions/get-started/quickstart)
 - [Protected branches and required checks](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)
+
+## Windows workflow smoke
+
+A Windows-2025/Python 3.10 job checks interprocess locks, timeout cancellation, colocated memory, graph recovery, Codex installation, workspace preparation, local HTTP demo behavior and CLI startup. It never calls a model and does not certify Nova, a real browser or third-party Office tools. Use the opt-in commands in the [customer demo guide](customer-demo.md) for real backend acceptance.

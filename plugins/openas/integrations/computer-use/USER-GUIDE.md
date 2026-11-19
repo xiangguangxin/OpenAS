@@ -141,3 +141,5 @@ OpenAS 包含：
 Nova 的开源 MIT 许可证允许免费使用和修改，分发时遵守许可证声明。AI 模型的订阅/API 费用独立计算。屏幕内容和 UI 树可能包含密码、密钥、聊天记录；只对授权窗口操作，不把敏感截图提交到仓库。若不再使用，停止 MCP、从 Claude/Codex 中删除 `nova` 注册项，并按需撤销 macOS 系统权限。**OpenAS 不负责自动撤销系统权限。**
 
 参考：[Nova 上游 README](https://github.com/bigduu/Nova) · [OpenAS MCP 集成说明](README.md) · [OpenAS Skill](../../skills/computer-use/SKILL.md)。本手册描述配置流程，不代表已在用户的真实 Windows/macOS 机器上完成端到端测试。
+
+Codex 项目技能可使用 `python plugins/openas/integrations/codex_skills.py install --project /path/to/customer-project` 安装，再以同一脚本的 `check --native` 核对原生发现。命令在仓库根目录执行，详见[客户演示](https://github.com/xiangguangxin/OpenAS/blob/main/docs/customer-demo.md)。

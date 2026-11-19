@@ -7,7 +7,7 @@ description: "目标驱动的 Windows/macOS GUI Agent：在 Claude Code 或 Code
 
 # GUI Goal Executor
 
-**职责：完成用户授权的最终目标，而不是执行预设的点击脚本。** 本 Skill 提供 Claude Code/Codex 内的编排规范；另有可选的 [内置 Python Agent Runtime](../../integrations/computer-use/RUNTIME.md)，提供实际多轮循环和跨会话 JSON checkpoint 恢复。Runtime 需独立配置模型 API 和 Nova MCP，不是后台守护进程，也不保证无限运行。使用前读取 [computer-use Skill](../computer-use/SKILL.md) 与 [MCP 使用手册](../../integrations/computer-use/USER-GUIDE.md)。遵守 [证据规则](../../references/evidence-policy.md)。
+**职责：完成用户授权的最终目标，而不是执行预设的点击脚本。** 本 Skill 提供 Claude Code/Codex 内的编排规范；另有可选的 [独立 Praxis Python Agent Runtime](../../integrations/computer-use/RUNTIME.md)，提供实际多轮循环和跨会话 JSON checkpoint 恢复。Runtime 需独立配置模型 API 和 Nova MCP，不是后台守护进程，也不保证无限运行。使用前读取 [computer-use Skill](../computer-use/SKILL.md) 与 [MCP 使用手册](../../integrations/computer-use/USER-GUIDE.md)。遵守 [证据规则](../../references/evidence-policy.md)。
 
 ## 启动条件
 
