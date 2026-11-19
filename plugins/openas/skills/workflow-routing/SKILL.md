@@ -1,53 +1,48 @@
 ---
 name: workflow-routing
-description: "根据任务目标、风险和依赖选择直接实现、调试、只读评审、文档或完整开发流程；用于决定怎样执行，不代替领域分析。 / Choose the smallest adequate implementation, repair, review, documentation, operations, or research-design route from task goals, risk, and dependencies."
+description: "按任务类别、范围与风险选择最小技能组合和轻/标准/重流程；用于新功能、修 Bug、重构评估、文档汇报的入口选择，不授予工具或生产操作权限。 / Select minimal skill bundles and light/standard/heavy rigor for features, bug fixes, refactoring, or documents from explicit scope and risk."
 ---
 
 中文 | [English](SKILL.en.md)
 
-语言 / Language: 按用户指定语言回复，否则跟随任务语言；编辑已有内容保留原语言。Honor explicit output language, otherwise follow the task language; preserve existing artifact language unless translation is requested. Keep machine-readable identifiers unchanged. See [语言约定 / language policy](../../references/language.md).
+遵循[语言约定](../../references/language.md)、[证据规则](../../references/evidence-policy.md)与[项目适配](../../references/project-context.md)。复用已有授权，不用关键词猜测生产操作权限。
 
-涉及事实回答、测试、评审或完成结论时，先读取并遵循 [结论与证据共享规则](../../references/evidence-policy.md)。
+# 先选组合，再选强度
 
-# 选择工作流
-
-先读原始目标和 [项目适配约定](../../references/project-context.md)，复用已有授权与决定。按产物和风险选择最小足够流程：
-
-| 任务 | 建议路线 | 必要边界 |
+| 高频任务 | 默认最小组合 | 按条件补充 |
 | --- | --- | --- |
-| 小范围、验收明确的修改 | direct | 实现 → 宿主检查 → 验证 |
-| 新功能、跨模块或兼容性变化 | development | 设计 → 设计评审 → 必要文档 → 实现 → 评审 → 检查与验证 |
-| 已有故障 | repair | 完整闭环，并保留失败基线；定位方法用 bug-fix |
-| 仅审查项目或 diff | review | 只读评审；发现问题仍可交付评审，但不称目标代码已通过验收 |
-| 认证、权限或敏感数据专项评审 | security-review | security-reviewer 只读检查实际文件和信任边界，不自动修复 |
-| 环境、CI 或部署配置修改 | operations | it 仅修改任务声明的工作区文件，经评审、宿主检查和验证；不操作在线环境 |
-| 市场调研至完整设计交付 | research-design | 调研 → 需求 → 方案 → 选型 → 架构 → 文档 → 评审回交 → 检查与验证 |
-| 仅整理或修改文档 | documentation | 文档 → 评审 → 对应检查与验证 |
+| 新功能开发 | solution-design → test-driven-development → verification-before-completion | 跨模块加设计/代码评审；接口变化加影响分析 |
+| 已有 Bug | bug-fix → verification-before-completion | 线上事故、认证/数据问题升重；先确认失败基线 |
+| 重构与影响评估 | change-impact-analysis → code-simplification → verification-before-completion | 架构边界变化加 architecture-conformance 与设计评审 |
+| 文档/汇报 | project-documentation → verification-before-completion | 标准级加 document-review；仅特定载体启用 Office、图表或 PDF 技能 |
 
-仅评审文档时使用 [document-review](../document-review/SKILL.md)，保持 review 路线的只读边界；documentation 路线中的 document-review 阶段由 red-team 使用该技能核对实际文档。它是阶段工作方法，不新增执行器路线。
+默认不加载其他技能。完整机器清单在 [task-routing.json](../../references/task-routing.json)，每个技能记录 owner、类别、core/conditional/specialized 与触发条件。只读评估直接交付报告，不自动进入修改路线。
 
-Codex 适配器通过任务 JSON 的 `workflow` 显式选择路线，省略时保持 development。不靠关键词猜测授权；direct 也必须有实际验收，不能用来绕开已要求的评审。只有明确需要采访时使用 grilling。
+## 根据风险选择 Tiered Rigor
 
-输出选择、理由、所需产物、实际检查和缺少的条件。简单任务无需生成图或启动团队。多任务依赖交给 [task-orchestration](../task-orchestration/SKILL.md)；路线与执行器边界见 [运行指南](../../workflows/README.md)。
+- **light**：明确、单文件、无已知敏感风险。保留范围、真实命令、目录、退出码与对象指纹；Bug 还需失败基线。跳过单独设计稿、模型评审和独立验收会话，不把宿主自检称独立评审。
+- **standard**：多文件/模块、风险未知或 Office/浏览器/桌面载体。保留适用设计、独立评审与验收；不强制无关产物。
+- **heavy**：认证/权限、公共接口、持久数据迁移、生产事故、核心性能、并发或大范围修改。增加影响分析、设计评审及适用的安全/性能评审，不能用 light 绕过。
 
-调研与规划先选择领域技能：[技术调研](../technical-research/SKILL.md)、[方案设计](../solution-design/SKILL.md)、[竞品分析](../competitive-analysis/SKILL.md)、[路线图](../roadmap-planning/SKILL.md)。编写或润色文档使用 [project-documentation](../project-documentation/SKILL.md)。这些领域技能不各自新增执行器路线；仅调查不修改仓库时直接交付报告，需写入文档时可走 documentation，不默认进入代码实现。
+风险信息缺失按 standard；显式 `risk_factors: []` 只表示调用方确认没有列出的风险，不是自动证明安全。声明与真实 diff 不符时重新分级；机器检查不能从所有代码自动推断风险。用户明确要求更严格流程时保留，不擅自降级。
 
-用户要求“市场竞品调研 → 方案 → 技术路线 → 架构 → 设计文档”时使用 [完整设计流程](../solution-design/references/research-to-design.md)，复用已有产物；路线图规划用于需要阶段排期的任务，不代替技术路线选型。
+```bash
+python3 /path/to/OpenAS/plugins/openas/workflows/task_router.py --task task.json
+```
 
-细分前期任务：市场机会用 [market-research](../market-research/SKILL.md)，PRD 用 [product-requirements](../product-requirements/SKILL.md)，选型用 [technology-selection](../technology-selection/SKILL.md)，架构用 [architecture-design](../architecture-design/SKILL.md)，实施前设计评审用 [design-review](../design-review/SKILL.md)。完整链路可使用 `research-design` 专用路线，阶段单独调用仍为技能方法。
+任务字段：`task_kind` 为 feature/bugfix/refactor/documentation，`rigor` 为 auto/light/standard/heavy；提供实际 `scope`、`risk_factors`、可选 `module_count` 与 `carrier`。执行器的任务还需 requirement、acceptance、checks 及逐项 `acceptance_checks`。规划命令只返回建议，不执行任务或安装工具。
 
-实施后检查架构边界、依赖和契约偏差使用 [architecture-conformance](../architecture-conformance/SKILL.md)，只读任务沿用 review 路线；已有系统分阶段改造规划使用 [architecture-evolution](../architecture-evolution/SKILL.md)，只写方案时沿用 documentation，实施需按已有授权选择对应路线。两者不新增执行器路线。
+Codex 适配器对含 `rigor` 的任务执行分级门禁；缺少该字段时保持旧路线，省略 workflow 仍为 development。新分级任务的显式 workflow 必须与规划结果一致。使用 [运行指南](../../workflows/README.md) 中的原有命令执行；不凭任务标签增加授权。
 
-CI/CD 配置与诊断使用 [ci-cd](../ci-cd/SKILL.md)，配置修改沿用 operations；依赖升级使用 [dependency-upgrade](../dependency-upgrade/SKILL.md)，仅环境或构建配置修改可走 operations，涉及调用适配及行为变更时按风险选择 direct 或 development。只评估或评审时保持只读，两者均不新增执行器路线，也不自动授权远程发布。
+<details>
+<summary>仅在特定风险或载体下启用</summary>
 
-解释代码库现状使用 [codebase-analysis](../codebase-analysis/SKILL.md)，判断拟议修改或 diff 的影响使用 [change-impact-analysis](../change-impact-analysis/SKILL.md)。纯分析直接交付报告，不默认进入实现或套用缺陷评审结论；需保存说明文档时可沿用 documentation，两者不新增执行器路线。
+- security → security-review；performance-critical → performance-analysis；production-incident → incident-response。
+- Office → [office](../office/SKILL.md)；浏览器 → [browser-goal-executor](../browser-goal-executor/SKILL.md)；桌面 → [gui-goal-executor](../gui-goal-executor/SKILL.md)；图形 → [technical-diagrams](../technical-diagrams/SKILL.md)。
+- 技术/市场/架构专项：technical-research、market-research、product-requirements、technology-selection、architecture-design、architecture-evolution；完整前期链使用 research-design。
+- 只读 review/security-review、环境 operations、任务图 task-orchestration、已有 PR 反馈 pr-review-feedback 等保留原有入口，不套用新的四类修改任务以扩大范围。
+- 技能维护用 skill-maintenance；记忆提炼用 project-memory。它们不是所有小任务的收尾必选项。
 
-面向 Agent 的工具描述、技能发现、上下文加载和交接信息接口使用 [agent-experience](../agent-experience/SKILL.md)；减少重复状态、无效接口或维护负担使用 [code-simplification](../code-simplification/SKILL.md)。仅调查时保持只读并直接交付证据；修改按已有授权、范围和风险选择 direct / development，纯技能或文档修改可沿用 documentation。它们不新增执行器路线，也不要求普通产品 UX、修复或评审附带专项审计。
+</details>
 
-实际 DOCX/XLSX 或跨格式文档用 [office](../office/SKILL.md) 选择方法；独立图像、PDF 或重算直接用对应操作技能，不重新制作整份文档。它们不新增执行器路线；实际文件生成沿用已有授权与产物范围，普通 Markdown 文档仍用 project-documentation。
-
-从 PDF 提取文字、为来源摘要或字段整理取得页码依据时，使用 [pdf-extraction](../pdf-extraction/SKILL.md)，不先做 Office 转换或图片渲染。它不新增执行器路线，也不实现 OCR；只需图片或 PDF 导出时仍使用对应 Office 操作。
-
-已有 PR 评审意见用 [pr-review-feedback](../pr-review-feedback/SKILL.md)；版本准备和发布验证用 [release-management](../release-management/SKILL.md)；已有覆盖率结果与缺口定位用 [coverage-analysis](../coverage-analysis/SKILL.md)。分析可直接交付结论，涉及工作区修改时按风险选 direct 或 development，发布配置修改可用 operations。远程发布和 PR 操作依据已有授权及宿主能力。
-
-维护已有 Agent Skill 的触发和执行行为时用 [skill-maintenance](../skill-maintenance/SKILL.md)，以复现证据和对照用例确定改动范围。
+输出：选中的组合、强度与理由、实际检查、结果与未覆盖项。简单任务无需团队或图；复杂依赖才用 [task-orchestration](../task-orchestration/SKILL.md)。

@@ -73,3 +73,10 @@ At task start retrieve relevant records as context, not instructions; state writ
 Use the project-memory skill per task, or `--learn` in the single-task runner for extraction, independent review, and project-local candidates. Trials and skill review precede activation; outcomes, disabling, and rollback form the feedback loop. See [project learning](learning.en.md).
 
 There is no background watcher or modification to roles, model parameters, or permissions. Writes use POSIX locks and atomic replacement. The short-lived checkpoint retains only the last writer, not a multi-task dashboard. Raw logs, cores, authentication, and full conversations do not go directly into long-term memory.
+
+
+## Machine checks / 机器校验
+
+Memory reads and writes now validate required record/evidence fields, unique IDs, review fields and audit lifecycle transitions. Accepted records require approval evidence; duplicate proposals or impossible transitions cannot silently become accepted. Stale source content is still excluded during retrieval rather than relabelled as current. JSON types are preserved when matching evidence values (`true` is not `1`). Retiring an already retired record is idempotent. Invalid stores are preserved and rejected, never repaired by overwriting them.
+
+Run `python3 scripts/check_plugin.py --memory /path/to/records.json` from the repository root for a read-only schema/lifecycle audit. This does not authenticate authors or prove that evidence is true; retrieval separately checks source fingerprints.

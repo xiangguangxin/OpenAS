@@ -1,0 +1,12 @@
+{
+  "task_kind": "bugfix",
+  "rigor": "auto",
+  "risk_factors": [],
+  "carrier": "code",
+  "module_count": 1,
+  "requirement": "Fix the bounded pagination error; preserve the existing contract.",
+  "scope": ["pagination.py"],
+  "acceptance": ["Existing pagination tests pass"],
+  "checks": [["python3", "run_tests.py"]],
+  "acceptance_checks": [[0]]
+}

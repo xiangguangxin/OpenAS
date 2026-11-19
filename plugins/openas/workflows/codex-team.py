@@ -32,6 +32,10 @@ if 'openas_agent_backend' not in sys.modules:
     sys.modules[BACKEND_SPEC.name] = BACKEND_MODULE
     BACKEND_SPEC.loader.exec_module(BACKEND_MODULE)
 BACKENDS = sys.modules['openas_agent_backend']
+POLICY_SPEC = importlib.util.spec_from_file_location('openas_workflow_policy', ROOT/'workflows/workflow_policy.py')
+POLICY = importlib.util.module_from_spec(POLICY_SPEC)
+POLICY_SPEC.loader.exec_module(POLICY)
+
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
     'verdict': {'type': 'string', 'enum': ['complete', 'approve', 'needs_fix', 'pass', 'fail']},
     'summary': {'type': 'string'}, 'findings': {'type': 'array', 'items': {'type': 'string'}},
@@ -143,6 +147,16 @@ def validate_task(task):
         for indexes in mappings:
             if not isinstance(indexes, list) or any(type(i) is not int or not 0 <= i < len(task['checks']) for i in indexes):
                 raise HarnessError('Acceptance mappings require valid zero-based check indexes')
+    if 'rigor' in task:
+        try:
+            selected = POLICY.plan(task)
+        except (ValueError, TypeError, KeyError) as exc:
+            raise HarnessError(str(exc)) from exc
+        task = {**task, 'workflow': selected['workflow']}
+        if 'acceptance_checks' not in task or any(not row for row in task['acceptance_checks']):
+            raise HarnessError('Tiered tasks require explicit host check mappings for every acceptance criterion')
+    elif any(key in task for key in ('task_kind', 'risk_factors', 'carrier', 'module_count')):
+        raise HarnessError('Task profile fields require an explicit rigor selection')
     return task
 
 
@@ -180,6 +194,8 @@ class Runner:
     def __init__(self, task, workspace, output, client, timeout=180, rounds=3, memory_enabled=False,
                  project_root=None, resume=False, restart_stages=False, learning_enabled=False, backend=None):
         self.task = validate_task(task)
+        task = self.task
+        self.rigor_plan = POLICY.plan(task) if 'rigor' in task else None
         self.backend = backend if backend is not None else BACKENDS.CodexBackend()
         required = {'read-only', 'structured-output', 'timeout', 'cancellation'}
         if task.get('workflow', 'development') not in ('review', 'security-review'):
@@ -276,6 +292,8 @@ class Runner:
                           'initial_snapshot': self.initial,
                           'checkpoint_snapshot': self.initial, 'steps': [], 'history': [], 'recoveries': [],
                           'started': time.time(), 'check_attempt': 0, 'budget_used': {}}
+            if self.rigor_plan:
+                self.state['rigor_plan'] = self.rigor_plan
             self.write_state()
             (self.output/'result.schema.json').write_text(json.dumps(SCHEMA))
 
@@ -318,7 +336,7 @@ class Runner:
         self._event_seq += 1
 
     def resource_fingerprint(self):
-        files = [Path(__file__).resolve(), Path(__file__).with_name('research_design.py'), Path(__file__).with_name('learning_cycle.py'), Path(__file__).with_name('agent_backend.py')]
+        files = [Path(__file__).resolve(), Path(__file__).with_name('research_design.py'), Path(__file__).with_name('learning_cycle.py'), Path(__file__).with_name('agent_backend.py'), Path(__file__).with_name('workflow_policy.py')]
         for folder in ('agents', 'references', 'skills'):
             files.extend(p for p in (ROOT/folder).rglob('*')
                          if p.is_file() and '__pycache__' not in p.parts and p.suffix != '.pyc')
@@ -450,6 +468,12 @@ class Runner:
         project_context = (ROOT / 'references' / 'project-context.md').read_text()
         design_route = self.task.get('workflow') == 'research-design'
         domain = ''
+        if self.rigor_plan:
+            domain += '\nSelected task rigor and minimal methods (do not add unrequested artifacts):\n' + json.dumps(self.rigor_plan)
+            for skill in self.rigor_plan['skills']:
+                domain += '\nSelected skill ' + skill + ':\n' + (ROOT/'skills'/skill/'SKILL.md').read_text()
+            if self.rigor_plan['tier'] == 'light':
+                domain += '\nLight task: implement only the bounded request. No separate design/review documents or team stages. Host checks are the completion evidence; do not claim independent review.\n'
         if design_route:
             for skill in DESIGN.SKILLS.get(phase, ()):
                 domain += f'\nDomain skill {skill} ({ROOT / "skills" / skill / "SKILL.md"}):\n' + (ROOT/'skills'/skill/'SKILL.md').read_text()
@@ -594,16 +618,31 @@ class Runner:
         self.state['verification'] = result
         return result
 
-    def complete(self):
-        final_checks = self.checks('final')
+    def complete(self, final_checks=None):
+        if self.rigor_plan and self.rigor_plan['tier'] == 'heavy':
+            for risk, role in (('security', 'security-reviewer'), ('performance-critical', 'performance-engineer')):
+                if risk in self.rigor_plan['conditional_triggers']:
+                    result = self.stage(role, 'risk-review-'+risk, json.dumps(self.rigor_plan), {'approve', 'needs_fix'})
+                    if result['verdict'] != 'approve':
+                        raise HarnessError('Conditional risk review requires fixes', 'rigor_gate')
+        final_checks = self.checks('final') if final_checks is None else final_checks
         if any(r['exit_code'] != 0 for r in final_checks):
             raise HarnessError('Final host checks failed', 'acceptance_limit')
         probe = self.task.get('repair_probe')
         if probe and final_checks[probe['check_index']].get('repair_probe') != {
                 'failure_marker': False, 'success_marker': True}:
             raise HarnessError('Final repair check did not show the target executed and passed', 'acceptance_limit')
+        candidate = {**self.state, 'final_snapshot': self.check_scope(), 'final_checks': final_checks}
+        if self.rigor_plan:
+            try:
+                gate = POLICY.check_evidence(candidate)
+            except (ValueError, TypeError, KeyError) as exc:
+                raise HarnessError(str(exc), 'rigor_gate') from exc
+            self.state['rigor_gate'] = gate
+            self.atomic_record('rigor-evidence.json', {key: candidate.get(key) for key in
+                ('task', 'rigor_plan', 'workspace', 'resources_sha256', 'final_snapshot', 'final_checks', 'baseline_checks', 'steps', 'verification')})
         self.state.update(status='verified', done=True, next_phase='complete',
-                          final_snapshot=self.check_scope(), final_checks=final_checks)
+                          final_snapshot=candidate['final_snapshot'], final_checks=final_checks)
 
     def implement(self, design, with_review=True, role='developer', phase='implementation'):
         feedback = None
@@ -628,6 +667,22 @@ class Runner:
         raise HarnessError('Implementation/verification round limit', 'acceptance_limit')
 
     def drive(self):
+        if self.rigor_plan and self.rigor_plan['tier'] == 'light':
+            feedback = None
+            role = 'tech-writer' if self.rigor_plan['kind'] == 'documentation' else 'developer'
+            for attempt in range(self.rounds):
+                self.stage(role, 'light-implementation', json.dumps({'request': self.task['requirement'], 'feedback': feedback}), {'complete'})
+                checks = self.checks('light-'+str(attempt+1))
+                if all(c['exit_code'] == 0 for c in checks):
+                    self.complete(final_checks=checks)
+                    return
+                feedback = {'host_checks_failed': checks}
+            raise HarnessError('Light task check round limit', 'acceptance_limit')
+        if self.rigor_plan and self.rigor_plan['tier'] == 'heavy':
+            impact = self.stage('cto', 'impact-analysis', json.dumps(self.rigor_plan), {'complete'})
+            review = self.stage('red-team', 'rigor-design-review', json.dumps(impact), {'approve', 'needs_fix'})
+            if review['verdict'] != 'approve':
+                raise HarnessError('Heavy design/impact review requires fixes', 'rigor_gate')
         route = self.task.get('workflow', 'development')
         if route == 'research-design':
             DESIGN.drive(self, HarnessError)
@@ -711,6 +766,8 @@ class Runner:
                     if self._restart_requested:
                         self.state['steps'] = []
                         self.state['resources_sha256'] = self._resume_resources
+                        if self.rigor_plan:
+                            self.state['rigor_plan'] = self.rigor_plan
                         self.state['memory_context'] = self.memory_context
                         self.state['learned_context'] = self.learned_context
                         self.state['checkpoint_snapshot'] = self._resume_snapshot
@@ -726,9 +783,13 @@ class Runner:
                 self.write_state()
                 try:
                     if 'baseline_checks' not in self.state:
-                        self.state['baseline_checks'] = self.checks('baseline')
+                        self.state['baseline_checks'] = ([] if self.rigor_plan and self.rigor_plan['tier'] == 'light'
+                                                         and self.rigor_plan['kind'] != 'bugfix' else self.checks('baseline'))
                         self.checkpoint()
                     self.require_reproduced_failure()
+                    if (self.rigor_plan and self.rigor_plan['kind'] == 'bugfix'
+                            and not any(check['exit_code'] != 0 for check in self.state['baseline_checks'])):
+                        raise HarnessError('Tiered bug fix requires a failing baseline', 'premise_unverified')
                     self.drive()
                 except (HarnessError, OSError, KeyboardInterrupt) as exc:
                     kind = exc.kind if isinstance(exc, HarnessError) else 'environment' if isinstance(exc, OSError) else 'interrupted'

@@ -101,6 +101,26 @@ flowchart LR
 
 **验证边界：** CI 与模拟测试不等于真实 Windows/macOS + Nova 端到端验收。桌面操作需要用户安装并授权 Nova；高风险操作应经过确认。建议先在隔离环境测试。
 
+## 常见任务：先选组合，再选强度
+
+| 任务 | 默认最小技能组合 |
+| --- | --- |
+| 新功能 | solution-design → test-driven-development → verification-before-completion |
+| 修 Bug | bug-fix → verification-before-completion |
+| 重构/影响评估 | change-impact-analysis → code-simplification → verification-before-completion |
+| 文档/汇报 | project-documentation → verification-before-completion |
+
+**light** 只保留范围、复现/检查命令、退出码及对象指纹；**standard** 增加适用设计、独立评审/验收；**heavy** 对接口、安全、数据、并发和核心性能风险增加影响分析与严格门禁。未知风险默认 standard，不能强行降为 light。Office、浏览器、桌面等低频能力仅在对应载体启用。
+
+机器路由与轻量示例：
+
+```bash
+python3 plugins/openas/workflows/task_router.py --task plugins/openas/workflows/examples/tiered-light-task.json
+python3 scripts/check_plugin.py --memory /path/to/records.json --evidence /path/to/run/rigor-evidence.json
+```
+
+见 [组合与分级入口](plugins/openas/skills/workflow-routing/SKILL.md)及[运行器接入](plugins/openas/workflows/README.md#tiered-rigor)。分级由任务 JSON 显式启用；旧任务保持原流程。只读路由不执行任务，任务声明不授予生产权限。
+
 ## 工作流程
 
 ```mermaid
@@ -259,6 +279,10 @@ flowchart LR
 - [Praxis Runtime](https://github.com/xiangguangxin/Praxis) adds its own model loop, JSON checkpoints, optional independent file verification, offline benchmark, and opt-in experience retrieval with aging and invalidation.
 
 **Limitations:** A checkpoint enables restart-based resume, not automatic background continuation. Offline CI does not establish real Windows/macOS + Nova E2E success. Experience hints never authorize automatic replay or bypass safety checks.
+
+## Frequent bundles and tiered rigor
+
+Use the four minimal bundles above through [workflow-routing](plugins/openas/skills/workflow-routing/SKILL.en.md), rather than loading a flat catalog. Light tasks keep host evidence only; standard/heavy tasks add independent review/acceptance and risk-specific gates. Unknown risk defaults to standard, and unsafe downgrades are rejected. Office/browser/desktop methods activate only for matching carriers. Existing task JSON retains legacy behavior unless rigor is explicitly supplied.
 
 ## Roles and skills
 
