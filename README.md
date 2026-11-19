@@ -33,9 +33,10 @@ OpenAS 是面向 Claude Code / Codex 的可组合 Agent 与 Skill 工具集，�
 claude --plugin-dir /path/to/OpenAS/plugins/openas
 ```
 
-在会话中按需调用技能：
+日常任务先走组合路由，再按返回的最小技能组合执行：
 
 ```text
+/openas:workflow-routing 按目标、真实范围和风险选择最小技能组合与流程强度
 /openas:solution-design 分析需求，明确方案、边界与验收条件
 /openas:bug-fix 复现并定位问题，用测试验证修复
 /openas:codebase-analysis 梳理项目入口、模块依赖和核心调用链
@@ -227,9 +228,10 @@ Launch Claude Code from your target project:
 claude --plugin-dir /path/to/OpenAS/plugins/openas
 ```
 
-Invoke a skill:
+Start with a minimal task bundle, then invoke only the selected methods:
 
 ```text
+/openas:workflow-routing Choose the minimal skill bundle and rigor from actual scope and risk.
 /openas:solution-design Define the architecture, boundaries, and acceptance criteria.
 /openas:bug-fix Reproduce the failure and verify the fix.
 /openas:codebase-analysis Explain the entry points and core call path.
