@@ -130,7 +130,7 @@ def check_evidence(state):
     steps = state.get('steps', [])
     if not isinstance(steps, list) or any(not isinstance(row, dict) or not isinstance(row.get('result'), dict) for row in steps):
         raise ValueError('Invalid phase evidence records')
-    if not isinstance(state.get('verification', {}), dict):
+    if state.get('verification') is not None and not isinstance(state['verification'], dict):
         raise ValueError('Invalid independent verification evidence')
     acceptance = state['task'].get('acceptance')
     if not isinstance(acceptance, list) or not acceptance or any(not isinstance(item, str) or not item for item in acceptance):
@@ -148,7 +148,7 @@ def check_evidence(state):
     if route['tier'] != 'light':
         if not any(has('red-team', p, 'approve') for p in ('code-review', 'document-review', 'operations-review')):
             raise ValueError('Missing independent implementation/document review evidence')
-        result = state.get('verification', {})
+        result = state.get('verification') or {}
         if not has('verifier', 'verification', 'pass') or result.get('verdict') != 'pass' or not proof(result) or result['findings']:
             raise ValueError('Missing independent acceptance evidence')
     if route['tier'] == 'heavy':
