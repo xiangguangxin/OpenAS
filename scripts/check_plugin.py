@@ -151,7 +151,7 @@ def main():
         result.update(memory_stores_checked=len(args.memory), evidence_receipts_checked=len(args.evidence))
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
-    except (OSError, ValueError, TypeError) as exc:
+    except (OSError, ValueError, TypeError, KeyError) as exc:
         print(str(exc), file=sys.stderr)
         return 1
 

@@ -138,6 +138,9 @@ class RigorExecutionTests(unittest.TestCase):
             for field in ('verification','final_checks','final_snapshot','workspace'):
                 altered=copy.deepcopy(runner.state);altered.pop(field)
                 with self.subTest(field=field),self.assertRaises(ValueError):policy.check_evidence(altered)
+            for field,value in (('steps',[None]),('verification',[]),('verification',{'verdict':'pass'})):
+                altered=copy.deepcopy(runner.state);altered[field]=value
+                with self.subTest(field=field),self.assertRaises(ValueError):policy.check_evidence(altered)
             altered=copy.deepcopy(runner.state);altered['steps']=[s for s in altered['steps'] if s['role']!='red-team']
             with self.assertRaises(ValueError):policy.check_evidence(altered)
 

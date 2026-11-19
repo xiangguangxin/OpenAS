@@ -128,15 +128,28 @@ def check_evidence(state):
                                            for c in state.get('baseline_checks', [])):
         raise ValueError('Bug fix requires a failing host baseline')
     steps = state.get('steps', [])
+    if not isinstance(steps, list) or any(not isinstance(row, dict) or not isinstance(row.get('result'), dict) for row in steps):
+        raise ValueError('Invalid phase evidence records')
+    if not isinstance(state.get('verification', {}), dict):
+        raise ValueError('Invalid independent verification evidence')
+    acceptance = state['task'].get('acceptance')
+    if not isinstance(acceptance, list) or not acceptance or any(not isinstance(item, str) or not item for item in acceptance):
+        raise ValueError('Missing acceptance criteria')
+    def proof(result):
+        values = result.get('evidence')
+        return (isinstance(values, list) and bool(values)
+                and all(isinstance(value, str) and value.strip() for value in values)
+                and isinstance(result.get('summary'), str) and bool(result['summary'].strip())
+                and isinstance(result.get('findings'), list))
     def has(role, phase, verdict):
         return any(s.get('role') == role and s.get('phase') == phase
                    and s.get('result', {}).get('verdict') == verdict
-                   and bool(s['result'].get('evidence')) for s in steps)
+                   and proof(s['result']) and (verdict not in ('approve','pass') or not s['result']['findings']) for s in steps)
     if route['tier'] != 'light':
         if not any(has('red-team', p, 'approve') for p in ('code-review', 'document-review', 'operations-review')):
             raise ValueError('Missing independent implementation/document review evidence')
         result = state.get('verification', {})
-        if not has('verifier', 'verification', 'pass') or result.get('verdict') != 'pass':
+        if not has('verifier', 'verification', 'pass') or result.get('verdict') != 'pass' or not proof(result) or result['findings']:
             raise ValueError('Missing independent acceptance evidence')
     if route['tier'] == 'heavy':
         if not has('cto', 'impact-analysis', 'complete') or not has('red-team', 'rigor-design-review', 'approve'):
@@ -145,7 +158,7 @@ def check_evidence(state):
             if risk in route['conditional_triggers'] and not has(role, 'risk-review-'+risk, 'approve'):
                 raise ValueError(f'Missing conditional risk review: {risk}')
     mappings = state['task'].get('acceptance_checks')
-    if (not isinstance(mappings, list) or len(mappings) != len(state['task']['acceptance'])
+    if (not isinstance(mappings, list) or len(mappings) != len(acceptance)
             or any(not isinstance(row, list) or not row or any(type(i) is not int or not 0 <= i < len(checks) for i in row)
                    for row in mappings)):
         raise ValueError('Every acceptance criterion requires explicit host check mappings')
