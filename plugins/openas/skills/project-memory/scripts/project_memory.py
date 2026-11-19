@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Evidence-backed project memory. JSON storage with atomic writes and a POSIX lock."""
+"""Evidence-backed project memory. JSON storage with atomic writes and portable process locking."""
 import argparse
 from contextlib import contextmanager
 from datetime import datetime, timezone
@@ -35,6 +35,80 @@ def pointer(doc, path):
     return doc
 
 
+TRANSITIONS = {
+    None: {'proposed': 'candidate'},
+    'candidate': {'accepted': 'accepted', 'conflict': 'conflict', 'rejected': 'rejected', 'retired': 'retired'},
+    'conflict': {'accepted': 'accepted', 'conflict': 'conflict', 'rejected': 'rejected', 'retired': 'retired'},
+    'accepted': {'retired': 'retired'}, 'rejected': {'retired': 'retired'}, 'retired': {},
+}
+
+
+def relative_path(value):
+    return (isinstance(value, str) and bool(value) and not Path(value).is_absolute()
+            and '..' not in Path(value).parts and value != '.')
+
+
+def validate_evidence(evidence):
+    if not isinstance(evidence, list) or not evidence:
+        raise ValueError('Nonempty evidence records required')
+    for item in evidence:
+        if (not isinstance(item, dict) or not {'path', 'sha256', 'pointer', 'value'} <= set(item)
+                or not relative_path(item['path']) or not isinstance(item['sha256'], str)
+                or not re.fullmatch(r'[0-9a-f]{64}', item['sha256'])
+                or not isinstance(item['pointer'], str) or (item['pointer'] and not item['pointer'].startswith('/'))
+                or re.search(r'~(?![01])', item['pointer'])):
+            raise ValueError('Incomplete or invalid memory evidence')
+        if 'sources' in item:
+            if not isinstance(item['sources'], list) or not item['sources']:
+                raise ValueError('Nonempty source dependencies required')
+            for source in item['sources']:
+                if (not isinstance(source, dict) or not relative_path(source.get('path'))
+                        or not isinstance(source.get('sha256'), str) or not re.fullmatch(r'[0-9a-f]{64}', source['sha256'])):
+                    raise ValueError('Invalid source dependency')
+    json.dumps(evidence, allow_nan=False)
+
+
+def validate_store(data):
+    if (not isinstance(data, dict) or type(data.get('version')) is not int or data['version'] != 1
+            or not isinstance(data.get('records'), list) or not isinstance(data.get('audit'), list)):
+        raise ValueError('Invalid memory store; do not overwrite')
+    records = {}
+    for record in data['records']:
+        if (not isinstance(record, dict) or not isinstance(record.get('id'), str)
+                or not re.fullmatch(r'[0-9a-f]{20}', record['id']) or record['id'] in records
+                or record.get('kind') not in ('fact', 'decision', 'lesson')
+                or not isinstance(record.get('status'), str) or record['status'] not in TRANSITIONS
+                or any(not isinstance(record.get(k), str) or not record[k].strip() for k in ('key', 'scope', 'statement', 'created', 'updated'))
+                or not isinstance(record.get('tags'), list) or any(not isinstance(t, str) for t in record['tags'])):
+            raise ValueError('Invalid memory record or duplicate ID')
+        validate_evidence(record.get('evidence'))
+        content = {key: record[key] for key in ('key', 'scope', 'kind', 'statement', 'tags', 'evidence')}
+        if digest(json.dumps(content, sort_keys=True, ensure_ascii=False, allow_nan=False).encode())[:20] != record['id']:
+            raise ValueError('Memory content changed without a new proposal ID')
+        review = record.get('review')
+        if record['status'] in ('accepted', 'conflict', 'rejected') and (
+                not isinstance(review, dict) or any(not isinstance(review.get(k), str) or not review[k].strip()
+                                                     for k in ('reviewer', 'reason', 'at'))
+                or review.get('verdict') != ('reject' if record['status'] == 'rejected' else 'approve')):
+            raise ValueError('Memory status lacks matching review evidence')
+        records[record['id']] = record
+    status = {}
+    for event in data['audit']:
+        if (not isinstance(event, dict) or not isinstance(event.get('id'), str) or event['id'] not in records
+                or not isinstance(event.get('at'), str) or not event['at']):
+            raise ValueError('Invalid memory audit reference')
+        ident, name = event['id'], event.get('event')
+        if not isinstance(name, str) or name not in TRANSITIONS[status.get(ident)]:
+            raise ValueError('Illegal memory status transition')
+        if name != 'proposed' and (not isinstance(event.get('reason'), str) or not event['reason'].strip()):
+            raise ValueError('Memory transition lacks an audit reason')
+        status[ident] = TRANSITIONS[status.get(ident)][name]
+    if any(status.get(ident) != record['status'] for ident, record in records.items()):
+        raise ValueError('Memory status does not match lifecycle audit')
+    json.dumps(data, allow_nan=False)
+    return {'records': len(records), 'audit_events': len(data['audit'])}
+
+
 class Memory:
     def __init__(self, root, directory=None):
         self.root = Path(root).resolve()
@@ -55,14 +129,14 @@ class Memory:
         with (self.directory/'.lock').open('a+', encoding='utf-8') as lock, support.locked(lock):
             data = self.read()
             yield data
+            validate_store(data)
             self.atomic(self.file, data)
 
     def read(self):
         if not self.file.exists():
             return {'version':1, 'records':[], 'audit':[]}
         data = json.loads(self.file.read_text(encoding='utf-8'))
-        if data.get('version') != 1 or not isinstance(data.get('records'), list):
-            raise ValueError('Invalid memory store; do not overwrite')
+        validate_store(data)
         return data
 
     @staticmethod
@@ -70,8 +144,8 @@ class Memory:
         path.parent.mkdir(parents=True, exist_ok=True)
         fd, name = tempfile.mkstemp(dir=path.parent, prefix='.memory-')
         try:
-            with os.fdopen(fd, 'w') as f:
-                json.dump(data,f,ensure_ascii=False,indent=2)
+            with os.fdopen(fd, 'w', encoding='utf-8') as f:
+                json.dump(data,f,ensure_ascii=False,indent=2,allow_nan=False)
                 f.write('\n'); f.flush(); os.fsync(f.fileno())
             os.replace(name,path)
         finally:
@@ -95,9 +169,11 @@ class Memory:
 
     def valid(self, record):
         try:
+            validate_evidence(record['evidence'])
             return bool(record['evidence']) and all(
-                self.evidence(e['path'], e['pointer'],
-                              sources=[s['path'] for s in e['sources']] if 'sources' in e else None) == e
+                json.dumps(self.evidence(e['path'], e['pointer'],
+                              sources=[s['path'] for s in e['sources']] if 'sources' in e else None), sort_keys=True, allow_nan=False)
+                == json.dumps(e, sort_keys=True, allow_nan=False)
                 for e in record['evidence'])
         except (OSError,ValueError,KeyError,TypeError,IndexError):
             return False
@@ -136,6 +212,7 @@ class Memory:
         if not reason.strip():raise ValueError('Retirement reason required')
         with self.transaction() as data:
             r=next(x for x in data['records'] if x['id']==ident)
+            if r['status'] == 'retired': return r
             r.update(status='retired',updated=now())
             data['audit'].append({'at':now(),'id':ident,'event':'retired','reason':reason})
         return r

@@ -1,41 +1,48 @@
 ---
 name: workflow-routing
-description: Choose the smallest adequate implementation, repair, review, documentation, operations, or research-design route from task goals, risk, and dependencies.
+description: "Select minimal skill bundles and light/standard/heavy rigor for features, bug fixes, refactoring or documentation from explicit scope and risk; routing does not authorize tools or production operations."
 ---
 
-[中文](SKILL.md) | English
+English | [中文](SKILL.md)
 
-Follow the [language policy](../../references/language.md).
+Follow the [language policy](../../references/language.md), [evidence policy](../../references/evidence-policy.en.md) and [project context](../../references/project-context.en.md). Reuse existing authorization; never infer production permissions from keywords.
 
-For factual answers, tests, reviews or completion claims, first read and follow the [shared evidence policy](../../references/evidence-policy.en.md).
+# Choose a bundle, then rigor
 
-# Workflow routing
-
-Read goals and [project adaptation](../../references/project-context.en.md), reusing authorization and settled choices. Choose a minimal adequate route:
-
-| Task | Route | Boundary |
+| Frequent task | Minimal default bundle | Add only when needed |
 | --- | --- | --- |
-| Small explicit change | direct | Implementation → host checks → verification |
-| Cross-module/new/compatibility behavior | development | Design → review → necessary docs → implementation → review → checks/verification |
-| Existing defect | repair | Full bounded repair loop with failure baseline and bug-fix |
-| Review only | review | Read-only findings, without claiming product acceptance |
-| Security assessment | security-review | Read-only security role, no automatic repairs |
-| Environment/CI/deployment configuration | operations | IT edits declared workspace files, then review/checks/verifier; no online operations |
-| Market research through design | research-design | Research → requirements → solution → selection → architecture → docs → review/revisions → verification |
-| Documentation edits | documentation | Write → review → relevant checks/verification |
+| Feature | solution-design → test-driven-development → verification-before-completion | Design/code review for multiple modules; impact analysis for API changes |
+| Bug fix | bug-fix → verification-before-completion | Escalate incidents, authentication and data risks; establish the failing baseline |
+| Refactor / impact | change-impact-analysis → code-simplification → verification-before-completion | Architecture conformance and design review for boundary changes |
+| Documents / reports | project-documentation → verification-before-completion | document-review at standard rigor; Office/PDF/diagram methods only for their carriers |
 
-The Codex adapter chooses `workflow` explicitly; omission defaults to development. Keywords do not infer authorization and direct cannot bypass required review. Use grilling only for explicit interviews. Explain route, rationale, artifacts, checks and missing conditions; simple work needs neither diagram nor team. Use [task orchestration](../task-orchestration/SKILL.en.md) for dependencies; see [runner guide](../../workflows/README.md) for real capabilities.
+Do not load all other skills by default. The machine registry [task-routing.json](../../references/task-routing.json) records each skill's owner, category, activation and trigger. Read-only analysis delivers a report without automatically entering modification workflows.
 
-Choose domain skills rather than adding executor routes: market-research, product-requirements, competitive-analysis, roadmap-planning, technical-research, solution-design, technology-selection, architecture-design and design-review. Load the [full chain](../solution-design/references/research-to-design.md) only as requested. Pure investigation delivers a report; saving docs may use documentation without code implementation.
+## Tiered Rigor
 
-Use [document-review](../document-review/SKILL.en.md) for read-only documents or red-team's documentation stage, [architecture-conformance](../architecture-conformance/SKILL.en.md) for implemented constraints and [architecture-evolution](../architecture-evolution/SKILL.en.md) for staged plans. [CI/CD](../ci-cd/SKILL.en.md) config follows operations; [dependency upgrades](../dependency-upgrade/SKILL.en.md) involving product behavior use direct/development according to risk. [Codebase](../codebase-analysis/SKILL.en.md) and [impact](../change-impact-analysis/SKILL.en.md) analysis remain read-only by default and need no defect verdict or implementation phase. None automatically grants remote publication.
+- **light**: Explicit, single-file change without declared sensitive risks. Retain scope, real command, working directory, exit status and object fingerprints. Bug fixes also require a failing baseline. Skip separate design artifacts, model reviews and independent acceptance sessions; label host self-checks accurately.
+- **standard**: Multiple files/modules, unknown risk or Office/browser/desktop work. Preserve applicable design, independent review and acceptance; do not mandate unrelated artifacts.
+- **heavy**: Security, public APIs, persistent data migration, production incidents, critical performance, concurrency or broad changes. Require impact analysis, design review and relevant security/performance reviews. Light rigor cannot bypass these floors.
 
-Use [agent-experience](../agent-experience/SKILL.en.md) for agent-facing tool descriptions, skill discovery, context loading, and handoff information interfaces. Use [code-simplification](../code-simplification/SKILL.en.md) to reduce duplicate state, ineffective interfaces, or maintenance obligations. Surveys remain read-only and deliver evidence directly; edits use direct/development according to existing authorization, scope, and risk, or documentation for skill/prose-only work. Neither adds an executor route or requires an extra audit for ordinary product UX, repairs, or reviews.
+Missing risk information defaults to standard. An explicit empty risk list is a caller declaration, not proof of safety. Reclassify when the actual diff changes scope or risk; the machine gate cannot infer every semantic risk. Preserve stricter user requirements.
 
-Use [office](../office/SKILL.en.md) to select methods for actual DOCX/XLSX or cross-format requests. Standalone images, PDF or recalculation use the relevant operation directly without reauthoring the document. These add no executor route; file generation retains existing authorization/artifact scope, while ordinary Markdown remains project-documentation.
+```bash
+python3 /path/to/OpenAS/plugins/openas/workflows/task_router.py --task task.json
+```
 
-Use [pdf-extraction](../pdf-extraction/SKILL.en.md) for PDF text and page evidence supporting requested summaries/fields, without first converting Office files or rendering images. It adds no executor route and implements no OCR; image/PDF-only requests retain their corresponding Office operations.
+Use task_kind feature/bugfix/refactor/documentation and rigor auto/light/standard/heavy with actual scope, risk_factors, optional module_count and carrier. Executable tasks also require requirement, acceptance, checks and explicit acceptance_checks mappings. The planner only returns a route; it executes no task or installation.
 
-Use [pr-review-feedback](../pr-review-feedback/SKILL.en.md) for existing PR feedback, [release-management](../release-management/SKILL.en.md) to prepare or verify a release, and [coverage-analysis](../coverage-analysis/SKILL.en.md) for measured coverage and gaps. Analysis can deliver findings directly. For workspace changes, use direct or development according to risk, or operations for release configuration. Remote releases and PR actions follow existing authorization and host capabilities.
+The Codex adapter enforces tiers only when rigor is present. Existing tasks retain legacy workflows and the development default. An explicit workflow in a tiered task must agree with the planned route. Use the existing commands in the [runtime guide](../../workflows/README.en.md); task labels add no permissions.
 
-Use [skill-maintenance](../skill-maintenance/SKILL.en.md) for an existing Agent Skill revision driven by a reproducible failure and matched evaluation cases.
+<details>
+<summary>Enable only for matching risks or carriers</summary>
+
+- Security: security-review. Critical performance: performance-analysis. Production incident: incident-response.
+- Office: [office](../office/SKILL.en.md). Browser: [browser-goal-executor](../browser-goal-executor/SKILL.en.md). Desktop: [gui-goal-executor](../gui-goal-executor/SKILL.en.md). Diagrams: [technical-diagrams](../technical-diagrams/SKILL.en.md).
+- Research/product/architecture specialists remain conditional; use research-design for the full preliminary design chain.
+- Read-only review/security-review, operations, task graphs and PR feedback retain their original entry points. Do not force them into a modification bundle.
+- Skill maintenance and project-memory are not mandatory closing steps for every small task.
+
+</details>
+
+Report the selected bundle, tier and reasons, actual checks, result and limits. Simple tasks need no team or diagram; use [task-orchestration](../task-orchestration/SKILL.en.md) for real dependencies.

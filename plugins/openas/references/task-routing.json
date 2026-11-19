@@ -1,0 +1,507 @@
+{
+  "version": 1,
+  "bundles": {
+    "feature": {
+      "base": [
+        "solution-design",
+        "test-driven-development",
+        "verification-before-completion"
+      ],
+      "standard": [
+        "design-review",
+        "requesting-code-review"
+      ],
+      "heavy": [
+        "change-impact-analysis",
+        "architecture-design"
+      ],
+      "roles": [
+        "developer",
+        "cto",
+        "red-team",
+        "verifier"
+      ]
+    },
+    "bugfix": {
+      "base": [
+        "bug-fix",
+        "verification-before-completion"
+      ],
+      "standard": [
+        "change-impact-analysis",
+        "requesting-code-review"
+      ],
+      "heavy": [
+        "solution-design",
+        "design-review"
+      ],
+      "roles": [
+        "developer",
+        "red-team",
+        "verifier"
+      ]
+    },
+    "refactor": {
+      "base": [
+        "change-impact-analysis",
+        "code-simplification",
+        "verification-before-completion"
+      ],
+      "standard": [
+        "requesting-code-review"
+      ],
+      "heavy": [
+        "architecture-conformance",
+        "design-review"
+      ],
+      "roles": [
+        "developer",
+        "cto",
+        "red-team",
+        "verifier"
+      ]
+    },
+    "documentation": {
+      "base": [
+        "project-documentation",
+        "verification-before-completion"
+      ],
+      "standard": [
+        "document-review"
+      ],
+      "heavy": [
+        "change-impact-analysis",
+        "design-review"
+      ],
+      "roles": [
+        "tech-writer",
+        "red-team",
+        "verifier"
+      ]
+    }
+  },
+  "extensions": {
+    "security": [
+      "security-review"
+    ],
+    "public-api": [
+      "change-impact-analysis"
+    ],
+    "data-migration": [
+      "change-impact-analysis"
+    ],
+    "production-incident": [
+      "incident-response"
+    ],
+    "performance-critical": [
+      "performance-analysis"
+    ],
+    "concurrency": [
+      "integration-testing"
+    ],
+    "office": [
+      "office"
+    ],
+    "browser": [
+      "browser-goal-executor"
+    ],
+    "desktop": [
+      "gui-goal-executor"
+    ],
+    "diagram": [
+      "technical-diagrams"
+    ]
+  },
+  "skills": {
+    "acceptance-tracking": {
+      "owner": "verifier",
+      "category": "validation",
+      "activation": "specialized",
+      "when": "将每条原始验收关联到实现和真实检查证据，区分已验证、模型评审与待人工核对；用于交付前确认需求覆盖。 / Map each original acceptance criterion to implementation and real check evidence; distinguish verified, reviewed, and pending items."
+    },
+    "accessibility-review": {
+      "owner": "ux-designer",
+      "category": "interface",
+      "activation": "conditional",
+      "when": "检查界面或交互设计的键盘、焦点、语义、标签、对比度和动态反馈，提供可复现问题；用于可访问性评审，不凭自动扫描宣称全面合规。 / Review keyboard use, focus, semantics, labels, contrast, and dynamic feedback; report reproducible barriers without claiming full compli"
+    },
+    "agent-evaluation": {
+      "owner": "test-engineer",
+      "category": "quality",
+      "activation": "specialized",
+      "when": "评估 Agent 真实任务的完成率、误报、恢复、调用次数与 token，对照记忆开关或版本。 / Benchmark agent outcomes, false completion, recovery, calls, and tokens on matched tasks and configurations."
+    },
+    "agent-experience": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "specialized",
+      "when": "设计或改进面向 Agent 的工具描述、参数 schema、技能触发、上下文加载和角色交接，使能力可发现且约束不丢失；不用于普通产品 UX 或无关文案压缩。 / Design or improve agent-facing tools, skill discovery, context loading, and handoffs while preserving constraints; not "
+    },
+    "architecture-conformance": {
+      "owner": "cto",
+      "category": "architecture",
+      "activation": "specialized",
+      "when": "对照有效架构决策和实际代码检查模块边界、依赖方向、数据归属及接口契约，报告架构偏差与证据；用于实现后的架构符合性检查，不代替实施前设计评审或运行验收。 / Compare actual code with effective architecture decisions, boundaries, dependencies, ownership, and contracts; report devi"
+    },
+    "architecture-design": {
+      "owner": "cto",
+      "category": "architecture",
+      "activation": "specialized",
+      "when": "依据需求和技术决策设计系统边界、模块、接口、数据与部署及失败处理，产出架构说明和需求映射；用于新系统或跨模块设计，不替代选型与实现。 / Design system boundaries, modules, interfaces, data, deployment, and failure behavior from requirements and technical decisions; pr"
+    },
+    "architecture-evolution": {
+      "owner": "cto",
+      "category": "architecture",
+      "activation": "specialized",
+      "when": "为已有系统的模块重构、依赖调整和接口或数据迁移制定分阶段架构演进方案，明确兼容、切换、回退与旧实现退役条件；用于长期改造规划，不自动执行重构或线上迁移。 / Plan staged refactoring and interface or data migration for existing systems, including compatibility, cutover, recovery,"
+    },
+    "artifact-verification": {
+      "owner": "verifier",
+      "category": "validation",
+      "activation": "specialized",
+      "when": "独立验收 Agent 生成、导出或下载的报告和文件，检查产物是否来自本次任务、结构化结果和逐项失败原因。 / Independently verify freshness, structured results, and per-criterion evidence for generated, exported, or downloaded artifacts."
+    },
+    "brainstorming": {
+      "owner": "product-manager",
+      "category": "product",
+      "activation": "specialized",
+      "when": "需求探索——在编码前先澄清目标、约束、已有架构与验证方式，而不是直接写代码。当用户提出新功能、需求模糊，或需要先理解真实问题再动手时使用。 / Clarify goals, constraints, existing architecture, and verification before coding when requirements are new or unclear."
+    },
+    "browser-goal-executor": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "conditional",
+      "when": "在指定 Web 应用中多轮执行目标，按语义定位、等待动态状态、保存下载并独立验收。 / Execute authorized multi-step web goals with semantic browser actions, observable waits, downloads, and acceptance."
+    },
+    "bug-fix": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "core",
+      "when": "系统化排查异常、崩溃、错误结果和卡死，通过需求、设计、实现、配置/环境四象限、日志与可区分实验确认根因，并验证修复；调试工具按目标项目选择，不把猜测当作已确认根因。 / Investigate exceptions, crashes, wrong results, or hangs using evidence across requirements, design, implementation"
+    },
+    "change-impact-analysis": {
+      "owner": "cto",
+      "category": "architecture",
+      "activation": "core",
+      "when": "围绕拟议变更或实际 diff 追踪调用方、接口、数据、配置、构建、测试和文档的影响，明确兼容风险、必要联动及验证范围；用于修改前影响分析或变更范围核对，不自动实施修改或代替代码评审。 / Trace proposed changes or diffs through consumers, contracts, data, configuration, builds, tests, and docu"
+    },
+    "checkpoint-and-resume": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "specialized",
+      "when": "在工作流中断后核对任务、工作区和执行规则，恢复可信检查点或显式使旧结果失效；用于恢复已有运行，不用于自动继续未经授权的旧任务。 / Validate task, workspace, rules, and evidence after interruption before reusing checkpoints; do not automatically resume unauthorized "
+    },
+    "ci-cd": {
+      "owner": "it",
+      "category": "operations",
+      "activation": "conditional",
+      "when": "依据项目构建与验收配置或排查 CI/CD 流水线，处理触发条件、构建矩阵、缓存、制品、权限和失败证据；用于持续集成与交付工程，不自动部署、发布或修改远程仓库设置。 / Configure or diagnose CI/CD triggers, build matrices, caches, artifacts, permissions, and failure evidence; do not a"
+    },
+    "code-simplification": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "core",
+      "when": "用生产者、消费者和兼容证据寻找或实施代码、接口、配置与状态的净简化，减少重复维护和无效抽象；只调查时不修改，不将代码库解释或一般缺陷评审变成删除任务。 / Find or implement evidence-backed simplifications of code, APIs, configuration, and state; preserve compatibility and keep"
+    },
+    "codebase-analysis": {
+      "owner": "researcher",
+      "category": "research",
+      "activation": "specialized",
+      "when": "依据实际源码梳理陌生或已有项目的入口、模块、依赖、核心调用链和扩展点，形成有证据的架构现状说明；用于理解代码库，不默认进行缺陷审计、架构改造或二进制逆向。 / Explain repository entry points, modules, dependencies, core call paths, and extension mechanisms from source evidence; "
+    },
+    "competitive-analysis": {
+      "owner": "product-manager",
+      "category": "product",
+      "activation": "specialized",
+      "when": "围绕目标用户和相同使用场景分析竞品、替代方案及自身差距，形成有来源的对比矩阵和机会判断；用于竞品调研，不以宣传或推测冒充实测。 / Compare competitors and alternatives for the same users and scenarios, with sourced evidence, gaps, and opportunity hypotheses rather "
+    },
+    "computer-use": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "conditional",
+      "when": "跨 Windows 与 macOS 的可靠桌面 GUI 自动化：在 Claude Code 或 Codex 中通过已连接的 MCP 读取 UI 控件、截图、定位、点击、输入和验证；只对经授权的桌面任务使用。 / Reliable Windows and macOS GUI automation with an already connected MCP in Claude Code or Code"
+    },
+    "context-handoff": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "specialized",
+      "when": "为下一角色或新会话交接当前任务的目标、现场、决定、产物、证据和剩余项；用于任务连续性，不代替长期项目记忆。 / Transfer current task goals, authorization, state, decisions, artifacts, evidence, and remaining work to another role or session; keep it separa"
+    },
+    "coverage-analysis": {
+      "owner": "test-engineer",
+      "category": "quality",
+      "activation": "specialized",
+      "when": "分析代码覆盖率报告或异常，定位未覆盖的语句、分支、条件或 MC/DC 判定，区分测试缺口、插桩采集问题和源码映射问题。 / Diagnose code coverage reports and gaps in statement, branch, condition, or MC/DC coverage, including instrumentation, collection, and sou"
+    },
+    "dependency-upgrade": {
+      "owner": "it",
+      "category": "operations",
+      "activation": "conditional",
+      "when": "分析并实施指定范围的依赖或工具链升级，核对破坏性变化、传递依赖、锁文件、调用适配和回归证据；用于版本升级及兼容迁移，不默认升级全部依赖或替换既定技术路线。 / Assess or implement scoped dependency and toolchain upgrades, including breaking changes, transitive resolution, lockfil"
+    },
+    "design-review": {
+      "owner": "red-team",
+      "category": "review",
+      "activation": "specialized",
+      "when": "交叉评审需求、调研、技术决策和架构的一致性、可行性与可验收性，输出有依据的问题和设计就绪结论；用于实施前设计检查，不冒充代码或运行验收。 / Review consistency, feasibility, and acceptance across requirements, research, technical decisions, and architecture before imple"
+    },
+    "document-review": {
+      "owner": "tech-writer",
+      "category": "documents",
+      "activation": "conditional",
+      "when": "依据源码、需求、设计与可信资料独立评审 README、指南、接口及设计文档，检查事实、完整性、图文一致性和操作可用性；用于只读文档评审，不代替文档编写、设计就绪评审或代码验收。 / Independently review documentation against code, requirements, design, and sources for accuracy, completeness"
+    },
+    "executing-plans": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "specialized",
+      "when": "按已有计划分步实施并验证，处理依赖和反馈；用于设计足够明确、需要持续落地的任务。 / Implement and verify an existing sufficiently clear plan step by step, respecting dependencies, scope, feedback, and evidence."
+    },
+    "failure-recovery": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "specialized",
+      "when": "工作流失败时根据实现、环境、客户端、验收、范围或格式问题选择修复、有限重试或交回条件；避免重复执行与无界重试。 / Classify workflow failures and choose repair, bounded retry, or handoff; preserve partial effects and avoid endless retries or reset limits."
+    },
+    "finish-development-branch": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "specialized",
+      "when": "开发完成后核对 diff、验收与评审，按既有授权提交、推送或合并，并保留未完成项。 / Check final diff, acceptance, and reviews, then commit, push, or merge within existing authorization while preserving unfinished work."
+    },
+    "git-worktrees": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "specialized",
+      "when": "为需要独立文件工作区的 Git 任务创建、检查和清理 worktree；用于并行特性或隔离试验，不为简单改动强制新建工作区。 / Create, inspect, and clean isolated Git worktrees for independent features or experiments; do not require one for every simple edit."
+    },
+    "github-skill-discovery": {
+      "owner": "researcher",
+      "category": "research",
+      "activation": "specialized",
+      "when": "按需求从 GitHub 搜索和评估 Agent Skills，检查内容、依赖、许可证与宿主兼容性，按任务授权安装、适配或融合多个技能生成新技能，并验证和记录来源提交；用于寻找、引入或融合外部技能，不用于普通业务仓库搜索或自动执行远程安装脚本。 / Find and assess GitHub Agent Skills, review content, dependencies, licensing"
+    },
+    "grilling": {
+      "owner": "product-manager",
+      "category": "product",
+      "activation": "specialized",
+      "when": "用户明确希望通过采访、连续追问或设计压力测试澄清关键取舍时使用。普通代码审查、项目评审和已经明确的实施任务使用对应评审或开发流程。 / Use explicit interviews or design pressure testing to clarify major tradeoffs; do not turn ordinary reviews or clear implementation "
+    },
+    "gui-goal-executor": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "conditional",
+      "when": "目标驱动的 Windows/macOS GUI Agent：在 Claude Code 或 Codex 中协调 computer-use Skill 与已连接的桌面 MCP，持续观察、规划、操作、验证、恢复，直到满足验收条件或安全停止。 / Goal-driven desktop GUI agent for Claude Code and Codex."
+    },
+    "incident-response": {
+      "owner": "it",
+      "category": "operations",
+      "activation": "conditional",
+      "when": "处理正在发生的服务或运行环境故障，确定影响、保留证据、止损恢复并核验服务状态；用于事故响应，深入根因调查与 bug-fix 衔接。 / Contain and recover an active service or environment incident, preserve evidence, and verify recovery; hand deeper causal investigat"
+    },
+    "integration-testing": {
+      "owner": "test-engineer",
+      "category": "quality",
+      "activation": "specialized",
+      "when": "编写和排查跨模块、数据库或服务边界的集成测试，明确真实依赖、夹具隔离和状态清理；用于验证组件协作行为。 / Build or investigate tests across module, database, or service boundaries with explicit real dependencies, isolated fixtures, cleanup, and behavio"
+    },
+    "interaction-design": {
+      "owner": "ux-designer",
+      "category": "interface",
+      "activation": "conditional",
+      "when": "将已确认需求转为用户流程、信息架构、界面状态和可实施的交互规格；用于界面或操作流程设计，不自行扩大产品范围。 / Translate confirmed requirements into user flows, information architecture, interface states, and implementable interaction specifications with"
+    },
+    "market-research": {
+      "owner": "product-manager",
+      "category": "product",
+      "activation": "specialized",
+      "when": "研究目标市场、用户问题、需求证据和机会，产出有来源及置信度的市场调研；用于新产品定位与机会验证，竞品逐项对比交给 competitive-analysis。 / Research target markets, user problems, demand evidence, and opportunities with sources and confidence; delegate detail"
+    },
+    "office": {
+      "owner": "tech-writer",
+      "category": "documents",
+      "activation": "conditional",
+      "when": "按产物和操作选择 DOCX、XLSX、现有 PPTX 制作、图像渲染、PDF 导出或公式重算；用于多格式 Office 任务分流，不把普通项目 Markdown 当作 Office 文档。 / Route Office tasks by format and operation: DOCX, XLSX, PPTX authoring, image rendering, PDF export, or"
+    },
+    "office-docx": {
+      "owner": "tech-writer",
+      "category": "documents",
+      "activation": "conditional",
+      "when": "创建、读取或定点编辑 Word DOCX，保留相关文字格式并核对保存结果；不将普通替换冒充修订跟踪。 / Create, read, or edit Word DOCX files while preserving relevant formatting and validating saved content; ordinary edits are not tracked changes."
+    },
+    "office-export-pdf": {
+      "owner": "tech-writer",
+      "category": "documents",
+      "activation": "conditional",
+      "when": "将已保存的 DOCX、XLSX 或 PPTX 导出为新的 PDF，保留源文件；PDF 导出不自动要求页面图片或视觉审查。 / Export saved DOCX, XLSX, or PPTX to a new PDF while preserving sources; PDF-only export does not require image rendering."
+    },
+    "office-recalculate": {
+      "owner": "tech-writer",
+      "category": "documents",
+      "activation": "conditional",
+      "when": "使用真实表格引擎刷新 XLSX 公式缓存，核对公式保留与计算结果；不以手填常量、旧缓存或 PDF 转换代替重算。 / Refresh XLSX formula caches with a real spreadsheet engine and verify formulas and results; constants, stale caches, and PDF export are not r"
+    },
+    "office-render": {
+      "owner": "tech-writer",
+      "category": "documents",
+      "activation": "conditional",
+      "when": "将已保存的 DOCX、XLSX、PPTX 或 PDF 渲染为页面图片，支持指定 PDF 页并检查视觉布局；不把成功导出视为视觉验收。 / Render saved DOCX, XLSX, PPTX, or PDF to page images and inspect layout; conversion success is not visual acceptance."
+    },
+    "office-xlsx": {
+      "owner": "tech-writer",
+      "category": "documents",
+      "activation": "conditional",
+      "when": "创建、读取或定点修改 Excel XLSX 的数据、公式和样式，保留工作表结构；写入公式不等于已计算结果。 / Create, read, or edit Excel XLSX data, formulas, and styles while preserving workbook structure; writing a formula does not calculate it."
+    },
+    "parallel-integration": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "specialized",
+      "when": "整合已授权独立任务的成果，核对文件与接口冲突并验证组合结果；不提供或自动启动并行调度。 / Integrate already authorized independent work, inspect overlapping changes and contracts, and verify combined behavior; do not provide or automatically st"
+    },
+    "pdf-extraction": {
+      "owner": "tech-writer",
+      "category": "documents",
+      "activation": "conditional",
+      "when": "从本地 PDF 按页提取文字，支持选页、TXT/JSON 和页码溯源，区分空文本、解析失败与 OCR 需求；不把渲染、摘要或扫描件识别冒充直接文字提取。 / Extract local PDF text by page into TXT/JSON with provenance, distinguishing empty text, parser failures and OCR needs; n"
+    },
+    "performance-analysis": {
+      "owner": "performance-engineer",
+      "category": "performance",
+      "activation": "conditional",
+      "when": "建立可复现基准、采集剖析数据并用对照实验验证性能瓶颈和收益；用于性能调查与优化验证，不从单次耗时推导结论。 / Establish reproducible benchmarks, profile execution, and test bottleneck and optimization hypotheses with controlled comparisons rather than si"
+    },
+    "pr-review-feedback": {
+      "owner": "red-team",
+      "category": "review",
+      "activation": "specialized",
+      "when": "处理已有 PR 评审意见，逐条核对当前提交、修复有效问题、验证改动并记录每条意见的结果；用于收到评审后的跟进。 / Triage existing PR review feedback against the current head, fix actionable findings, verify changes, and report a disposition for each thread"
+    },
+    "presentation-creation": {
+      "owner": "tech-writer",
+      "category": "documents",
+      "activation": "conditional",
+      "when": "将可信材料组织为适合受众和时长的演示，生成原生文字、图表与表格可编辑的 PowerPoint（.pptx），包含讲稿备注、源稿、预览与检查；用于项目汇报、客户介绍、技术分享和研究演示，不将仅需提纲或 HTML/Beamer 的请求擅自改为 PPTX。 / Create audience-appropriate editable PowerPoint presentations from trust"
+    },
+    "product-requirements": {
+      "owner": "product-manager",
+      "category": "product",
+      "activation": "specialized",
+      "when": "将用户问题、调研与业务约束转成产品简报或 PRD，定义范围、用户流程、可检验需求与成功指标；用于需求定稿，不代替技术选型或架构设计。 / Turn user problems, research, and constraints into a brief or PRD with scope, user flows, testable requirements, and success metric"
+    },
+    "project-documentation": {
+      "owner": "tech-writer",
+      "category": "documents",
+      "activation": "core",
+      "when": "依据源码、运行方式和目标读者编写或更新 README、入门指南、设计文档、架构、接口、部署运维及排障文档；用于项目说明与文档润色，不将调研结论冒充已实现功能。 / Write or update README, onboarding, design, API, deployment, operations, and troubleshooting documentation from code a"
+    },
+    "project-memory": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "specialized",
+      "when": "从项目任务和验证记录中提炼、审查与复用经验，并将成熟经验生成项目候选技能，管理试用、启用、使用反馈和回滚；用于跨任务知识积累，不用于保存全部聊天或修改核心权限。 / Extract, review, and reuse evidence-backed project knowledge and manage candidate skill trials, activation, feedback,"
+    },
+    "release-management": {
+      "owner": "it",
+      "category": "operations",
+      "activation": "conditional",
+      "when": "准备、核验或按授权发布软件版本，核对版本、变更日志、标签、制品、安装或升级验证及失败恢复。 / Prepare, verify, or publish an authorized software release, reconciling versions, changelogs, tags, artifacts, smoke checks, and recovery."
+    },
+    "requesting-code-review": {
+      "owner": "red-team",
+      "category": "review",
+      "activation": "specialized",
+      "when": "对实际代码、diff 或项目现状进行证据驱动的评审，检查需求、边界、兼容和验证缺口；普通评审直接调查并给出发现。 / Review actual code, diffs, or repository state for evidenced defects in requirements, boundaries, compatibility, and validation; investigate "
+    },
+    "reverse-engineer-anything": {
+      "owner": "researcher",
+      "category": "research",
+      "activation": "specialized",
+      "when": "Use only for explicitly authorized reverse engineering of supplied binaries or firmware."
+    },
+    "roadmap-planning": {
+      "owner": "product-manager",
+      "category": "product",
+      "activation": "specialized",
+      "when": "将需求、调研和竞品发现转成 MVP、阶段目标、优先级、依赖与验收指标；用于产品或技术路线图，不代替逐文件的实施计划或编造交付日期。 / Organize requirements and research into MVP, priorities, phases, dependencies, and acceptance measures; do not invent dates or repla"
+    },
+    "security-review": {
+      "owner": "security-reviewer",
+      "category": "security",
+      "activation": "conditional",
+      "when": "依据实际代码、配置与数据流检查信任边界和可利用的安全缺陷，给出攻击前提与修复验证方法；用于安全评审，不自动执行外部扫描。 / Trace actual trust boundaries and exploitable security issues in code, configuration, and data flows, with prerequisites and verification"
+    },
+    "skill-maintenance": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "specialized",
+      "when": "根据可复现的漏触发、误触发或执行失败改进已有 Agent Skill，用新旧版本对照、相似反例和独立验收用例验证修订。 / Improve an existing Agent Skill from reproducible routing or execution failures, comparing versions against realistic and held-out cases."
+    },
+    "solution-design": {
+      "owner": "cto",
+      "category": "architecture",
+      "activation": "core",
+      "when": "形成解决问题的候选方案与取舍，或串联市场调研、需求、技术选型、架构及设计文档的完整流程；具体选型与架构使用相应专门技能，不默认进入开发。 / Compare solution alternatives and tradeoffs or coordinate research, requirements, selection, architecture, and design documentati"
+    },
+    "subagent-driven-development": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "specialized",
+      "when": "对适合分工的跨模块开发、架构或协议变更组织角色交接、对抗评审和独立验证；不对简单问答或机械文档修改强制启动完整团队。 / Coordinate authorized role handoffs, adversarial review, and independent verification for complex changes; do not require teams for simple "
+    },
+    "task-orchestration": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "specialized",
+      "when": "将多步骤开发任务组织为有依赖、产物、归属和验收的任务图，并按依赖执行与回交；不自动授予并行或发布权限。 / Represent multi-step work as dependency nodes with artifacts, ownership, routes, and acceptance, and execute with failure handoff; do not imply pa"
+    },
+    "technical-diagrams": {
+      "owner": "tech-writer",
+      "category": "documents",
+      "activation": "conditional",
+      "when": "为技术文档创建和维护系统架构、数据流、状态机、交互时序及数据结构图；根据用途选择可维护的 Mermaid、D2 或原生 SVG，核对图意并嵌入文档，不用于照片或艺术插画。 / Create maintainable architecture, data-flow, state, sequence, and data-structure diagrams using Mermaid, D2, or "
+    },
+    "technical-research": {
+      "owner": "researcher",
+      "category": "research",
+      "activation": "specialized",
+      "when": "围绕技术问题收集可追溯资料、比较证据并设计验证实验，产出技术调研报告；适用于可行性调查和技术现状研究，不代替实施计划。 / Gather traceable technical evidence, compare applicability, and design feasibility experiments; deliver research rather than an implementa"
+    },
+    "technology-selection": {
+      "owner": "cto",
+      "category": "architecture",
+      "activation": "specialized",
+      "when": "依据需求和硬约束比较语言、框架、存储、通信及部署路线，输出有证据的技术选型与 ADR；用于决定用什么和为什么，不用技术栈清单代替架构。 / Compare feasible technology routes against requirements and hard constraints, preserving evidence, tradeoffs, PoC uncertainty, and"
+    },
+    "test-driven-development": {
+      "owner": "test-engineer",
+      "category": "quality",
+      "activation": "core",
+      "when": "测试驱动开发：先写失败测试(RED) → 最小实现(GREEN) → 重构(REFACTOR)，用测试将已确认需求具体化并约束实现。当需要以 TDD 方式开发时使用。 / Use RED → GREEN → REFACTOR to express confirmed behavior as meaningful tests, implement minimally, and verify regr"
+    },
+    "test-strategy": {
+      "owner": "test-engineer",
+      "category": "quality",
+      "activation": "specialized",
+      "when": "依据需求和风险制定测试层级、场景、数据与执行计划；用于功能或系统测试规划，不代替具体测试实现或最终验收。 / Plan risk-based test levels, scenarios, data, environments, and execution with acceptance mappings; do not confuse a test plan with implemented t"
+    },
+    "verification-before-completion": {
+      "owner": "verifier",
+      "category": "validation",
+      "activation": "core",
+      "when": "在交付前按改动类型核对验收并提供真实验证证据，明确未运行项，不将文档任务机械升级为完整构建。 / Verify acceptance with real evidence appropriate to the change, distinguishing unexecuted, static, mock, historical, and runtime checks."
+    },
+    "workflow-routing": {
+      "owner": "developer",
+      "category": "delivery",
+      "activation": "core",
+      "when": "根据任务目标、风险和依赖选择直接实现、调试、只读评审、文档或完整开发流程；用于决定怎样执行，不代替领域分析。 / Choose the smallest adequate implementation, repair, review, documentation, operations, or research-design route from task goals, risk, and dep"
+    },
+    "writing-plans": {
+      "owner": "cto",
+      "category": "architecture",
+      "activation": "specialized",
+      "when": "将足够明确的设计拆为可执行任务，保留范围、依赖、项目约束和验收；用于实现前规划或复杂任务交接。 / Turn sufficiently clear design into executable, dependency-aware tasks with scope, project constraints, and acceptance; separate blockers from impleme"
+    }
+  }
+}

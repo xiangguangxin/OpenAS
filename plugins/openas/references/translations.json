@@ -4,8 +4,8 @@
     {
       "source": "README.md",
       "target": "README.en.md",
-      "source_sha256": "5f504059ff7e3147ea3e9ddbf6960c359f26322570afcb978cee128eeb6656c0",
-      "target_sha256": "c196b6873e85434408ab3cc21852b72e76b09526b63a43361217add3618ddeb0"
+      "source_sha256": "f0161dbf6f8e4e9317550b73403786b9eada46be9898700b7f512c66e81a8964",
+      "target_sha256": "b388ca1f7c7f3906257a510dbc523234bb67bb33c666ac46a6d3dea856c2860f"
     },
     {
       "source": "agents/cto.md",
@@ -118,8 +118,8 @@
     {
       "source": "memory/README.md",
       "target": "memory/README.en.md",
-      "source_sha256": "d36bc7705022a4e403b9a78a60a6719b0584bbed32500aa7908b3ebd7d71c5d3",
-      "target_sha256": "c2645adca8eae40c206f2cc163abd0d6f7c2c2d5a3297a819467bd8b21ce2c49"
+      "source_sha256": "280d31af666376e9ae05b5ff362280f02bedabb5bf0ae74f746456229a80ca99",
+      "target_sha256": "d3b8dbaabd0b089c029da5f5a1c56b3caf009e0c55284fc4977da5d132777023"
     },
     {
       "source": "memory/learning.md",
@@ -436,8 +436,8 @@
     {
       "source": "skills/workflow-routing/SKILL.md",
       "target": "skills/workflow-routing/SKILL.en.md",
-      "source_sha256": "39fdc050d21818d652fb59351435ace46d7da733a9b12a77e288a7485f1b6474",
-      "target_sha256": "2fdd7cec80ff501069f96567c08e5e5d07d26d6ba89c3ada6c593571b23cb132"
+      "source_sha256": "8ad4afce26531a61164a11e33dc377c9689e4bffb5754dfac6964318dcb77496",
+      "target_sha256": "20b4e3fc0973b80995804ecc02ae38fdb3e8de2c2a958dc8131b8ca9fb0c4090"
     },
     {
       "source": "skills/writing-plans/SKILL.md",
@@ -448,8 +448,8 @@
     {
       "source": "workflows/README.md",
       "target": "workflows/README.en.md",
-      "source_sha256": "b4fbc4943194efeaf90b3829889c18d1e7579d0f376286778777bd5654ed55b5",
-      "target_sha256": "9b2f46b215fe0f441d5a478f26b3b2c42a72fc76173e78ff4809eb98341684ff"
+      "source_sha256": "5607059211f1ac8a130a74992ba7d1c8388c60d299a5acfd13e1c09facf344bb",
+      "target_sha256": "6856d4e860ba6ab8e47724f69a1c5cb77682abc3e92d12be2c564105ebb1384a"
     },
     {
       "source": "skills/agent-experience/SKILL.md",

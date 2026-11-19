@@ -33,8 +33,10 @@ jobs:
         with:
           node-version: "22"
           package-manager-cache: false
-      - name: Validate plugin
-        run: python3 scripts/check_plugin.py
+      - name: Validate plugin metadata, references and task routing
+        run: |
+          python3 scripts/check_plugin.py
+          python3 plugins/openas/workflows/task_router.py --task plugins/openas/workflows/examples/tiered-light-task.json
       - name: Install presentation test dependencies
         run: python3 -m pip install -r plugins/openas/skills/presentation-creation/requirements.txt
       - name: Python tests

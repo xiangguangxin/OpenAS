@@ -129,6 +129,22 @@ Factual answers and validation claims follow the [shared policy](../references/e
 
 Result schemas, status enums and run-record versions are unchanged; nonempty evidence is not semantic authentication. Host exit-code, file-scope and checkpoint checks establish only their covered properties. Remote CI, native-client and human observations remain separate evidence.
 
+
+<a id="tiered-rigor"></a>
+
+## Tiered Rigor
+
+Choose a minimal frequent-task bundle through [workflow-routing](../skills/workflow-routing/SKILL.en.md). Use explicit `task_kind`, `rigor`, `risk_factors`, scope and acceptance check mappings to opt in; legacy tasks retain their current routes.
+
+```bash
+python3 task_router.py --task examples/tiered-light-task.json
+# Execute through the existing codex-team.py command with a trusted task/workspace.
+python3 task_router.py --evidence /path/to/run/rigor-evidence.json
+```
+
+Light tasks use one bounded implementation stage plus host checks, without separate design/review sessions. Standard/heavy tasks retain independent review and acceptance; heavy tasks add impact/design gates and relevant risk reviews. A requested tier below the risk floor fails validation. All tiers require real host check evidence and explicit acceptance mappings. Planning does not execute checks or grant permissions. Evidence validation checks completeness and the current policy fingerprint; arbitrary JSON cannot establish a real execution or reviewer identity.
+
+
 ## Customer readiness
 
 The [customer demo guide](https://github.com/xiangguangxin/OpenAS/blob/main/docs/customer-demo.md) covers repo-scoped Codex installation/native discovery, engineering workspace inspection/preparation, graph recovery and opt-in real GUI/download acceptance. Every node emits `report.html`; `acceptance_summary` distinguishes automated checks, manual review and failure. The compatible workflow status `verified` is not blanket business acceptance. Colocated project memory remains active and exposes `memory_status`. Windows/POSIX workflow locks and process cancellation have separate smoke checks; native desktop E2E remains an opt-in real-environment check.

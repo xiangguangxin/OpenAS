@@ -2,6 +2,7 @@
 """Read-only structural checks for the OpenAS bundle (not a Claude client emulator)."""
 import argparse
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -15,10 +16,13 @@ def metadata(path):
     header = text.split('---', 2)[1]
     fields = {}
     for key in ('name', 'description'):
-        match = re.search(r'^' + key + r':\s*(.+)$', header, re.MULTILINE)
+        matches = list(re.finditer(r'^' + key + r':\s*(.+)$', header, re.MULTILINE))
+        match = matches[0] if len(matches) == 1 else None
         if not match or not match.group(1).strip():
             raise ValueError(f'Missing {key}: {path}')
         fields[key] = match.group(1).strip().strip('\"\'')
+    if not re.fullmatch(r'[a-z][a-z0-9-]{0,63}', fields['name']):
+        raise ValueError(f'Invalid metadata name: {path}')
     if any(c in fields['description'] for c in '<>'):
         raise ValueError(f'Angle brackets in description: {path}')
     return fields
@@ -75,6 +79,13 @@ def check_translations(root):
     return len(seen)
 
 
+def module(path, name):
+    spec = importlib.util.spec_from_file_location(name, path)
+    loaded = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(loaded)
+    return loaded
+
+
 def check(root):
     root = Path(root).resolve()
     manifest = json.loads((root/'.claude-plugin/plugin.json').read_text())
@@ -104,6 +115,7 @@ def check(root):
         agents.append(info['name'])
     if not skills or not agents:
         raise ValueError('No skills or agents')
+    routing = module(root/'workflows/workflow_policy.py', 'plugin_routing_gate').validate_registry(root)
     translations = check_translations(root)
     for p in files:
         if p.suffix != '.md':
@@ -119,17 +131,27 @@ def check(root):
         rel = p.relative_to(root).as_posix()
         content.update(rel.encode()); content.update(b'\0'); content.update(p.read_bytes()); content.update(b'\0')
     return {'name':manifest['name'], 'version':manifest['version'], 'skills':skills, 'translations':translations,
-            'agents':agents, 'files':len(files), 'sha256':content.hexdigest()}
+            'agents':agents, 'routing':routing, 'files':len(files), 'sha256':content.hexdigest()}
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('path', nargs='?', type=Path, default=Path(__file__).resolve().parents[1]/'plugins/openas')
+    parser.add_argument('--memory', action='append', default=[], type=Path, help='Read-only memory schema and lifecycle audit')
+    parser.add_argument('--evidence', action='append', default=[], type=Path, help='Read-only tiered host-evidence completeness gate')
     args = parser.parse_args()
     try:
-        print(json.dumps(check(args.path), ensure_ascii=False, indent=2))
+        result = check(args.path)
+        memory = module(args.path/'skills/project-memory/scripts/project_memory.py', 'plugin_memory_gate')
+        for path in args.memory:
+            memory.validate_store(json.loads(path.read_text(encoding='utf-8')))
+        policy = module(args.path/'workflows/workflow_policy.py', 'plugin_evidence_gate')
+        for path in args.evidence:
+            policy.check_evidence(json.loads(path.read_text(encoding='utf-8')))
+        result.update(memory_stores_checked=len(args.memory), evidence_receipts_checked=len(args.evidence))
+        print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
-    except (OSError, ValueError, TypeError) as exc:
+    except (OSError, ValueError, TypeError, KeyError) as exc:
         print(str(exc), file=sys.stderr)
         return 1
 

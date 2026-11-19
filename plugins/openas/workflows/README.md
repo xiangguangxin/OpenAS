@@ -260,6 +260,25 @@ python3 workflows/codex-team.py \
 
 此次不改变结果 schema、状态枚举或运行记录版本；非空 evidence 不是语义认证。宿主退出码、文件范围和检查点检查只证明其实际覆盖的性质，远程 CI、原生客户端及人工观察须单独报告。
 
+
+<a id="tiered-rigor"></a>
+
+## Tiered Rigor：按任务分级
+
+先在 [workflow-routing](../skills/workflow-routing/SKILL.md) 选择高频组合，再在任务 JSON 中提供 `task_kind`、`rigor`、真实 `scope`、`risk_factors` 和逐项 `acceptance_checks`。没有 rigor 字段的旧任务保持原路线。
+
+```bash
+python3 task_router.py --task examples/tiered-light-task.json
+# 按原有 codex-team.py 命令，在授权工作区执行可信任务。
+python3 task_router.py --evidence /path/to/run/rigor-evidence.json
+```
+
+- light：一个有界实施阶段 + 宿主检查；只有修 Bug 要求失败基线，不生成独立设计/评审产物，也不称独立验收。
+- standard：适用设计、独立评审与验收；heavy 再加影响分析、设计门禁和适用安全/性能评审。
+- 强度低于风险下限会校验失败。每项验收必须关联真实宿主检查；路由只输出计划，不执行命令或授予权限。
+- `rigor-evidence.json` 保留目录、对象指纹、命令/退出码及所需阶段。检查器只验证结构完整性和当前策略版本；任意外部 JSON 不能证明真实运行或评审者身份。
+
+
 ## 客户接入与展示
 
 见[客户演示指南](https://github.com/xiangguangxin/OpenAS/blob/main/docs/customer-demo.md)：Codex 技能安装与原生发现、工程预检与隔离准备、任务图恢复，以及真实 GUI/下载验收。运行目录自动生成 `report.html`，`acceptance_summary` 区分机器检查通过、待人工核对与失败；不能用总体 `verified` 替代逐项业务验收。记忆支持与工作区同目录，记录 `memory_status`。Python 工作流采用 Windows/POSIX 锁和进程管理；Windows smoke 与真实桌面验收分别报告。

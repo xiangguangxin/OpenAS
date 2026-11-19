@@ -33,9 +33,10 @@ OpenAS 是面向 Claude Code / Codex 的可组合 Agent 与 Skill 工具集，�
 claude --plugin-dir /path/to/OpenAS/plugins/openas
 ```
 
-在会话中按需调用技能：
+日常任务先走组合路由，再按返回的最小技能组合执行：
 
 ```text
+/openas:workflow-routing 按目标、真实范围和风险选择最小技能组合与流程强度
 /openas:solution-design 分析需求，明确方案、边界与验收条件
 /openas:bug-fix 复现并定位问题，用测试验证修复
 /openas:codebase-analysis 梳理项目入口、模块依赖和核心调用链
@@ -104,6 +105,26 @@ flowchart LR
 独立 Runtime 支持可选的[文件验收](https://github.com/xiangguangxin/Praxis/blob/main/RUNTIME.md#artifact-verification)、[离线 Benchmark](https://github.com/xiangguangxin/Praxis/blob/main/RUNTIME.md#agent-benchmark) 和[经验检索与衰减](https://github.com/xiangguangxin/Praxis/blob/main/RUNTIME.md#opt-in-experience-assisted-planning-and-lifecycle)。历史经验仅作为规划提示，不自动重放操作；checkpoint 恢复也不代表后台自动继续。
 
 **验证边界：** CI 与模拟测试不等于真实 Windows/macOS + Nova 端到端验收。桌面操作需要用户安装并授权 Nova；高风险操作应经过确认。建议先在隔离环境测试。
+
+## 常见任务：先选组合，再选强度
+
+| 任务 | 默认最小技能组合 |
+| --- | --- |
+| 新功能 | solution-design → test-driven-development → verification-before-completion |
+| 修 Bug | bug-fix → verification-before-completion |
+| 重构/影响评估 | change-impact-analysis → code-simplification → verification-before-completion |
+| 文档/汇报 | project-documentation → verification-before-completion |
+
+**light** 只保留范围、复现/检查命令、退出码及对象指纹；**standard** 增加适用设计、独立评审/验收；**heavy** 对接口、安全、数据、并发和核心性能风险增加影响分析与严格门禁。未知风险默认 standard，不能强行降为 light。Office、浏览器、桌面等低频能力仅在对应载体启用。
+
+机器路由与轻量示例：
+
+```bash
+python3 plugins/openas/workflows/task_router.py --task plugins/openas/workflows/examples/tiered-light-task.json
+python3 scripts/check_plugin.py --memory /path/to/records.json --evidence /path/to/run/rigor-evidence.json
+```
+
+见 [组合与分级入口](plugins/openas/skills/workflow-routing/SKILL.md)及[运行器接入](plugins/openas/workflows/README.md#tiered-rigor)。分级由任务 JSON 显式启用；旧任务保持原流程。只读路由不执行任务，任务声明不授予生产权限。
 
 ## 工作流程
 
@@ -211,9 +232,10 @@ Launch Claude Code from your target project:
 claude --plugin-dir /path/to/OpenAS/plugins/openas
 ```
 
-Invoke a skill:
+Start with a minimal task bundle, then invoke only the selected methods:
 
 ```text
+/openas:workflow-routing Choose the minimal skill bundle and rigor from actual scope and risk.
 /openas:solution-design Define the architecture, boundaries, and acceptance criteria.
 /openas:bug-fix Reproduce the failure and verify the fix.
 /openas:codebase-analysis Explain the entry points and core call path.
@@ -267,6 +289,10 @@ flowchart LR
 - [Praxis Runtime](https://github.com/xiangguangxin/Praxis) adds its own model loop, JSON checkpoints, optional independent file verification, offline benchmark, and opt-in experience retrieval with aging and invalidation.
 
 **Limitations:** A checkpoint enables restart-based resume, not automatic background continuation. Offline CI does not establish real Windows/macOS + Nova E2E success. Experience hints never authorize automatic replay or bypass safety checks.
+
+## Frequent bundles and tiered rigor
+
+Use the four minimal bundles above through [workflow-routing](plugins/openas/skills/workflow-routing/SKILL.en.md), rather than loading a flat catalog. Light tasks keep host evidence only; standard/heavy tasks add independent review/acceptance and risk-specific gates. Unknown risk defaults to standard, and unsafe downgrades are rejected. Office/browser/desktop methods activate only for matching carriers. Existing task JSON retains legacy behavior unless rigor is explicitly supplied.
 
 ## Roles and skills
 
