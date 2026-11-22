@@ -250,7 +250,9 @@ def load_project(root):
     if not required <= set(seal['files']):
         raise ValueError('Study seal omitted a required collector or reference file')
     programs = {local(root, name) for name in project['collector_files']}
-    if not any(Path(arg) in programs for arg in project['collector']):
+    # Windows TEMP commonly uses an 8.3 short-name alias. Compare resolved paths
+    # on both sides; aliases of one file are not a relocated/unpinned observer.
+    if not any(Path(arg).resolve() in programs for arg in project['collector'] if Path(arg).is_absolute()):
         raise ValueError('Collector path no longer points to the pinned study; prepare a new project after relocation')
     actual_capture = {p.relative_to(root).as_posix() for p in (root/'capture').rglob('*')
                       if p.is_file() and '__pycache__' not in p.parts and p.suffix != '.pyc'}

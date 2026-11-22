@@ -93,6 +93,19 @@ class ReconstructionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'omitted'):
             m.load_project(self.project)
 
+    def test_pinned_program_alias_is_compared_by_resolved_identity(self):
+        self.prepare()
+        project = m.read(self.project/'project.json')
+        observer = self.project/project['collector_files'][0]
+        # A portable alias exercises the same normalization boundary as Windows
+        # short/long TEMP names, while the existing relocation test stays strict.
+        project['collector'][1] = str(observer.parent/'..'/observer.parent.name/observer.name)
+        m.atomic(self.project/'project.json', project)
+        seal = m.read(self.project/'seal.json')
+        seal['files']['project.json'] = m.hashlib.sha256((self.project/'project.json').read_bytes()).hexdigest()
+        m.atomic(self.project/'seal.json', seal)
+        self.assertEqual(m.load_project(self.project)['id'], project['id'])
+
     def test_browse_is_bounded_and_reports_only_stored_coverage(self):
         self.prepare()
         first = m.browse(self.project, 0, 2)

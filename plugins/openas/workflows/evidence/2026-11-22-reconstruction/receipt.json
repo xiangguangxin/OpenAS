@@ -53,15 +53,20 @@
       "status": "passed"
     },
     "workflow_python": {
-      "tests_run": 159,
+      "tests_run": 160,
       "status": "passed"
     },
     "javascript_mock_host": {
       "tests_run": 8,
       "status": "passed"
     },
-    "native_reconstruction_cases": 14,
+    "native_reconstruction_cases": 15,
     "host_python": "3.12.14",
     "windows": "CI job includes reconstruction tests; consult its actual run result"
+  },
+  "windows_path_regression": {
+    "issue": "Windows TEMP short-name aliases and resolved paths were treated as different observer locations",
+    "fix": "Resolve absolute collector paths before comparing with pinned program paths; retain hashes, required seal entries and relocation rejection",
+    "regression": "Portable alias normalization plus moved-study and omitted-observer rejection tests"
   }
 }
