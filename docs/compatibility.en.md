@@ -13,6 +13,10 @@
 
 Client observations apply to their recorded versions, not all past/future clients. Tests do not log in, upgrade clients, or expand sandbox permissions automatically.
 
+## Upgrade to 0.24.0
+
+Add bilingual software-reconstruction: 66 skills and 93 plugin translation pairs. Native prepare/run/check reuse existing tiered workflows with pinned studies, trusted observers, typed behavior comparison, optional Pillow screenshots, unknowns and idle-builder recovery. No Craft Anything/Rust runtime or submodule. Existing task/checkpoint schemas remain compatible; changed resources still require validation. New studies use separate version-1 project/seal/questions records.
+
 ## Upgrade to 0.23.0
 
 Fix colocated memory; add portable workflow locks/process handling, explicit graph recovery, HTML delivery receipts/acceptance summaries, repo-scoped Codex installation/native discovery, isolated workspace preparation and opt-in real GUI acceptance. Single-task state_version=2 remains, with additive fields and original changed-input validation. Graph run records are version=2; old graphs are audit-only. Skill and role counts are unchanged. See the [customer demo guide](customer-demo.md).

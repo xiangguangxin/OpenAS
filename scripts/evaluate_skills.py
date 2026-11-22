@@ -42,6 +42,13 @@ CASES = {
                          'codebase-analysis', False, False),
 }
 GOAL_CASES = {
+    'software-reconstruction': (
+        '使用已授权的可见界面观测规划一个独立的软件重建。只规划，不创建文件，不读取原软件代码或网页源文件。列出需要的观测、未知和独立验收；不能声称已经重建成功。',
+        'software-reconstruction',
+        'Target: owned synthetic test website. Visible observations only: desktop heading, mobile menu. '
+        'Form submission behavior is unknown. There is no browser or original source available in this fixture.',
+        (r'clean.?room|黑盒|外部观测|可见', r'未知|unknown', r'验收|verif|check'),
+    ),
     'stale-report': (
         '只读验收这份本地覆盖率交付。模型称运行完成。按 fixture.txt 中的规则核对报告是否能计作本次任务的交付。',
         'artifact-verification',

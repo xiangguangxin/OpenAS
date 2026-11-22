@@ -282,3 +282,7 @@ python3 task_router.py --evidence /path/to/run/rigor-evidence.json
 ## 客户接入与展示
 
 见[客户演示指南](https://github.com/xiangguangxin/OpenAS/blob/main/docs/customer-demo.md)：Codex 技能安装与原生发现、工程预检与隔离准备、任务图恢复，以及真实 GUI/下载验收。运行目录自动生成 `report.html`，`acceptance_summary` 区分机器检查通过、待人工核对与失败；不能用总体 `verified` 替代逐项业务验收。记忆支持与工作区同目录，记录 `memory_status`。Python 工作流采用 Windows/POSIX 锁和进程管理；Windows smoke 与真实桌面验收分别报告。
+
+## 从参考软件到独立实现
+
+新增原生 `reconstruct.py`：prepare 固定授权观测和可信观察器，run 复用现有分级开发、评审、检查与恢复；宿主实际运行候选并按行为、视口/状态检查差异。连续两次没有源码进展停止，未知项不被当成已验证。见[软件重建技能](../skills/software-reconstruction/SKILL.md)及[数据契约与示例](../skills/software-reconstruction/references/usage.md)。不需要安装 Craft Anything，也没有导入它的 Rust 工具引擎。

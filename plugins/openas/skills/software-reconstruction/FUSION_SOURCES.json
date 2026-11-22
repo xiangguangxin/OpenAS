@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "upstream": "https://github.com/storytold/craft-anything",
+  "commit": "8cec25d02007db604b57ce6735ad4eb44a1a9948",
+  "selected_license": "MIT",
+  "integration": "native Python and bilingual OpenAS method; no vendored Rust runtime, subprocess dependency or submodule",
+  "sources": [
+    {
+      "path": "crates/engine/src/clean_room.rs",
+      "git_blob_sha": "dd4c2c48384e68dbbc136d12bf57b8c81f7283e4"
+    },
+    {
+      "path": "crates/evidence/src/lib.rs",
+      "git_blob_sha": "948c8a6a9c00025518106327df1fb194c8c95758"
+    },
+    {
+      "path": "crates/evidence/src/unknown.rs",
+      "git_blob_sha": "c706881ef652ce508497f20c28d0a576b56d7e4f"
+    },
+    {
+      "path": "crates/ai/src/rebuild/study.rs",
+      "git_blob_sha": "e7be2f8b92a33831adb82f9c845e05e393d9884c"
+    },
+    {
+      "path": "crates/ai/src/rebuild/check.rs",
+      "git_blob_sha": "896ff50ee0a37c2d1aae335a6d664a6c5a4813e8"
+    },
+    {
+      "path": "crates/ai/src/rebuild/brief.rs",
+      "git_blob_sha": "87f4ee4aa30a2a68e1d95ca37d2dc9a974a782f1"
+    },
+    {
+      "path": "crates/ai/src/rebuild/mod.rs",
+      "git_blob_sha": "7b40cafe3ee248e905fc7976a72ccb2c25ebe500"
+    },
+    {
+      "path": "crates/ai/src/rebuild/stall_tests.rs",
+      "git_blob_sha": "1f61438e1d5cffe631aacea4a84eb416e50b69fa"
+    }
+  ],
+  "adopted": [
+    "Study/build/check/refine loop",
+    "Explicit external-observation versus internal-inspection ingestion policy",
+    "Observed/derived/inferred records and bounded evidence pages",
+    "Residual unknowns with evidence and revision-aware resolution",
+    "Behavior and viewport/state comparisons with measured differences",
+    "Stop idle builders and preserve retry budgets"
+  ],
+  "not_imported": [
+    "Rust engine and native analysis tools",
+    "CLI/MCP server or third-party plugin executors",
+    "Desktop application, trademarks, fonts, image assets",
+    "Credentials, provider adapters or build dependency installers"
+  ],
+  "verification": "See workflows/evidence/2026-11-22-reconstruction; synthetic references and real local observer processes are distinct from live target/model E2E."
+}

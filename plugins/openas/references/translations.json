@@ -4,8 +4,8 @@
     {
       "source": "README.md",
       "target": "README.en.md",
-      "source_sha256": "f0161dbf6f8e4e9317550b73403786b9eada46be9898700b7f512c66e81a8964",
-      "target_sha256": "b388ca1f7c7f3906257a510dbc523234bb67bb33c666ac46a6d3dea856c2860f"
+      "source_sha256": "39a5c05354e9510da5a9999c6a312ebf534c718c68bc533b41478e7d1ed830ca",
+      "target_sha256": "fb23d34781aad860905bf77681ba2cedc036d9b13f28a314b8c9a3ffdeea2c2a"
     },
     {
       "source": "agents/cto.md",
@@ -448,8 +448,8 @@
     {
       "source": "workflows/README.md",
       "target": "workflows/README.en.md",
-      "source_sha256": "5607059211f1ac8a130a74992ba7d1c8388c60d299a5acfd13e1c09facf344bb",
-      "target_sha256": "6856d4e860ba6ab8e47724f69a1c5cb77682abc3e92d12be2c564105ebb1384a"
+      "source_sha256": "73739c40a93d46edf40f49a941c91b1ff33889a70ae5c4c6037de2da387f30ec",
+      "target_sha256": "04b49ff8dce32532d997530e7a1e6606ea505b6def66fa216b5478ea709a071f"
     },
     {
       "source": "skills/agent-experience/SKILL.md",
@@ -552,6 +552,12 @@
       "target": "references/verification-first.en.md",
       "source_sha256": "b3c103287afe9e340a761bf14321fc074b8c2cea01191adb291361ae84e31197",
       "target_sha256": "324f21356dc6121df9701cdfe35615d63ead1a81d750468f8cbcc7cbfd9c36e3"
+    },
+    {
+      "source": "skills/software-reconstruction/SKILL.md",
+      "target": "skills/software-reconstruction/SKILL.en.md",
+      "source_sha256": "23fcb87cbcbea042bc383474b8faad77876ce6e44d32deb37b41661f0ce2d3da",
+      "target_sha256": "23d698e057a441e1591f0f6cbf2d1f758a0340a3f3df990a6f25f85eca122f40"
     }
   ]
 }

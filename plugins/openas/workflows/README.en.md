@@ -148,3 +148,7 @@ Light tasks use one bounded implementation stage plus host checks, without separ
 ## Customer readiness
 
 The [customer demo guide](https://github.com/xiangguangxin/OpenAS/blob/main/docs/customer-demo.md) covers repo-scoped Codex installation/native discovery, engineering workspace inspection/preparation, graph recovery and opt-in real GUI/download acceptance. Every node emits `report.html`; `acceptance_summary` distinguishes automated checks, manual review and failure. The compatible workflow status `verified` is not blanket business acceptance. Colocated project memory remains active and exposes `memory_status`. Windows/POSIX workflow locks and process cancellation have separate smoke checks; native desktop E2E remains an opt-in real-environment check.
+
+## Reference software to independent implementation
+
+The native `reconstruct.py` pins authorized observations and trusted observers, then reuses tiered development, reviews, checks and recovery. Host processes execute the candidate and compare behavior plus matching viewport/state captures. Two idle developer turns stop refinement; unknowns remain unverified. See the [skill](../skills/software-reconstruction/SKILL.en.md) and [contract/examples](../skills/software-reconstruction/references/usage.md). No Craft Anything installation or Rust engine is required.

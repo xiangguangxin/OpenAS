@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "date": "2026-11-22",
+  "scope": "Native Craft Anything methodology adaptation into OpenAS; synthetic targets only",
+  "upstream_commit": "8cec25d02007db604b57ce6735ad4eb44a1a9948",
+  "upstream_license_option": "MIT",
+  "native_codex_discovery": {
+    "skills": 66,
+    "new_skill": "openas-software-reconstruction",
+    "missing": [],
+    "result": "passed",
+    "model_turn_started": false,
+    "configuration": "isolated writable client state directory",
+    "client": "codex-cli 0.172.0-alpha.2"
+  },
+  "forward_trial": {
+    "reference": "OpenAS-owned numeric-list synthetic observations",
+    "execution": "Independent skill-guided candidate implementation and actual local observer subprocess",
+    "baseline_exit_code": 1,
+    "baseline_reason": "candidate app.py did not exist; not a business-logic defect reproduction",
+    "final_exit_code": 0,
+    "cases_passed": 4,
+    "cases_total": 4,
+    "high_critical_unknowns": 0,
+    "low_unknowns_open": 1,
+    "standard_model_workflow": "not run in forward trial; external model calls prohibited",
+    "scope_preserved": true
+  },
+  "automated_workflow_tests": {
+    "reference": "synthetic cases, actual host observer commands, mocked model role responses",
+    "covers": [
+      "clean-room refusal",
+      "confidence and unknown boundaries",
+      "pinned inputs and observers",
+      "strict behavior and context comparisons",
+      "optional RGB screenshot comparison",
+      "stale pass replacement",
+      "standard refinement and idle stopping across resume",
+      "manual check evidence preservation"
+    ]
+  },
+  "not_run": [
+    "Live target capture",
+    "Real paid model reconstruction through Codex",
+    "Customer desktop/browser end-to-end rebuild"
+  ],
+  "runtime_dependencies_added": [],
+  "submodules_added": [],
+  "local_regression": {
+    "root_python": {
+      "tests_run": 122,
+      "skipped": 2,
+      "status": "passed"
+    },
+    "workflow_python": {
+      "tests_run": 159,
+      "status": "passed"
+    },
+    "javascript_mock_host": {
+      "tests_run": 8,
+      "status": "passed"
+    },
+    "native_reconstruction_cases": 14,
+    "host_python": "3.12.14",
+    "windows": "CI job includes reconstruction tests; consult its actual run result"
+  }
+}

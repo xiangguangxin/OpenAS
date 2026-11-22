@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "goal": "Independently implement app.py with total(items). Return 0 for an empty list, sum numeric int/float items, and raise ValueError for boolean or text items. Use the supplied synthetic behavioral observations, not an original implementation. Only modify app.py and preserve the trusted observer and reference specification.",
+  "target": "Synthetic numeric-list application contract, not a third-party production application",
+  "authorization": "OpenAS-owned synthetic fixture and local disposable candidate workspace",
+  "mode": "clean-room",
+  "scope": ["app.py"],
+  "collector": ["python3", "observer.py", "{workspace}"],
+  "collector_files": ["observer.py"],
+  "observations": [
+    {"id":"empty","kind":"behavior-run","confidence":"observed","summary":"Synthetic reference: an empty numeric list returns zero.","value":0,"limitations":["Provided fixture, not a live target capture"]},
+    {"id":"numbers","kind":"behavior-run","confidence":"observed","summary":"Synthetic reference: [1,2.5,-1] returns 2.5.","value":2.5,"limitations":["One sampled numeric list"]},
+    {"id":"boolean","kind":"behavior-run","confidence":"observed","summary":"Synthetic reference: [true] raises ValueError.","limitations":["Only this invalid type is covered"]},
+    {"id":"text","kind":"behavior-run","confidence":"observed","summary":"Synthetic reference: a text item raises ValueError.","limitations":["Other container and numeric edge cases remain untested"]}
+  ],
+  "cases": [
+    {"id":"empty","kind":"behavior","expected":0,"evidence":["empty"]},
+    {"id":"numbers","kind":"behavior","expected":2.5,"evidence":["numbers"]},
+    {"id":"boolean","kind":"behavior","expected":{"error":"ValueError"},"evidence":["boolean"]},
+    {"id":"text","kind":"behavior","expected":{"error":"ValueError"},"evidence":["text"]}
+  ],
+  "unknowns": [
+    {"question":"Behavior for non-list containers, non-finite numbers and arbitrary numeric objects is not established.","severity":"low","probes":["Add independently observed boundary cases before expanding the contract"]}
+  ]
+}

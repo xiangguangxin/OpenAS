@@ -158,7 +158,7 @@ class CustomerWorkflowTests(unittest.TestCase):
 
     def test_installer_preserves_resources_and_refuses_local_edit_overwrite(self):
         result = installer.install(self.workspace)
-        self.assertEqual(len(result['skills']), 65)
+        self.assertEqual(len(result['skills']), 66)
         wrapper = self.workspace/'.agents/skills/openas-bug-fix/SKILL.md'
         self.assertIn('name: openas-bug-fix', wrapper.read_text())
         self.assertTrue((wrapper.parent/'../../openas/skills/bug-fix/SKILL.md').resolve().is_file())

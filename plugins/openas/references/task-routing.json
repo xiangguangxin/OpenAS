@@ -437,6 +437,12 @@
       "activation": "specialized",
       "when": "根据可复现的漏触发、误触发或执行失败改进已有 Agent Skill，用新旧版本对照、相似反例和独立验收用例验证修订。 / Improve an existing Agent Skill from reproducible routing or execution failures, comparing versions against realistic and held-out cases."
     },
+    "software-reconstruction": {
+      "owner": "cto",
+      "category": "reconstruction",
+      "activation": "specialized",
+      "when": "Explicitly rebuild an independent website/application from authorized observations, with pinned behavioral or viewport checks; not ordinary source explanation or bug fixing."
+    },
     "solution-design": {
       "owner": "cto",
       "category": "architecture",

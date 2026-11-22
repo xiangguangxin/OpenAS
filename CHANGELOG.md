@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.24.0
+
+- Adapt Craft Anything methodology as a native bilingual software-reconstruction skill and executable OpenAS workflow, without upstream runtime dependencies or submodules.
+- Add explicit clean-room/deep evidence ingestion, content-pinned study/observer files, summary-first evidence pages and revision-aware unknown resolution.
+- Execute trusted observers against candidate implementations; compare typed behavior and matched viewport/state screenshots, preserving missing/blocked results and measured differences.
+- Reuse standard OpenAS development/review/host-verification, with bounded refinement and persistent idle-builder stopping.
+- Preserve upstream MIT attribution and pinned file provenance; distinguish provided captures, synthetic fixtures, mock model phases and real local process checks.
+
 ## 0.23.0
 
 - Keep project memory active when project-root equals workspace, with explicit state and a reserved metadata subtree.
