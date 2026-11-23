@@ -18,3 +18,5 @@ Define entry, completion goal, required information, navigation and feedback, re
 Specify page/component hierarchy, triggers, transitions, copy, input limits, focus/keyboard and relevant narrow-screen behavior. Reuse tokens; absent a system, define only rules needed now. Express complex flows with wireframes, state tables or actually supported prototypes. Distinguish proposals, confirmed decisions and existing behavior; text output is not an interactive prototype.
 
 Return scope questions to product management and feasibility/interfaces to architecture. Deliver flows, pages/components, states/copy, requirement mappings and observable acceptance. Walk through representative success/failure/recovery/exit paths; walkthroughs are not real-user usability testing. Use [accessibility review](../accessibility-review/SKILL.en.md), retaining assumptions, pending decisions and version during handoff.
+
+For motion/transitions, use [motion design and implementation](references/motion.md), including interruption, reduced motion, keyboard, and touch. Use [react-composition](../react-composition/SKILL.en.md) for React component structure.

@@ -42,6 +42,37 @@ CASES = {
                          'codebase-analysis', False, False),
 }
 GOAL_CASES = {
+    'decision-map': (
+        '只做规划、不写文件。根据 fixture.txt 为跨会话的大目标整理决策地图，列出目标终点、问题依赖、已知事实和下一步；只列待决问题，不向我发问，不开始开发。',
+        'decision-mapping',
+        'Goal: turn a local build-task tool into a three-person shared tool. Current task state is local JSON. '
+        'Each person owns separate Git credentials. Builds may create paid cloud resources. '
+        'Decide state ownership, credential boundaries, conflict handling and interruption recovery before implementation.',
+        (r'依赖|depend', r'凭据|credential', r'未决|待决|unknown|待明确', r'下一步|next'),
+    ),
+    'spec-delta': (
+        '只维护规格方案，不写文件不实现。按 fixture.txt 给已交付功能写增量规格与需求到验收的映射；已有明确范围，不需要再向我提问。',
+        'spec-driven-development',
+        'Shipped baseline IMPORT-v1 writes valid CSV rows immediately. V2 adds a preview step that must write no data. '
+        'Confirmation imports the previewed valid rows once; invalid rows remain visible. '
+        'Existing immediate-import API compatibility is required. No migration is requested.',
+        (r'IMPORT-v1', r'preview|预览', r'兼容|compatib', r'验收|acceptance', r'增量|delta'),
+    ),
+    'remotion-plan-only': (
+        '只给导出方案，不运行、不安装、不写文件。根据 fixture.txt 说明 Remotion 导出所需步骤和当前证据边界，不向我提问。',
+        'remotion-render',
+        'Requested composition LaunchDemo, MP4 at 30fps, existing demo-props.json. '
+        'No Remotion project, CLI, render browser or media decoder is available in this fixture. '
+        'The customer needs proof the final media is correct.',
+        (r'LaunchDemo', r'未执行|未运行|unexecuted|not run', r'解码|decod|ffprobe', r'入口|entry'),
+    ),
+    'local-storage-no-neon': (
+        '只读分析这个小项目及 fixture.txt 的存储现状，解释入口、数据流和检查方式；不要改文件、询问或接入云服务。',
+        'codebase-analysis',
+        'This project is a local arithmetic helper with no database, DATABASE_URL, ORM, Neon, or cloud dependencies. '
+        'The requested analysis must stay local.',
+        (r'average', r'本地|local', r'未运行|未执行|not run|not executed|静态|static'),
+    ),
     'software-reconstruction': (
         '使用已授权的可见界面观测规划一个独立的软件重建。只规划，不创建文件，不读取原软件代码或网页源文件。列出需要的观测、未知和独立验收；不能声称已经重建成功。',
         'software-reconstruction',

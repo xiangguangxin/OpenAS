@@ -164,7 +164,7 @@ def validate_task(task):
         task = {**task, 'workflow': selected['workflow']}
         if 'acceptance_checks' not in task or any(not row for row in task['acceptance_checks']):
             raise HarnessError('Tiered tasks require explicit host check mappings for every acceptance criterion')
-    elif any(key in task for key in ('task_kind', 'risk_factors', 'carrier', 'module_count')):
+    elif any(key in task for key in ('task_kind', 'risk_factors', 'carrier', 'module_count', 'capabilities')):
         raise HarnessError('Task profile fields require an explicit rigor selection')
     return task
 

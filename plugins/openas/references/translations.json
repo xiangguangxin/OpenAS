@@ -4,26 +4,26 @@
     {
       "source": "README.md",
       "target": "README.en.md",
-      "source_sha256": "39a5c05354e9510da5a9999c6a312ebf534c718c68bc533b41478e7d1ed830ca",
-      "target_sha256": "fb23d34781aad860905bf77681ba2cedc036d9b13f28a314b8c9a3ffdeea2c2a"
+      "source_sha256": "56e0c4e3782c67f7f691785ff27c1399190bb1678ee74e53211656b4a8c280eb",
+      "target_sha256": "9e5b0546739850991f1d35c2d122e48923c1a8683dcf6ee32be6bb25c363c4a2"
     },
     {
       "source": "agents/cto.md",
       "target": "references/en/agents/cto.md",
-      "source_sha256": "07062289b8b2202c5e2a0746a2835f4526c50a967837641cd382b374433c11ea",
-      "target_sha256": "ff07a5faab18fe8fe076ad56bdf6363d567bf67f8273c7705716fe17146701f1"
+      "source_sha256": "7410924e1216a989d650ad49af7085eed3493357ec05a867dd33541ff5a3dfb3",
+      "target_sha256": "0723e68dccce69428be40623700d5bc1c7a54118fdfbdf7da44f6f9fa2da22e8"
     },
     {
       "source": "agents/developer.md",
       "target": "references/en/agents/developer.md",
-      "source_sha256": "1bf5ce7913eff557f13313f7eebff63015fa513bb8e10b42f0ad561ddd5d2471",
-      "target_sha256": "a99cbb7bca8f5fabcd7eecce3fa3a2775024c9894d33bc8b457515b440761a95"
+      "source_sha256": "49cda852a801f0cbda83ef489b68fd4c6daacd1296b37f4ac39b189f12045228",
+      "target_sha256": "5cc07257fab95f4e4ba2f2f24022122f33a7a890a1570280f58e9b769949a51c"
     },
     {
       "source": "agents/it.md",
       "target": "references/en/agents/it.md",
-      "source_sha256": "db6b37ba30a12025a267782c69e808f1a6cfbe9da5294939bf1c6539d1e70bff",
-      "target_sha256": "9c4d117a3a5a02f166d9b16193629a52a5f1989f2b8f624dbae01c9605f66d33"
+      "source_sha256": "edb428e3240d18ec2437d8978cf774dca2c3b9f13565aa446c44da21df03ab37",
+      "target_sha256": "f460ecf0784d9d6313f14234dcdd91a2b5b28cfefc4f6e595ddd2aa7fe30d032"
     },
     {
       "source": "agents/performance-engineer.md",
@@ -52,8 +52,8 @@
     {
       "source": "agents/security-reviewer.md",
       "target": "references/en/agents/security-reviewer.md",
-      "source_sha256": "7550956e070a1c9b707de98915a5c46715ade21f54f8bfcd25c51dfa3d7c6ef5",
-      "target_sha256": "c8dc5b58ac4fcf1225a445237def7c21d43b10be042dee53c562c70d6b14b1e2"
+      "source_sha256": "21eadb9a9ae32771f55d94a9471c80b1e09dde786235f752ea89900dc67f06b3",
+      "target_sha256": "56049fa21963270359d2bd0b27731bb0659dad69978a845f04a28e02f21fabe4"
     },
     {
       "source": "agents/tech-writer.md",
@@ -298,8 +298,8 @@
     {
       "source": "skills/interaction-design/SKILL.md",
       "target": "skills/interaction-design/SKILL.en.md",
-      "source_sha256": "c6b1c5b676a4e9593166613f785dd102c1bdbee3c42db91920956a075e5eee2b",
-      "target_sha256": "e4e50b137eaae8220bf7a5ccf4e7f7f4035e280490840444511689b38b458c09"
+      "source_sha256": "09606ceafce7082a8b56200f7184823667ccd8826227393999f658cbcf7d2b0e",
+      "target_sha256": "e27b465177bfb0cc905a81a1680643070d3c2a47e2f984cf65c9caf0a20fd3cd"
     },
     {
       "source": "skills/market-research/SKILL.md",
@@ -370,8 +370,8 @@
     {
       "source": "skills/security-review/SKILL.md",
       "target": "skills/security-review/SKILL.en.md",
-      "source_sha256": "bfeb923b23464ef9de220ee555288702db5f4fd86f622f52a48497fe75b90175",
-      "target_sha256": "a83a212c0705601a887205ecca219832e3abd45f3ffc5591e351ff439d6f5f61"
+      "source_sha256": "d9128b9bd87770814fa8c3f25b3b152f16bf465e0b8afe81907346ff901268f2",
+      "target_sha256": "fd19f2df86910d20d8c713da7f1de9b1bc6251c521cea625e7e31051ef852cfa"
     },
     {
       "source": "skills/skill-maintenance/SKILL.md",
@@ -382,8 +382,8 @@
     {
       "source": "skills/solution-design/SKILL.md",
       "target": "skills/solution-design/SKILL.en.md",
-      "source_sha256": "d3c870136aba3130e91dc71438d400091f673ec5bc5901a22d35af7e1ac5d88a",
-      "target_sha256": "269b1ef454f65f963cdd9e28191037e3af5df0b56a0a3438295a3e200b9e2cbd"
+      "source_sha256": "af2ebe5ed214d6ab928f67a1e1ad71ad3758bc6415081fae3b83190d30ad1c87",
+      "target_sha256": "bfaa0c2b67fe6829ce6c7d3b14cc92da21a31950934097e865e37ac30e405bfe"
     },
     {
       "source": "skills/subagent-driven-development/SKILL.md",
@@ -394,8 +394,8 @@
     {
       "source": "skills/task-orchestration/SKILL.md",
       "target": "skills/task-orchestration/SKILL.en.md",
-      "source_sha256": "3bf8eb923ede122f4be3e9f6822905bef5c0e62c2b298db27d60c42071ada07d",
-      "target_sha256": "e0cada0e20106f9ae0cf4aad9e0bb3e22049330ce8a64469edaa8a067b153c0c"
+      "source_sha256": "fbe7714ccd2acf26b48e2971f10fb23e0afa4b743be1f74c697f8c46622e1088",
+      "target_sha256": "9938841ed029dfd148229929317086128219cb034e3b86203967372833b94cb6"
     },
     {
       "source": "skills/technical-diagrams/SKILL.md",
@@ -406,8 +406,8 @@
     {
       "source": "skills/technical-research/SKILL.md",
       "target": "skills/technical-research/SKILL.en.md",
-      "source_sha256": "122cc9f4f1142a24cdc5bebb7e863983a5c871dee34328f35ec05dad1d0a509d",
-      "target_sha256": "df6d7475a432abb4c62211ce74080792ffea19fadfe97a2d6c816ee8c06230f3"
+      "source_sha256": "3a724331ff053bc4c30b61c94ebffe0575754bddb34a49b75b7b80602d7222aa",
+      "target_sha256": "0b596a01f6f0835fc29b580f62155c2bca7ebeba7f2aa4f3210d8af360dec112"
     },
     {
       "source": "skills/technology-selection/SKILL.md",
@@ -436,20 +436,20 @@
     {
       "source": "skills/workflow-routing/SKILL.md",
       "target": "skills/workflow-routing/SKILL.en.md",
-      "source_sha256": "8ad4afce26531a61164a11e33dc377c9689e4bffb5754dfac6964318dcb77496",
-      "target_sha256": "20b4e3fc0973b80995804ecc02ae38fdb3e8de2c2a958dc8131b8ca9fb0c4090"
+      "source_sha256": "b350e7823fb28424745a8e059ded879e7632cdbc0df71a555290734b7785ec9a",
+      "target_sha256": "c3f08299fe4fc8595a7314e5e476768a6201de8307acfeebd63b10d215fd6723"
     },
     {
       "source": "skills/writing-plans/SKILL.md",
       "target": "skills/writing-plans/SKILL.en.md",
-      "source_sha256": "00878aa8fe6d4c7e306f64e3915dfa2db1bda67b86262efba96a8a2291c89b5f",
-      "target_sha256": "ed907d6d4e6741a23fbc579487468c27c9e5f6571288e13b8be108f3c5dc1835"
+      "source_sha256": "ac54f3f49c0b1b72bf5d3757c99fd9569c6a9557123ffd0091afe85ebd9b7727",
+      "target_sha256": "21fd2a5b3202093a76d2b76d1da030cf07197b6cd6afc141ec5d043c096534af"
     },
     {
       "source": "workflows/README.md",
       "target": "workflows/README.en.md",
-      "source_sha256": "73739c40a93d46edf40f49a941c91b1ff33889a70ae5c4c6037de2da387f30ec",
-      "target_sha256": "04b49ff8dce32532d997530e7a1e6606ea505b6def66fa216b5478ea709a071f"
+      "source_sha256": "3d6f3ec52210d28c16a634b40fe30431396071ed74607eaf8c7f2fee5165d62e",
+      "target_sha256": "bc2a1830c23a00f44b95a1eb26d4e6e160e6f9a75e22fdada82749b87c1ddda3"
     },
     {
       "source": "skills/agent-experience/SKILL.md",
@@ -558,6 +558,42 @@
       "target": "skills/software-reconstruction/SKILL.en.md",
       "source_sha256": "23fcb87cbcbea042bc383474b8faad77876ce6e44d32deb37b41661f0ce2d3da",
       "target_sha256": "23d698e057a441e1591f0f6cbf2d1f758a0340a3f3df990a6f25f85eca122f40"
+    },
+    {
+      "source": "skills/decision-mapping/SKILL.md",
+      "target": "skills/decision-mapping/SKILL.en.md",
+      "source_sha256": "13effa56c98a1966595302c70d0bfabf9785b677abf335af5a20e1f8f09a4dec",
+      "target_sha256": "71c0e2ac87fb5fa1206d10f4259b3264ad473777987c67b2a7661ab621344f09"
+    },
+    {
+      "source": "skills/spec-driven-development/SKILL.md",
+      "target": "skills/spec-driven-development/SKILL.en.md",
+      "source_sha256": "f86fd4ec921ce8c9a8f8cef74246fce174dc6fa8771df1ad258c7aa6638b1149",
+      "target_sha256": "891952da509c43b5927663319a7bd1297034667c2aaf988e0eaefee103d2feea"
+    },
+    {
+      "source": "skills/react-composition/SKILL.md",
+      "target": "skills/react-composition/SKILL.en.md",
+      "source_sha256": "be5791d80a1d1cd22da586a8d12f580c67dcb7fea82d200a4fcadcd2964f8ff8",
+      "target_sha256": "16bf381624e75507b74bb93df28f4171639fcc619973fd79e67ad7e2c3703dbb"
+    },
+    {
+      "source": "skills/remotion-render/SKILL.md",
+      "target": "skills/remotion-render/SKILL.en.md",
+      "source_sha256": "808046781596047f2ec670ccc57008eff2b1cfaecbf2c3e6cd62f9e7d8b5a2fc",
+      "target_sha256": "8e0b601b5a53692d4ea4845600b93aade56dc6f4e503ef0b6c8a4882f8e4a882"
+    },
+    {
+      "source": "skills/neon-postgres/SKILL.md",
+      "target": "skills/neon-postgres/SKILL.en.md",
+      "source_sha256": "0adc8b487cfb9fdb4a98475252b10a7a5ab6502d807df7e01aa55d8318acc7d4",
+      "target_sha256": "4eafb2e24e2c2442ba39dab2e34442ae72d3aeedbcf3d10b658d95a24d9b3ffa"
+    },
+    {
+      "source": "skills/azure-messaging/SKILL.md",
+      "target": "skills/azure-messaging/SKILL.en.md",
+      "source_sha256": "c16bf3ee37a0dd5a86ed47234bad7b9fa311575a9d13d9fea266da4d1a17bdf6",
+      "target_sha256": "90026aa6f0b2d50d4051768640245f93325cc85a4ca962ab94f9bcd93a149e09"
     }
   ]
 }

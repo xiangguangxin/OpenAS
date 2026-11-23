@@ -161,6 +161,12 @@
       "activation": "specialized",
       "when": "独立验收 Agent 生成、导出或下载的报告和文件，检查产物是否来自本次任务、结构化结果和逐项失败原因。 / Independently verify freshness, structured results, and per-criterion evidence for generated, exported, or downloaded artifacts."
     },
+    "azure-messaging": {
+      "owner": "it",
+      "category": "operations",
+      "activation": "conditional",
+      "when": "排查实际 Azure Event Hubs 或 Service Bus 的连接、认证、锁续期、重复处理与 checkpoint 问题；用于 Azure 消息 SDK 故障，不把通用消息队列任务绑定到 Azure。 / Diagnose Azure Event Hubs and Service Bus SDK connectivity, authentication, lock, duplication, and checkpoint failures."
+    },
     "brainstorming": {
       "owner": "product-manager",
       "category": "product",
@@ -232,6 +238,12 @@
       "category": "quality",
       "activation": "specialized",
       "when": "分析代码覆盖率报告或异常，定位未覆盖的语句、分支、条件或 MC/DC 判定，区分测试缺口、插桩采集问题和源码映射问题。 / Diagnose code coverage reports and gaps in statement, branch, condition, or MC/DC coverage, including instrumentation, collection, and sou"
+    },
+    "decision-mapping": {
+      "owner": "cto",
+      "category": "architecture",
+      "activation": "specialized",
+      "when": "将跨会话、关键决定尚未明确的复杂目标组织为决策地图、阻塞关系和证据记录；用于逐步消除方案未知，不替代明确任务的实施计划或自动创建远程 Issue。 / Map unresolved decisions for large ambiguous goals across sessions; track evidence and dependencies without automatically implementing or publishing issues."
     },
     "dependency-upgrade": {
       "owner": "it",
@@ -317,6 +329,12 @@
       "activation": "specialized",
       "when": "研究目标市场、用户问题、需求证据和机会，产出有来源及置信度的市场调研；用于新产品定位与机会验证，竞品逐项对比交给 competitive-analysis。 / Research target markets, user problems, demand evidence, and opportunities with sources and confidence; delegate detail"
     },
+    "neon-postgres": {
+      "owner": "it",
+      "category": "operations",
+      "activation": "conditional",
+      "when": "在实际使用 Neon Postgres 的项目中处理连接池、迁移、隔离分支和数据库诊断；复用已有项目与 ORM，不为普通 PostgreSQL 或本地存储问题强制接入 Neon。 / Work with Neon Postgres connections, migrations, isolated branches, and diagnostics in projects that actually use Neon."
+    },
     "office": {
       "owner": "tech-writer",
       "category": "documents",
@@ -401,11 +419,23 @@
       "activation": "specialized",
       "when": "从项目任务和验证记录中提炼、审查与复用经验，并将成熟经验生成项目候选技能，管理试用、启用、使用反馈和回滚；用于跨任务知识积累，不用于保存全部聊天或修改核心权限。 / Extract, review, and reuse evidence-backed project knowledge and manage candidate skill trials, activation, feedback,"
     },
+    "react-composition": {
+      "owner": "developer",
+      "category": "interface",
+      "activation": "conditional",
+      "when": "在 React 项目中设计或重构可组合组件、共享状态与明确的组件接口；用于属性组合失控、重复组件和组件库 API，不触发无关前端迁移。 / Design or refactor React component composition, state ownership, and explicit APIs within the existing React project."
+    },
     "release-management": {
       "owner": "it",
       "category": "operations",
       "activation": "conditional",
       "when": "准备、核验或按授权发布软件版本，核对版本、变更日志、标签、制品、安装或升级验证及失败恢复。 / Prepare, verify, or publish an authorized software release, reconciling versions, changelogs, tags, artifacts, smoke checks, and recovery."
+    },
+    "remotion-render": {
+      "owner": "developer",
+      "category": "documents",
+      "activation": "conditional",
+      "when": "在已有 Remotion 项目中导出指定 composition 的视频或静帧，并核对媒体产物；用于客户演示与视频交付，不将普通界面动画或屏幕录制路由到视频渲染。 / Render and verify video or still artifacts from an existing Remotion composition without implying recording or animation-authoring capability."
     },
     "requesting-code-review": {
       "owner": "red-team",
@@ -448,6 +478,12 @@
       "category": "architecture",
       "activation": "core",
       "when": "形成解决问题的候选方案与取舍，或串联市场调研、需求、技术选型、架构及设计文档的完整流程；具体选型与架构使用相应专门技能，不默认进入开发。 / Compare solution alternatives and tradeoffs or coordinate research, requirements, selection, architecture, and design documentati"
+    },
+    "spec-driven-development": {
+      "owner": "cto",
+      "category": "architecture",
+      "activation": "specialized",
+      "when": "为跨模块功能或已交付系统变更维护可测试规格、能力边界和需求到验收的追踪；用于规格缺失、歧义或漂移，不为小修复强制新增文档或重复审批。 / Maintain testable specifications and trace requirements through implementation and acceptance for significant changes without imposing paperwork on small fixes."
     },
     "subagent-driven-development": {
       "owner": "developer",
@@ -509,5 +545,38 @@
       "activation": "specialized",
       "when": "将足够明确的设计拆为可执行任务，保留范围、依赖、项目约束和验收；用于实现前规划或复杂任务交接。 / Turn sufficiently clear design into executable, dependency-aware tasks with scope, project constraints, and acceptance; separate blockers from impleme"
     }
+  },
+  "specializations": {
+    "decision-mapping": [
+      "decision-mapping"
+    ],
+    "task-slicing": [
+      "writing-plans",
+      "task-orchestration"
+    ],
+    "spec": [
+      "spec-driven-development"
+    ],
+    "research": [
+      "technical-research"
+    ],
+    "security-audit": [
+      "security-review"
+    ],
+    "react": [
+      "react-composition"
+    ],
+    "animation": [
+      "interaction-design"
+    ],
+    "video": [
+      "remotion-render"
+    ],
+    "neon": [
+      "neon-postgres"
+    ],
+    "azure-messaging": [
+      "azure-messaging"
+    ]
   }
 }

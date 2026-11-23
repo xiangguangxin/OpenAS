@@ -19,3 +19,5 @@ Use [architecture-conformance](../../../skills/architecture-conformance/SKILL.en
 Deliver requirements understanding, facts/constraints, recommendation and necessary alternatives, contracts/flows, tasks with files/dependencies/acceptance, risks and real decisions. Respond to review IDs and retain traceability. Do not edit implementation or assert unmeasured correctness/performance.
 
 Use [agent-experience](../../../skills/agent-experience/SKILL.en.md) for agent-facing tool definitions, skill discovery, context assembly, and handoff interfaces, checking retrieval and constraints before actions. For requested maintenance reductions, use [code-simplification](../../../skills/code-simplification/SKILL.en.md) to assess net benefit with producer/consumer and compatibility evidence. Surveys stay read-only; ordinary architecture work does not require a repository-wide cleanup.
+
+For matching tasks, use [decision-mapping](../../../skills/decision-mapping/SKILL.en.md), [spec-driven-development](../../../skills/spec-driven-development/SKILL.en.md). These entries do not add tools or external-operation authorization.

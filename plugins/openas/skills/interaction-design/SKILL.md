@@ -30,3 +30,5 @@ description: "将已确认需求转为用户流程、信息架构、界面状态
 交付流程、页面/组件清单、状态与文案、需求映射和可观察的验收条件。用代表性任务逐步走查入口、正常完成、失败恢复和退出，记录发现及设计调整；走查不能冒充真实用户可用性测试。
 
 需要可访问性检查时使用 [accessibility-review](../accessibility-review/SKILL.md)。交付给 [ux-designer](../../agents/ux-designer.md) 或实现者时保留假设、未决项及当前版本，避免只交付视觉形容词。
+
+涉及动画或过渡时读取[动效设计与实现](references/motion.md)，保留中断、低动态效果、键盘和触屏行为。React 组件结构使用 [react-composition](../react-composition/SKILL.md)。

@@ -10,8 +10,8 @@
 
 [![CI](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml/badge.svg)](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml)
 [![Agents](https://img.shields.io/badge/Agents-12-2563eb)](plugins/openas/agents)
-[![Skills](https://img.shields.io/badge/Skills-66-7c3aed)](plugins/openas/skills)
-[![License: MIT](https://img.shields.io/badge/License-MIT-059669)](LICENSE)
+[![Skills](https://img.shields.io/badge/Skills-72-7c3aed)](plugins/openas/skills)
+[![License: MIT](https://img.shields.io/badge/License-MIT-059729)](LICENSE)
 
 **简体中文** · [English](#english)
 
@@ -21,7 +21,7 @@
 
 ---
 
-OpenAS 是面向 Claude Code / Codex 的可组合 Agent 与 Skill 工具集，提供 **12 个角色、66 个技能**。独立桌面/浏览器 Runtime 已拆分为 [Praxis](https://github.com/xiangguangxin/Praxis)；OpenAS 继续提供 GUI Skill、工作流与 Nova MCP 接入。
+OpenAS 是面向 Claude Code / Codex 的可组合 Agent 与 Skill 工具集，提供 **12 个角色、72 个技能**。独立桌面/浏览器 Runtime 已拆分为 [Praxis](https://github.com/xiangguangxin/Praxis)；OpenAS 继续提供 GUI Skill、工作流与 Nova MCP 接入。
 
 > **核心原则：** 目标明确 → 按需选择技能 → 执行并收集证据 → 独立验收 → 交付可追溯结果。Skill 是工作方法，不等于自动获得工具权限或真实执行能力。
 
@@ -54,7 +54,7 @@ claude --plugin-dir /path/to/OpenAS/plugins/openas
 | 能力 | 解决什么问题 | 关键入口 |
 | :--- | :--- | :--- |
 | **角色协作** | 需求、架构、开发、测试、安全与验收职责分离 | [12 个角色](plugins/openas/agents) |
-| **任务技能** | 将分析、开发、调试、评审等流程标准化 | [66 个技能](plugins/openas/skills) |
+| **任务技能** | 将分析、开发、调试、评审等流程标准化 | [72 个技能](plugins/openas/skills) |
 | **目标驱动 GUI** | 根据目标多轮观察桌面、执行操作与检查结果 | [gui-goal-executor](plugins/openas/skills/gui-goal-executor/SKILL.md) |
 | **工作流编排** | 任务分阶段、依赖检查、失败恢复与交接 | [工作流指南](plugins/openas/workflows/README.md) |
 | **软件重建** | 从授权观测提炼规格，独立构建并用可信观察器对比 | [原生重建流程](docs/reconstruction.md) |
@@ -152,7 +152,7 @@ flowchart LR
 
 **12 个角色：** product-manager、researcher、cto、ux-designer、developer、test-engineer、performance-engineer、it、security-reviewer、red-team、tech-writer、verifier。职责见[角色定义](plugins/openas/agents)和[团队契约](plugins/openas/references/team-contract.md)。
 
-**66 个技能：** 按任务领域选择，而不是一次性加载全部。
+**72 个技能：** 按任务领域选择，而不是一次性加载全部。
 
 | 任务方向 | 推荐入口 |
 | :--- | :--- |
@@ -216,8 +216,8 @@ node plugins/openas/workflows/tests/agent-team.test.mjs
 
 [![CI](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml/badge.svg)](https://github.com/xiangguangxin/OpenAS/actions/workflows/ci.yml)
 [![Agents](https://img.shields.io/badge/Agents-12-2563eb)](plugins/openas/agents)
-[![Skills](https://img.shields.io/badge/Skills-66-7c3aed)](docs/skills.en.md)
-[![License: MIT](https://img.shields.io/badge/License-MIT-059669)](LICENSE)
+[![Skills](https://img.shields.io/badge/Skills-72-7c3aed)](docs/skills.en.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-059729)](LICENSE)
 
 [简体中文](#chinese) · **English**
 
@@ -225,7 +225,7 @@ node plugins/openas/workflows/tests/agent-team.test.mjs
 
 </div>
 
-OpenAS is a composable collection of **12 roles and 66 skills** for Claude Code and Codex workflows. Its standalone desktop/browser runtime is now maintained separately as [Praxis](https://github.com/xiangguangxin/Praxis); OpenAS retains GUI skills and Nova MCP integration guidance.
+OpenAS is a composable collection of **12 roles and 72 skills** for Claude Code and Codex workflows. Its standalone desktop/browser runtime is now maintained separately as [Praxis](https://github.com/xiangguangxin/Praxis); OpenAS retains GUI skills and Nova MCP integration guidance.
 
 > **Guiding principle:** Define the goal → select only relevant methods → execute and collect evidence → verify independently → deliver traceable results.
 
@@ -307,7 +307,7 @@ The native [reconstruction workflow](docs/reconstruction.md) adapts Craft Anythi
 
 The 12 roles cover product management, research, architecture, UX, development, testing, performance, operations, security, red-team review, technical writing, and independent verification. See [role definitions](plugins/openas/agents) and [team contract](plugins/openas/references/team-contract.en.md).
 
-Use skills on demand rather than loading all 66 at once: [English skill catalog](docs/skills.en.md). Typical starting points are [solution-design](plugins/openas/skills/solution-design/SKILL.en.md), [codebase-analysis](plugins/openas/skills/codebase-analysis/SKILL.en.md), [bug-fix](plugins/openas/skills/bug-fix/SKILL.en.md), [agent-evaluation](plugins/openas/skills/agent-evaluation/SKILL.en.md), and [project-memory](plugins/openas/skills/project-memory/SKILL.en.md).
+Use skills on demand rather than loading all 72 at once: [English skill catalog](docs/skills.en.md). Typical starting points are [solution-design](plugins/openas/skills/solution-design/SKILL.en.md), [codebase-analysis](plugins/openas/skills/codebase-analysis/SKILL.en.md), [bug-fix](plugins/openas/skills/bug-fix/SKILL.en.md), [agent-evaluation](plugins/openas/skills/agent-evaluation/SKILL.en.md), and [project-memory](plugins/openas/skills/project-memory/SKILL.en.md).
 
 The general project memory lives in the target project's `.openas/memory/`; the optional GUI runtime experience store is separate. See [learning lifecycle](plugins/openas/memory/learning.en.md).
 
@@ -332,3 +332,9 @@ node plugins/openas/workflows/tests/agent-team.test.mjs
 ```
 
 Structure checks, mocked tests, native client tests, and real desktop E2E have distinct evidence requirements. See [CI](docs/ci.en.md), [contributing](CONTRIBUTING.md), [changelog](CHANGELOG.md), and [license](LICENSE). Third-party materials retain their own notices, including [presentation](plugins/openas/skills/presentation-creation/NOTICE.md) and [REA](plugins/openas/integrations/rea/README.en.md).
+
+## 决策、规格与专项扩展 / Decisions, specifications, and specialists
+
+新增 [决策地图](plugins/openas/skills/decision-mapping/SKILL.md)与[规格驱动开发](plugins/openas/skills/spec-driven-development/SKILL.md)，补强任务切片、研究记录、动效和深度安全审计。React、Remotion、Neon、Azure 消息专项按需选择，普通任务保留原最小组合。
+
+Use [decision mapping](plugins/openas/skills/decision-mapping/SKILL.en.md) and [specifications](plugins/openas/skills/spec-driven-development/SKILL.en.md) when needed; select React, Remotion, Neon, and Azure specialists explicitly. Existing minimal bundles remain unchanged. [Usage, source mapping, and limitations / 使用与来源](docs/skill-methods.md).

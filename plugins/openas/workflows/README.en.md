@@ -152,3 +152,5 @@ The [customer demo guide](https://github.com/xiangguangxin/OpenAS/blob/main/docs
 ## Reference software to independent implementation
 
 The native `reconstruct.py` pins authorized observations and trusted observers, then reuses tiered development, reviews, checks and recovery. Host processes execute the candidate and compare behavior plus matching viewport/state captures. Two idle developer turns stop refinement; unknowns remain unverified. See the [skill](../skills/software-reconstruction/SKILL.en.md) and [contract/examples](../skills/software-reconstruction/references/usage.md). No Craft Anything installation or Rust engine is required.
+
+Tiered tasks may explicitly select specialist methods with `capabilities`. Omission preserves existing bundles. This field does not add roles, permissions, tier escalation, or automatic installation. Use `examples/specialist-task.json`; see [workflow-routing](../skills/workflow-routing/SKILL.en.md) and [provenance/limits](../references/skill-methods/NOTICE.md).

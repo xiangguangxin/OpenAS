@@ -21,3 +21,5 @@ Respect implementation-readiness boundaries. Resolve reversible local choices, b
 Use [agent-experience](../../../skills/agent-experience/SKILL.en.md) when changing agent-facing tool contracts, skill entry points, or context. For authorized simplification, use [code-simplification](../../../skills/code-simplification/SKILL.en.md), preserving dynamic consumers, compatibility, and resource lifecycles without expanding ordinary repairs into cleanup.
 
 Use [pr-review-feedback](../../../skills/pr-review-feedback/SKILL.en.md) to address existing PR review threads and record dispositions and verification.
+
+For matching tasks, use [react-composition](../../../skills/react-composition/SKILL.en.md), [remotion-render](../../../skills/remotion-render/SKILL.en.md). These entries do not add tools or external-operation authorization.

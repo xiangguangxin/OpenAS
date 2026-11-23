@@ -36,3 +36,5 @@ tools: Read, Grep, Glob, WebSearch, WebFetch
 不修改实现文件，不宣称未经运行的性能或正确性结论。
 
 设计工具描述、技能触发、上下文装配或交接接口时按需使用 [agent-experience](../skills/agent-experience/SKILL.md)，核对发现、读取路径与动作前约束。用户要求减少维护复杂性时使用 [code-simplification](../skills/code-simplification/SKILL.md)，用生产者、消费者和兼容证据评估净收益；调查保持只读，不将普通架构任务扩展为全仓清理。
+
+专项任务按需使用：[decision-mapping](../skills/decision-mapping/SKILL.md)、[spec-driven-development](../skills/spec-driven-development/SKILL.md)；不增加工具或外部操作权限。

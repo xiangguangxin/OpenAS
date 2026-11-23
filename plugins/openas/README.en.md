@@ -5,7 +5,7 @@
 Load this directory from your target project with `claude --plugin-dir /absolute/path/to/OpenAS/plugins/openas`. Its manifest is [.claude-plugin/plugin.json](.claude-plugin/plugin.json). Run `/reload-plugins` after local edits. Installation and update commands are in the English section of repository-root `README.md`.
 
 - **12 roles:** [English role instructions](references/en/agents), with original registration files in [agents](agents). Claude uses names such as `openas:cto`; adding roles does not automatically add them to Codex routes.
-- **66 skills:** repository-root `docs/skills.en.md`, with `SKILL.md` discovery entry points and `SKILL.en.md` companions in [skills](skills). IDs/commands do not change by language. Upstream REA already uses English and is preserved.
+- **72 skills:** repository-root `docs/skills.en.md`, with `SKILL.md` discovery entry points and `SKILL.en.md` companions in [skills](skills). IDs/commands do not change by language. Upstream REA already uses English and is preserved.
 - Agent information interfaces and scoped simplification: [agent-experience](skills/agent-experience/SKILL.en.md) and [code-simplification](skills/code-simplification/SKILL.en.md).
 - [Language policy](references/language.md): explicit preference first, otherwise the task language; preserve existing artifact language unless translation is requested. Machine-readable identifiers stay unchanged.
 - [Team contract](references/team-contract.en.md), [project adaptation](references/project-context.en.md), and [implementation readiness](references/implementation-readiness.en.md).
@@ -23,3 +23,10 @@ Available optional integrations include Playwright, GitHub and Context7; their d
 ## Software reconstruction
 
 Use [software-reconstruction](skills/software-reconstruction/SKILL.en.md) to turn authorized observations into an independent specification, implementation and trusted comparisons. The native entry point is `python workflows/reconstruct.py --help`. This adapts Craft Anything methodology without its runtime or a submodule. Unknowns, reference integrity and idle-builder budgets remain explicit.
+
+## Decisions, specifications, and specialists
+
+- Use [decision-mapping](skills/decision-mapping/SKILL.en.md), [spec-driven-development](skills/spec-driven-development/SKILL.en.md), and [writing-plans](skills/writing-plans/SKILL.en.md) as needed for uncertainty, contracts, and verifiable slices.
+- [security-review](skills/security-review/SKILL.en.md) adds optional deep-audit records; technical-research and interaction-design absorb research notes and motion methods.
+- Explicit `capabilities` select React composition, Remotion media, Neon, or Azure messaging; see [workflow-routing](skills/workflow-routing/SKILL.en.md).
+- See [pinned sources, terms, and mappings](references/skill-methods/NOTICE.md). Packaging does not establish live-service or native-client acceptance.

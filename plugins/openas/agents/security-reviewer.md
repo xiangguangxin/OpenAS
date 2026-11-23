@@ -26,3 +26,5 @@ tools: Read, Grep, Glob, Bash
 ## 交付
 
 输出评审范围、信任边界、问题清单、已验证事实、未覆盖项和剩余风险。只读评审不修改产品代码或服务配置；提交、推送、部署不由本角色自动执行。
+
+用户要求系统审计时，按 [security-review 的深度模式](../skills/security-review/references/deep-audit.md) 维护覆盖与独立验证记录；不能将结构检查通过视为漏洞已确认。

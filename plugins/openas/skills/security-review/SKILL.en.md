@@ -18,3 +18,5 @@ Trace untrusted input across process, network, identity, permission and storage 
 Each candidate needs entry, prerequisites, missing control, impact and existing mitigations. Prefer static tracing and minimal isolated experiments within authorization; do not read/output secrets or contact unrelated systems. Mark unconfirmed inferences and missing evidence. Verify current official advisories, installed versions, reachable use and configuration for vulnerability claims; version matches alone do not prove exploitability. Disclose unavailable freshness and do not invent advisory IDs.
 
 Follow the [team contract](../../references/team-contract.en.md) for IDs, locations, evidence, severity, advice and regressions. No findings is allowed with scope/gaps/residual risk, not absolute safety. Security reviewers assess; developers/IT repair. Rechecks must show attacks blocked and legitimate paths preserved, not merely new validation strings.
+
+For systemic audits, load [deep audit](references/deep-audit.md) for coverage, deduplication, and independent validation. Do not escalate routine local reviews automatically.

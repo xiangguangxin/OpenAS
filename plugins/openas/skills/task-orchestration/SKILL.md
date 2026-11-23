@@ -18,3 +18,5 @@ description: "将多步骤开发任务组织为有依赖、产物、归属和验
 运行器 `graph-runner.py` 提供依赖图的顺序执行和失败阻断，不提供并发调度。先用 `--plan` 校验，再用 `--run` 执行可信任务；例子及格式见 [运行指南](../../workflows/README.md)。任一依赖未通过则阻断下游，独立节点仍可执行；review 返回 needs_fix 不能作为通过的上游。
 
 单节点内部的反馈回环由其路线负责；不在任务图外悄悄创建无限修复链。保留完整反馈、责任节点、尝试次数与停止原因。图失败后支持逐节点检查，不自动重跑整个图或覆盖记录。
+
+节点来源于[任务切片](../writing-plans/references/task-slicing.md)；决策尚未明确时先用 [decision-mapping](../decision-mapping/SKILL.md)。仅计划不自动发布 Issue 或运行图。

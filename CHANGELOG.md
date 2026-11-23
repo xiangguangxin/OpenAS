@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.25.0
+
+- Add bilingual decision mapping, specification driven development, React composition, Remotion rendering, Neon Postgres, and Azure messaging entries, reaching 72 skills and 99 translation pairs.
+- Integrate vertical task slices, compatible refactor sequencing, primary-source research notes, interruptible accessible motion, and optional coverage-led security auditing into existing skills.
+- Add explicit, validated specialist capability selection without changing default bundles, rigor floors, routes, roles, or authorization.
+- Add a read-only audit-record consistency checker with synthetic positive/negative tests; it does not perform audits or authenticate evidence.
+- Record pinned upstream commits, reviewed text hashes, applicable MIT/Apache terms, excluded unlicensed candidates, independent official-documentation implementations, and actual validation limits.
+
 ## 0.24.0
 
 - Adapt Craft Anything methodology as a native bilingual software-reconstruction skill and executable OpenAS workflow, without upstream runtime dependencies or submodules.

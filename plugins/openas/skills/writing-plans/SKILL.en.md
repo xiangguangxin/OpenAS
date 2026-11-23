@@ -18,3 +18,5 @@ Apply [implementation readiness](../../references/implementation-readiness.en.md
 Each task specifies target behavior, actual files/modules, upstream results, implementation constraints and proving checks. Add ordering, parallel ownership, compatibility and failures when warranted; do not impose a large template on small tasks. For example duplicate-record import requires identification/expected behavior, changes to actual import entry/tests and normal/duplicate/invalid cases using existing commands.
 
 Separate product decisions needing users from local implementation choices. Specify the impact of missing dependencies or unavailable checks; do not use vague 'implement and test' tasks. Preserve original acceptance and unresolved issues in handoff.
+
+For complex decomposition or broad mechanical refactors, use [verifiable task slices](references/task-slicing.md) for vertical behavior, real blockers, and compatible migration.

@@ -46,3 +46,11 @@ The Codex adapter enforces tiers only when rigor is present. Existing tasks reta
 </details>
 
 Report the selected bundle, tier and reasons, actual checks, result and limits. Simple tasks need no team or diagram; use [task-orchestration](../task-orchestration/SKILL.en.md) for real dependencies.
+
+## Explicit specialist selection
+
+Add `capabilities` only when needed: decision-mapping, task-slicing, spec, research, security-audit, react, animation, video, neon, azure-messaging. The registry's `specializations` maps them to skills. Omission preserves the four minimal bundles; unknown or duplicate values fail.
+
+This field only adds skill recommendations; it does not change rigor, route, roles, or authorization. Keep actual scope/risks; a specialist label cannot lower the tier. security-audit selects security-review's deep reference. Planning/research does not become implementation through this field. The Codex runner requires explicit rigor; native `/openas:<skill>` calls remain available.
+
+For example an actual React change may add `"capabilities": ["react", "animation"]` alongside its real scope/risks, without selecting Neon, Azure, or video tools. See [provenance and tradeoffs](../../references/skill-methods/NOTICE.md).

@@ -1,5 +1,7 @@
 # Skill behavior evaluation
 
+Four additional optional cases cover decision mapping, specification deltas, render planning only, and local-storage analysis without Neon. See [integration checks and limits](skill-methods.md); the default case set is unchanged.
+
 [中文](skill-evaluation.md) | English
 
 Format checks establish parseable resources. Behavior evaluation inspects how a real client selects skills and respects task boundaries.
