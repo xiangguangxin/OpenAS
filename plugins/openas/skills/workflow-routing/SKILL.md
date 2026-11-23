@@ -46,3 +46,11 @@ Codex 适配器对含 `rigor` 的任务执行分级门禁；缺少该字段时�
 </details>
 
 输出：选中的组合、强度与理由、实际检查、结果与未覆盖项。简单任务无需团队或图；复杂依赖才用 [task-orchestration](../task-orchestration/SKILL.md)。
+
+## 显式选择专项能力
+
+只在任务明确需要时添加 `capabilities`，可选值：decision-mapping、task-slicing、spec、research、security-audit、react、animation、video、neon、azure-messaging。映射见机器清单的 `specializations`。未提供时保留原四类最小组合；未知或重复值会报错。
+
+此字段只补充技能建议，不改变风险等级、执行路线、角色或授权。真实范围与风险仍按原规则填写，不能以专项标签降低流程。security-audit 对应 security-review 的深度参考；计划/调查本身不因该字段进入实施。Codex 运行器要求显式 rigor，原生 `/openas:<skill>` 可以直接调用。
+
+例如修改已有 React 组件的任务可在真实 scope/risk_factors 之外添加 `"capabilities": ["react", "animation"]`；不自动选择 Neon、Azure 或视频工具。来源、许可和取舍见[方法吸收说明](../../references/skill-methods/NOTICE.md)。

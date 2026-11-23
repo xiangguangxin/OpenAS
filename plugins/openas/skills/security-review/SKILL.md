@@ -30,3 +30,5 @@ description: "依据实际代码、配置与数据流检查信任边界和可利
 依 [协作契约](../../references/team-contract.md) 输出稳定问题 ID、位置、前提、证据、影响、严重度、修复建议和回归方法。结论可无发现，但需列出覆盖范围、未验证项及剩余风险，不能由局部评审宣称系统绝对安全。
 
 [security-reviewer](../../agents/security-reviewer.md) 负责评审，developer 或 it 修复。复查既验证攻击路径被阻断，也检查合法路径仍可用；不能只确认新增了某个校验字符串。
+
+系统审计按需读取[深度审计](references/deep-audit.md)，使用覆盖台账、去重和独立复核；普通局部评审不强制升级。

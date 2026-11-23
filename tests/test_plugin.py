@@ -42,12 +42,12 @@ class PluginTests(unittest.TestCase):
             target = Path(tmp)/'plugin'
             shutil.copytree(PLUGIN, target)
             inventory = checker.check(target)
-            self.assertEqual(len(inventory['skills']), 66)
+            self.assertEqual(len(inventory['skills']), 72)
             self.assertTrue({'pr-review-feedback', 'release-management',
                              'coverage-analysis', 'skill-maintenance', 'agent-evaluation',
                              'artifact-verification', 'browser-goal-executor'}.issubset(inventory['skills']))
             self.assertEqual(len(inventory['agents']), 12)
-            self.assertEqual(inventory['translations'], 93)
+            self.assertEqual(inventory['translations'], 99)
 
     def test_stale_missing_and_duplicate_translations_are_rejected(self):
         checker = load(ROOT / 'scripts/check_plugin.py', 'plugin_check_translation_failures')

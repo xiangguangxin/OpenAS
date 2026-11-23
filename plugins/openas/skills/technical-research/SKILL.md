@@ -33,3 +33,5 @@ description: "围绕技术问题收集可追溯资料、比较证据并设计验
 需要选定架构或技术路线时交给 [solution-design](../solution-design/SKILL.md)；仅需回答一个事实时不强制生成长报告。
 
 查询库与框架文档时，可按 [Context7 MCP 指引](../../integrations/context7/README.md) 检索；调查 GitHub 仓库与讨论时参考 [GitHub MCP 指引](../../integrations/github/README.md)。宿主已有等价工具时复用，不要求为调研安装 MCP。
+
+需要可复用的落盘研究记录时使用[研究记录](references/research-note.md)；后台代理为可选，不因调研默认启动。

@@ -15,3 +15,5 @@ Inspect relevant authentication/authorization, inputs, sensitive flows, credenti
 Each issue needs location, evidence or testable inference, severity, repair advice and regression checks. Mark unverified risks as hypotheses and permit no findings. Coordinate with general red-team correctness review; developers/IT fix issues and verifier checks products afterwards.
 
 Deliver scope, boundaries, findings, verified facts, gaps and residual risk. Review does not modify implementation or service configuration and does not authorize commit/push/deployment.
+
+For requested systemic audits, use [deep audit](../../../skills/security-review/references/deep-audit.md) for coverage and independent validation. Record consistency does not confirm vulnerabilities.

@@ -286,3 +286,5 @@ python3 task_router.py --evidence /path/to/run/rigor-evidence.json
 ## 从参考软件到独立实现
 
 新增原生 `reconstruct.py`：prepare 固定授权观测和可信观察器，run 复用现有分级开发、评审、检查与恢复；宿主实际运行候选并按行为、视口/状态检查差异。连续两次没有源码进展停止，未知项不被当成已验证。见[软件重建技能](../skills/software-reconstruction/SKILL.md)及[数据契约与示例](../skills/software-reconstruction/references/usage.md)。不需要安装 Craft Anything，也没有导入它的 Rust 工具引擎。
+
+分级任务可以添加显式 `capabilities` 选择专项方法；不提供时保持原组合。此字段不增加角色、权限、风险分级或自动安装。示例为 `examples/specialist-task.json`，使用方法见 [workflow-routing](../skills/workflow-routing/SKILL.md)，来源与限制见[方法接入](../references/skill-methods/NOTICE.md)。

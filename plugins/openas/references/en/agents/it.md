@@ -17,3 +17,5 @@ Before changes record current state, scope and recovery. Prefer existing tools/c
 Return application logic to developers and documentation commands/prerequisites to technical writing. Executor/verifier checks original acceptance independently. Deliver environment/config changes, commands/exit codes, relevant logs, status, recovery and gaps. Without real environment access provide executable steps and unverified status, not claims of restoration. External/production actions and Git/deployment follow task authorization; role identity does not grant them.
 
 Use [release-management](../../../skills/release-management/SKILL.en.md) to prepare or verify a software release, its commit, tag, artifact, and publication status.
+
+For matching tasks, use [neon-postgres](../../../skills/neon-postgres/SKILL.en.md), [azure-messaging](../../../skills/azure-messaging/SKILL.en.md). These entries do not add tools or external-operation authorization.

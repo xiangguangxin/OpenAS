@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "source_ref": "synthetic-fixture-v1; no real audit performed",
+  "scope": ["fixtures/import.py"],
+  "run_status": "incomplete",
+  "incomplete_reason": "Deployment tenant policy is unavailable in this synthetic example",
+  "coverage": [
+    {
+      "id": "U-01",
+      "surface": "import request",
+      "boundary": "caller to tenant data",
+      "attack_class": "authorization",
+      "status": "blocked",
+      "evidence": ["Synthetic source trace: fixture import handler"],
+      "reason": "Deployment policy unavailable"
+    }
+  ],
+  "findings": [
+    {
+      "id": "F-01",
+      "fingerprint": "fixture/import/tenant-boundary",
+      "unit_id": "U-01",
+      "status": "needs_validation",
+      "location": "fixtures/import.py:import_handler",
+      "boundary": "caller to tenant data",
+      "prerequisites": "Synthetic caller can supply a tenant ID",
+      "evidence": ["Fixture source requires a deployment policy check"],
+      "impact": "Possible cross-tenant access; unconfirmed",
+      "blocker": "Actual policy unavailable",
+      "validation_plan": "Owner checks policy with two synthetic tenants in an isolated environment"
+    }
+  ]
+}

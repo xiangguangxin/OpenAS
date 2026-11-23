@@ -1,0 +1,64 @@
+{
+  "date": "2026-11-23",
+  "checks": [
+    {
+      "command": "python3 -B scripts/check_plugin.py",
+      "result": "passed",
+      "skills": 72,
+      "translations": 99
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tests -v",
+      "run": 134,
+      "skipped": 2,
+      "failures": 0
+    },
+    {
+      "command": "python3 -B -m unittest discover -s plugins/openas/workflows/tests -p 'test_*.py' -v",
+      "run": 160,
+      "failures": 0
+    },
+    {
+      "command": "node plugins/openas/workflows/tests/agent-team.test.mjs",
+      "passed": 8,
+      "scope": "mocked orchestration"
+    }
+  ],
+  "agent_probes": [
+    {
+      "task": "Read-only decision map for a three-person build tool",
+      "result": "reviewed; dependencies, product/fee/credential unknowns, no writes or external actions"
+    },
+    {
+      "task": "Plan LaunchDemo MP4 export without project or dependencies",
+      "result": "reviewed; no execution, missing entry/version recorded, conditional render and media verification plan"
+    }
+  ],
+  "native_client": {
+    "version": "codex-cli 0.172.0-alpha.2",
+    "cases": [
+      "decision-map",
+      "remotion-plan-only"
+    ],
+    "status": "blocked_before_model_execution",
+    "reason": "app-server initialization failed: read-only runtime"
+  },
+  "unexecuted_native_cases": [
+    "spec-delta",
+    "local-storage-no-neon"
+  ],
+  "limits": [
+    "No native discovery or hot reload acceptance",
+    "No React browser or Remotion media execution",
+    "No live Neon/Azure operations",
+    "No actual target security audit; record consistency is not evidence authenticity"
+  ],
+  "code_and_test_sha256": {
+    "plugins/openas/workflows/workflow_policy.py": "8efc96b7c58ba688a71dd219bfd26632c1082873198c2a0bd3ac303aae1d2d9c",
+    "plugins/openas/workflows/codex-team.py": "7372eb0ffe14f43d0924d9cd496ec06ee86b38a96a9f38c0232ce00fd847b5de",
+    "plugins/openas/skills/security-review/scripts/check_audit.py": "9a6f0475198c847e8afe6addd86b8d2d5dcaeddbe9d25930eb2f08290cd4ac13",
+    "scripts/evaluate_skills.py": "9b563c88b3951ea84616b7f66327106309088eeecbeaa880c589aa8324b8c01f",
+    "tests/test_audit_records.py": "8fa9abb3150477d26aeecea095f18cc82b50e65b52c9bc50b1e769f6cfeaca11",
+    "tests/test_task_rigor.py": "28f98eefbc79e36b5ee496f98e334646d8c9e19140a6bb7eb90c3e700c6cc82b"
+  }
+}

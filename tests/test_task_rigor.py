@@ -32,6 +32,48 @@ def profile(kind='feature', **extra):
 
 
 class RoutingTests(unittest.TestCase):
+    def test_explicit_capabilities_select_only_requested_specialists(self):
+        choices = {'decision-mapping': 'decision-mapping', 'task-slicing': 'writing-plans',
+                   'spec': 'spec-driven-development', 'research': 'technical-research',
+                   'security-audit': 'security-review', 'react': 'react-composition',
+                   'animation': 'interaction-design', 'video': 'remotion-render',
+                   'neon': 'neon-postgres', 'azure-messaging': 'azure-messaging'}
+        baseline = policy.plan(profile())
+        for capability, skill in choices.items():
+            result = policy.plan(profile(capabilities=[capability]))
+            with self.subTest(capability=capability):
+                self.assertIn(skill, result['skills'])
+                self.assertEqual(result['capabilities'], [capability])
+                self.assertEqual(result['tier'], baseline['tier'])
+                self.assertEqual(result['roles'], baseline['roles'])
+                self.assertEqual(result['workflow'], baseline['workflow'])
+        self.assertNotIn('neon-postgres', baseline['skills'])
+        self.assertNotIn('remotion-render', baseline['skills'])
+
+    def test_capability_validation_and_deduplication(self):
+        for value in (None, 'react', ['unknown'], ['react', 'react'], [None], [{}]):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                policy.plan(profile(capabilities=value))
+        result = policy.plan(profile(capabilities=['task-slicing', 'spec']))
+        self.assertEqual(len(result['skills']), len(set(result['skills'])))
+        self.assertIn('spec-driven-development', result['skills'])
+
+    def test_specialization_registry_rejects_invalid_skill_references(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            plugin = Path(tmp)/'plugin'; shutil.copytree(PLUGIN, plugin)
+            registry = plugin/'references/task-routing.json'
+            original = json.loads(registry.read_text())
+            for names in ([], ['missing'], [None], [{}], ['bug-fix', 'bug-fix']):
+                data = copy.deepcopy(original); data['specializations']['fixture'] = names
+                registry.write_text(json.dumps(data))
+                with self.subTest(names=names), self.assertRaises(ValueError):
+                    policy.validate_registry(plugin)
+
+    def test_runner_rejects_capabilities_without_explicit_rigor(self):
+        task = {'requirement': 'fixture', 'acceptance': ['fixture'],
+                'checks': [[sys.executable, '-c', 'pass']], 'capabilities': ['react']}
+        with self.assertRaises(h.HarnessError): h.validate_task(task)
+
     def test_four_defaults_are_small_and_only_required_methods_load(self):
         for kind in ('feature','bugfix','refactor','documentation'):
             result = policy.plan(profile(kind))

@@ -35,3 +35,5 @@ tools: Read, Grep, Glob, Edit, Write, Bash
 不因排障自行扩大到无关系统；提交、推送、合并或生产部署按用户与宿主授权执行，不从角色身份推断授权。
 
 准备或核验软件版本时使用 [release-management](../skills/release-management/SKILL.md)，核对提交、标签、制品与发布结果。
+
+专项任务按需使用：[neon-postgres](../skills/neon-postgres/SKILL.md)、[azure-messaging](../skills/azure-messaging/SKILL.md)；不增加工具或外部操作权限。

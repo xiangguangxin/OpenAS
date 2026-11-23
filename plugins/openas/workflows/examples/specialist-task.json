@@ -1,0 +1,9 @@
+{
+  "task_kind": "refactor",
+  "rigor": "auto",
+  "scope": ["src/ExistingComponent.tsx", "tests/ExistingComponent.test.tsx"],
+  "module_count": 1,
+  "risk_factors": [],
+  "carrier": "code",
+  "capabilities": ["react", "animation"]
+}

@@ -54,6 +54,15 @@ def validate_registry(root=ROOT):
     for condition, names in policy['extensions'].items():
         if not isinstance(names, list) or any(n not in skills for n in names):
             raise ValueError(f'Unknown conditional skill: {condition}')
+    specializations = policy.get('specializations', {})
+    if not isinstance(specializations, dict):
+        raise ValueError('Specializations must be an object')
+    for capability, names in specializations.items():
+        if (not isinstance(capability, str) or not re.fullmatch(r'[a-z][a-z0-9-]*', capability)
+                or not isinstance(names, list) or not names
+                or any(not isinstance(n, str) or n not in skills for n in names)
+                or len(set(names)) != len(names)):
+            raise ValueError(f'Invalid specialization: {capability}')
     for path in (root/'workflows').glob('*.py'):
         for node in ast.walk(ast.parse(path.read_text(encoding='utf-8'))):
             if (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
@@ -70,6 +79,11 @@ def plan(task, policy=None):
     scope = task.get('scope')
     risks, carrier = task.get('risk_factors', ['unknown']), task.get('carrier', 'code')
     modules = task.get('module_count', 1)
+    capabilities = task.get('capabilities', [])
+    if (not isinstance(capabilities, list)
+            or any(not isinstance(c, str) or c not in policy.get('specializations', {}) for c in capabilities)
+            or len(set(capabilities)) != len(capabilities)):
+        raise ValueError('Invalid or duplicate task capabilities')
     if (kind not in policy['bundles'] or requested not in (*TIERS, 'auto')
             or not isinstance(scope, list) or not scope or any(not isinstance(p, str) or not p.strip() for p in scope)
             or not isinstance(risks, list) or any(r not in RISKS for r in risks)
@@ -93,6 +107,7 @@ def plan(task, policy=None):
     if tier != 'light': selected += bundle['standard']
     if tier == 'heavy': selected += bundle['heavy']
     for trigger in [*risks, carrier]: selected += policy['extensions'].get(trigger, [])
+    for capability in capabilities: selected += policy['specializations'][capability]
     selected = list(dict.fromkeys(selected))
     writer = 'tech-writer' if kind == 'documentation' else 'developer'
     roles = [writer] if tier == 'light' else (['tech-writer', 'red-team', 'verifier'] if kind == 'documentation'
@@ -103,6 +118,7 @@ def plan(task, policy=None):
     identity = hashlib.sha256(json.dumps(policy, sort_keys=True).encode() + b'\0' + Path(__file__).read_bytes()).hexdigest()
     return {'version': 1, 'kind': kind, 'tier': tier, 'minimum_tier': floor, 'workflow': route,
             'skills': selected, 'roles': roles, 'reasons': reasons, 'policy_sha256': identity,
+            **({'capabilities': capabilities} if capabilities else {}),
             'required_evidence': ['scope', 'host_checks'] + (['failing_baseline'] if kind == 'bugfix' else [])
                 + (['independent_review', 'independent_verification'] if tier != 'light' else [])
                 + (['impact_analysis', 'design_review'] if tier == 'heavy' else []),

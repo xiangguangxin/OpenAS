@@ -18,3 +18,5 @@ Validate cycles, missing nodes, workspaces and shared files/state. Sequence depe
 `graph-runner.py` provides sequential scheduling and dependency failure blocking, not concurrency. Validate with `--plan`, then execute trusted definitions with `--run`; see [workflow guide](../../workflows/README.md). Failed prerequisites block downstream while independent nodes may continue. Review `needs_fix` is not a passing dependency.
 
 Each node's route owns revision loops. Do not create an unbounded repair chain outside the graph. Preserve full feedback, responsible node, attempts and stop reasons. Inspect failed nodes individually; do not automatically rerun the whole graph or overwrite records.
+
+Use [task slices](../writing-plans/references/task-slicing.md) for nodes and [decision-mapping](../decision-mapping/SKILL.en.md) for unresolved decisions. Planning alone does not publish issues or execute the graph.
