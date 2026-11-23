@@ -51,7 +51,7 @@
 
 ## 升级到 0.14.1
 
-根目录 README.en.md 已并入 README.md，英文优先展示；英文入口改用 README.md#english，中文入口使用 README.md#chinese。GitHub 通过页内锚点跳转，不支持 Markdown 页面内隐藏式切换。子目录 README.en.md 保留，插件组件、技能 ID、任务字段和执行路线无变化。
+根目录 README.en.md 已并入 README.md；当前首页中文在前、英文在后，保留双语跳转；英文入口改用 README.md#english，中文入口使用 README.md#chinese。GitHub 通过页内锚点跳转，不支持 Markdown 页面内隐藏式切换。子目录 README.en.md 保留，插件组件、技能 ID、任务字段和执行路线无变化。
 
 ## 升级到 0.14.0
 
