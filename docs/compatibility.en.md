@@ -51,7 +51,7 @@ Add English companions for six integration guides, two memory guides, and five a
 
 ## Upgrade to 0.14.1
 
-Root README.en.md is merged into README.md, with English first, `README.md#english` and `README.md#chinese` entry anchors. GitHub uses section navigation rather than hidden language switching. Subdirectory README.en.md files remain; components, IDs, task fields, and routes are unchanged.
+Root README.en.md is merged into README.md; the current homepage places Chinese first and English second, retaining `README.md#english` and `README.md#chinese` entry anchors. GitHub uses section navigation rather than hidden language switching. Subdirectory README.en.md files remain; components, IDs, task fields, and routes are unchanged.
 
 ## Upgrade to 0.14.0
 

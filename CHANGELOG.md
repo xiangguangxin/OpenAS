@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Reorganize the bilingual README around client setup, task selection, risk-based workflow, optional specialists, and advanced documentation.
+- Add repo-scoped Codex installation, integrity/native-discovery checks and client-specific invocation examples; retain existing language and section entry anchors.
+- Align bilingual/compatibility navigation notes with the current Chinese-first homepage and restore the MIT badge color.
+
 ## 0.25.0
 
 - Add bilingual decision mapping, specification driven development, React composition, Remotion rendering, Neon Postgres, and Azure messaging entries, reaching 72 skills and 99 translation pairs.
